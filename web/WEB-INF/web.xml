@@ -908,6 +908,10 @@
         <servlet-name>BiometricReport</servlet-name>
         <servlet-class>Reports.BiometricReport</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InternetThread</servlet-name>
+        <servlet-class>DBCREDENTIALSFILE.InternetThread</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Enroll</servlet-name>
         <url-pattern>/Enroll</url-pattern>
@@ -1815,6 +1819,10 @@
     <servlet-mapping>
         <servlet-name>BiometricReport</servlet-name>
         <url-pattern>/BiometricReport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InternetThread</servlet-name>
+        <url-pattern>/InternetThread</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>900000</session-timeout>
