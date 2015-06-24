@@ -1,10 +1,10 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package dbConnect;
+
+
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -16,16 +16,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author AphiaPlus
- */
-public class dbConnectTemp {
-    
+
+
+public final class dbConnectTemp {
 public  Connection connect = null;
     public ResultSet rs,rs1,rs2,rs3,rs4,rs5,rs6,rs7;
     public Statement  state,state1,state2,state3,state4,state5,state6,state7;
@@ -42,7 +40,7 @@ public  Connection connect = null;
     public dbConnectTemp() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            // Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mhc","root", "");
+            connect = DriverManager.getConnection("jdbc:mysql://eu-cdbr-azure-west-c.cloudapp.net:3306/olmis","ba51a5042df27c", "05b6e034");
            
 
 
@@ -64,40 +62,50 @@ public  Connection connect = null;
              * 
              * 
              **/
-            if (getdbsettings(mydrive) == true) {
-
-                //String myfile=getServletContext().getRealPath("/dbsettings.txt");
-
-                if (dbsetup[0] != null) {
-
-                    if(dbsetup[3]==null){
-                  connect = DriverManager.getConnection("jdbc:mysql://" + dbsetup[0] + "/" + dbsetup[1], dbsetup[2],"");
-}
-                    else{
-                    connect = DriverManager.getConnection("jdbc:mysql://" + dbsetup[0] + "/" + dbsetup[1], dbsetup[2],dbsetup[3]);
-                    }
-
-
-                } else {
-                    //call the page thats sets up the database
-                    //use if to avoid calling the db.jsp twice.
-                    if (issetdbcalled_wrongpword %2== 0) {
-                        calldbjsp();
-                        issetdbcalled_wrongpword ++;
-                    }
-                    else{
-                     issetdbcalled_wrongpword ++;
-                    }
-
-                }
-
-
-                //initialize this three values
-                issetdbcalled_exception = 2;
-                issetdbcalled_file_exists = 2;
-                issetdbcalled_wrongpword = 2;
-
-                 state=(Statement)connect.createStatement();
+//            if (getdbsettings(mydrive) == true) {
+//
+//                //String myfile=getServletContext().getRealPath("/dbsettings.txt");
+//
+//                if (dbsetup[0] != null) {
+//
+//                    if(dbsetup[3]==null){
+//                  connect = DriverManager.getConnection("jdbc:mysql://" + dbsetup[0] + "/" + dbsetup[1], dbsetup[2],"");
+//
+//                    
+//                    System.out.println("jdbc:mysql://" + dbsetup[0] + "/" + dbsetup[1]+","+ dbsetup[2]+",");
+//                    
+//                    }
+//                    else{
+//                    connect = DriverManager.getConnection("jdbc:mysql://" + dbsetup[0] + "/" + dbsetup[1], dbsetup[2],dbsetup[3]);
+//                   
+//                    System.out.println("jdbc:mysql://" + dbsetup[0] + "/" + dbsetup[1]+","+ dbsetup[2]+",");
+//                    }
+//
+//
+//                } else {
+//                    //call the page thats sets up the database
+//                    //use if to avoid calling the db.jsp twice.
+//                    if (issetdbcalled_wrongpword %2== 0) {
+//                        calldbjsp();
+//                        issetdbcalled_wrongpword ++;
+//                    }
+//                    else{
+//                     issetdbcalled_wrongpword ++;
+//                    }
+//
+//                }
+//
+//
+//                //initialize this three values
+//                issetdbcalled_exception = 2;
+//                issetdbcalled_file_exists = 2;
+//                issetdbcalled_wrongpword = 2;
+////System.out.println(connect);
+//            
+//
+//
+//            }
+     state=(Statement)connect.createStatement();
             state1=(Statement)connect.createStatement();
             state2=(Statement)connect.createStatement();
             state3=(Statement)connect.createStatement();
@@ -105,10 +113,6 @@ public  Connection connect = null;
             state5=(Statement)connect.createStatement();
             state6=(Statement)connect.createStatement();
             state7=(Statement)connect.createStatement();
-
-
-            }
-
 
         } catch (Exception ex) {
             Logger.getLogger(dbConnect.class.getName()).log(Level.SEVERE, null, ex);
@@ -202,3 +206,4 @@ public  Connection connect = null;
     }
 }
 
+ 
