@@ -1,0 +1,231 @@
+<%-- 
+    Document   : viewMedicalDetails
+    Created on : Dec 3, 2014, 11:13:46 AM
+    Author     : Maureen
+--%>
+
+<%@page import="dbConnect.dbConnect"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<%-- 
+    Document   : CondomCode
+    Created on : Aug 20, 2013, 5:04:02 PM
+    Author     : Maureen
+--%>
+
+
+
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+      
+<%@page import="java.util.Iterator"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%! HttpSession session;
+String username="";
+   %>
+
+<html><head>
+	<title>Medical Details</title>
+		
+
+        <script src="scripts/jquery-1.4.4.min.js" type="text/javascript"></script>
+        <script src="scripts/jquery.dataTables.min.js" type="text/javascript"></script>
+        <script src="scripts/jquery.jeditable.js" type="text/javascript"></script>
+        <!--<script src="media/js/jquery-ui.js" type="text/javascript"></script>-->
+<!--   <script src="media/js/jquery.validate.js" type="text/javascript"></script>-->
+<script src="scripts/jquery-ui.js" type="text/javascript"></script>
+<script src="scripts/jquery.dataTables.editable.js" type="text/javascript"></script>
+<script src="scripts/jquery.validate.js" type="text/javascript"></script>
+<link href="../media/dataTables/demo_page.css" rel="stylesheet" type="text/css" />
+        <link href="../media/dataTables/demo_table.css" rel="stylesheet" type="text/css" />
+        <link href="../media/dataTables/demo_table_jui.css" rel="stylesheet" type="text/css" />
+        <link href="../media/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="../media/themes/smoothness/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" media="all" />
+<link href="media/dataTables/demo_page.css" rel="stylesheet" type="text/css" />
+        <link href="media/dataTables/demo_table.css" rel="stylesheet" type="text/css" />
+        <link href="media/dataTables/demo_table_jui.css" rel="stylesheet" type="text/css" />
+        <link href="media/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="media/themes/smoothness/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" media="all" />
+
+		<script type="text/javascript">
+			$(document).ready( function () {
+				$('#example').dataTable().makeEditable({
+                                  
+									
+                                                                        sUpdateURL: "UpdateCondomCode",
+                                                                        sAddURL: "AddCondomCode",
+                                                                        sDeleteURL: "DeleteCondomCode",
+                    							"aoColumns": [ null,                  									
+                    									
+                    									null,null
+//                    									
+											]									
+
+										});
+				
+			} );
+		</script>
+  <script language="javascript" type="text/javascript" >
+    
+     function editRecord(UniqueID,name){
+         
+//     alert(UniqueID+"   "+MedicalID);
+    var f=document.form;
+    f.method="post";
+    f.action="/DIC/admin/medical_form.jsp?UniqueID="+UniqueID+"&name="+name+"";
+    f.submit();
+    
+}
+function deleteRecord(UniqueID,MedicalID){
+    var f=document.form;
+    f.method="post";
+    f.action="/DIC/deleteMedical?UniqueID="+UniqueID+","+MedicalID+""; 
+    f.submit();
+}
+
+</script>
+<link rel="StyleSheet" href="css/main.css" type="text/css" />
+<link rel="stylesheet" href="css/style.css" type="text/css" media="screen"/>
+  <style type="text/css">
+   #container{
+                height:500px;
+                width:1200px; 
+    }
+     .example {
+    width:1350px;
+    height:900px;
+     }
+    </style>
+    </head>
+	 <body id="dt_example">
+         
+
+<div class="example">
+            <div class="login">
+      <% 
+          if(session.getAttribute("Username")!=null){
+        String username=(String)session.getAttribute("Username");
+      %>
+          
+       <a class="button-1" href="../DIC/logoutServlet">LogOut</a>          
+     <h5>Welcome <%=username%></h5>
+     <% }else{
+//               response.sendRedirect("/DIC/index.jsp"); 
+     }
+     %>
+           </div>
+             <div><h1 style="text-align: center"><img src="images/aphia_logo.png" height="70" width="200"/></h1></div>   
+   
+       <!--=========================================menu=========================================-->     
+              <div style="width:1350px;"> 
+                     <%
+if(session.getAttribute("AccessLevel")!=null){            
+
+if (session.getAttribute("AccessLevel").equals("2")) {%>
+            <%@include file="../menu/adminmenu.html" %>
+            <%}
+else{%>
+
+ <%@include file="../menu/clerkmenu.html" %>
+
+<%}
+
+}
+
+else{ %>
+        
+             <%@include file="../menu/clerkmenu.html" %>
+            
+           <%}%>
+            
+            
+        <!--=====================================================================================--> 
+            </div>
+    
+    
+    
+		<div id="container">
+		
+			<div id="demo">
+<!--  <button id="btnAddNewRow" value="Ok">Add new code...</button> 
+  <button id="btnDeleteRow" value="cancel">Delete selected code</button>-->
+    <form name="form">
+    
+<table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
+	<thead>
+		
+			<tr>
+			<th>Unique Identifer </th>
+       <th>Full Name</th>
+
+       
+       
+ 
+      <th>Bio Medical</th>
+    
+
+			
+		</tr>
+			
+
+			
+		</thead>
+	<tfoot>
+		<tr>
+
+		        
+		</tr>
+
+	</tfoot>
+   <tbody>
+		 
+         <% 
+          dbConnect conn = new dbConnect();
+          String getname="";
+    
+     getname="select * from enrollment";
+    conn.rs2 = conn.state2.executeQuery(getname);
+    while(conn.rs2.next()){
+
+
+%>
+<tr id="<%= conn.rs2.getString("UniqueID") %>">
+    <td> <%= conn.rs2.getString("UniqueID") %></td>
+    <td> <%= conn.rs2.getString("FirstName")+"  "+ conn.rs2.getString("SecondName")+"  "+ conn.rs2.getString("LastName") %> </td>
+    			     </td>  
+     <%String name="";
+     name=  conn.rs2.getString("FirstName")+"  "+ conn.rs2.getString("SecondName")+"  "+ conn.rs2.getString("LastName");%>
+      
+      <td><input type="button" name="Edit" value="New Medical Form "  onclick="editRecord('<%= conn.rs2.getString("UniqueID")  %>','<%=name%>')"></td>
+                       
+                        
+                        </tr>
+			<%
+		}
+	
+	%>
+            
+	</tbody>
+</table>
+    </form>
+			</div>
+			<div class="spacer"></div>
+
+			
+			
+
+			
+			
+			
+		</div>
+    
+    </div>
+    
+    
+  
+
+	</body>
+
+
+</html>

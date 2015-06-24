@@ -1,0 +1,61 @@
+/* tables */
+
+table#assessmenttable .header {
+	background-image: url(bg_1.png);
+	background-repeat: no-repeat;
+	border-left: 1px solid #FFF;
+	border-right: 1px solid #000;
+	border-top: 1px solid #FFF;
+	padding-left: 18px;
+	padding-top: 8px;
+        padding-bottom: 0px;
+	height: auto;
+        width:500px;
+}
+table#assessmenttable .headerSortUp {
+	background-image: url(asc.png);
+	background-repeat: no-repeat;
+      
+}
+table#assessmenttable .headerSortDown {
+	background-image: url(desc.png);
+	background-repeat: no-repeat;
+}
+table#assessmenttable {
+	font-family:arial;
+	background-color: #CDCDCD;
+	margin:10px 0pt 15px;
+	font-size: 13pt;
+	width: 100%;
+	text-align: left;
+}
+table#assessmenttable thead tr th, table#assessmenttable tfoot tr th {
+	background-color: #e6EEEE;
+	border: 1px solid #FFF;
+	font-size: 8pt;
+	padding: 4px;
+}
+/*table#assessmenttable thead tr .header {
+	background-image: url(bg.png);
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+}*/
+table#assessmenttable tbody td {
+	color: #3D3D3D;
+	padding: 4px;
+	background-color: #FFF;
+	vertical-align: top;
+}
+table#assessmenttable tbody tr.odd td {
+	background-color:#F0F0F6;
+}
+table#assessmenttable thead tr .headerSortUp {
+	background-image: url(asc.png);
+}
+table#assessmenttable thead tr .headerSortDown {
+	background-image: url(desc.png);
+}
+table#assessmenttable thead tr .headerSortDown, table#assessmenttable thead tr .headerSortUp {
+background-color: #8dbdd8;
+}

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e718c4d9-6c55-4021-a2cd-721c706260b0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="69"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<queryString>
+		<![CDATA[SELECT enrollment.UniqueID,FirstName,LastName,PhoneNo,PhoneNo1,(STR_TO_DATE(DOA,'%e/%c/%Y')),
+DATE_ADD((STR_TO_DATE(DOA,'%e/%c/%Y')), INTERVAL 3 MONTH) 
+FROM enrollment,riskreductionmain where enrollment.UniqueID IN 
+(SELECT riskreductionmain.UniqueID FROM riskreductionmain 
+where DATE_ADD((STR_TO_DATE(DOA,'%e/%c/%Y')), INTERVAL 3 MONTH) BETWEEN CURDATE() AND DATE_ADD(CURDATE(),INTERVAL 7 DAY)) group by enrollment.UniqueID]]>
+	</queryString>
+	<field name="UniqueID" class="java.lang.String"/>
+	<field name="FirstName" class="java.lang.String"/>
+	<field name="LastName" class="java.lang.String"/>
+	<field name="PhoneNo" class="java.lang.String"/>
+	<field name="PhoneNo1" class="java.lang.String"/>
+	<field name="(STR_TO_DATE(DOA,&apos;%e/%c/%Y&apos;))" class="java.lang.String"/>
+	<field name="DATE_ADD((STR_TO_DATE(DOA,&apos;%e/%c/%Y&apos;)), INTERVAL 3 MONTH)" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<image>
+				<reportElement x="-20" y="0" width="822" height="70" uuid="ba8cba57-223c-4538-bd6f-ba9a322f6c3e"/>
+				<imageExpression><![CDATA["wood.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="0" y="5" width="263" height="33" uuid="684bc6c6-082a-447f-b570-ea3be5b67875"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[DIC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="63" y="39" width="200" height="22" forecolor="#FFFFFF" uuid="91a12d97-fcfe-465b-8324-13c3126cd040"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[DIC APPOINTMENTS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" uuid="d3e74c85-405f-46be-84a7-a540dc15482b"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="19" width="185" height="15" uuid="59d8dcb8-5361-4a88-a94d-6fccd98cd9a5"/>
+				<text><![CDATA[Unique ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="185" y="20" width="152" height="15" uuid="59d8dcb8-5361-4a88-a94d-6fccd98cd9a5"/>
+				<text><![CDATA[First Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="346" y="19" width="87" height="15" uuid="59d8dcb8-5361-4a88-a94d-6fccd98cd9a5"/>
+				<text><![CDATA[Last Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="433" y="19" width="120" height="15" uuid="59d8dcb8-5361-4a88-a94d-6fccd98cd9a5"/>
+				<text><![CDATA[PhoneNo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="555" y="20" width="124" height="15" uuid="758142c8-efbf-4e41-b1c5-7ca8a072ee21"/>
+				<text><![CDATA[PhoneNo1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="683" y="20" width="112" height="15" uuid="62816e43-863a-4635-9e46-028308f7d75c"/>
+				<text><![CDATA[DOA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="b330cef9-25d9-47b9-99f3-39c1bac9ad27"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement style="Detail" x="0" y="0" width="185" height="15" uuid="e30dd99a-f9b8-4766-8058-a2a4f12db3e6"/>
+				<textFieldExpression><![CDATA[$F{UniqueID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="337" y="0" width="96" height="15" uuid="e30dd99a-f9b8-4766-8058-a2a4f12db3e6"/>
+				<textFieldExpression><![CDATA[$F{LastName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="684" y="1" width="112" height="15" uuid="6ed571d9-298b-4695-9241-6d586a0b7613"/>
+				<textFieldExpression><![CDATA[$F{DATE_ADD((STR_TO_DATE(DOA,'%e/%c/%Y')), INTERVAL 3 MONTH)}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="555" y="1" width="124" height="15" uuid="61e61fbd-ea08-44e7-b2d8-3831b9369694"/>
+				<textFieldExpression><![CDATA[$F{PhoneNo1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="433" y="1" width="122" height="15" uuid="e30dd99a-f9b8-4766-8058-a2a4f12db3e6"/>
+				<textFieldExpression><![CDATA[$F{PhoneNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="185" y="1" width="152" height="15" uuid="e30dd99a-f9b8-4766-8058-a2a4f12db3e6"/>
+				<textFieldExpression><![CDATA[$F{FirstName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="50" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="55a96467-0c2f-4180-8559-661ca42de592"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="0e4528f7-f8ce-4e10-9105-ed1ba7a148fa"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="d5f0912b-6252-4c6e-846d-0a764bff2ffe"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="99f186af-a7c6-4439-82a8-58bea197ce5f"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

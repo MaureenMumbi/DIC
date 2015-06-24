@@ -1,0 +1,658 @@
+<%-- 
+    Document   : audit
+    Created on : Aug 25, 2013, 2:39:34 PM
+    Author     : Cheka
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Alcohol Use Disorders Identification Test (AUDIT)</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="StyleSheet" href="main.css" type="text/css" />
+        <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
+    <style type="text/css">
+    #container{
+                height:1400px;
+                width:1200px; 
+    }
+    .example {
+    width:1500px;
+    height:1600px;}
+    </style>
+     <script src="js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="js/noty/jquery.noty.js"></script>
+
+<script type="text/javascript" src="js/noty/layouts/top.js"></script>
+<script type="text/javascript" src="js/noty/layouts/center.js"></script>
+<!-- You can add more layouts if you want -->
+
+<script type="text/javascript" src="js/noty/themes/default.js"></script>
+  
+
+        <SCRIPT language=Javascript>
+        
+function inputscore(v) {
+  var df = document.audit;
+  var DrnkAlc = df.DrnkAlc;
+  var DrnkAlctxt = df.DrnkAlctxt;
+  var AlchHav = df.AlchHav;
+  var AlchHavtxt = df.AlchHavtxt;
+  var DrnkOcc = df.DrnkOcc;
+  var DrnkOcctxt = df.DrnkOcctxt;
+  var StpDrnk = df.StpDrnk;
+  var StpDrnktxt = df.StpDrnktxt;
+  var FailDrnk = df.FailDrnk;
+  var FailDrnktxt = df.FailDrnktxt;
+  var RemHap = df.RemHap;
+  var RemHaptxt = df.RemHaptxt;
+  var NeedAlc = df.NeedAlc;
+  var NeedAlctxt = df.NeedAlctxt;
+  var GuiltDrnk = df.GuiltDrnk;
+  var GuiltDrnktxt = df.GuiltDrnktxt;
+  var InjureDrnk = df.InjureDrnk;
+  var InjureDrnktxt = df.InjureDrnktxt;
+  var FriendDrnk = df.FriendDrnk;
+  var FriendDrnktxt = df.FriendDrnktxt;
+  //var location1=df.location1;
+if(v==1) {
+    score = 0
+    document.getElementById("DrnkAlctxt").value= score;
+    AlchHav.disabled = true; AlchHavtxt.disabled = true;
+    DrnkOcc.disabled = true; DrnkOcctxt.disabled = true;
+    StpDrnk.disabled = true; StpDrnktxt.disabled = true;
+    FailDrnk.disabled = true; FailDrnktxt.disabled = true;
+    RemHap.disabled = true; RemHaptxt.disabled = true; 
+    NeedAlc.disabled = true; NeedAlctxt.disabled = true;
+    GuiltDrnk.disabled = true; GuiltDrnktxt.disabled = true;
+    InjureDrnk.disabled = false; InjureDrnktxt.disabled = false;
+    FriendDrnk.disabled = false; FriendDrnktxt.disabled = false;
+  //location1.physics.disabled = false; 
+  }
+  
+else if(v==2){
+    score = 1
+    document.getElementById("DrnkAlctxt").value= score;
+    AlchHav.disabled = false; AlchHavtxt.disabled = false;
+    DrnkOcc.disabled = false; DrnkOcctxt.disabled = false;
+    StpDrnk.disabled = false; StpDrnktxt.disabled = false;
+    FailDrnk.disabled = false; FailDrnktxt.disabled = false;
+    RemHap.disabled = false; RemHaptxt.disabled = false; 
+    NeedAlc.disabled = false; NeedAlctxt.disabled = false;
+    GuiltDrnk.disabled = false; GuiltDrnktxt.disabled = false;
+    InjureDrnk.disabled = false; InjureDrnktxt.disabled = false;
+    FriendDrnk.disabled = false; FriendDrnktxt.disabled = false;
+     AlchHav.required="true"; 
+   DrnkOcc.required="true"; 
+   StpDrnk.required="true"; 
+   FailDrnk.required="true"; 
+   RemHap.required="true"; 
+   NeedAlc.required="true"; 
+   GuiltDrnk.required="true"; 
+   InjureDrnk.required="true"; 
+   FriendDrnk.required="true"; 
+}
+else if(v==3){
+    score = 2
+    document.getElementById("DrnkAlctxt").value= score;
+    AlchHav.disabled = false; AlchHavtxt.disabled = false;
+  DrnkOcc.disabled = false; DrnkOcctxt.disabled = false;
+  StpDrnk.disabled = false; StpDrnktxt.disabled = false;
+  FailDrnk.disabled = false; FailDrnktxt.disabled = false;
+  RemHap.disabled = false; RemHaptxt.disabled = false; 
+  NeedAlc.disabled = false; NeedAlctxt.disabled = false;
+  GuiltDrnk.disabled = false; GuiltDrnktxt.disabled = false;
+  InjureDrnk.disabled = false; InjureDrnktxt.disabled = false;
+  FriendDrnk.disabled = false; FriendDrnktxt.disabled = false;
+   AlchHav.required="true"; 
+   DrnkOcc.required="true"; 
+   StpDrnk.required="true"; 
+   FailDrnk.required="true"; 
+   RemHap.required="true"; 
+   NeedAlc.required="true"; 
+   GuiltDrnk.required="true"; 
+   InjureDrnk.required="true"; 
+   FriendDrnk.required="true"; 
+  }
+else if(v==4){
+    score = 3
+    document.getElementById("DrnkAlctxt").value= score;
+    AlchHav.disabled = false; AlchHavtxt.disabled = false;
+  DrnkOcc.disabled = false; DrnkOcctxt.disabled = false;
+  StpDrnk.disabled = false; StpDrnktxt.disabled = false;
+  FailDrnk.disabled = false; FailDrnktxt.disabled = false;
+  RemHap.disabled = false; RemHaptxt.disabled = false; 
+  NeedAlc.disabled = false; NeedAlctxt.disabled = false;
+  GuiltDrnk.disabled = false; GuiltDrnktxt.disabled = false;
+  InjureDrnk.disabled = false; InjureDrnktxt.disabled = false;
+  FriendDrnk.disabled = false; FriendDrnktxt.disabled = false;
+   AlchHav.required="true"; 
+   DrnkOcc.required="true"; 
+   StpDrnk.required="true"; 
+   FailDrnk.required="true"; 
+   RemHap.required="true"; 
+   NeedAlc.required="true"; 
+   GuiltDrnk.required="true"; 
+   InjureDrnk.required="true"; 
+   FriendDrnk.required="true"; 
+  }
+else if(v==5){
+    score = 4
+    document.getElementById("DrnkAlctxt").value= score;
+    AlchHav.disabled = false; AlchHavtxt.disabled = false;
+    DrnkOcc.disabled = false; DrnkOcctxt.disabled = false;
+    StpDrnk.disabled = false; StpDrnktxt.disabled = false;
+    FailDrnk.disabled = false; FailDrnktxt.disabled = false;
+    RemHap.disabled = false; RemHaptxt.disabled = false; 
+    NeedAlc.disabled = false; NeedAlctxt.disabled = false;
+    GuiltDrnk.disabled = false; GuiltDrnktxt.disabled = false;
+    InjureDrnk.disabled = false; InjureDrnktxt.disabled = false;
+    FriendDrnk.disabled = false; FriendDrnktxt.disabled = false;
+     AlchHav.required="true"; 
+   DrnkOcc.required="true"; 
+   StpDrnk.required="true"; 
+   FailDrnk.required="true"; 
+   RemHap.required="true"; 
+   NeedAlc.required="true"; 
+   GuiltDrnk.required="true"; 
+   InjureDrnk.required="true"; 
+   FriendDrnk.required="true"; 
+  }
+  else if(v==0){
+    score = 0
+    document.getElementById("DrnkAlctxt").value= score;
+    AlchHav.disabled = false; AlchHavtxt.disabled = false;
+    DrnkOcc.disabled = false; DrnkOcctxt.disabled = false;
+    StpDrnk.disabled = false; StpDrnktxt.disabled = false;
+    FailDrnk.disabled = false; FailDrnktxt.disabled = false;
+    RemHap.disabled = false; RemHaptxt.disabled = false; 
+    NeedAlc.disabled = false; NeedAlctxt.disabled = false;
+    GuiltDrnk.disabled = false; GuiltDrnktxt.disabled = false;
+    InjureDrnk.disabled = false; InjureDrnktxt.disabled = false;
+    FriendDrnk.disabled = false; FriendDrnktxt.disabled = false;
+     AlchHav.required="true"; 
+   DrnkOcc.required="true"; 
+   StpDrnk.required="true"; 
+   FailDrnk.required="true"; 
+   RemHap.required="true"; 
+   NeedAlc.required="true"; 
+   GuiltDrnk.required="true"; 
+   InjureDrnk.required="true"; 
+   FriendDrnk.required="true"; 
+  }
+} 
+
+function inputscore1(v) {
+  var df = document.audit;
+  var RemHap = df.RemHap;
+  var RemHaptxt = df.RemHaptxt;
+  //var location1=df.location1;
+if(v==1) {
+    score = 0
+    document.getElementById("RemHaptxt").value= score;
+  //location1.physics.disabled = false; 
+  }
+  
+else if(v==2){
+    score = 1
+    document.getElementById("RemHaptxt").value= score;
+}
+else if(v==3){
+    score = 2
+    document.getElementById("RemHaptxt").value= score;
+  }
+else if(v==4){
+    score = 3
+    document.getElementById("RemHaptxt").value= score;
+  }
+else if(v==5){
+    score = 4
+    document.getElementById("RemHaptxt").value= score;
+  }
+else if(v==0){
+    score = 0
+    document.getElementById("RemHaptxt").value= score;
+  }
+} 
+
+function inputscore2(v) {
+  var df = document.audit;
+  var AlchHav = df.AlchHav;
+  var AlchHavtxt = df.AlchHavtxt;
+  //var location1=df.location1;
+if(v==1) {
+    score = 0
+    document.getElementById("AlchHavtxt").value= score;
+  //location1.physics.disabled = false; 
+  }
+  
+else if(v==2){
+    score = 1
+    document.getElementById("AlchHavtxt").value= score;
+}
+else if(v==3){
+    score = 2
+    document.getElementById("AlchHavtxt").value= score;
+  }
+else if(v==4){
+    score = 3
+    document.getElementById("AlchHavtxt").value= score;
+  }
+else if(v==5){
+    score = 4
+    document.getElementById("AlchHavtxt").value= score;
+  }
+  else if(v==0){
+    score = 0
+    document.getElementById("AlchHavtxt").value= score;
+  }
+} 
+
+function inputscore3(v) {
+  var df = document.audit;
+  var NeedAlc = df.NeedAlc;
+  var NeedAlctxt = df.NeedAlctxt;
+  //var location1=df.location1;
+if(v==1) {
+    score = 0
+    document.getElementById("NeedAlctxt").value= score;
+  //location1.physics.disabled = false; 
+  }
+  
+else if(v==2){
+    score = 1
+    document.getElementById("NeedAlctxt").value= score;
+}
+else if(v==3){
+    score = 2
+    document.getElementById("NeedAlctxt").value= score;
+  }
+else if(v==4){
+    score = 3
+    document.getElementById("NeedAlctxt").value= score;
+  }
+else if(v==5){
+    score = 4
+    document.getElementById("NeedAlctxt").value= score;
+  }
+  else if(v==0){
+    score = 0
+    document.getElementById("NeedAlctxt").value= score;
+  }
+} 
+
+function inputscore4(v) {
+  var df = document.audit;
+  var DrnkOcc = df.DrnkOcc;
+  var DrnkOcctxt = df.DrnkOcctxt;
+  //var location1=df.location1;
+if(v==1) {
+    score = 0
+    document.getElementById("DrnkOcctxt").value= score;
+  //location1.physics.disabled = false; 
+  }
+  
+else if(v==2){
+    score = 1
+    document.getElementById("DrnkOcctxt").value= score;
+}
+else if(v==3){
+    score = 2
+    document.getElementById("DrnkOcctxt").value= score;
+  }
+else if(v==4){
+    score = 3
+    document.getElementById("DrnkOcctxt").value= score;
+  }
+else if(v==5){
+    score = 4
+    document.getElementById("DrnkOcctxt").value= score;
+  }
+  else if(v==0){
+    score = 0
+    document.getElementById("DrnkOcctxt").value= score;
+  }
+} 
+
+function inputscore5(v) {
+  var df = document.audit;
+  var GuiltDrnk = df.GuiltDrnk;
+  var GuiltDrnktxt = df.GuiltDrnktxt;
+  //var location1=df.location1;
+if(v==1) {
+    score = 0
+    document.getElementById("GuiltDrnktxt").value= score;
+  //location1.physics.disabled = false; 
+  }
+  
+else if(v==2){
+    score = 1
+    document.getElementById("GuiltDrnktxt").value= score;
+}
+else if(v==3){
+    score = 2
+    document.getElementById("GuiltDrnktxt").value= score;
+  }
+else if(v==4){
+    score = 3
+    document.getElementById("v").value= score;
+  }
+else if(v==5){
+    score = 4
+    document.getElementById("GuiltDrnktxt").value= score;
+  }
+else if(v==0){
+    score = 0
+    document.getElementById("GuiltDrnktxt").value= score;
+  }
+} 
+
+function inputscore6(v) {
+  var df = document.audit;
+  var StpDrnk = df.StpDrnk;
+  var StpDrnktxt = df.StpDrnktxt;
+  //var location1=df.location1;
+if(v==1) {
+    score = 0
+    document.getElementById("StpDrnktxt").value= score;
+  //location1.physics.disabled = false; 
+  }
+  
+else if(v==2){
+    score = 1
+    document.getElementById("StpDrnktxt").value= score;
+}
+else if(v==3){
+    score = 2
+    document.getElementById("StpDrnktxt").value= score;
+  }
+else if(v==4){
+    score = 3
+    document.getElementById("StpDrnktxt").value= score;
+  }
+else if(v==5){
+    score = 4
+    document.getElementById("StpDrnktxt").value= score;
+  }
+else if(v==0){
+    score = 0
+    document.getElementById("StpDrnktxt").value= score;
+  }
+} 
+
+function inputscore7(v) {
+  var df = document.audit;
+  var InjureDrnk = df.InjureDrnk;
+  var InjureDrnktxt = df.InjureDrnktxt;
+  //var location1=df.location1;
+if(v==1) {
+    score = 0
+    document.getElementById("InjureDrnktxt").value= score;
+  //location1.physics.disabled = false; 
+  }
+  
+else if(v==2){
+    score = 2
+    document.getElementById("InjureDrnktxt").value= score;
+}
+
+else if(v==3){
+    score = 4
+    document.getElementById("InjureDrnktxt").value= score;
+  }
+else if(v==0){
+    score = 0
+    document.getElementById("InjureDrnktxt").value= score;
+  }
+} 
+
+function inputscore8(v) {
+  var df = document.audit;
+  var FailDrnk = df.FailDrnk;
+  var FailDrnktxt = df.FailDrnktxt;
+  //var location1=df.location1;
+if(v==1) {
+    score = 0
+    document.getElementById("FailDrnktxt").value= score;
+  //location1.physics.disabled = false; 
+  }
+  
+else if(v==2){
+    score = 1
+    document.getElementById("FailDrnktxt").value= score;
+}
+else if(v==3){
+    score = 2
+    document.getElementById("FailDrnktxt").value= score;
+  }
+else if(v==4){
+    score = 3
+    document.getElementById("FailDrnktxt").value= score;
+  }
+else if(v==5){
+    score = 4
+    document.getElementById("FailDrnktxt").value= score;
+  }
+else if(v==0){
+    score = 0
+    document.getElementById("FailDrnktxt").value= score;
+  }
+} 
+
+function inputscore9(v) {
+  var df = document.audit;
+  var FriendDrnk = df.FriendDrnk;
+  var FriendDrnktxt = df.FriendDrnktxt;
+  //var location1=df.location1;
+if(v==1) {
+    score = 0
+    document.getElementById("FriendDrnktxt").value= score;
+  //location1.physics.disabled = false; 
+  }
+  
+else if(v==2){
+    score = 2
+    document.getElementById("FriendDrnktxt").value= score;
+}
+
+else if(v==3){
+    score = 4
+    document.getElementById("FriendDrnktxt").value= score;
+  }
+else if(v==0){
+    score = 0
+    document.getElementById("FriendDrnktxt").value= score;
+  }
+} 
+var myWindow;
+function openWin() {
+    myWindow = window.open("", "audit.jsp", "width=200, height=100");    // Opens a new window
+}
+
+function closeWin() {
+    openWin();
+    myWindow.close();                                                  // Closes the new window
+}
+//function close(){
+//    window.close('audit.jsp');
+//}
+</script>
+    </head>
+    <body>
+        <form name="audit" action="AuditServlet" method="post">
+                 <%if (session.getAttribute("saved") != null) { %>
+                                <script type="text/javascript"> 
+                    
+                    var n = noty({text: '<%=session.getAttribute("saved")%>',
+                        layout: 'center',
+                        type: 'Success',
+ 
+                         timeout: 1800});
+                    
+                </script> <%
+                session.removeAttribute("saved");
+                            }
+
+                        %>
+        <div id="example">
+            <h1>Alcohol Use Disorders Identification Test (AUDIT)</h1>
+            <div id="container">
+                <%
+             
+session = request.getSession(true);
+String UniqueID=(String)session.getAttribute("UniqueID");                
+
+%>
+                
+                
+            <table>
+                <tr class="d0"><td>1. How often do you have a drink containing alcohol?
+                        <br>
+                    <select name="DrnkAlc" id="DrnkAlc" onChange="inputscore(this.selectedIndex);">
+                <option value=""></option>
+                
+                <option value="Never">Never</option>
+                <option value="Monthly or less">Monthly or less</option>
+                <option value="2 to 4 times a month">2 to 4 times a month</option>
+                <option value="2 to 3 times a week">2 to 3 times a week</option>
+                <option value="4 to more times a week">4 to more times a week</option>
+                </select>
+            </td>
+            <td><input type="text" name="DrnkAlctxt" id="DrnkAlctxt" value="" readonly="readonly"></td>
+                <td>6. How often during the last year have you been unable
+                        to remember what happened the night before because you
+                        had been drinking?
+                        <br>
+                    <select name="RemHap" id="RemHap" onChange="inputscore1(this.selectedIndex);">
+                <option value=""></option>
+                <option value="Never">Never</option>
+                <option value="Monthly or less">Less than monthly</option>
+                <option value="2 to 4 times a month">Monthly</option>
+                <option value="2 to 3 times a week">Weekly</option>
+                <option value="4 to more times a week">Daily or almost daily</option>
+                </select>
+            </td>
+            <td><input type="text" name="RemHaptxt" id="RemHaptxt" value="" readonly="readonly"></td></tr>
+                <tr class="d1"><td>2. How many drinks containing alcohol do you have
+                        on a typical day when you are drinking?
+                        <br>
+                    <select name="AlchHav" id="AlchHav" onChange="inputscore2(this.selectedIndex);">
+                <option value=""></option>
+                <option value="Never">1 or 2</option>
+                <option value="Monthly or less">3 or 4</option>
+                <option value="2 to 4 times a month">5 or 6</option>
+                <option value="2 to 3 times a week">7, 8 or 9</option>
+                <option value="4 to more times a week">10 or more</option>
+                </select>
+            </td>
+            <td><input type="text" name="AlchHavtxt" id="AlchHavtxt" value="" readonly="readonly"></td>
+                <td>7. How often during the last year have you needed an
+                        alcoholic drink in the morning to get yourself
+                        going after a night of heavy drinking?
+                        <br>
+                    <select name="NeedAlc" id="NeedAlc" onChange="inputscore3(this.selectedIndex)">
+                <option value=""></option>
+                <option value="Never">Never</option>
+                <option value="Monthly or less">Less than monthly</option>
+                <option value="2 to 4 times a month">Monthly</option>
+                <option value="2 to 3 times a week">Weekly</option>
+                <option value="4 to more times a week">Daily or almost daily</option>
+                </select>
+            </td>
+            <td><input type="text" name="NeedAlctxt" id="NeedAlctxt" value="" readonly="readonly"></td></</tr>
+                <tr class="d0"><td>3. How often do you have six or more drinks on one
+                        occasion?
+                        <br>
+                    <select name="DrnkOcc" id="DrnkOcc" onChange="inputscore4(this.selectedIndex);">
+                <option value=""></option>
+                <option value="Never">Never</option>
+                <option value="Monthly or less">Less than monthly</option>
+                <option value="2 to 4 times a month">Monthly</option>
+                <option value="2 to 3 times a week">Weekly</option>
+                <option value="4 to more times a week">Daily or almost daily</option>
+                </select>
+            </td>
+            <td><input type="text" name="DrnkOcctxt" id="DrnkOcctxt" value="" readonly="readonly"></td>
+                <td>8. How often during the last year have you had a feeling
+                        of guilt or remorse after drinking?
+                        <br>
+                    <select name="GuiltDrnk" id="GuiltDrnk" onChange="inputscore5(this.selectedIndex);">
+                <option value=""></option>
+                <option value="Never">Never</option>
+                <option value="Monthly or less">Less than monthly</option>
+                <option value="2 to 4 times a month">Monthly</option>
+                <option value="2 to 3 times a week">Weekly</option>
+                <option value="4 to more times a week">Daily or almost daily</option>
+                </select>
+            </td>
+            <td><input type="text" name="GuiltDrnktxt" id="GuiltDrnktxt" value="" readonly="readonly"></td></tr>
+                <tr class="d1"><td>4. How often during the last year have you found that
+                        you were not able to stop drinking once 
+                        you had  started?
+                        <br>
+                    <select name="StpDrnk" id="StpDrnk" onChange="inputscore6(this.selectedIndex);">
+                <option value=""></option>
+                <option value="Never">Never</option>
+                <option value="Monthly or less">Less than monthly</option>
+                <option value="2 to 4 times a month">Monthly</option>
+                <option value="2 to 3 times a week">Weekly</option>
+                <option value="4 to more times a week">Daily or almost daily</option>
+                </select>
+            </td>
+            <td><input type="text" name="StpDrnktxt" id="StpDrnktxt" value="" readonly="readonly"></td>
+                <td>9. Have you or someone else been injured as a result of
+                        your drinking?
+                        <br>
+                    <select name="InjureDrnk" id="InjureDrnk" onChange="inputscore7(this.selectedIndex);">
+                <option value=""></option>
+                <option value="Never">No</option>
+                <option value="Yes but not in the last  year">Yes, but not in the last  year</option>
+                <option value="Yes during the last year">Yes, during the last year</option>
+                </select>
+            </td>
+            <td><input type="text" name="InjureDrnktxt" id="InjureDrnktxt" value="" readonly="readonly"></td></tr>
+                <tr class="d0"><td>5. How often during the last year have you failed to
+                        do what was normally expected from you because of 
+                        drinking?
+                        <br>
+                    <select name="FailDrnk" id="FailDrnk" onChange="inputscore8(this.selectedIndex);">
+                <option value=""></option>
+                <option value="Never">Never</option>
+                <option value="Monthly or less">Less than monthly</option>
+                <option value="2 to 4 times a month">Monthly</option>
+                <option value="2 to 3 times a week">Weekly</option>
+                <option value="4 to more times a week">Daily or almost daily</option>
+                </select>
+            </td>
+            <td><input type="text" name="FailDrnktxt" id="FailDrnktxt" value="" readonly="readonly"></td>
+            <td>10. Has a relative, friend, doctor, or another health 
+                        professional expressed concern about your drinking or
+                        suggested you cut down?
+                        <br>
+                    <select name="FriendDrnk" id="FriendDrnk" onChange="inputscore9(this.selectedIndex);">
+                <option value=""></option>
+                <option value="Never">No</option>
+                <option value="Yes but not in the last year">Yes, but not in the last year</option>
+                <option value="Yes during the last year">Yes, during the last year</option>
+                </select>
+            </td>
+            <td><input type="text" name="FriendDrnktxt" id="FriendDrnktxt" value="" readonly="readonly"></td>
+                </tr>
+            
+       <tr>
+           <td><input class="button" type="submit" value="Submit" name="Submit"></td>
+           <td>
+           <input type="button" value="CLOSE" style="background-color: #c66200;" onClick="window.close();" />
+       
+           </td>
+       </tr>
+            </table>
+                </div>
+        </div>
+        </form>
+      
+      
+    </body>
+</html>
+
