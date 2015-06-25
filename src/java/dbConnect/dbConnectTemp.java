@@ -16,7 +16,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,13 +39,8 @@ public  Connection connect = null;
     public dbConnectTemp() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            connect = DriverManager.getConnection("jdbc:mysql://eu-cdbr-azure-west-c.cloudapp.net:3306/olmis","ba51a5042df27c", "05b6e034");
+            connect = DriverManager.getConnection("jdbc:mysql://eu-cdbr-azure-west-c.cloudapp.net:3306/dic","bd081b09107667", "1d86f3bf");
            
-
-
-
-
-
             //if the saved host name is less than 2 letters long, then thats not a genuine host name
 
             URL location = dbConnect.class.getProtectionDomain().getCodeSource().getLocation();
@@ -159,7 +153,7 @@ public  Connection connect = null;
 
                 if (count < 4) {
                     count++;
-                }
+                               }
             }
             //Close the input stream
             in.close();
