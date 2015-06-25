@@ -306,8 +306,24 @@ else{ %>
                                     <option value="" >Select County</option>
                                    <%
              dbConnect conn = new dbConnect();
-                                                String QueryDist= "SELECT District,DistrictID FROM districts";
-                                                     conn.state= conn.connect.createStatement();
+                                               
+                                   
+  String Location="";
+              if(session.getAttribute("Location")!=null){
+ Location=session.getAttribute("Location").toString();
+ }
+  
+   String QueryDist="";
+                                                if(Location.equalsIgnoreCase("Naivasha")){    
+                                                     QueryDist= "SELECT District,DistrictID FROM districts where DistrictID='3'";
+                                                   
+                                                }
+     else{
+          QueryDist= "SELECT District,DistrictID FROM districts where DistrictID!='1' and DistrictID!='5'";
+                                                 
+     }
+
+                                                                                                                                               conn.state= conn.connect.createStatement();
 				conn.rs = conn.state.executeQuery(QueryDist);
                                  if(conn.state.isClosed()){conn= new dbConnect();}
                                                       while(conn.rs.next())
@@ -316,11 +332,11 @@ else{ %>
             <option value='<%=conn.rs.getString("DistrictID")%>,<%=conn.rs.getString("District")%>'><%=conn.rs.getString("District")%></option>
                                                    <%
                                                       
-                                                    }
+ System.out.println(conn.rs.getInt("DistrictID"));
+                                System.out.println(conn.rs.getString("DistrictID"));                                                      }
                                 
                                
                                                    %>
-                                  
                                   
                                     
                                 </select></td>
@@ -382,7 +398,7 @@ else{ %>
    }
                                 
   for(int i=0;i<wards.size();i++){
-      System.out.println("mmm   "+wards+"   "+pageContext.getAttribute("WARD"));
+//      System.out.println("mmm   "+wards+"   "+pageContext.getAttribute("WARD"));
 if(wards.get(i).equals(pageContext.getAttribute("WARD"))){
     System.out.println("sele "+wards.get(i)+"       "+pageContext.getAttribute("WARD"));
 %>

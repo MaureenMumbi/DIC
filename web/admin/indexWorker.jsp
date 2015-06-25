@@ -233,10 +233,23 @@ mcount++;
                 <tr class="d1"><td>County <font style="color: blue">*</font> </td><td>
 <!--                        //gets the districts as stored in db and dispaly them in a drop down-->
                         <select onchange="filter_districts(this);" required name="district" id="district">
-  <%
-             
-                                                      String QueryDist= "SELECT District,DistrictID FROM districts";
-                                                     conn.state= conn.connect.createStatement();
+                            <option value="">Choose county</option>
+  <% String Location="";
+              if(session.getAttribute("Location")!=null){
+ Location=session.getAttribute("Location").toString();
+ }
+  
+   String QueryDist="";
+                                                if(Location.equalsIgnoreCase("Naivasha")){    
+                                                     QueryDist= "SELECT District,DistrictID FROM districts where DistrictID='3'";
+                                                   
+                                                }
+     else{
+          QueryDist= "SELECT District,DistrictID FROM districts where DistrictID!='1' and DistrictID!='5'";
+                                                 
+     }
+
+                                                                                                                                               conn.state= conn.connect.createStatement();
 				conn.rs = conn.state.executeQuery(QueryDist);
                                  if(conn.state.isClosed()){conn= new dbConnect();}
                                                       while(conn.rs.next())

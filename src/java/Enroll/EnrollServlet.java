@@ -302,7 +302,7 @@ String[] OperationArea = request.getParameterValues("OperationArea");
 if(OperationArea != null ){
 for(int i=0; i<OperationArea.length;i++){
     
-queryOperation="INSERT INTO clientoparea(COPid,UniqueID,AreaOpID) VALUE('"+OperationAreaID+"','"+UniqueID+"','"+OperationArea[i]+"')";
+queryOperation="INSERT INTO clientoparea(COPid,UniqueID,AreaOpID,syncstatus) VALUE('"+OperationAreaID+"','"+UniqueID+"','"+OperationArea[i]+"','0')";
                               
  conn.state.executeUpdate(queryOperation);
    }
@@ -312,7 +312,7 @@ String queryOccupation="";
  if(Occupation != null){
 for(int i=0; i<Occupation.length;i++){
    
-queryOccupation ="INSERT INTO clientoccupation(CoccID,UniqueID,OccupationID) VALUE('"+OccupationID+"','"+UniqueID+"','"+Occupation[i]+"')";
+queryOccupation ="INSERT INTO clientoccupation(CoccID,UniqueID,OccupationID,syncstatus) VALUE('"+OccupationID+"','"+UniqueID+"','"+Occupation[i]+"','0')";
  conn.state.executeUpdate(queryOccupation);}
 }
 String[] AgeNo = request.getParameterValues("AgeNo");
@@ -320,33 +320,33 @@ String No="";
 
 //for(int i=0; i<AgeID.length;i++){
 if(AgeID1!=null && AgeNo1!=null){
-String queryAges1="INSERT INTO childage(ChildID,UniqueID,AgeBrackets,NoChild)VALUE('"+ChildID+"','"+UniqueID+"','"+AgeID1+"','"+AgeNo1+"')";
+String queryAges1="INSERT INTO childage(ChildID,UniqueID,AgeBrackets,NoChild,syncstatus)VALUE('"+ChildID+"','"+UniqueID+"','"+AgeID1+"','"+AgeNo1+"','0')";
 
  conn.state.executeUpdate(queryAges1);}
 //    }                               
 //for(int i=0; i<AgeID.length;i++){
 if(AgeID2!=null && AgeNo2!=null){
-String queryAges2="INSERT INTO childage(ChildID,UniqueID,AgeBrackets,NoChild)VALUE('"+ChildID+"','"+UniqueID+"','"+AgeID2+"','"+AgeNo2+"')";
+String queryAges2="INSERT INTO childage(ChildID,UniqueID,AgeBrackets,NoChild,syncstatus)VALUE('"+ChildID+"','"+UniqueID+"','"+AgeID2+"','"+AgeNo2+"','0')";
 
  conn.state.executeUpdate(queryAges2);
 }                              
 //for(int i=0; i<AgeID.length;i++){
 if(AgeID3!=null && AgeNo3!=null){
-String queryAges3="INSERT INTO childage(ChildID,UniqueID,AgeBrackets,NoChild)VALUE('"+ChildID+"','"+UniqueID+"','"+AgeID3+"','"+AgeNo3+"')";
+String queryAges3="INSERT INTO childage(ChildID,UniqueID,AgeBrackets,NoChild,syncstatus)VALUE('"+ChildID+"','"+UniqueID+"','"+AgeID3+"','"+AgeNo3+"','0')";
 
  conn.state.executeUpdate(queryAges3);
 }
 //}                               
 //for(int i=0; i<AgeID.length;i++){
 if(AgeID4!=null && AgeNo4!=null){
-String queryAges4="INSERT INTO childage(ChildID,UniqueID,AgeBrackets,NoChild)VALUE('"+ChildID+"','"+UniqueID+"','"+AgeID4+"','"+AgeNo4+"')";
+String queryAges4="INSERT INTO childage(ChildID,UniqueID,AgeBrackets,NoChild,syncstatus)VALUE('"+ChildID+"','"+UniqueID+"','"+AgeID4+"','"+AgeNo4+"','0')";
 
  conn.state.executeUpdate(queryAges4);
 }
 //}                               
 //for(int i=0; i<AgeID.length;i++){
 if(AgeID5!=null && AgeNo5!=null){
-String queryAges5="INSERT INTO childage(ChildID,UniqueID,AgeBrackets,NoChild)VALUE('"+ChildID+"','"+UniqueID+"','"+AgeID5+"','"+AgeNo5+"')";
+String queryAges5="INSERT INTO childage(ChildID,UniqueID,AgeBrackets,NoChild,syncstatus)VALUE('"+ChildID+"','"+UniqueID+"','"+AgeID5+"','"+AgeNo5+"','0')";
 
  conn.state.executeUpdate(queryAges5);
 }
@@ -356,21 +356,21 @@ String[] MemberOf = request.getParameterValues("member");
 if(MemberOf!=null){
 for(int i=0; i<MemberOf.length;i++){
 
-String queryMember="INSERT INTO clientmember(MemberID,UniqueID,MemID) VALUE('"+MemberOfID+"','"+UniqueID+"','"+MemberOf[i]+"')";
+String queryMember="INSERT INTO clientmember(MemberID,UniqueID,MemID,syncstatus) VALUE('"+MemberOfID+"','"+UniqueID+"','"+MemberOf[i]+"','0')";
  conn.state.executeUpdate(queryMember);}
 }
 System.out.println(UniqueID);
 
 if(UniqueID != null && ClientInit!= null && DOE!=null && District!=null && DOB!= null && DICName!=null ){
 query = "INSERT INTO enrollment (UniqueID,ClientInit,DOE,District,DOB,DICName,Ward,Sex,Age,MaritalStatus,Children,ChildNo,Religion,"
-     + "EducationLevel,PhoneNo,Residence,OperationArea,Occupation,MemberOfID,DICLearn,DICLearnOther,Email,PhoneNo1,Venue,AgeID,FirstName,SecondName,LastName,VenueOther,Pefar_year,capturedhand,fingerprint)"
+     + "EducationLevel,PhoneNo,Residence,OperationArea,Occupation,MemberOfID,DICLearn,DICLearnOther,Email,PhoneNo1,Venue,AgeID,FirstName,SecondName,LastName,VenueOther,Pefar_year,capturedhand,fingerprint,syncstatus)"
 + " VALUES ('"+UniqueID+"','"+ClientInit+"','"+DOE+"','"+Districts+"','"+DOB+"','"+DICName+"','"+ward+"','"+Sex+"','"+Age+"','"+MaritalStatus+"','"+Children+"','"+ChildNo+"',"
      + "'"+Religion+"','"+EducationLevel+"','"+PhoneNo+"','"+Residence+"','"+OperationAreaID+"','"+OccupationID+"','"+MemberOfID+"','"+DICLearn+"','"+DICLearn1+"'"
-        + ",'"+Email+"','"+PhoneNo1+"','"+Venue+"','"+ChildID+"','"+fname+"','"+mname+"','"+lname+"','"+venueother+"','"+yearly+"','"+capturedhand+"','"+fingerprint+"')";
+        + ",'"+Email+"','"+PhoneNo1+"','"+Venue+"','"+ChildID+"','"+fname+"','"+mname+"','"+lname+"','"+venueother+"','"+yearly+"','"+capturedhand+"','"+fingerprint+"','0')";
 }
                    
           System.out.println("dic    "+query);               
- String inserter = "insert into taskauditor set host_comp='" + computername + "' , action='Enrolled a sex worker  whose UniqueID is "+UniqueID+" from the enrollment',time='" + formattedDate + "',username='" + session.getAttribute("Username") + "'";
+ String inserter = "insert into taskauditor set host_comp='" + computername + "' , action='Enrolled a sex worker  whose UniqueID is "+UniqueID+" from the enrollment',time='" + formattedDate + "',username='" + session.getAttribute("Username") + "',syncstatus='0'";
 
  
 

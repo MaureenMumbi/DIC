@@ -69,7 +69,7 @@ System.out.println("Computer name "+computername);
             
                
                 try {
-                        String queryString = "SELECT Username,Password,AccessLevel FROM user WHERE password=?";
+                        String queryString = "SELECT Username,Password,AccessLevel,Location FROM user WHERE password=?";
                       
                         conn.ps = conn.connect.prepareStatement(queryString);
                         conn.ps.setString(1, userPass);
@@ -78,11 +78,13 @@ System.out.println("Computer name "+computername);
                         // verifying user credentials before creating Servlet Context object
 
                             while(conn.rs.next()==true){
+                                 session.setAttribute("Location",conn.rs.getString(4));
+                                 System.out.println("location "+conn.rs.getString(4));
                                     if (userName.equalsIgnoreCase(conn.rs.getString("Username"))) {
                                         if(conn.rs.getString("AccessLevel").equalsIgnoreCase("1")){
                                             session= request.getSession(true);
                                             session.setAttribute("Username", conn.rs.getString("Username"));
-                                           
+                                          
                                             session.setAttribute("AccessLevel", conn.rs.getString("AccessLevel"));
                                             ServletContext context = getServletContext();
                                            response.sendRedirect("Enrollment.jsp");

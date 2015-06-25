@@ -848,9 +848,9 @@ String UniqueCode;
 <div class="example" >
            <div class="login">
      <% 
-               if(session.getAttribute("loggedIn")==null){
+               if(session.getAttribute("Username")==null){
      
-               response.sendRedirect("index.jsp");
+//               response.sendRedirect("index.jsp");
            } else{
      %>
                    
@@ -1016,9 +1016,22 @@ mcount++;
                         <select onchange="filter_districts(this);" name="district" id="district">
                               <option value="">Choose County</option> 
   <%
-             
-                                                      String QueryDist= "SELECT District,DistrictID FROM districts";
-                                                     conn.state= conn.connect.createStatement();
+  String Location="";
+              if(session.getAttribute("Location")!=null){
+ Location=session.getAttribute("Location").toString();
+ }
+  
+   String QueryDist="";
+                                                if(Location.equalsIgnoreCase("Naivasha")){    
+                                                     QueryDist= "SELECT District,DistrictID FROM districts where DistrictID='3'";
+                                                   
+                                                }
+     else{
+          QueryDist= "SELECT District,DistrictID FROM districts where DistrictID!='1' and DistrictID!='5'";
+                                                 
+     }
+
+                                                                                                                                               conn.state= conn.connect.createStatement();
 				conn.rs = conn.state.executeQuery(QueryDist);
                                  if(conn.state.isClosed()){conn= new dbConnect();}
                                                       while(conn.rs.next())
@@ -1031,13 +1044,17 @@ mcount++;
                                 System.out.println(conn.rs.getString("DistrictID"));                                                      }
                                 
                                
-                                                   %>
-<!--                                 <option value="">Choose County</option>  
-                                 <option value="Baringo">Baringo</option>
-                                 <option value="Kajiado">Kajiado</option>      
-                                 <option value="Laikipia">Laikipia</option>
-                                 <option value="Nakuru">Nakuru</option>
-                                 <option value="Narok">Narok</option>-->
+//  int firstnumber=0;
+//  int secondnumber=1; 
+//int total=0;                                                
+//for(int i=0;i<=10;i++){
+//total=firstnumber+secondnumber;
+//System.out.println("nn   "+total);
+//firstnumber=secondnumber;
+//secondnumber=total;
+//}                                                   
+%>
+                              
 
                                  </select></td>
                                  <td>DIC Name <font style="color: blue">*</font></td>

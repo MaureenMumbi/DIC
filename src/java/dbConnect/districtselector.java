@@ -32,12 +32,17 @@ public class districtselector extends HttpServlet {
             throws ServletException, IOException {
         try {
             response.setContentType("text/html;charset=UTF-8");
-           
+           session= request.getSession();
        
            DistrictID=request.getParameter("district"); 
            System.out.println(" District:"+ DistrictID); 
            current_districts="";
-           
+ String Location="";
+ if(session.getAttribute("Location")!=null){
+ Location=session.getAttribute("Location").toString();
+ }
+ 
+ System.out.println("bbb   "+Location);
            String districts="select * from dicname where DistrictID='"+DistrictID+"'";
            System.out.println(districts);
            dbConnect conn=new dbConnect();
@@ -55,9 +60,26 @@ public class districtselector extends HttpServlet {
           
           
           //dynamically add districts to the string array
+          if(Location.equalsIgnoreCase("Naivasha")){
+              current_districts="";
+               current_districts+="<option value=\"\">Choose DIC Name</option>";
+          current_districts+="<option value=\"Naivasha\">Naivasha</option>";
+
+          }
+          else{
+              current_districts="";
+                current_districts+="<option value=\"\">Choose DIC Name</option>";
           
-          current_districts=current_districts+"<option value=\""+conn.rs.getString("DICName")+"\">"+conn.rs.getString("DICName")+"</option>";
-//        session.setAttribute("dist_names",dist);
+              String districts1="select * from dicname where DistrictID='"+DistrictID+"' and DICName!='Naivasha'";  
+              System.out.println(districts1);
+              conn.rs2= conn.state2.executeQuery(districts1);
+              while(conn.rs2.next()){
+           current_districts+="<option value=\""+conn.rs2.getString("DICName")+"\">"+conn.rs2.getString("DICName")+"</option>";
+             System.out.println(current_districts);
+              
+              }
+          }
+          //        session.setAttribute("dist_names",dist);
          //12767711
         //3840
        //      1994

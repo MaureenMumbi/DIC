@@ -26,7 +26,7 @@ import javax.servlet.http.HttpSession;
 public class concatenateData extends HttpServlet {
 
    String AuditID,UniqueID,DrnkAlc,AlchHav,DrnkOcc,StpDrnk,FailDrnk,RemHap,NeedAlc,GuiltDrnk,InjureDrnk,FriendDrnk,DrnkAlctxt,AlcHavtxt,DrnkOcctxt,StpDrnktxt,FailDrnktxt,RemHaptxt,NeedAlctxt,GuiltDrnktxt,InjureDrnktxt,FriendDrnktxt,FinalAudit;
-    String UniqueIDs,ClientInit,DOE,District,DICName,DOB,Sex,Age,MaritalStatus,Children,ChildNo,Religion,EducationLevel,PhoneNo,Residence,OperationArea,Occupation,MemberOfID,DICLearn,Email,PhoneNo1,Venue,AgeID,FirstName,SecondName,LastName,venueOther,DicLearnOther,timestamp1,hand,biometric,ward="";
+    String enrollpefar_year,UniqueIDs,ClientInit,DOE,District,DICName,DOB,Sex,Age,MaritalStatus,Children,ChildNo,Religion,EducationLevel,PhoneNo,Residence,OperationArea,Occupation,MemberOfID,DICLearn,Email,PhoneNo1,Venue,AgeID,FirstName,SecondName,LastName,venueOther,DicLearnOther,timestamp1,hand,biometric,ward="";
 //    String ResultID,County,District,menAchieved,womenAchieved, reportingPeriod,financialYear,titleIDs="";
 //    String ResultID1,County1,District1,totalAchieved, reportingPeriod1,financialYear1,titleIDs1="";
     String ID,ChildID,UniqueID2,AgeBrackets,NoChild,timestamp2="";
@@ -63,7 +63,7 @@ dbConnect conn1 = new dbConnect();
 System.out.println("Merging Data");
 
 //read data from the new database-indicatoractivities1 
-String selector="SELECT * FROM audit WHERE AuditID!=''";
+String selector="SELECT * FROM audit WHERE AuditID!='' and syncstatus='0'";
 conn.rs=conn.state.executeQuery(selector);
 while(conn.rs.next()){
    
@@ -141,36 +141,37 @@ while(conn.rs.next()){
     already_added=0;
   UniqueIDs=ClientInit=DOE=District=DICName=DOB=Sex=Age=MaritalStatus=Children=ChildNo=Religion=
   EducationLevel=PhoneNo=Residence=OperationArea=Occupation=MemberOfID=DICLearn=Email=PhoneNo1=Venue=AgeID=FirstName=SecondName=LastName=venueOther=DicLearnOther=timestamp1=hand=biometric=""; 
-  ward="";
+  ward=enrollpefar_year="";
         
-         UniqueIDs=conn.rs.getString(2);
-         ClientInit=conn.rs.getString(3);
-         DOE=conn.rs.getString(4);
-         District=conn.rs.getString(5);
-         DICName=conn.rs.getString(6);
-         DOB=conn.rs.getString(7);
-         Sex=conn.rs.getString(8);
-         Age=conn.rs.getString(9);
-         MaritalStatus=conn.rs.getString(10);
-         Children=conn.rs.getString(11);
-         ChildNo=conn.rs.getString(12);
-         Religion=conn.rs.getString(13); 
-         EducationLevel=conn.rs.getString(14); 
-         PhoneNo=conn.rs.getString(15); 
-         Residence=conn.rs.getString(16); 
-         OperationArea=conn.rs.getString(17); 
-         Occupation=conn.rs.getString(18); 
-         MemberOfID=conn.rs.getString(19); 
-         DICLearn=conn.rs.getString(20); 
-         Email=conn.rs.getString(21); 
-         PhoneNo1=conn.rs.getString(22); 
-         Venue=conn.rs.getString(23); 
-         AgeID=conn.rs.getString(24); 
-         FirstName=conn.rs.getString(25); 
-         SecondName=conn.rs.getString(26); 
-         LastName=conn.rs.getString(27); 
-         venueOther=conn.rs.getString(28); 
-         DicLearnOther=conn.rs.getString(29); 
+         UniqueIDs=conn.rs.getString("UniqueID");
+         ClientInit=conn.rs.getString("ClientInit");
+         DOE=conn.rs.getString("DOE");
+         District=conn.rs.getString("District");
+         DICName=conn.rs.getString("DICName");
+         DOB=conn.rs.getString("DOB");
+         Sex=conn.rs.getString("Sex");
+         Age=conn.rs.getString("Age");
+         MaritalStatus=conn.rs.getString("MaritalStatus");
+         Children=conn.rs.getString("Children");
+         ChildNo=conn.rs.getString("ChildNo");
+         Religion=conn.rs.getString("Religion"); 
+         EducationLevel=conn.rs.getString("EducationLevel"); 
+         PhoneNo=conn.rs.getString("PhoneNo"); 
+         Residence=conn.rs.getString("Residence"); 
+         OperationArea=conn.rs.getString("OperationArea"); 
+         Occupation=conn.rs.getString("Occupation"); 
+         MemberOfID=conn.rs.getString("MemberOfID"); 
+         DICLearn=conn.rs.getString("DICLearn"); 
+         Email=conn.rs.getString("Email"); 
+         PhoneNo1=conn.rs.getString("PhoneNo1"); 
+         Venue=conn.rs.getString("Venue"); 
+         AgeID=conn.rs.getString("AgeID"); 
+         FirstName=conn.rs.getString("FirstName"); 
+         SecondName=conn.rs.getString("SecondName"); 
+         LastName=conn.rs.getString("LastName"); 
+         venueOther=conn.rs.getString("venueOther"); 
+         DicLearnOther=conn.rs.getString("DicLearnOther");
+         enrollpefar_year=conn.rs.getString("Pefar_year");
         timestamp = conn.rs.getString("timestamp");
         hand = conn.rs.getString("capturedhand");
         biometric = conn.rs.getString("fingerprint");
@@ -199,9 +200,9 @@ while(conn.rs.next()){
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO enrollment(UniqueID,ClientInit,DOE,District,DICName,Ward,DOB,Sex,Age,MaritalStatus,Children,ChildNo,Religion,EducationLevel,PhoneNo,Residence,OperationArea,Occupation,MemberOfID,DICLearn,Email,PhoneNo1,Venue,AgeID,FirstName,SecondName,LastName,venueOther,DicLearnOther,capturedhand,fingerprint )"
+  String inserter="REPLACE INTO enrollment(UniqueID,ClientInit,DOE,District,DICName,Ward,DOB,Sex,Age,MaritalStatus,Children,ChildNo,Religion,EducationLevel,PhoneNo,Residence,OperationArea,Occupation,MemberOfID,DICLearn,Email,PhoneNo1,Venue,AgeID,FirstName,SecondName,LastName,venueOther,DicLearnOther,Pefar_year,capturedhand,fingerprint,syncstatus)"
           + "VALUES('"+UniqueIDs+"','"+ClientInit+"','"+DOE+"','"+District+"','"+DICName+"','"+ward+"','"+DOB+"','"+Sex+"','"+Age+"','"+MaritalStatus+"','"+Children+"','"+ChildNo+"','"+Religion+"','"+EducationLevel+"','"+PhoneNo+"','"+Residence+"','"+OperationArea+"',"
-          + "'"+Occupation+"','"+MemberOfID+"','"+DICLearn+"','"+Email+"','"+PhoneNo1+"','"+Venue+"','"+AgeID+"','"+FirstName+"','"+SecondName+"','"+LastName+"','"+venueOther+"','"+DicLearnOther+"','"+hand+"','"+biometric+"')"   ;
+          + "'"+Occupation+"','"+MemberOfID+"','"+DICLearn+"','"+Email+"','"+PhoneNo1+"','"+Venue+"','"+AgeID+"','"+FirstName+"','"+SecondName+"','"+LastName+"','"+venueOther+"','"+DicLearnOther+"','"+enrollpefar_year+"','"+hand+"','"+biometric+"','1')"   ;
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
@@ -261,7 +262,7 @@ while(conn.rs2.next()){
 //
 //
 //start of client member
-String clientmember="SELECT * FROM clientmember WHERE ID!=''";
+String clientmember="SELECT * FROM clientmember WHERE ID!='' ";
 conn.rs2=conn.state3.executeQuery(clientmember);
 while(conn.rs2.next()){
    
@@ -282,15 +283,15 @@ while(conn.rs2.next()){
  
  conn1.rs3=conn1.state1.executeQuery(check_if_exist);
  if(conn1.rs3.next()==true){
-     already_added=1; 
- 
- String inserter="INSERT INTO clientmember(MemberID,UniqueID,MemID,timestamp)"
-          + "VALUES('"+MemberID+"','"+UniqueID3+"','"+MemID+"','"+timestamp3+"')";
-  
-  System.out.println("_"+inserter+"\n");
-  numberofqueries++;
-  conn1.state4.executeUpdate(inserter);  
- existingdata++;
+    already_added=1; 
+// 
+// String inserter="REPLACE INTO clientmember(MemberID,UniqueID,MemID,timestamp)"
+//          + "VALUES('"+MemberID+"','"+UniqueID3+"','"+MemID+"','"+timestamp3+"')";
+//  
+//  System.out.println("_"+inserter+"\n");
+//  numberofqueries++;
+//  conn1.state4.executeUpdate(inserter);  
+// existingdata++;
  }
  else {
   String inserter="INSERT INTO clientmember(MemberID,UniqueID,MemID,timestamp)"
@@ -314,7 +315,7 @@ while(conn.rs2.next()){
 
 
 ////start of client member
-String clientoccupation="SELECT * FROM clientoccupation WHERE ID!=''";
+String clientoccupation="SELECT * FROM clientoccupation WHERE ID!='' ";
 conn.rs2=conn.state3.executeQuery(clientoccupation);
 while(conn.rs2.next()){
    
@@ -371,7 +372,7 @@ while(conn.rs2.next()){
          timestamp5=conn.rs2.getString(5);
       
        
- String check_if_exist="SELECT * FROM clientoparea WHERE COPID='"+COPID+"' AND UniqueID='"+UniqueID5+"' AND AreaOpID='"+AreaOpID+"'";
+ String check_if_exist="SELECT * FROM clientoparea WHERE COPID='"+COPID+"' AND UniqueID='"+UniqueID5+"' AND AreaOpID='"+AreaOpID+"' ";
 
   System.out.println(check_if_exist+"\n");
  
@@ -399,41 +400,7 @@ while(conn.rs2.next()){
 ////END OF CLIENT OP AREA
 //
 ////start of DUMMY
-String dummy="SELECT * FROM dummy WHERE UniqueID!=''";
-conn.rs2=conn.state3.executeQuery(dummy);
-while(conn.rs2.next()){
-   
-    
-    already_added=0;
-   ID4=FHIClient="";
-    
-         ID4=conn.rs2.getString(1);
-         FHIClient=conn.rs2.getString(2);
-        
-       
- String check_if_exist="SELECT * FROM dummy WHERE FHIClient='"+FHIClient+"'";
 
-  System.out.println(check_if_exist+"\n");
- 
- conn1.rs3=conn1.state1.executeQuery(check_if_exist);
- if(conn1.rs3.next()==true){already_added=1; 
- 
-  System.out.println("Clerk Data already added");
- existingdata++;
- }
- else {
-  String inserter="REPLACE INTO dummy(FHIClient)"
-          + "VALUES('"+FHIClient+"')";
-  
-  System.out.println("_"+inserter+"\n");
-  numberofqueries++;
-  conn1.state4.executeUpdate(inserter);  
-   dummys++;
-   
-   
- }   
-    
-}
 //
 //// MEDICAL FORM 
 //
@@ -512,7 +479,8 @@ while(conn.rs.next()){
           + "'"+weightcomplain+"','"+ga+"','"+ga_findings+"','"+skin+"','"+skin_findings+"','"+ent+"','"+ent_findings+"','"+eyes+"',"
           + "'"+eyes_findings+"','"+abdomen+"','"+abdomen_findings+"','"+genitourinary+"','"+genitourinary_findings+"','"+psychological+"','"+psychological_findings+"',"
           + "'"+musculoskeletal+"','"+musculoskeletal_findings+"','"+respiratory+"','"+respiratory_findings+"',"
-          + "'"+diagnosis+"','"+management+"','"+referral+"','"+specify_others+"','"+TCA+"','"+cadre+"','"+dater+"','"+signature+"','"+timestamp6+"')"   ;
+          + "'"+diagnosis+"','"+management+"','"+referral+"','"+specify_others+"','"+TCA+"','"+cadre+"',"
+          + "'"+dater+"','"+signature+"','"+timestamp6+"')"   ;
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
@@ -585,12 +553,14 @@ while(conn.rs2.next()){
     
     already_added=0;
     ID2=CoccID=UniqueID4=OccupationID=timestamp4="";
-    
+    String Quarter,Month,Pefar_year="";
          AssessID=conn.rs2.getString(2);
          AssessmentDate=conn.rs2.getString(3);
          UniqueID6=conn.rs2.getString(4);
          timestamp4=conn.rs2.getString("timestamp");
-       
+         Quarter=conn.rs2.getString("Quarter");
+         Month=conn.rs2.getString("Month");
+         Pefar_year=conn.rs2.getString("Pefar_year");
         
       
        
@@ -605,8 +575,8 @@ while(conn.rs2.next()){
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO riskassessmentmain(AssessmentID,AssessmentDate,UniqueID,entrydate)"
-          + "VALUES('"+AssessID+"','"+AssessmentDate+"','"+UniqueID6+"','"+timestamp4+"')";
+  String inserter="REPLACE INTO riskassessmentmain(AssessmentID,AssessmentDate,UniqueID,Quarter,Month,Pefar_year,entrydate)"
+          + "VALUES('"+AssessID+"','"+AssessmentDate+"','"+UniqueID6+"','"+Quarter+"','"+Month+"','"+Pefar_year+"','"+timestamp4+"')";
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
@@ -625,12 +595,15 @@ while(conn.rs2.next()){
     
     already_added=0;
     RiskRedID=DOA=CadreProvider=UniqueID7=timestamp4="";
-    
+    String qtr="";
+    String year="";
          RiskRedID=conn.rs2.getString(2);
          DOA=conn.rs2.getString(3);
          CadreProvider=conn.rs2.getString(4);
          UniqueID7=conn.rs2.getString(5);
          timestamp4=conn.rs2.getString("timestamp");
+         qtr=conn.rs2.getString("qtr");
+         year=conn.rs2.getString("year");
       
         
       
@@ -646,8 +619,8 @@ while(conn.rs2.next()){
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,entrydate)"
-          + "VALUES('"+RiskRedID+"','"+DOA+"','"+CadreProvider+"','"+UniqueID7+"','"+timestamp+"')";
+  String inserter="REPLACE INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,entrydate,qtr,year)"
+          + "VALUES('"+RiskRedID+"','"+DOA+"','"+CadreProvider+"','"+UniqueID7+"','"+timestamp+"','"+qtr+"','"+year+"')";
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
@@ -663,7 +636,7 @@ while(conn.rs2.next()){
 
 
 //start of taskauditor
-String taskauditor="SELECT * FROM taskauditor WHERE audit!=''";
+String taskauditor="SELECT * FROM taskauditor WHERE audit!='' ";
 conn.rs2=conn.state3.executeQuery(taskauditor);
 while(conn.rs2.next()){
    
@@ -836,8 +809,7 @@ conn1.state1.close();
 
 
   response.sendRedirect("importSQLData.jsp");      
-//    convertriskred();    
-//     convertriskassess()   ;
+
     }
 
  
@@ -891,197 +863,9 @@ conn1.state1.close();
         return "Short description";
     }// </editor-fold>
 
-public void convertriskred() throws SQLException{
-
-dbConnect conn = new dbConnect();
-
-       String DOA="";
-        String riskassessid="";
-        String cadre="";
-        String uniqueid="";
-        
-           String query="select * from riskreductionmain";
-          conn.rs2 = conn.state2.executeQuery(query);
-          while(conn.rs2.next()){
-          uniqueid=conn.rs2.getString("uniqueid");
-          riskassessid=conn.rs2.getString("riskreductionid");
-          DOA=conn.rs2.getString("DOA");
-          cadre=conn.rs2.getString("cadreprovider");
-         
-          System.out.println(riskassessid);
-          
-String query2="REPLACE INTO riskreduction(Cadre,UniqueID,Date, CasualCdUse, CdProvided,  RegCdUse, RegCdAction,"
-        + " WBLubricant, WBLubAction, AlDrugUseScore, AlDrugUseAction,HSFTKnowToday,HSFTKnowTodayAction,"
-        + " HSFTAppointment, HSFTAppointmentAction, HIVTodayTest, HIVTodayTestAction, HIVTestPart, HIVTestPartAction,"
-        + " STICheck, STICheckAction, STINextCheck, STINextCheckAction, CCScreening, CCScreeningAction,"
-        + "CCAppointment, CCAppointmentAction, TBCheck, TBCheckAction, NextAppt, NextApptAction, GBVCheck, GBVCheckAction, "
-        + "FPCurrentMethod, FPCurrMAction, FPMethod, FPMethodAction, FPMethodType, FPMethodTypeAction,NoMethod"
-        + ", NoMethodAction, AltIncomeSource, AltIncomeSourceAction,DONA)"
-  + "SELECT "
-//        + "("+cadre+"),"
-//        + "("+riskassessid+"),"
-//        + "("+DOA+"),"
-  + "(SELECT cadreprovider FROM riskreductiondetails,riskreductionmain WHERE  riskreductionmain.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT uniqueid FROM riskreductiondetails,riskreductionmain WHERE riskreductionmain.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT DOA FROM riskreductiondetails,riskreductionmain WHERE riskreductionmain.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT currentStatus FROM riskreductiondetails,riskreductionmain WHERE QID = 'B1' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT Action FROM riskreductiondetails,riskreductionmain WHERE QID = 'B1' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT currentStatus FROM riskreductiondetails,riskreductionmain WHERE QID = 'B2' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT Action FROM riskreductiondetails,riskreductionmain WHERE QID = 'B2' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT currentStatus FROM riskreductiondetails,riskreductionmain WHERE QID = 'B3' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT Action FROM riskreductiondetails,riskreductionmain WHERE QID = 'B3' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT currentStatus FROM riskreductiondetails,riskreductionmain WHERE QID = 'C' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT Action FROM riskreductiondetails,riskreductionmain WHERE QID = 'C' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT currentStatus FROM riskreductiondetails,riskreductionmain WHERE QID = 'C' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT currentStatus FROM riskreductiondetails,riskreductionmain WHERE QID = 'D1' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT Action FROM riskreductiondetails,riskreductionmain WHERE QID = 'D1' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT currentStatus FROM riskreductiondetails,riskreductionmain WHERE QID = 'D2' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT Appointments FROM riskreductiondetails,riskreductionmain WHERE QID = 'D2' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT currentStatus FROM riskreductiondetails,riskreductionmain WHERE QID = 'E1' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT Action FROM riskreductiondetails,riskreductionmain WHERE QID = 'E1' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT currentStatus FROM riskreductiondetails,riskreductionmain WHERE QID = 'E2' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT Action FROM riskreductiondetails,riskreductionmain WHERE QID = 'E2' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT currentStatus FROM riskreductiondetails,riskreductionmain WHERE QID = 'F1' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT currentStatus FROM riskreductiondetails,riskreductionmain WHERE QID = 'F2' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT Appointments FROM riskreductiondetails,riskreductionmain WHERE QID = 'F2' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT currentStatus FROM riskreductiondetails,riskreductionmain WHERE QID = 'G1' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT Action FROM riskreductiondetails,riskreductionmain WHERE QID = 'G1' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT Appointments FROM riskreductiondetails,riskreductionmain WHERE QID = 'G1' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT Action FROM riskreductiondetails,riskreductionmain WHERE QID = 'G2' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT currentStatus FROM riskreductiondetails,riskreductionmain WHERE QID = 'H1' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT Action FROM riskreductiondetails,riskreductionmain WHERE QID = 'H1' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT Appointments FROM riskreductiondetails,riskreductionmain WHERE QID = 'H1' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT Action FROM riskreductiondetails,riskreductionmain WHERE QID = 'H2' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT currentStatus FROM riskreductiondetails,riskreductionmain WHERE QID = 'I' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT Action FROM riskreductiondetails,riskreductionmain WHERE QID = 'I' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT currentStatus FROM riskreductiondetails,riskreductionmain WHERE QID = 'J1' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT Action FROM riskreductiondetails,riskreductionmain WHERE QID = 'J1' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT currentStatus FROM riskreductiondetails,riskreductionmain WHERE QID = 'J2' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT Action FROM riskreductiondetails,riskreductionmain WHERE QID = 'J2' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT currentStatus FROM riskreductiondetails,riskreductionmain WHERE QID = 'J3' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT Action FROM riskreductiondetails,riskreductionmain WHERE QID = 'J3' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT currentStatus FROM riskreductiondetails,riskreductionmain WHERE QID = 'J4' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT Action FROM riskreductiondetails,riskreductionmain WHERE QID = 'J4' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT currentStatus FROM riskreductiondetails,riskreductionmain WHERE QID = 'K' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT Action FROM riskreductiondetails,riskreductionmain WHERE QID = 'K' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1),"
-  + "(SELECT currentStatus FROM riskreductiondetails,riskreductionmain WHERE QID = 'L' AND riskreductiondetails.RiskReductionID = '"+riskassessid+"' limit 1)"
-   + "limit 1";
-    conn.state3.executeUpdate(query2) ;  
-    }
-}
 
 
-public void convertriskassess() throws SQLException{
-
-dbConnect conn = new dbConnect();
 
 
- String uniqueid="";
-            String riskassessid="";
-            
-            /* TODO output your page here. You may use following sample code. */
-          String query="select * from riskassessmentmain";
-          conn.rs2 = conn.state2.executeQuery(query);
-          while(conn.rs2.next()){
-          uniqueid=conn.rs2.getString("uniqueID");
-          riskassessid=conn.rs2.getString("assessmentid");
-          
-          
-          System.out.println("aaaaa"+riskassessid);
-          
-          String query2="REPLACE INTO riskassessment( DOA, UniqueID, SexLast, CondomUse, SexPartGender, Lasttime, NoPayingClients, RegPartner, NoRegPartner, TimeRegPartner, PracticeVaginal, PracticeOral, "
-                  + "PracticeAnal, CondomVaginal, CondomOral, CondomAnal, CondomProvider, HIVPartStatus, NoHIVPartStatus,"
-                  + " PartCondomUse, PUrine, PSex, SGenitals, GSores, DiscolorUrine, AbdominalPain, STISeekTreat, STIPlaceTreated, LubricantUse, KYJelly, Saliva, "
-                  + "OtherLubricants, LubUseAnal, LubUseVaginal, AlcoholUse, AlcoholFrequency, DrugUse, DrugType, DrugFrequency, VaginalDouche, AfterSexDouche, BathDouche, CdBurstDouche, OtherDouche, Hit"
-                  + ", LasttimeHit, raped, LasttimeRaped, economiccsupport, LastEconomic, Verbal, LastVerbal, FPnotUse,"
-                  + " FPnotUseLast, SeekTreatment, PlaceTreated,ReportPolice, Pregnant, HaveKids, UseFP,FPMethodUsed)"
-                  + "SELECT"
-  + "(SELECT DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'W' AND riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-
-  + "(SELECT riskassessmentmain.UniqueID FROM riskassessmentmain,Riskassessmentdetails WHERE  riskassessmentmain.AssessmentID='"+riskassessid+"' limit 1),"
-
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'A' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'B' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'C' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'D' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'E' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'F' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"'limit 1),"
-
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'G' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'H' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'I1' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'I2' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'I3' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'J1' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'J2' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'J' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
- 
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'K' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'L1' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'L2' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'L3' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'M1' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'M2' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'M3' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'M4' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'M5' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'M6' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'M7' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
- 
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'O1' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'O2A' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'O2B' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'O2C' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'O3A' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'O3B' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  
-  
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'Q1' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'Q2' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'R1' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'R2' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'R3' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'S1' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'SbA' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'SbB' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'SbC' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'SbD' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'T1' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1 ),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'T2' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1 ),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'T3' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1 ),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'T4' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1 ),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'T5' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1 ),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'T6' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1 ),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'T7' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1 ),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'T8' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1 ),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'T9' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1 ),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'T10' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1 ),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'U1' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'U2' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'V1' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'V2' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'P1' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'P2' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'P3' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1),"
-  + "(SELECT  DirectAnswers FROM riskassessmentdetails,riskassessmentmain WHERE QuestionID = 'P4' AND Riskassessmentdetails.AssessmentID = '"+riskassessid+"' limit 1)"
-
-                  + "limit 1";
-          
-          conn.state.executeUpdate(query2);
-          //System.out.println(query2);
-          }
-
-}
 
 }

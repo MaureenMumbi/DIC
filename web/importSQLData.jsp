@@ -123,7 +123,7 @@ else{ %>
                             }
 
                         %>        
-                <form action="importSQLData"  method="post"  enctype="multipart/form-data"  >   
+                <form action="SyncData"  method="post"  enctype="multipart/form-data"  >   
                 <table border="0" cellpadding="4px" cellspacing="6px" style="margin-left: 200px; margin-right: 100px;margin-top: 100px; height: 210px; width: 700px; background-color: #F5F5F5;" >
 
                     

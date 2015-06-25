@@ -508,7 +508,7 @@ System.out.println("Session"+UniqueID1);
    logStatus=(String)session.getAttribute("loggedIn");}
                if(session.getAttribute("loggedIn")==null){
      
-               response.sendRedirect("index.jsp");
+//               response.sendRedirect("index.jsp");
            }  else{
      %>
                     <a class="button-1" href="../DIC/logoutServlet">LogOut</a>
@@ -2851,7 +2851,7 @@ mcount++;
         
       if( document.getElementById("SexLast").value!=="" ){
           
-         alert("aaa") ;
+//         alert("aaa") ;
       }
         
             

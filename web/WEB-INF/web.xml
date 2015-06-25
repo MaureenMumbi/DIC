@@ -912,6 +912,10 @@
         <servlet-name>InternetThread</servlet-name>
         <servlet-class>DBCREDENTIALSFILE.InternetThread</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SyncData</servlet-name>
+        <servlet-class>DBCREDENTIALSFILE.SyncData</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Enroll</servlet-name>
         <url-pattern>/Enroll</url-pattern>
@@ -1823,6 +1827,10 @@
     <servlet-mapping>
         <servlet-name>InternetThread</servlet-name>
         <url-pattern>/InternetThread</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SyncData</servlet-name>
+        <url-pattern>/SyncData</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>900000</session-timeout>
