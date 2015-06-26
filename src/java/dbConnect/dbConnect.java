@@ -6,6 +6,10 @@ package dbConnect;
 
 
 
+import DBCREDENTIALSFILE.InternetThreadClass;
+import static DBCREDENTIALSFILE.InternetThreadClass.netcheckingstatus;
+import static DBCREDENTIALSFILE.InternetThreadClass.pagecalled;
+import static DBCREDENTIALSFILE.InternetThreadClass.syncingstatus;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
@@ -44,7 +48,26 @@ public  Connection connect = null;
            
 
 
+//CHECK IF MERGING IS ONGOING
+//IF IT IS NOT, THEN INITIATE A MERGING PROCESS
+//THIS WILL FIRST CHECK FOR INTERNET CONNECTIVITY
+                  
+         
+            //false means no syncing is ongoing 
+            System.out.println("SYNCING STATUS "+syncingstatus);
+            System.out.println("NET CHECKING STATUS "+netcheckingstatus);
+            System.out.println("PAGE CALLED STATUS "+pagecalled);
+            
+            if (syncingstatus==false&&netcheckingstatus==false&& pagecalled.equals("no")) {
+                   InternetThreadClass itc = new InternetThreadClass();
+                System.out.println("Syncing Response is_:::_"+itc.startorendthread());
+                pagecalled="yes";
+                //itc.syncingstatus=true;
+                                             }
 
+       
+        
+    
 
 
             //if the saved host name is less than 2 letters long, then thats not a genuine host name
