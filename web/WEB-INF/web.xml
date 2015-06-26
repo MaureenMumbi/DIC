@@ -916,6 +916,18 @@
         <servlet-name>SyncData</servlet-name>
         <servlet-class>DBCREDENTIALSFILE.SyncData</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>version</servlet-name>
+        <servlet-class>Maintenance.version</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>downloadUpdates</servlet-name>
+        <servlet-class>Maintenance.downloadUpdates</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>callBAT</servlet-name>
+        <servlet-class>Maintenance.callBAT</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Enroll</servlet-name>
         <url-pattern>/Enroll</url-pattern>
@@ -1831,6 +1843,18 @@
     <servlet-mapping>
         <servlet-name>SyncData</servlet-name>
         <url-pattern>/SyncData</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>version</servlet-name>
+        <url-pattern>/version</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>downloadUpdates</servlet-name>
+        <url-pattern>/downloadUpdates</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>callBAT</servlet-name>
+        <url-pattern>/callBAT</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>900000</session-timeout>

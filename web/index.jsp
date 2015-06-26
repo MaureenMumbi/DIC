@@ -4,6 +4,7 @@
     Author     : Maureen
 --%>
 
+<%@page import="DBCREDENTIALSFILE.InternetThreadClass"%>
 <%@page import="dbConnect.dbConnect"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -73,8 +74,7 @@
  
     </head>
     <body>
-         
-
+  
 <div class="example">
          
     
@@ -111,12 +111,64 @@
                          
                             </form>
       </div>
-                        
-               <p align="center"> &copy <a href="#" title="Version 21/01/2015">DIC</a> Aphia Plus | USAID </p>
-  
+                            <div id="versionChecker" style="font-weight: bolder; text-align:center;">
+                         </div><br>
+               <p align="center" title="Version 1.23 Last Updated 21/06/2015."> &copy DIC System Version 1.23 Last Updated on 21/06/2015. Aphia Plus | USAID </p>
+               
 </div>
   
- 
+ <script>
+  $(document).ready(function(){
+//      CHECK FOR NEWER VERSION PERIODICALLY....
+checkVersion();
+ });   
+ function checkVersion(){
+//    CHECK Version------------------- 
+$("#version").html("<p>Checking for newer Version...</p>");
+var versionText="",daysRemaining,warningText="",sentOn="",version_name="";
+ $.ajax({
+                    url:"version",
+                    type:'post',
+                    dataType:'html',
+                    success:function (data){
+                        if(data.trim()==="no_internet"){
+                          $("#versionChecker").html  ("<p style='color: blue; font-size:10px;'>Unable to check if there is a newer version of DIC system due to limited or no internet connection.</p>");
+      setInterval(function(){ checkVersion(); }, 60000);          
+        }
+                        else{
+$("#versionChecker").html(data);
+                        }
+  }  
+  });   
+      }
+      
+      
+      function updateSystem(){
+          var status="";
+       $.ajax({
+                    url:"downloadUpdates",
+                    type:'post',
+                    dataType:'html',
+                    success:function (data){
+                      status=data.trim();
+                      if(status==="success"){
+                          
+                      alert("Please restart the browser for changes to take effect");    
+                      }
+                      else{
+                          
+                      alert("download failed");    
+                      }
+                      
+                      
+                    }
+                    });    
+      }
+
+
+
+      
+     </script>
  
       
     </body>
