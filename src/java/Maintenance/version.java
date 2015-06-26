@@ -39,8 +39,8 @@ boolean isConnected;
          isConnected=true;
          
          if(isConnected==true){
-//          dbConnectTemp conn = new dbConnectTemp();
-           dbConnect conn = new dbConnect();
+          dbConnectTemp conn = new dbConnectTemp();
+//           dbConnect conn = new dbConnect();
            
          String getLatestVersion="SELECT MAX(version_id) FROM version";
          conn.rs=conn.state.executeQuery(getLatestVersion);
