@@ -170,7 +170,7 @@ while(conn.rs.next()){
  + " AND FailDrnk='"+FailDrnk+"' AND RemHap='"+RemHap+"' AND NeedAlc='"+NeedAlc+"' AND GuiltDrnk='"+GuiltDrnk+"' AND InjureDrnk='"+InjureDrnk+"'"
          + " AND FriendDrnk='"+FriendDrnk+"' AND DrnkAlctxt='"+DrnkAlctxt+"' AND AlchHavtxt='"+AlcHavtxt+"' AND DrnkOcctxt='"+DrnkOcctxt+"' AND "
          + "StpDrnktxt='"+StpDrnktxt+"' AND FailDrnktxt='"+FailDrnktxt+"'AND RemHaptxt='"+RemHaptxt+"'AND NeedAlctxt='"+NeedAlctxt+"'AND GuiltDrnktxt='"+GuiltDrnktxt+"'"
-         + " AND InjureDrnktxt='"+InjureDrnktxt+"'AND FriendDrnktxt='"+FriendDrnktxt+"'AND FinalAudit='"+FinalAudit+"' syncstatus='0'";
+         + " AND InjureDrnktxt='"+InjureDrnktxt+"'AND FriendDrnktxt='"+FriendDrnktxt+"'AND FinalAudit='"+FinalAudit+"'";
 
   System.out.println(check_if_exist+"\n");
  
@@ -183,15 +183,23 @@ while(conn.rs.next()){
  }
  else {
   String inserter="REPLACE INTO audit (UniqueID,DrnkAlc,AlchHav,DrnkOcc,StpDrnk,FailDrnk,RemHap,NeedAlc,GuiltDrnk,InjureDrnk,FriendDrnk,DrnkAlctxt,AlchHavtxt,DrnkOcctxt,StpDrnktxt,"
-          + "FailDrnktxt,RemHaptxt,NeedAlctxt,GuiltDrnktxt,InjureDrnktxt,FriendDrnktxt,FinalAudit,timestamp,syncstatus)"
-          + "VALUES('"+UniqueID+"','"+DrnkAlc+"','"+AlchHav+"','"+DrnkOcc+"','"+StpDrnk+"','"+FailDrnk+"','"+RemHap+"','"+NeedAlc+"','"+GuiltDrnk+"','"+InjureDrnk+"','"+FriendDrnk+"','"+DrnkAlctxt+"','"+AlcHavtxt+"','"+DrnkOcctxt+"','"+StpDrnktxt+"','"+FailDrnktxt+"','"+RemHaptxt+"','"+NeedAlctxt+"','"+GuiltDrnktxt+"','"+InjureDrnktxt+"','"+FriendDrnktxt+"','"+FinalAudit+"','"+timestamp+"','1')"   ;
+          + "FailDrnktxt,RemHaptxt,NeedAlctxt,GuiltDrnktxt,InjureDrnktxt,FriendDrnktxt,FinalAudit,timestamp)"
+          + "VALUES('"+UniqueID+"','"+DrnkAlc+"','"+AlchHav+"','"+DrnkOcc+"','"+StpDrnk+"','"+FailDrnk+"','"+RemHap+"','"+NeedAlc+"','"+GuiltDrnk+"','"+InjureDrnk+"','"+FriendDrnk+"','"+DrnkAlctxt+"','"+AlcHavtxt+"','"+DrnkOcctxt+"','"+StpDrnktxt+"','"+FailDrnktxt+"','"+RemHaptxt+"','"+NeedAlctxt+"','"+GuiltDrnktxt+"','"+InjureDrnktxt+"','"+FriendDrnktxt+"','"+FinalAudit+"','"+timestamp+"')"   ;
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
   conn1.state2.executeUpdate(inserter);  
    audits++;
+ 
    
-   
+    String updatesync="update audit set syncstatus='1' WHERE UniqueID='"+UniqueID+"'AND DrnkAlc='"+DrnkAlc+"' AND AlchHav='"+AlchHav+"' AND DrnkOcc='"+DrnkOcc+"' AND StpDrnk='"+StpDrnk+"'"
+ + " AND FailDrnk='"+FailDrnk+"' AND RemHap='"+RemHap+"' AND NeedAlc='"+NeedAlc+"' AND GuiltDrnk='"+GuiltDrnk+"' AND InjureDrnk='"+InjureDrnk+"'"
+         + " AND FriendDrnk='"+FriendDrnk+"' AND DrnkAlctxt='"+DrnkAlctxt+"' AND AlchHavtxt='"+AlcHavtxt+"' AND DrnkOcctxt='"+DrnkOcctxt+"' AND "
+         + "StpDrnktxt='"+StpDrnktxt+"' AND FailDrnktxt='"+FailDrnktxt+"'AND RemHaptxt='"+RemHaptxt+"'AND NeedAlctxt='"+NeedAlctxt+"'AND GuiltDrnktxt='"+GuiltDrnktxt+"'"
+         + " AND InjureDrnktxt='"+InjureDrnktxt+"'AND FriendDrnktxt='"+FriendDrnktxt+"'AND FinalAudit='"+FinalAudit+"'";
+
+  conn.state7.executeUpdate(updatesync);
+  System.out.println(updatesync);
  }   
     
 }
@@ -258,25 +266,27 @@ while(conn.rs.next()){
 //         + "FirstName='"+FirstName+"',SecondName='"+SecondName+"',LastName='"+LastName+"',venueOther='"+venueOther+"',DicLearnOther='"+DicLearnOther+"',capturedhand='"+hand+"',fingerprint='"+biometric+"' where  AgeID='"+AgeID+"'"
 //         + " AND Religion='"+Religion+"' AND EducationLevel='"+EducationLevel+"'AND PhoneNo='"+PhoneNo+"' "
 //         + "AND MemberOfID='"+MemberOfID+"'";
- String inserter="UPDATE enrollment set ward='"+ward+"',capturedhand='"+hand+"',fingerprint='"+biometric+"' where  AgeID='"+AgeID+"'"
-         + " AND Religion='"+Religion+"' AND EducationLevel='"+EducationLevel+"'AND PhoneNo='"+PhoneNo+"' "
-         + "AND MemberOfID='"+MemberOfID+"' AND  UniqueID='"+UniqueIDs+"'";
-            
-          conn.state5.executeUpdate(inserter);
-//  System.out.println("Data already added");
-  System.out.println("_"+inserter+"\n");
+// String inserter="UPDATE enrollment set ward='"+ward+"',capturedhand='"+hand+"',fingerprint='"+biometric+"' where  AgeID='"+AgeID+"'"
+//         + " AND Religion='"+Religion+"' AND EducationLevel='"+EducationLevel+"'AND PhoneNo='"+PhoneNo+"' "
+//         + "AND MemberOfID='"+MemberOfID+"' AND  UniqueID='"+UniqueIDs+"'";
+//              String updatesync="update enrollment set syncstatus='1' where UniqueID='"+UniqueIDs+"'"; 
+//          conn.state5.executeUpdate(inserter);
+  System.out.println("Data already added");
+//  System.out.println("_"+inserter+"\n");
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO enrollment(UniqueID,ClientInit,DOE,District,DICName,Ward,DOB,Sex,Age,MaritalStatus,Children,ChildNo,Religion,EducationLevel,PhoneNo,Residence,OperationArea,Occupation,MemberOfID,DICLearn,Email,PhoneNo1,Venue,AgeID,FirstName,SecondName,LastName,venueOther,DicLearnOther,Pefar_year,capturedhand,fingerprint,syncstatus)"
+  String inserter="REPLACE INTO enrollment(UniqueID,ClientInit,DOE,District,DICName,Ward,DOB,Sex,Age,MaritalStatus,Children,ChildNo,Religion,EducationLevel,PhoneNo,Residence,OperationArea,Occupation,MemberOfID,DICLearn,Email,PhoneNo1,Venue,AgeID,FirstName,SecondName,LastName,venueOther,DicLearnOther,Pefar_year,capturedhand,fingerprint)"
           + "VALUES('"+UniqueIDs+"','"+ClientInit+"','"+DOE+"','"+District+"','"+DICName+"','"+ward+"','"+DOB+"','"+Sex+"','"+Age+"','"+MaritalStatus+"','"+Children+"','"+ChildNo+"','"+Religion+"','"+EducationLevel+"','"+PhoneNo+"','"+Residence+"','"+OperationArea+"',"
-          + "'"+Occupation+"','"+MemberOfID+"','"+DICLearn+"','"+Email+"','"+PhoneNo1+"','"+Venue+"','"+AgeID+"','"+FirstName+"','"+SecondName+"','"+LastName+"','"+venueOther+"','"+DicLearnOther+"','"+enrollpefar_year+"','"+hand+"','"+biometric+"','1')"   ;
+          + "'"+Occupation+"','"+MemberOfID+"','"+DICLearn+"','"+Email+"','"+PhoneNo1+"','"+Venue+"','"+AgeID+"','"+FirstName+"','"+SecondName+"','"+LastName+"','"+venueOther+"','"+DicLearnOther+"','"+enrollpefar_year+"','"+hand+"','"+biometric+"')"   ;
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
   conn1.state2.executeUpdate(inserter);  
   enrollments++;
-   
+  String updatesync="update enrollment set syncstatus='1' where UniqueID='"+UniqueIDs+"'"; 
+  conn.state7.executeUpdate(updatesync);
+  System.out.println(updatesync);
    
  }   
     
@@ -306,21 +316,23 @@ while(conn.rs2.next()){
 
   System.out.println(check_if_exist+"\n");
  
- //conn1.rs3=conn1.state1.executeQuery(check_if_exist);
+ conn1.rs3=conn1.state1.executeQuery(check_if_exist);
  if(conn1.rs3.next()==true){already_added=1; 
  
   System.out.println("Clerk Data already added");
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO childage(ChildID,UniqueID,AgeBrackets,NoChild,timestamp,syncstatus)"
-          + "VALUES('"+ChildID+"','"+UniqueID2+"','"+AgeBrackets+"','"+NoChild+"','"+timestamp2+"','1')";
+  String inserter="REPLACE INTO childage(ChildID,UniqueID,AgeBrackets,NoChild,timestamp)"
+          + "VALUES('"+ChildID+"','"+UniqueID2+"','"+AgeBrackets+"','"+NoChild+"','"+timestamp2+"')";
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
   //conn1.state4.executeUpdate(inserter);  
   childages++; 
-   
+  String updatesync="update childage set syncstatus='1' where ChildID='"+ChildID+"' AND UniqueID='"+UniqueID2+"' AND AgeBrackets='"+AgeBrackets+"' AND NoChild='"+ChildNo+"'";
+  conn.state7.executeUpdate(updatesync);
+  System.out.println(updatesync);  
    
  }   
     
@@ -362,15 +374,17 @@ while(conn.rs2.next()){
 // existingdata++;
  }
  else {
-  String inserter="INSERT INTO clientmember(MemberID,UniqueID,MemID,timestamp,syncstatus)"
-          + "VALUES('"+MemberID+"','"+UniqueID3+"','"+MemID+"','"+timestamp3+"','1')";
+  String inserter="INSERT INTO clientmember(MemberID,UniqueID,MemID,timestamp)"
+          + "VALUES('"+MemberID+"','"+UniqueID3+"','"+MemID+"','"+timestamp3+"')";
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
   conn1.state4.executeUpdate(inserter);  
    clientmembers++;
    
-   
+   String updatesync="update clientmember set syncstatus='1' where MemberID='"+MemberID+"' AND UniqueID='"+UniqueID3+"' AND MemID='"+MemID+"'";
+  conn.state7.executeUpdate(updatesync);
+  System.out.println(updatesync);
  }   
     
 }
@@ -409,8 +423,8 @@ while(conn.rs2.next()){
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO clientoccupation(CoccID,UniqueID,OccupationID,syncstatus)"
-          + "VALUES('"+CoccID+"','"+UniqueID4+"','"+OccupationID+"','1')";
+  String inserter="REPLACE INTO clientoccupation(CoccID,UniqueID,OccupationID)"
+          + "VALUES('"+CoccID+"','"+UniqueID4+"','"+OccupationID+"')";
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
@@ -418,6 +432,11 @@ while(conn.rs2.next()){
    
    
    clientoccupations++;
+   
+  String updatesync="update clientoccupation set syncstatus='1' WHERE CoccID='"+CoccID+"' AND UniqueID='"+UniqueID4+"' AND OccupationID='"+OccupationID+"'";
+  conn.state7.executeUpdate(updatesync);
+  System.out.println(updatesync);
+   
  }   
     
 }
@@ -425,8 +444,8 @@ while(conn.rs2.next()){
 //
 //
 ////start of client op area
-String clientoparea="SELECT * FROM clientoparea WHERE ID!=''";
-conn.rs2=conn.state3.executeQuery(clientoparea);
+String clientoparea="SELECT * FROM clientoparea WHERE ID!='' and syncstatus='0'";
+conn.rs2=conn.state5.executeQuery(clientoparea);
 while(conn.rs2.next()){
    
     
@@ -440,26 +459,29 @@ while(conn.rs2.next()){
          timestamp5=conn.rs2.getString(5);
       
        
- String check_if_exist="SELECT * FROM clientoparea WHERE COPID='"+COPID+"' AND UniqueID='"+UniqueID5+"' AND AreaOpID='"+AreaOpID+"' and syncstatus='0'";
+ String check_if_exist="SELECT * FROM clientoparea WHERE COPID='"+COPID+"' AND UniqueID='"+UniqueID5+"' AND AreaOpID='"+AreaOpID+"'";
 
   System.out.println(check_if_exist+"\n");
  
- conn1.rs3=conn1.state1.executeQuery(check_if_exist);
- if(conn1.rs3.next()==true){already_added=1; 
+ conn.rs3=conn.state1.executeQuery(check_if_exist);
+ if(conn.rs3.next()==true){
+     already_added=1; 
  
   System.out.println("Clerk Data already added");
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO clientoparea(COPID,UniqueID,AreaOpID,timestamp,syncstatus)"
-          + "VALUES('"+COPID+"','"+UniqueID5+"','"+AreaOpID+"','"+timestamp5+"','1')";
+  String inserter="REPLACE INTO clientoparea(COPID,UniqueID,AreaOpID,timestamp)"
+          + "VALUES('"+COPID+"','"+UniqueID5+"','"+AreaOpID+"','"+timestamp5+"')";
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
   conn1.state4.executeUpdate(inserter);  
    clientopareas++;
    
-   
+   String updatesync="update clientoparea set syncstatus='1' WHERE ID='"+ID3+"' and  COPID='"+COPID+"' ";
+  conn.state7.executeUpdate(updatesync);
+  System.out.println(updatesync); 
  }   
     
 }
@@ -522,7 +544,7 @@ while(conn.rs.next()){
          signature=conn.rs.getString(36); 
          timestamp6=conn.rs.getString(37); 
   
- String check_if_exist="SELECT * FROM medical_form WHERE unique_identifier='"+unique_identifier+"', temperature='"+temperature+"' AND temperature_complain='"+temperature_complain+"' AND blood_pressure='"+blood_pressure_complain+"' AND p='"+p+"'"
+ String check_if_exist="SELECT * FROM medical_form WHERE id='"+id+"' and unique_identifier='"+unique_identifier+"'and temperature='"+temperature+"' AND temperature_complain='"+temperature_complain+"' AND blood_pressure='"+blood_pressure_complain+"' AND p='"+p+"'"
  + " AND p_complain='"+p_complain+"' AND weight_complain='"+weightcomplain+"' AND ga='"+ga+"' AND ga_findings='"+ga_findings+"' AND skin='"+skin+"'"
          + " AND skin_findings='"+skin_findings+"' AND ent='"+ent+"' AND ent_findings='"+ent_findings+"' AND eyes='"+eyes+"' AND "
          + "eyes_findings='"+eyes_findings+"' AND abdomen='"+abdomen+"'AND abdomen_findings='"+abdomen_findings+"'AND genitourinary='"+genitourinary+"'AND genitourinary_findings='"+genitourinary_findings+"'"
@@ -542,19 +564,26 @@ while(conn.rs.next()){
           + ",weight_complain,ga,ga_findings,skin,skin_findings,ent,ent_findings,eyes,eyes_findings,"
           + "abdomen,abdomen_findings,genitourinary,genitourinary_findings," 
           +"musculoskeletal,musculoskeletal_findings,respiratory,respiratory_findings,psychological,psychological_findings,"
-          + "diagnosis,management,referral,specify_others,TCA,cadre,dater,signature,timestamp,syncstatus)"
+          + "diagnosis,management,referral,specify_others,TCA,cadre,dater,signature,timestamp)"
           + "VALUES('"+unique_identifier+"','"+temperature+"','"+temperature_complain+"','"+blood_pressure+"','"+blood_pressure_complain+"','"+p+"','"+p_complain+"','"+weight+"',"
           + "'"+weightcomplain+"','"+ga+"','"+ga_findings+"','"+skin+"','"+skin_findings+"','"+ent+"','"+ent_findings+"','"+eyes+"',"
           + "'"+eyes_findings+"','"+abdomen+"','"+abdomen_findings+"','"+genitourinary+"','"+genitourinary_findings+"','"+psychological+"','"+psychological_findings+"',"
           + "'"+musculoskeletal+"','"+musculoskeletal_findings+"','"+respiratory+"','"+respiratory_findings+"',"
           + "'"+diagnosis+"','"+management+"','"+referral+"','"+specify_others+"','"+TCA+"','"+cadre+"',"
-          + "'"+dater+"','"+signature+"','"+timestamp6+"','1')"   ;
+          + "'"+dater+"','"+signature+"','"+timestamp6+"')"   ;
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
   conn1.state2.executeUpdate(inserter);  
    
    medical_forms++;
+ 
+   
+     String updatesync="update medical_form set syncstatus='1' WHERE id='"+id+"' and unique_identifier='"+unique_identifier+"' ";
+ 
+
+  conn.state7.executeUpdate(updatesync);
+  System.out.println(updatesync); 
    
  }   
     
@@ -598,14 +627,19 @@ while(conn.rs2.next()){
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO riskreductiondetails(RiskReductionID,QID,currentStatus,Action,Appointments,syncstatus)"
-          + "VALUES('"+RiskReductionID+"','"+QID+"','"+currentStatus+"','"+Action+"','"+Appointments+"','0')";
+  String inserter="REPLACE INTO riskreductiondetails(RiskReductionID,QID,currentStatus,Action,Appointments)"
+          + "VALUES('"+RiskReductionID+"','"+QID+"','"+currentStatus+"','"+Action+"','"+Appointments+"')";
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
   conn1.state4.executeUpdate(inserter);  
+  
+   riskreductiondetails++;  
    
- riskreductiondetails++;  
+   
+    String updatesync="update riskreductiondetails set syncstatus='1' WHERE RiskAssessDetailID='"+RiskAssessDetailID+"' and RiskReductionID='"+RiskReductionID+"' AND QID='"+QID+"' AND currentStatus='"+currentStatus+"' AND Action='"+Action+"' AND Appointments='"+Appointments+"'";
+  conn.state7.executeUpdate(updatesync);
+  System.out.println(updatesync); 
    
  }   
     
@@ -622,6 +656,7 @@ while(conn.rs2.next()){
     already_added=0;
     ID2=CoccID=UniqueID4=OccupationID=timestamp4="";
     String Quarter,Month,Pefar_year="";
+         ID2=conn.rs2.getString(1);
          AssessID=conn.rs2.getString(2);
          AssessmentDate=conn.rs2.getString(3);
          UniqueID6=conn.rs2.getString(4);
@@ -643,8 +678,8 @@ while(conn.rs2.next()){
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO riskassessmentmain(AssessmentID,AssessmentDate,UniqueID,Quarter,Month,Pefar_year,entrydate,syncstatus)"
-          + "VALUES('"+AssessID+"','"+AssessmentDate+"','"+UniqueID6+"','"+Quarter+"','"+Month+"','"+Pefar_year+"','"+timestamp4+"','1')";
+  String inserter="REPLACE INTO riskassessmentmain(AssessmentID,AssessmentDate,UniqueID,Quarter,Month,Pefar_year,entrydate)"
+          + "VALUES('"+AssessID+"','"+AssessmentDate+"','"+UniqueID6+"','"+Quarter+"','"+Month+"','"+Pefar_year+"','"+timestamp4+"')";
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
@@ -652,6 +687,11 @@ while(conn.rs2.next()){
    
    
    riskassessmentmains++;
+   
+   
+   String updatesync="update riskassessmentmain set syncstatus='1' WHERE ID='"+ID2+"'and AssessmentID='"+AssessID+"'";
+  conn.state7.executeUpdate(updatesync);
+  System.out.println(updatesync); 
  }   
     
 }
@@ -687,8 +727,8 @@ while(conn.rs2.next()){
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,entrydate,qtr,year,syncstatus)"
-          + "VALUES('"+RiskRedID+"','"+DOA+"','"+CadreProvider+"','"+UniqueID7+"','"+timestamp+"','"+qtr+"','"+year+"','1')";
+  String inserter="REPLACE INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,entrydate,qtr,year)"
+          + "VALUES('"+RiskRedID+"','"+DOA+"','"+CadreProvider+"','"+UniqueID7+"','"+conn.rs2.getString("timestamp")+"','"+qtr+"','"+year+"')";
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
@@ -696,6 +736,10 @@ while(conn.rs2.next()){
    
    riskreductionmains++;
    
+   
+   String updatesync="update riskreductionmain set syncstatus='1' WHERE RiskReductionID='"+RiskRedID+"' AND DOA='"+DOA+"' AND CadreProvider='"+CadreProvider+"' ";
+  conn.state7.executeUpdate(updatesync);
+  System.out.println(updatesync); 
  }   
     
 }
@@ -731,8 +775,8 @@ while(conn.rs2.next()){
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO taskauditor(host_comp,action,time,username,timestamp,syncstatus)"
-          + "VALUES('"+hostcomp+"','"+action.replace("'", " ")+"','"+time+"','"+username+"','"+timestamp11+"','1')";
+  String inserter="REPLACE INTO taskauditor(host_comp,action,time,username,timestamp)"
+          + "VALUES('"+hostcomp+"','"+action.replace("'", " ")+"','"+time+"','"+username+"','"+timestamp11+"')";
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
@@ -740,6 +784,10 @@ while(conn.rs2.next()){
    
    taskauditors++;
    
+   
+    String updatesync="update taskauditor set syncstatus='1' WHERE host_comp='"+hostcomp+"' AND action='"+action.replace("'", " ")+"' AND time='"+time+"' AND username='"+username+"' AND timestamp='"+timestamp11+"'";
+  conn.state7.executeUpdate(updatesync);
+  System.out.println(updatesync);
  }   
     
 }
@@ -778,8 +826,8 @@ while(conn.rs2.next()){
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO user(Name,Username,Password,PhoneNo,Email,Location,AccessLevel,timestamp,syncstatus)"
-          + "VALUES('"+Name+"','"+Username+"','"+Password+"','"+PhoneNos+"','"+Email+"','"+Location+"','"+AccessLevel+"','"+timestamp11+"','1')";
+  String inserter="REPLACE INTO user(Name,Username,Password,PhoneNo,Email,Location,AccessLevel,timestamp)"
+          + "VALUES('"+Name+"','"+Username+"','"+Password+"','"+PhoneNos+"','"+Email+"','"+Location+"','"+AccessLevel+"','"+timestamp12+"')";
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
@@ -787,6 +835,11 @@ while(conn.rs2.next()){
    
    
    users++;
+   
+   
+    String updatesync="update user set syncstatus='1' WHERE Name='"+Name+"' AND Username='"+Username+"' AND Password='"+Password+"' AND PhoneNo='"+PhoneNos+"' AND Email='"+Email+"'";
+  conn.state7.executeUpdate(updatesync);
+  System.out.println(updatesync);
  }   
     
 }
@@ -796,7 +849,7 @@ while(conn.rs2.next()){
 //
 //
 
-String riskassessdets="SELECT * FROM riskassessmentdetails WHERE RiskAssessDetailID!='' and syncstatus='0'";
+String riskassessdets="SELECT * FROM riskassessmentdetails WHERE RiskAssessDetailID!='' and syncstatus=0";
 conn.rs2=conn.state3.executeQuery(riskassessdets);
 while(conn.rs2.next()){
    
@@ -824,14 +877,19 @@ while(conn.rs2.next()){
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO riskassessmentdetails(AssessmentID,QuestionID,DirectAnswers,CodedAnswers,entrydate,syncstatus)"
-          + "VALUES('"+AssessmentID+"','"+QuestionsID+"','"+DirectAnswers+"','"+CodedAnswers+"','"+timestamp4+"','1')";
+  String inserter="REPLACE INTO riskassessmentdetails(AssessmentID,QuestionID,DirectAnswers,CodedAnswers,entrydate)"
+          + "VALUES('"+AssessmentID+"','"+QuestionsID+"','"+DirectAnswers+"','"+CodedAnswers+"','"+timestamp4+"')";
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
   conn1.state4.executeUpdate(inserter);  
    
    riskassessmentdetail++;
+   
+   
+     String updatesync="update riskassessmentdetails set syncstatus='1'  WHERE RiskAssessDetailID='"+RiskAssessDetailID+"'and  AssessmentID='"+AssessmentID+"' AND QuestionID='"+QuestionsID+"' AND DirectAnswers='"+DirectAnswers+"'";
+  conn.state7.executeUpdate(updatesync);
+  System.out.println(updatesync);
    
  }   
     

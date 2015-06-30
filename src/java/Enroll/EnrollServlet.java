@@ -4,6 +4,8 @@
  */
 package Enroll;
 
+import dbConnect.AES;
+import dbConnect.Destest;
 import dbConnect.dbConnect;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -360,13 +362,68 @@ String queryMember="INSERT INTO clientmember(MemberID,UniqueID,MemID,syncstatus)
  conn.state.executeUpdate(queryMember);}
 }
 System.out.println(UniqueID);
+                     String firstname = fname;
+                     String secondname = mname;
+                     String lastname = lname;
+                     String phoneno = PhoneNo;
+                     String fingerprints = fingerprint;
+                    
+                  
+                    String first="";
+                  
+                    if(firstname!=null && !firstname.trim().equals("") && !firstname.equals("null")){
+                       Destest.encrypt (firstname.trim());
+                        System.out.println("Encrypted______________________: " + firstname);
+                   
+                    System.out.println("Encrypted:____________________ " + Destest.getEncryptedString());
+                      first= Destest.getEncryptedString();
+            }
+                    
+                    //middle name encrypt
+                      String midname="";
+                     if(mname!=null && !mname.trim().equals("") && !mname.equals("null")){
+                     Destest.encrypt (mname.trim());
+                        System.out.println("Encrypted______________________: " + mname);
+                   
+                    System.out.println("Encrypted:____________________ " + Destest.getEncryptedString());
+                      midname=Destest.getEncryptedString();
+                     }
+                     //last name encrypt
+                     String lasname="";
+                      if(lname!=null && !lname.trim().equals("") && !lname.equals("null")){
+                     Destest.encrypt (lname.trim());
+                        System.out.println("Encrypted______________________: " + lname);
+                   
+                    System.out.println("Encrypted:____________________ " + Destest.getEncryptedString());
+                      lasname= Destest.getEncryptedString();
+                      }
+                      String phone="";
+                     if(phoneno!=null && !phoneno.trim().equals("") && !phoneno.equals("null")){
+                     Destest.encrypt (phoneno.trim());
+                      System.out.println("String to Encrypt:_______****(**** " + phoneno); 
+                    System.out.println("Encrypted:________******** " + Destest.getEncryptedString());
+                    
+                     phone= Destest.getEncryptedString();
+                     } 
+                     String biofing="";
+                     if(fingerprints!=null && !fingerprints.trim().equals("") && !fingerprints.equals("null")){
+                    
+                    
+                      Destest.encrypt (fingerprints.trim());
+                    System.out.println("String to Encrypt:_______+++++++ " + fingerprints); 
+                   System.out.println("Encrypted:_______+++++++ " + Destest.getEncryptedString());
+                    biofing=Destest.getEncryptedString();
+                     }
+                     else{
+                     biofing="";}
+//    System.out.println(fname+"     encrypted   "+pw+" decrypted"+decrypted);
 
 if(UniqueID != null && ClientInit!= null && DOE!=null && District!=null && DOB!= null && DICName!=null ){
 query = "INSERT INTO enrollment (UniqueID,ClientInit,DOE,District,DOB,DICName,Ward,Sex,Age,MaritalStatus,Children,ChildNo,Religion,"
      + "EducationLevel,PhoneNo,Residence,OperationArea,Occupation,MemberOfID,DICLearn,DICLearnOther,Email,PhoneNo1,Venue,AgeID,FirstName,SecondName,LastName,VenueOther,Pefar_year,capturedhand,fingerprint,syncstatus)"
 + " VALUES ('"+UniqueID+"','"+ClientInit+"','"+DOE+"','"+Districts+"','"+DOB+"','"+DICName+"','"+ward+"','"+Sex+"','"+Age+"','"+MaritalStatus+"','"+Children+"','"+ChildNo+"',"
-     + "'"+Religion+"','"+EducationLevel+"','"+PhoneNo+"','"+Residence+"','"+OperationAreaID+"','"+OccupationID+"','"+MemberOfID+"','"+DICLearn+"','"+DICLearn1+"'"
-        + ",'"+Email+"','"+PhoneNo1+"','"+Venue+"','"+ChildID+"','"+fname+"','"+mname+"','"+lname+"','"+venueother+"','"+yearly+"','"+capturedhand+"','"+fingerprint+"','0')";
+     + "'"+Religion+"','"+EducationLevel+"','"+phone+"','"+Residence+"','"+OperationAreaID+"','"+OccupationID+"','"+MemberOfID+"','"+DICLearn+"','"+DICLearn1+"'"
+        + ",'"+Email+"','"+PhoneNo1+"','"+Venue+"','"+ChildID+"','"+first+"','"+midname+"','"+lasname+"','"+venueother+"','"+yearly+"','"+capturedhand+"','"+biofing+"','0')";
 }
                    
           System.out.println("dic    "+query);               

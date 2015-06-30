@@ -38,35 +38,24 @@ public class checkbackup extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
         /**  Get the last backed up timestamp   */
-      
-          
-         String getbackup=" select max(timestamp) from timestamp where datasend like 'no'";  
+        int days=0;
+          int noofassess=0; 
+          int noofenrollments=0; 
+     
+         String getbackup=" select count(uniqueid) from enrollment where syncstatus='0'";  
             
          dbConnect conn= new dbConnect();   
             try {
-                String lasttimebackuptime="";
+            
                 conn.rs= conn.state.executeQuery(getbackup);
-                while(conn.rs.next()){
-                lasttimebackuptime=conn.rs.getString(1);
-                
+                if(conn.rs.next()==true){
+                noofenrollments=conn.rs.getInt(1);
+                 
                 } 
                
                 
-                // Now get todays date
-                
-                //convert date to the same format as that of the timestamp table               
-            Format formatter = new SimpleDateFormat("yyyy-MM-dd");
-            String mdate;
-
-            Date mydate = new Date();
-            mdate = formatter.format(mydate);
+                String is20recordsunsaved="SELECT COUNT(UniqueID) FROM riskassessmentmain WHERE syncstatus='0' ";  
             
-          //now count if there are around 20 unsaved records
-            //check also if 5 days have passed since you lastly created a backup
-            
-            //String is20recordsunsaved=" select count(*) as records from member_details where timestamp >= '"+lasttimebackuptime+"'";
-            String is20recordsunsaved="SELECT COUNT(uniqueid) FROM enrollment WHERE STR_TO_DATE(timestamp,'%Y-%m-%d') >=  STR_TO_DATE('"+lasttimebackuptime+"','%Y-%m-%d') ";  
-            //String is20recordsunsaved="SELECT COUNT(activityID) FROM indicatoractivities1 WHERE 
             System.out.println(is20recordsunsaved);
             
             conn.rs1=conn.state1.executeQuery(is20recordsunsaved);
@@ -74,35 +63,19 @@ public class checkbackup extends HttpServlet {
             if(conn.rs1.next()){
             
             //count the number of records reached 
-                int recordi=conn.rs1.getInt(1);
-                //if recodi is more than 20, 
-                
-                //if rekodi >= 20 and date diff is more than one week
-                
-                String sikungapi="select datediff('"+mdate+"','"+lasttimebackuptime+"')";
-                
-                System.out.println(sikungapi);
-                
-                conn.rs2=conn.state3.executeQuery(sikungapi);
-                
-                int days=0;
-                
-                if(conn.rs2.next()){
-                
-                //
-                    days=conn.rs2.getInt(1);
-                  
-                    if(days>=5&&recordi>=20){
-                    //msg="<font color='green'><h3>Note: </font> <font color='orange'>You have not backed your data for <b>"+days+"</b> days.</font><br/> <font color='green'>Kindly Log into the system,<br/> On the systems menu,point <br/> >> Data........................... <br/> >>Send Backup to M&E Officer <br/>>> Send Backup.................. </h3></font>";
-                     
-                 msg="<h3>Note: You have not backed up your data for <b>"+days+"</b> days.<br/> Kindly Log into the system,<br/> On the systems menu,point <br/> >> Backup <br/> >> Click Backup Data <br/> </h3><h4> Click here to close the alert</h4> ";
-                  // msg="<h3>Note: You have not backed your data for <b>"+days+"</b> days.<br/> <font color='green'>Kindly Log into the system,<br/> On the systems menu,point <br/> >> Data........................... <br/> >>Send Backup to M&E Officer <br/>>> Send Backup.................. </font></h3>";
-                //    msg="not backed up";
-                    }
-                    
+                 noofassess=conn.rs1.getInt(1);
+               
                 
                 }
-                
+            
+            System.out.println(noofassess+" bbb  "+noofenrollments);
+              if((noofassess>=5)||(noofenrollments>=5)){
+                    //msg="<font color='green'><h3>Note: </font> <font color='orange'>You have not backed your data for <b>"+days+"</b> days.</font><br/> <font color='green'>Kindly Log into the system,<br/> On the systems menu,point <br/> >> Data........................... <br/> >>Send Backup to M&E Officer <br/>>> Send Backup.................. </h3></font>";
+                     
+                 msg="<div><h3>Note: You have not connected your computer to the internet for data syncing to occur <br/> Kindly connect to the internet and Log into the system for data syncing to occur</h3><h4> Click here to close the alert</h4></div> ";
+                  // msg="<h3>Note: You have not backed your data for <b>"+days+"</b> days.<br/> <font color='green'>Kindly Log into the system,<br/> On the systems menu,point <br/> >> Data........................... <br/> >>Send Backup to M&E Officer <br/>>> Send Backup.................. </font></h3>";
+                //    msg="not backed up";
+                   System.out.println(msg);  
             
             }
                 

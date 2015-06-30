@@ -47,7 +47,9 @@
                     url:"checkbackup",
                     type:'post',
                     dataType:'html',
-                    success:function (data){}
+                    success:function (data){
+//                        alert("enterd");
+                    }
                         
                             
                                     
@@ -76,13 +78,29 @@
     <body>
   
 <div class="example">
-         
+     
     
-      <div><h1 style="text-align: center"><img src="images/aphia_logo.png" height="70" width="200"/></h1></div>   
+      <div><h1 style="text-align: center"><img src="images/aphia_logo.png" height="70" width="200"/>
+          </h1></div>   
     
     
     
     <div id="container">
+        
+            <%
+ 
+                            if ( session.getAttribute("backupsms") != null)  { %>
+                                <script type="text/javascript"> 
+                                
+                    var n = noty({text: '<%=session.getAttribute("backupsms")%>',
+                                        layout: 'center',
+                                        type: 'Success'
+                                    });
+                    
+                </script> <%
+                
+                session.removeAttribute("backupsms");
+                            }%>  
       <form name=login id="login" method="post"  action="LoginServlet">
                         <h2>Login:</h2>
                         <%
@@ -99,11 +117,13 @@
                 
                 session.removeAttribute("login");
                             }%>
-                     
+                      
                        
                               <table >
                                   <tr class="d0"><td >Username</td><td><input type="text" name="Username" value=""></td></tr>  
                                   <tr class="d1"><td >Password</td><td><input type="password" name="Password" value=""></td></tr>  
+                                 
+                                  
                                   <tr><td><input type="submit" name="Login" value="Login"></td></tr>  
                                
                               </table>
@@ -136,6 +156,11 @@ var versionText="",daysRemaining,warningText="",sentOn="",version_name="";
       setInterval(function(){ checkVersion(); }, 60000);          
         }
                         else{
+                            
+                            
+                      if(data.contains("outdated version")){
+                          $("#container").hide();   
+                      }
 $("#versionChecker").html(data);
                         }
   }  

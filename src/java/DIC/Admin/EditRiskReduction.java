@@ -292,7 +292,7 @@ String Ans28_2="";
     
    String inserter="";
     if(AssessmentID!=null && !AssessmentID.equals("")){
-     query="UPDATE riskreductionmain SET DOA='"+DOA+"',CadreProvider='"+Ans+"' where RiskReductionID=?";
+     query="UPDATE riskreductionmain SET DOA='"+DOA+"',CadreProvider='"+Ans+"',syncstatus=0  where RiskReductionID=?";
 //    inserter = "insert into taskauditor set host_comp='" + computername + "' ,time='" + formattedDate + "',username='" + session.getAttribute("Username") + "', action=Performed Risk Reduction Update on a Sex Worker from the Risk Reduction Form whose UniqueID is "+session.getAttribute("UniqueID");
     
      

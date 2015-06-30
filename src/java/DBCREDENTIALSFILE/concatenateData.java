@@ -55,7 +55,7 @@ public class concatenateData extends HttpServlet {
         int existingdata=0;
       
         session=request.getSession();
-        
+        System.out.println("entered  *******");
         
 dbConnectTemp conn = new dbConnectTemp();
 dbConnect conn1 = new dbConnect();
@@ -63,7 +63,7 @@ dbConnect conn1 = new dbConnect();
 System.out.println("Merging Data");
 
 //read data from the new database-indicatoractivities1 
-String selector="SELECT * FROM audit WHERE AuditID!='' and syncstatus='0'";
+String selector="SELECT * FROM audit WHERE AuditID!=''";
 conn.rs=conn.state.executeQuery(selector);
 while(conn.rs.next()){
    
@@ -200,9 +200,9 @@ while(conn.rs.next()){
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO enrollment(UniqueID,ClientInit,DOE,District,DICName,Ward,DOB,Sex,Age,MaritalStatus,Children,ChildNo,Religion,EducationLevel,PhoneNo,Residence,OperationArea,Occupation,MemberOfID,DICLearn,Email,PhoneNo1,Venue,AgeID,FirstName,SecondName,LastName,venueOther,DicLearnOther,Pefar_year,capturedhand,fingerprint,syncstatus)"
+  String inserter="REPLACE INTO enrollment(UniqueID,ClientInit,DOE,District,DICName,Ward,DOB,Sex,Age,MaritalStatus,Children,ChildNo,Religion,EducationLevel,PhoneNo,Residence,OperationArea,Occupation,MemberOfID,DICLearn,Email,PhoneNo1,Venue,AgeID,FirstName,SecondName,LastName,venueOther,DicLearnOther,Pefar_year,capturedhand,fingerprint)"
           + "VALUES('"+UniqueIDs+"','"+ClientInit+"','"+DOE+"','"+District+"','"+DICName+"','"+ward+"','"+DOB+"','"+Sex+"','"+Age+"','"+MaritalStatus+"','"+Children+"','"+ChildNo+"','"+Religion+"','"+EducationLevel+"','"+PhoneNo+"','"+Residence+"','"+OperationArea+"',"
-          + "'"+Occupation+"','"+MemberOfID+"','"+DICLearn+"','"+Email+"','"+PhoneNo1+"','"+Venue+"','"+AgeID+"','"+FirstName+"','"+SecondName+"','"+LastName+"','"+venueOther+"','"+DicLearnOther+"','"+enrollpefar_year+"','"+hand+"','"+biometric+"','1')"   ;
+          + "'"+Occupation+"','"+MemberOfID+"','"+DICLearn+"','"+Email+"','"+PhoneNo1+"','"+Venue+"','"+AgeID+"','"+FirstName+"','"+SecondName+"','"+LastName+"','"+venueOther+"','"+DicLearnOther+"','"+enrollpefar_year+"','"+hand+"','"+biometric+"')"   ;
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
@@ -454,7 +454,7 @@ while(conn.rs.next()){
          signature=conn.rs.getString(36); 
          timestamp6=conn.rs.getString(37); 
   
- String check_if_exist="SELECT * FROM medical_form WHERE unique_identifier='"+unique_identifier+"', temperature='"+temperature+"' AND temperature_complain='"+temperature_complain+"' AND blood_pressure='"+blood_pressure_complain+"' AND p='"+p+"'"
+ String check_if_exist="SELECT * FROM medical_form WHERE unique_identifier='"+unique_identifier+"' AND temperature='"+temperature+"' AND temperature_complain='"+temperature_complain+"' AND blood_pressure='"+blood_pressure_complain+"' AND p='"+p+"'"
  + " AND p_complain='"+p_complain+"' AND weight_complain='"+weightcomplain+"' AND ga='"+ga+"' AND ga_findings='"+ga_findings+"' AND skin='"+skin+"'"
          + " AND skin_findings='"+skin_findings+"' AND ent='"+ent+"' AND ent_findings='"+ent_findings+"' AND eyes='"+eyes+"' AND "
          + "eyes_findings='"+eyes_findings+"' AND abdomen='"+abdomen+"'AND abdomen_findings='"+abdomen_findings+"'AND genitourinary='"+genitourinary+"'AND genitourinary_findings='"+genitourinary_findings+"'"

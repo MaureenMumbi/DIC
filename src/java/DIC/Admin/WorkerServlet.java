@@ -5,6 +5,7 @@
 package DIC.Admin;
 
 import Reports.Enrollment_count_report;
+import dbConnect.AES;
 import dbConnect.dbConnect;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,7 +33,9 @@ public class WorkerServlet extends HttpServlet {
                String UniqueID=request.getParameter("UniqueID");
                System.out.println("aaaaaaa"+UniqueID);
              // int no=Integer.parseInt(ProductID);
-               
+                 String FirstName = "";
+                 String Lastname = "";
+                 String SecondName = "";
                dbConnect conn = new dbConnect();
      		try {
 			ArrayList userList=null;
@@ -72,9 +75,34 @@ public class WorkerServlet extends HttpServlet {
 				  userList.add(conn.rs.getString(24));
                                   userList.add(conn.rs.getString(28));
 				  userList.add(conn.rs.getString(29));
-				  userList.add(conn.rs.getString("FirstName"));
-				  userList.add(conn.rs.getString("SecondName"));
-				  userList.add(conn.rs.getString("LastName"));
+                                  
+                                       final String strPssword = "encryptor key";
+                       AES.setKey(strPssword);
+                                  
+                                                       if(conn.rs.getString("FirstName")!=null && !conn.rs.getString("FirstName").trim().equals("") && !conn.rs.getString("FirstName").equals("null")){
+                                       FirstName =    conn.rs.getString("FirstName");
+                                        AES.decrypt(FirstName.trim());
+                                       System.out.println("String To Decrypt : " + FirstName);
+                                       System.out.println("Decrypted : " + AES.getDecryptedString());}
+                                       
+                          if(conn.rs.getString("SecondName")!=null && !conn.rs.getString("SecondName").trim().equals("") && !conn.rs.getString("SecondName").equals("null")){               
+//                        
+                    AES.decrypt(conn.rs.getString("SecondName").trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString("SecondName"));
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                    SecondName=AES.getDecryptedString();
+                          }
+                      if(conn.rs.getString("LastName")!=null && !conn.rs.getString("LastName").trim().equals("") && !conn.rs.getString("LastName").equals("null")){
+//                      Lastname =  conn.rs.getString("LastName");
+                    AES.decrypt(Lastname.trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString("LastName"));
+                     Lastname=AES.getDecryptedString();
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                    
+                      }
+				  userList.add(FirstName);
+				  userList.add(SecondName);
+				  userList.add(Lastname);
 				  userList.add(conn.rs.getString("EnrollID"));
 				 
 				  System.out.println(userList);
@@ -83,7 +111,10 @@ public class WorkerServlet extends HttpServlet {
 
 				request.setAttribute("userList",userList);
 				
-                  String nextJSP = "/admin/editWorkers.jsp";
+////                  String nextJSP = ;
+//				response.sendRedirect("admin/editWorkers.jsp");
+                                
+                                   String nextJSP = "/admin/editWorkers.jsp";
 				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
 				dispatcher.forward(request,response);
 				conn.connect.close();

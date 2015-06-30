@@ -513,26 +513,27 @@ String Ans28_2="";
     if(AssessmentID!=null && !AssessmentID.equals(""))
     {
       
-        query="INSERT INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,qtr,year)"
-            + "VALUES(?,?,?,?,?,?)";
+        query="INSERT INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,qtr,year,syncstatus)"
+            + "VALUES(?,?,?,?,?,?,?)";
             conn.ps = conn.connect.prepareStatement(query);
             conn.ps.setString(1,AssessmentID);
             conn.ps.setString(2,DOA);
             conn.ps.setString(3,Ans);
             conn.ps.setString(4,UniqueID);
-                conn.ps.setString(5,insert_quarter);
+            conn.ps.setString(5,insert_quarter);
             //Changing the year to be entered into string
             String insert_year1=Integer.toString(insert_year);
             conn.ps.setString(6,insert_year1);
+            conn.ps.setString(7,"0");
             conn.ps.executeUpdate(); 
  
-inserter="insert into taskauditor set host_comp=?, action=?,time=?,username=?";                     
+inserter="insert into taskauditor set host_comp=?, action=?,time=?,username=?,syncstatus=?";                     
 conn.ps1 = conn.connect.prepareStatement(inserter);
 conn.ps1.setString(1,computername+""+ip);
 conn.ps1.setString(2,"Perfomed a Risk Reduction on a Sex Worker whose UniqueID="+UniqueID+"" );
 conn.ps1.setString(3,formattedDate);
 conn.ps1.setString(4,(session.getAttribute("Username")).toString());
-
+conn.ps1.setString(5,"0");
 conn.ps1.executeUpdate();          
                        
     
@@ -542,15 +543,15 @@ conn.ps1.executeUpdate();
  for(int a=0;a<que.length;a++){
                     String querys1="";
                       if(AssessmentID != null && !AssessmentID.equals("")){
-querys1= "INSERT INTO riskreductiondetails(RiskReductionID,QID,currentStatus,Action,Appointments) "
-                                + "Values(?,?,?,UPPER(?),?)";
+querys1= "INSERT INTO riskreductiondetails(RiskReductionID,QID,currentStatus,Action,Appointments,syncstatus) "
+                                + "Values(?,?,?,UPPER(?),?,?)";
                         conn.ps2 = conn.connect.prepareStatement(querys1);
                         conn.ps2.setString(1,AssessmentID);
                         conn.ps2.setString(2,que[a] );
                         conn.ps2.setString(3,status[a]);
                         conn.ps2.setString(4,action[a]);
                         conn.ps2.setString(5,"");
-                       
+                        conn.ps2.setString(6,"0");
                         conn.ps2.executeUpdate(); 
  
                       }
@@ -562,8 +563,8 @@ querys1= "INSERT INTO riskreductiondetails(RiskReductionID,QID,currentStatus,Act
 for(int b=0;b<Qdates.length;b++){
                   String querys="";
                         if(AssessmentID != null && !AssessmentID.equals("")){
-                         querys ="INSERT INTO riskreductiondetails(RiskReductionID,QID,currentStatus,Action,Appointments) "
-                                + "Values(?,?,?,UPPER(?),?)";
+                         querys ="INSERT INTO riskreductiondetails(RiskReductionID,QID,currentStatus,Action,Appointments,syncstatus) "
+                                + "Values(?,?,?,UPPER(?),?,?)";
                        
                         conn.ps3 = conn.connect.prepareStatement(querys);
                         conn.ps3.setString(1,AssessmentID);
@@ -571,7 +572,7 @@ for(int b=0;b<Qdates.length;b++){
                         conn.ps3.setString(3,"");
                         conn.ps3.setString(4,datesAction[b]);
                         conn.ps3.setString(5,dates[b]);
-
+                        conn.ps3.setString(6,"0");
                         conn.ps3.executeUpdate(); 
   
  

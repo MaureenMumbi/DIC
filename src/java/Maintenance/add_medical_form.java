@@ -100,7 +100,7 @@ String diagnosis,management,referral,specify_others,TCA,cadre,dater,signature;
                 + "musculoskeletal_findings='"+musculoskeletal_findings+"',respiratory='"+respiratory+"',respiratory_findings='"+respiratory_findings+"',"
                 + "psychological='"+psychological+"',psychological_findings='"+psychological_findings+"',diagnosis='"+diagnosis+"',"
                 + "management='"+management+"',referral='"+referral+"',specify_others='"+specify_others+"',TCA='"+TCA+"',"
-                + "cadre='"+cadre+"',dater='"+dater+"',signature='"+signature+"'";
+                + "cadre='"+cadre+"',dater='"+dater+"',signature='"+signature+"',syncstatus='0'";
  nums=conn.state.executeUpdate(medical_form_adder);
        System.out.println(medical_form_adder);
 //        }

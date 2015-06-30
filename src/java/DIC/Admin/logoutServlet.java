@@ -50,52 +50,52 @@ System.out.println("Computer name "+computername);
             
         }
             }
-        response.sendRedirect("../DIC/Login.jsp");
+        response.sendRedirect("../DIC/index.jsp");
         
         
-                     //Goes to RiskReductionMain to check date
-    String check_date = "SELECT * FROM riskreductionmain";
-    conn.rs1=conn.state.executeQuery(check_date);
-    while(conn.rs1.next()){
-    month = conn.rs1.getString(3);
-    System.out.println("picked date    :   "+month);
-    String assessment_id = conn.rs1.getString(2);
-    String mnth[]=month.split("/");
-    if(mnth.length>=3){
-    String retval=mnth[1];
-    int retval1=Integer.parseInt(mnth[2]);
-
-    
-    
-     System.out.println("Month is    "+retval);
-     //Comparing the monthly dates
-     if (retval.equals("10") || retval.equals("11") || retval.equals("12")){
-         insert_month = "Q1";
-        
-     }
-     if (retval.equals("01")||retval.equals("1") || retval.equals("02")|| retval.equals("2") || retval.contains("03")){
-         insert_month = "Q2";
-     }
-     if (retval.contains("4") || retval.contains("5") || retval.contains("6")){
-         insert_month = "Q3";
-     }
-     if (retval.contains("7") || retval.contains("8") || retval.contains("9")){
-         insert_month = "Q4";
-     }
-//     String insert_quarter = "UPDATE riskreductionmain SET qtr ='"+insert_month+"',year='"+retval1+"' WHERE RiskReductionID ='"+assessment_id+"' ";
-//     System.out.println(insert_quarter);
-//     conn.state2.executeUpdate(insert_quarter);
-     System.out.println("assesmnent id is    :" +assessment_id);
-     System.out.println("inserted quarter:" +insert_month);
-        
-
-
-    }  }
-    addyear();  
-   checkdate();
-   checkmonth();
-   checkyear();
-      
+//                     //Goes to RiskReductionMain to check date
+//    String check_date = "SELECT * FROM riskreductionmain";
+//    conn.rs1=conn.state.executeQuery(check_date);
+//    while(conn.rs1.next()){
+//    month = conn.rs1.getString(3);
+//    System.out.println("picked date    :   "+month);
+//    String assessment_id = conn.rs1.getString(2);
+//    String mnth[]=month.split("/");
+//    if(mnth.length>=3){
+//    String retval=mnth[1];
+//    int retval1=Integer.parseInt(mnth[2]);
+//
+//    
+//    
+//     System.out.println("Month is    "+retval);
+//     //Comparing the monthly dates
+//     if (retval.equals("10") || retval.equals("11") || retval.equals("12")){
+//         insert_month = "Q1";
+//        
+//     }
+//     if (retval.equals("01")||retval.equals("1") || retval.equals("02")|| retval.equals("2") || retval.contains("03")){
+//         insert_month = "Q2";
+//     }
+//     if (retval.contains("4") || retval.contains("5") || retval.contains("6")){
+//         insert_month = "Q3";
+//     }
+//     if (retval.contains("7") || retval.contains("8") || retval.contains("9")){
+//         insert_month = "Q4";
+//     }
+////     String insert_quarter = "UPDATE riskreductionmain SET qtr ='"+insert_month+"',year='"+retval1+"' WHERE RiskReductionID ='"+assessment_id+"' ";
+////     System.out.println(insert_quarter);
+////     conn.state2.executeUpdate(insert_quarter);
+//     System.out.println("assesmnent id is    :" +assessment_id);
+//     System.out.println("inserted quarter:" +insert_month);
+//        
+//
+//
+//    }  }
+//    addyear();  
+//   checkdate();
+//   checkmonth();
+//   checkyear();
+//      
     }
 
     

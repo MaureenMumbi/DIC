@@ -229,7 +229,7 @@ session = request.getSession(true);
                     
                         
                         if(AssessmentID!=null){
-                        String query ="UPDATE riskassessmentdetails SET DirectAnswers='"+ans[a]+"',CodedAnswers=1 WHERE  QuestionID='"+que[a]+"' AND AssessmentID ="+AssessmentID;
+                        String query ="UPDATE riskassessmentdetails SET DirectAnswers='"+ans[a]+"',CodedAnswers=1,syncstatus=0 WHERE  QuestionID='"+que[a]+"' AND AssessmentID ="+AssessmentID;
                           conn.state.executeUpdate(query);
                    
 //                     System.out.println("query    "+query);

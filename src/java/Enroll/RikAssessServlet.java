@@ -484,7 +484,7 @@ session = request.getSession(true);
     String query="";
     String inserter="";
     if(AssessmentID!=null&& UniqueID!=null){
-   query="INSERT INTO riskassessmentmain(AssessmentID,AssessmentDate,UniqueID,Quarter,Month,Pefar_year)VALUE(?,?,?,?,?,?)";
+   query="INSERT INTO riskassessmentmain(AssessmentID,AssessmentDate,UniqueID,Quarter,Month,Pefar_year,syncstatus)VALUE(?,?,?,?,?,?,?)";
    conn.ps = conn.connect.prepareStatement(query);
             conn.ps.setString(1,AssessmentID);
             conn.ps.setString(2,Ans1);
@@ -494,17 +494,19 @@ session = request.getSession(true);
             //Changing the year to be entered into string
             String insert_year1=Integer.toString(insert_year);
             conn.ps.setString(6,insert_year1);
+            conn.ps.setString(7,"0");
             conn.ps.executeUpdate(); 
    
    System.out.println(query);
    
-     inserter = "insert into taskauditor set host_comp=?,action=?,time=?,username=?";
+     inserter = "insert into taskauditor set host_comp=?,action=?,time=?,username=?,syncstatus=?";
     
             conn.ps1 = conn.connect.prepareStatement(inserter);
             conn.ps1.setString(1,computername);
             conn.ps1.setString(2,"Performed Risk Assessment on a Sex Worker  whose UniqueID is "+UniqueID+" from the Risk Assessment form");
             conn.ps1.setString(3,formattedDate);
             conn.ps1.setString(4, session.getAttribute("Username").toString());
+            conn.ps1.setString(5,"0");
             conn.ps1.executeUpdate(); 
     
     
@@ -519,13 +521,14 @@ session = request.getSession(true);
 
                         
                         if(AssessmentID!=null & !AssessmentID.equals("")){
-                        String query2 ="INSERT INTO riskassessmentdetails(AssessmentID,QuestionID,DirectAnswers,CodedAnswers) "
-                                + "Values(?,?,UPPER(?),?)";
+                        String query2 ="INSERT INTO riskassessmentdetails(AssessmentID,QuestionID,DirectAnswers,CodedAnswers,syncstatus) "
+                                + "Values(?,?,UPPER(?),?,?)";
                    conn.ps2 = conn.connect.prepareStatement(query2);
                     conn.ps2.setString(1,AssessmentID);
                     conn.ps2.setString(2,que[a]);
                     conn.ps2.setString(3,ans[a]);
-                    conn.ps2.setString(4,"1");
+                    conn.ps2.setString(4,"0");
+                    conn.ps2.setString(5,"0");
                    
                     conn.ps2.executeUpdate(); 
                     

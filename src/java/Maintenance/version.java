@@ -69,7 +69,7 @@ boolean isConnected;
                daysRemaining=maxDays-days;
                status="warning@@"+daysRemaining+"@@"+versionDate+"@@"+version_name;
                
-               status=" <p style='color:yellow'>A new version of DIC system has been detected,Please <a href='"+url+"' target='_blank'>Click here to download updates.</a><img src='images/new_arrow2.gif' style='width: 40px; height:40px;'/></p>\";" +
+               status="<p style='color:yellow'>A new version of DIC system has been detected,Please <a href='"+url+"' target='_blank'>Click here to download updates.</a><img src='images/new_arrow2.gif' style='width: 40px; height:40px;'/></p>" +
              "<p title=\"Latest Version is "+version_name+" and its updates were sent on "+versionDate+"\">Your have <b>"+daysRemaining+"</b> days remaining to update your system.</p>";
            }
           }

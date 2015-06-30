@@ -4,6 +4,7 @@
  */
 package DIC.Admin;
 
+import dbConnect.Destest;
 import dbConnect.dbConnect;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -226,7 +227,7 @@ for(int i=0; i<operationIDArray.length;i++){
     //System.out.println("OperationArea             "+OperationArea[i]);
 try {
     if(!operationIDArray[i].equals("") && operationIDArray[i]!=null ){
-queryOperation="UPDATE clientoparea SET AreaOpID='"+OperationArea[i]+"', UniqueID='"+UniqueID+"' where ID='"+operationIDArray[i]+"'";
+queryOperation="UPDATE clientoparea SET AreaOpID='"+OperationArea[i]+"', UniqueID='"+UniqueID+"',syncstatus=0 where ID='"+operationIDArray[i]+"'";
 }
 //        System.out.println("queryOperation    "+queryOperation) ;                     
  conn.state.executeUpdate(queryOperation);
@@ -247,7 +248,7 @@ String queryOccupation="";
 for(int i=0; i<occupationIDArray.length;i++){
 //    System.out.println("Occupation              "+Occupation[i]);
     if(occupationIDArray[i]!= null && !occupationIDArray[i].equals("")){
-queryOccupation ="UPDATE clientoccupation SET OccupationID= '"+Occupation[i]+"',UniqueID='"+UniqueID+"' where ID='"+occupationIDArray[i]+"'";
+queryOccupation ="UPDATE clientoccupation SET OccupationID= '"+Occupation[i]+"',UniqueID='"+UniqueID+"',syncstatus=0  where ID='"+occupationIDArray[i]+"'";
     }
 try {
     System.out.println("queryOccupation          "+queryOccupation);
@@ -274,7 +275,7 @@ for(int i=0; i<childsIDArray.length;i++){
     if(childsIDArray[i]!=null && !childsIDArray[i].equals("")){
 
 try {
-String queryAges1="UPDATE childage SET AgeBrackets='"+AgeIDs+"',NoChild='"+AgeNos+"' where ID='"+childsIDArray[i]+"'";
+String queryAges1="UPDATE childage SET AgeBrackets='"+AgeIDs+"',NoChild='"+AgeNos+"',syncstatus=0  where ID='"+childsIDArray[i]+"'";
 System.out.println(queryAges1);
  conn.state.executeUpdate(queryAges1);
 } catch (SQLException ex) {
@@ -298,7 +299,7 @@ for(int i=0; i<MemberOf.length;i++){
 //System.out.println("memID                "+ memID);
 }
 try {
-String queryMember="UPDATE clientmember SET MemID='"+MemberOf[i]+"',UniqueID='"+UniqueID+"' WHERE ID='"+memID+"'";
+String queryMember="UPDATE clientmember SET MemID='"+MemberOf[i]+"',UniqueID='"+UniqueID+"',syncstatus=0  WHERE ID='"+memID+"'";
  conn.state.executeUpdate(queryMember);
 System.out.println("queryMember"+queryMember);
 } catch (SQLException ex) {
@@ -325,12 +326,55 @@ if(name_length>2){
  String query="";              
 
 //System.out.println(UniqueID);
-
+                 String firstname = fname;
+                     String secondname = mname;
+                     String lastname = lname;
+                     String phoneno = PhoneNo;
+                   
+                     String strPssword = "encryptor key";
+                    Destest.setKey(strPssword);
+                    String first="";
+                  
+                    if(firstname!=null && !firstname.trim().equals("") && !firstname.equals("null")){
+                       Destest.encrypt (firstname.trim());
+                        System.out.println("Encrypted______________________: " + firstname);
+                   
+                    System.out.println("Encrypted:____________________ " + Destest.getEncryptedString());
+                      first= Destest.getEncryptedString();
+            }
+                    
+                    //middle name encrypt
+                      String midname="";
+                     if(mname!=null && !mname.trim().equals("") && !mname.equals("null")){
+                     Destest.encrypt (mname.trim());
+                        System.out.println("Encrypted______________________: " + mname);
+                   
+                    System.out.println("Encrypted:____________________ " + Destest.getEncryptedString());
+                      midname=Destest.getEncryptedString();
+                     }
+                     //last name encrypt
+                     String lasname="";
+                      if(lname!=null && !lname.trim().equals("") && !lname.equals("null")){
+                     Destest.encrypt (lname.trim());
+                        System.out.println("Encrypted______________________: " + lname);
+                   
+                    System.out.println("Encrypted:____________________ " + Destest.getEncryptedString());
+                      lasname= Destest.getEncryptedString();
+                      }
+                      String phone="";
+                     if(phoneno!=null && !PhoneNo.trim().equals("") && !phoneno.equals("null")){
+                     Destest.encrypt (phoneno.trim());
+                      System.out.println("String to Encrypt:_______****(**** " + phoneno); 
+                    System.out.println("Encrypted:________******** " + Destest.getEncryptedString());
+                    
+                     phone= Destest.getEncryptedString();
+                     } 
+                    
 
 query = "UPDATE  enrollment set ClientInit='"+ClientInit+"',DOE= '"+DOE+"',District='"+Districts+"',DOB='"+DOB+"',"
 + "DICName='"+DICName+"',Sex='"+Sex+"',Age='"+Age+"',MaritalStatus='"+MaritalStatus+"',Children='"+Children+"',ChildNo='"+ChildNo+"',Religion='"+Religion+"',"
-+ "EducationLevel='"+EducationLevel+"',PhoneNo='"+PhoneNo+"',Residence='"+Residence+"',OperationArea='"+OperationAreaID+"',Occupation='"+OccupationID+"',MemberOfID='"+OperationAreaID+"',DICLearn='"+DICLearn+"',"
-+ "Email='"+Email+"',PhoneNo1='"+PhoneNo1+"',Venue='"+Venue+"',AgeID='"+OperationAreaID+"',FirstName='"+fname+"',SecondName='"+mname+"', Lastname='"+lname+"', UniqueID=? where EnrollID='"+rowid+"'";
++ "EducationLevel='"+EducationLevel+"',PhoneNo='"+phone+"',Residence='"+Residence+"',OperationArea='"+OperationAreaID+"',Occupation='"+OccupationID+"',MemberOfID='"+OperationAreaID+"',DICLearn='"+DICLearn+"',"
++ "Email='"+Email+"',PhoneNo1='"+PhoneNo1+"',Venue='"+Venue+"',AgeID='"+OperationAreaID+"',FirstName='"+first+"',SecondName='"+midname+"', Lastname='"+lasname+"', UniqueID=?,syncstatus=0  where EnrollID='"+rowid+"'";
  conn.ps1 = conn.connect.prepareStatement(query);
  
  

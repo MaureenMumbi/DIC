@@ -65,8 +65,8 @@ HttpSession session;
              Date timestamp= new Date();
 
            
-String query = "INSERT INTO user(Name,Username,Password,PhoneNo,Email,Location,AccessLevel)"
-+ " VALUES ('"+Name+"','"+Username+"','"+pw+"','"+PhoneNo+"','"+Email+"','"+Location+"','"+AccessLevel+"')";		
+String query = "INSERT INTO user(Name,Username,Password,PhoneNo,Email,Location,AccessLevel,syncstatus)"
++ " VALUES ('"+Name+"','"+Username+"','"+pw+"','"+PhoneNo+"','"+Email+"','"+Location+"','"+AccessLevel+"','0')";		
         try {    
            
             conn.state.executeUpdate(query);
