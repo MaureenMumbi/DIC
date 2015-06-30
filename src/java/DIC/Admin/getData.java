@@ -72,7 +72,17 @@ public class getData extends HttpServlet {
                wardbean DB= new wardbean();
                        DB.setUNIQUEID(uniqueid);
                        DB.setDICNAME(dicname);
-                       DB.setFULLNAME(fullname);
+                       if(session.getAttribute("lockNames")==null){
+                                DB.setFULLNAME("");  
+                                }
+                                else{
+                                if(session.getAttribute("lockNames").toString().equals("YES")){
+                              DB.setFULLNAME("");      
+                                }
+                                else{
+                                DB.setFULLNAME(fullname);
+                                }
+                                }
                        DB.setWARD(wards);
                        
                        

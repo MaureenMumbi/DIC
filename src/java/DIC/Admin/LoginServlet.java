@@ -129,7 +129,7 @@ String inserter="insert into taskauditor set host_comp='"+computername+" "+ip+"'
        else{
        session.setAttribute("lockNames", "NO");     
        }
-       session.setAttribute("lockNames", "YES");
+      
            System.out.println("to lock : "+session.getAttribute("lockNames").toString());          
                 
                

@@ -369,8 +369,8 @@ else{ %>
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
     <thead>
     <th>UNIQUEID</th>
-    <th>FULLNAME</th>
-    <th>DICNAME</th>
+<%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%>  <th>FULLNAME</th><%}}%>
+   <th>DICNAME</th>
     <th>WARD</th>
 <!--    <th>Current</th>-->
 </thead>  
@@ -381,8 +381,8 @@ else{ %>
                         <c:set var="DICNAME"  value="${alldata.DICNAME}"></c:set>
                         <c:set var="WARD"  value="${alldata.WARD}"></c:set>
                                 <tr id="${alldata.UNIQUEID}">
-                                     <td>${alldata.UNIQUEID}</td>
-                                    <td>${alldata.FULLNAME}</td>
+                                     <td>${alldata.UNIQUEID}</td>                                     
+<%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%> <td>${alldata.FULLNAME}</td><%}}%>
                                     <td>${alldata.DICNAME}</td>
                                       <td><select id="ward" onchange="editRecord('${alldata.UNIQUEID}',this)"> 
                                               <option value=""></option>
