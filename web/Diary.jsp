@@ -211,12 +211,18 @@ mcount++;
 	<thead>
               <tr>
                     <th>UNIQUE ID </th>
+           <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%>
+        	         
 		    <th>FIRST NAME</th>
 		    <th>MIDDLE NAME</th>
 		    <th>PHONE NO.</th>
 		    <th>ALTERNATIVE PHONE NO.</th>
-		    <th>APPOINTMENT DATE </th>
-		     <th>SEND SMS  </th>
+                    
+                    <%}}%>
+		 <th>APPOINTMENT DATE </th>
+		   <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%>
+                    <th>SEND SMS  </th>
+          <%}}%>
 		</tr>
 	</thead>
         <%
@@ -240,17 +246,27 @@ mcount++;
          
      <tr id="<%=pageContext.getAttribute("id")%>">
           <td>${detail.UNIQUEID} </td>
+         <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%>
           <td>${detail.FNAME} </td>
           <td>${detail.MNAME} </td>
           <td>${detail.PHONENO} </td>
           <td>${detail.PHONENO1} </td>
+                    
+                    <%}}%>
+        
+        
           <td> ${detail.DATE}</td>
-        <td><input type="checkbox" value="<%=pageContext.getAttribute("id")%>" class="reminders" name="reminder<%= count %>" id="reminder<%= count %>" ></td>
-       <input type="hidden" id="id" name="id<%= count %>" value="<%= pageContext.getAttribute("id")%>" />
+       <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%>
+          <td><input type="checkbox" value="<%=pageContext.getAttribute("id")%>" class="reminders" name="reminder<%= count %>" id="reminder<%= count %>" ></td>
+         <%}}%>
+     <input type="hidden" id="id" name="id<%= count %>" value="<%= pageContext.getAttribute("id")%>" />
+        <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%>
+         
        <input type="hidden" id="fname" name="fname<%= count %>" value="<%= pageContext.getAttribute("fname")%>" />
        <input type="hidden" id="mname" name="mname<%= count %>" value="<%= pageContext.getAttribute("mname")%>" />
        <input type="hidden" id="phoneno" name="phoneno<%= count %>" value="<%= pageContext.getAttribute("phoneno")%>" />
        <input type="hidden" id="phoneno1" name="phoneno1<%= count %>" value="<%= pageContext.getAttribute("phoneno1")%>" />
+      <%}}%>
        <input type="hidden" id="date" name="date<%= count %>" value="<%= pageContext.getAttribute("date")%>" />
    
          </tr>
@@ -259,19 +275,18 @@ mcount++;
 <!--       </tbody>-->
          </c:forEach>
       
-<input type="text" id="count" name="count" value="<%= count %>" />
+<input type="hidden" id="count" name="count" value="<%= count %>" />
           
      </table>
+<%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%>
+        
 <table style="background-color: grey; height:40px">
- <tr>
+     <tr>
      <td colspan="8"><input type="submit"  value="Send SMS" name="submit" style="width: 200px;height:30px;" ></td>      
-
-      
-      <td style="width: 887px;"></td>   <td style="width: 100px;" style="background-color: grey;"><input type="checkbox" onClick="toggle(this)" class="checkall" /> Select All</td>
-             
-         </tr>
-       
+     <td style="width: 887px;"></td>   <td style="width: 100px;" style="background-color: grey;"><input type="checkbox" onClick="toggle(this)" class="checkall" /> Select All</td>
+        </tr>
 </table>
+ <%}}%>
           </form>
             </div>
         <div>

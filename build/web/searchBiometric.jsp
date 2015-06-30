@@ -127,7 +127,7 @@ else
      <% String logStatus=(String)session.getAttribute("loggedIn");
                if(session.getAttribute("loggedIn")==null){
      
-               response.sendRedirect("index.jsp");
+//               response.sendRedirect("index.jsp");
             } else{
      %>
                     <a class="button-1" href="../DIC/logoutServlet">LogOut</a>

@@ -52,7 +52,17 @@ public class visitSummary extends HttpServlet {
 					
 				 SummaryBean DB= new SummaryBean();
                                  DB.setUNIQUEID(conn.rs.getString("UniqueID"));
+                                if(session.getAttribute("lockNames")==null){
+                                DB.setNAME("");     
+                                }
+                                else{
+                                if(session.getAttribute("lockNames").toString().equals("YES")){
+                               DB.setNAME("");      
+                                }
+                                else{
                                  DB.setNAME(conn.rs.getString("FirstName") +" "+conn.rs.getString("SecondName")+" "+conn.rs.getString("LastName"));
+                                }
+                                }
                                  DB.setCLIENTINIT(conn.rs.getString("ClientInit"));
                                  DB.setDOE(conn.rs.getString("DOE"));
                                  DB.setDICNAME(conn.rs.getString("DICName"));

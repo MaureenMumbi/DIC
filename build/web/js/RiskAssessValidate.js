@@ -265,44 +265,44 @@ return false;
        
        
        
-        var SexLast1 = $('#SexLast').val();
-        var CondomUse1 = $('#CondomUse').val();
-        var SexPartGender1 = $('#SexPartGender').val();
-        var ActiveSexWork1 = $('#ActiveSexWork').val();
-        var NoPayingClients1 = $('#NoPayingClients').val();
-        var RegPartner1 = $('#RegPartner').val();
-        var NoRegPartner1 = $('#NoRegPartner').val();
-        var TimeRegPartners1= $('#TimeRegPartners').val();
-        var CondomProvider1 = $('#CondomProvider').val();
-        var HIVPartStatus1 = $('#HIVPartStatus').val(); 
-        var NoHIVPartStatus1 = $('#NoHIVPartStatus').val();
-        var PartCondomUse1 = $('#PartCondomUse').val();
-       if(
-               (!SexLast1 && SexLast1.length <= 0 )||  (!CondomUse1 && CondomUse1.length <= 0 )||
-               (!SexPartGender1 && SexPartGender1.length <= 0 )||
-               (!ActiveSexWork1 && SexLast1.length <= 0) ||
-               (!NoPayingClients1 && NoPayingClients1.length <= 0) ||
-               (!RegPartner1 && RegPartner1.length <= 0 )||
-               (!NoRegPartner1 && NoRegPartner1.length <= 0) ||
-               (!TimeRegPartners1 && TimeRegPartners1.length <= 0 )||
-               (!CondomProvider1 && CondomProvider1.length <= 0 )||
-               (!HIVPartStatus1 && HIVPartStatus1.length <= 0) ||
-               (!NoHIVPartStatus1 && NoHIVPartStatus1.length <= 0) ||
-               (!PartCondomUse1 && PartCondomUse1.length <= 0) ){
-                     
-                        alert("No data has been entered in this form")
-                        
-                        
-                             $("#SexLast").css("border-color","#ff0000");
-                             $("#CondomUse").css("border-color","#ff0000");
-                             $("#SexPartGender").css("border-color","#ff0000");
-                             $("#ActiveSexWork").css("border-color","#ff0000");
-                             $("#NoPayingClients").css("border-color","#ff0000");
-                             $("#NoRegPartner").css("border-color","#ff0000");
-                             $("#TimeRegPartners").css("border-color","#ff0000");
-                             $("#CondomProvider").css("border-color","#ff0000");
-                                      isValid = false;  
-                            }
+//        var SexLast1 = $('#SexLast').val();
+//        var CondomUse1 = $('#CondomUse').val();
+//        var SexPartGender1 = $('#SexPartGender').val();
+//        var ActiveSexWork1 = $('#ActiveSexWork').val();
+//        var NoPayingClients1 = $('#NoPayingClients').val();
+//        var RegPartner1 = $('#RegPartner').val();
+//        var NoRegPartner1 = $('#NoRegPartner').val();
+//        var TimeRegPartners1= $('#TimeRegPartners').val();
+//        var CondomProvider1 = $('#CondomProvider').val();
+//        var HIVPartStatus1 = $('#HIVPartStatus').val(); 
+//        var NoHIVPartStatus1 = $('#NoHIVPartStatus').val();
+//        var PartCondomUse1 = $('#PartCondomUse').val();
+//       if(
+//               (!SexLast1 && SexLast1.length <= 0 )||  (!CondomUse1 && CondomUse1.length <= 0 )||
+//               (!SexPartGender1 && SexPartGender1.length <= 0 )||
+//               (!ActiveSexWork1 && SexLast1.length <= 0) ||
+//               (!NoPayingClients1 && NoPayingClients1.length <= 0) ||
+//               (!RegPartner1 && RegPartner1.length <= 0 )||
+//               (!NoRegPartner1 && NoRegPartner1.length <= 0) ||
+//               (!TimeRegPartners1 && TimeRegPartners1.length <= 0 )||
+//               (!CondomProvider1 && CondomProvider1.length <= 0 )||
+//               (!HIVPartStatus1 && HIVPartStatus1.length <= 0) ||
+//               (!NoHIVPartStatus1 && NoHIVPartStatus1.length <= 0) ||
+//               (!PartCondomUse1 && PartCondomUse1.length <= 0) ){
+//                     
+//                        alert("Some fields have not been entered in this form")
+//                        
+//                        
+//                             $("#SexLast").css("border-color","#ff0000");
+//                             $("#CondomUse").css("border-color","#ff0000");
+//                             $("#SexPartGender").css("border-color","#ff0000");
+//                             $("#ActiveSexWork").css("border-color","#ff0000");
+//                             $("#NoPayingClients").css("border-color","#ff0000");
+//                             $("#NoRegPartner").css("border-color","#ff0000");
+//                             $("#TimeRegPartners").css("border-color","#ff0000");
+//                             $("#CondomProvider").css("border-color","#ff0000");
+////                                      isValid = false;  
+//                            }
        
        
         return isValid;

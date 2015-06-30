@@ -173,8 +173,7 @@ else{ %>
 	<thead>
 		<tr>
 			<th>UniqueID</th>
-			<th>Full Name</th>
-			<th>Client Initials</th>
+                       <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%><th>Full Name</th><%}}%><th>Client Initials</th>
 			<th>DIC Name</th>
 			<th>DOE</th>
 			<th>LAST VISIT</th>
@@ -205,7 +204,7 @@ else{ %>
             <tr id="<%=pageContext.getAttribute("UniqueID")%>">
            
            <td class="sorting_1">  ${today.UNIQUEID} </td>
-           <td class="sorting_1">${today.NAME} </td>
+          <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%><td class="sorting_1">${today.NAME} </td><%}}%> 
            <td class="sorting_1">${today.CLIENTINIT} </td>
            <td class="sorting_1">${today.DICNAME} </td>
            <td class="sorting_1">${today.DOE} </td>

@@ -106,7 +106,33 @@ String inserter="insert into taskauditor set host_comp='"+computername+" "+ip+"'
                                             
                                         }
 //                                        conn.rs.close();
-
+                                             
+       String AccessLevel="",user="";        
+               
+        		
+	if(session.getAttribute("AccessLevel")!=null){		
+       AccessLevel=session.getAttribute("AccessLevel").toString();
+        }
+        else{
+        AccessLevel="0";   
+        }
+        String checkHost="select user()";
+       conn.rs=conn.state.executeQuery(checkHost);
+       if(conn.rs.next()==true){
+//            System.out.println("host name is : "+conn.rs.getString(1));
+        user=conn.rs.getString(1);
+       }
+       
+       if(!AccessLevel.equals("2")  && !user.startsWith("root@")){
+        session.setAttribute("lockNames", "YES");
+       }
+       else{
+       session.setAttribute("lockNames", "NO");     
+       }
+       session.setAttribute("lockNames", "YES");
+           System.out.println("to lock : "+session.getAttribute("lockNames").toString());          
+                
+               
                                     }
 
 
@@ -131,14 +157,7 @@ String inserter="insert into taskauditor set host_comp='"+computername+" "+ip+"'
                                             session.setAttribute("login", "OOps!!! Invalid Password");
                                            
                             }                
-                                             
-               
-               
-        
-       
-                
-                
-                } catch (Exception e) {
+ } catch (Exception e) {
                         
                         out.println(e.getMessage());
                 }

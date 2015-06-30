@@ -157,7 +157,7 @@ else{ %>
 		
 			<tr>
 			<th>Unique Identifer </th>
-       <th>Full Name</th>
+      <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%> <th>Full Name</th><%}}%>
         <th>Date</th>
        <th>Signature</th>
        
@@ -195,7 +195,8 @@ while(conn.rs.next()){
 
 %>
 <tr id="<%= conn.rs.getString("unique_identifier") %>"> <td> <%= conn.rs.getString("unique_identifier") %></td>
-    <td> <%= conn.rs2.getString("FirstName")+"  "+ conn.rs2.getString("SecondName")+"  "+ conn.rs2.getString("LastName") %> </td>
+   
+ <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%><td> <%= conn.rs2.getString("FirstName")+"  "+ conn.rs2.getString("SecondName")+"  "+ conn.rs2.getString("LastName") %> </td><%}}%>   
     <td>     <%= conn.rs.getString("dater") %> </td>
     <td>      <%=conn.rs.getString("signature")%>
 				     </td>  

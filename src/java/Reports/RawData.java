@@ -16,11 +16,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.util.CellRangeAddress;
 import org.apache.poi.hssf.util.HSSFColor;
-
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -35,18 +35,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 @WebServlet(name = "RawData", urlPatterns = {"/RawData"})
 public class RawData extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP
-     * <code>GET</code> and
-     * <code>POST</code> methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    
+HttpSession session;
     
      int a=1;
             int count=0;
@@ -58,7 +47,8 @@ public class RawData extends HttpServlet {
        // PrintWriter out = response.getWriter();
         try {
             dbConnect conn = new dbConnect();
-          
+          session=request.getSession();
+          System.out.println("status : "+session.getAttribute("lockNames").toString());
          String startdate="";
           String enddate="";
           String type="";
@@ -198,9 +188,11 @@ year_style_header.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
     shet1.setColumnWidth(16, 4000);
     shet1.setColumnWidth(17, 4000);
     shet1.setColumnWidth(18, 4000);
+    
     shet1.setColumnWidth(19, 4000);
     shet1.setColumnWidth(20, 4000);
     shet1.setColumnWidth(21, 4000);
+    
     shet1.setColumnWidth(22, 4000);
     shet1.setColumnWidth(23, 4000);
     shet1.setColumnWidth(24, 4000);
@@ -293,24 +285,97 @@ year_style_header.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
                      cell4.setCellValue("Religion");
                         cell4 = rw1.createCell(12);
                      cell4.setCellValue("EducationLevel");
-                        cell4 = rw1.createCell(13);
+                     
+                    if(session.getAttribute("lockNames")==null){
+                          shet1.setColumnWidth(13, 0);
+                           cell4 = rw1.createCell(13);
+                           cell4.setCellValue("");     
+                       }
+                       else{
+                           if(session.getAttribute("lockNames").toString().equals("YES")){ 
+                           shet1.setColumnWidth(13, 0);
+                           cell4 = rw1.createCell(13);
+                           cell4.setCellValue("");    
+                           }
+                           else{
+                    cell4 = rw1.createCell(13);
                      cell4.setCellValue("PhoneNo");
+                       }
+                       } 
+                    
                         cell4 = rw1.createCell(14);
                      cell4.setCellValue("Residence");
                         cell4 = rw1.createCell(15);
                      cell4.setCellValue("DICLearn");
+                      if(session.getAttribute("lockNames")==null){
+                          shet1.setColumnWidth(16, 0);
+                          cell4 = rw1.createCell(16);
+                          cell4.setCellValue("");
+                         
+                      
+                           shet1.setColumnWidth(17, 0);
+                           cell4 = rw1.createCell(17);
+                           cell4.setCellValue("");     
+                       }
+                       else{
+                           if(session.getAttribute("lockNames").toString().equals("YES")){ 
+                           shet1.setColumnWidth(16, 0);
+                          cell4 = rw1.createCell(16);
+                          cell4.setCellValue("");
+                          
+                           shet1.setColumnWidth(17, 0);
+                           cell4 = rw1.createCell(17);
+                           cell4.setCellValue("");    
+                           }
+                           else{
+                        
                         cell4 = rw1.createCell(16);
                      cell4.setCellValue("Email");
                         cell4 = rw1.createCell(17);
                      cell4.setCellValue("PhoneNo1");
+                       }
+                       }
+                     
+                     
                         cell4 = rw1.createCell(18);
                      cell4.setCellValue("Venue");
+                     
+     if(session.getAttribute("lockNames")==null){
+    shet1.setColumnWidth(19, 0);
+    shet1.setColumnWidth(20, 0);
+    shet1.setColumnWidth(21, 0);
+    cell4 = rw1.createCell(19);
+    cell4.setCellValue("");
+    cell4 = rw1.createCell(20);
+    cell4.setCellValue("");
+    cell4 = rw1.createCell(21);
+    cell4.setCellValue("");
+    System.out.println("No session");
+                                }
+                                else{
+                                if(session.getAttribute("lockNames").toString().equals("YES")){
+    shet1.setColumnWidth(19, 0);
+    shet1.setColumnWidth(20, 0);
+    shet1.setColumnWidth(21, 0);
+    cell4 = rw1.createCell(19);
+    cell4.setCellValue("");
+    cell4 = rw1.createCell(20);
+    cell4.setCellValue("");
+    cell4 = rw1.createCell(21);
+    cell4.setCellValue(""); 
+      System.out.println("yess ");
+                                }
+                                else{
+  System.out.println("Noooo ");
                         cell4 = rw1.createCell(19);
                      cell4.setCellValue("FirstName");
                         cell4 = rw1.createCell(20);
                      cell4.setCellValue("SecondName");
                         cell4 = rw1.createCell(21);
                      cell4.setCellValue("LastName");
+                                }
+     }
+                     
                         cell4 = rw1.createCell(22);
                      cell4.setCellValue("venueOther");
                         cell4 = rw1.createCell(23);
@@ -456,8 +521,24 @@ count++;
                  cell14.setCellValue(conn.rs.getString(12));
                  cell14=rwa.createCell(12);
                  cell14.setCellValue(conn.rs.getString(13));
-                 cell14=rwa.createCell(13);
+                 if(session.getAttribute("lockNames")==null){
+                          shet1.setColumnWidth(13, 0);
+                           cell4 = rwa.createCell(13);
+                           cell4.setCellValue("");     
+                       }
+                       else{
+                           if(session.getAttribute("lockNames").toString().equals("YES")){ 
+                           shet1.setColumnWidth(13, 0);
+                           cell4 = rwa.createCell(13);
+                           cell4.setCellValue("");    
+                           }
+                           else{
+                     cell14=rwa.createCell(13);
                  cell14.setCellValue(conn.rs.getString(14));
+                       }
+                       } 
+                
+                 
                  cell14=rwa.createCell(14);
                  cell14.setCellValue(conn.rs.getString(15));
                  cell14=rwa.createCell(15);
@@ -468,12 +549,40 @@ count++;
                  cell14.setCellValue(conn.rs.getString(18));
                  cell14=rwa.createCell(18);
                  cell14.setCellValue(conn.rs.getString(19));
+                  if(session.getAttribute("lockNames")==null){
+    shet1.setColumnWidth(19, 0);
+    shet1.setColumnWidth(20, 0);
+    shet1.setColumnWidth(21, 0);
+
+                 cell14=rwa.createCell(19);
+                 cell14.setCellValue("");
+                 cell14=rwa.createCell(20);
+                 cell14.setCellValue("");
+                 cell14=rwa.createCell(21);
+                 cell14.setCellValue(""); 
+                                }
+                                else{
+                                if(session.getAttribute("lockNames").toString().equals("YES")){
+    shet1.setColumnWidth(19, 0);
+    shet1.setColumnWidth(20, 0);
+    shet1.setColumnWidth(21, 0);
+
+                 cell14=rwa.createCell(19);
+                 cell14.setCellValue("");
+                 cell14=rwa.createCell(20);
+                 cell14.setCellValue("");
+                 cell14=rwa.createCell(21);
+                 cell14.setCellValue("");    
+                                }
+                                else{
                  cell14=rwa.createCell(19);
                  cell14.setCellValue(conn.rs.getString(20));
                  cell14=rwa.createCell(20);
                  cell14.setCellValue(conn.rs.getString(21));
                  cell14=rwa.createCell(21);
                  cell14.setCellValue(conn.rs.getString(22));
+                                }
+                  }
                  cell14=rwa.createCell(22);
                  cell14.setCellValue(conn.rs.getString(23));
                  cell14=rwa.createCell(23);
@@ -1735,26 +1844,95 @@ outStream.flush();
                       cell4.setCellStyle(indicator_style); 
                         cell4 = rw1.createCell(12);
                      cell4.setCellValue("EducationLevel");
-                      cell4.setCellStyle(indicator_style); 
-                        cell4 = rw1.createCell(13);
+                      cell4.setCellStyle(indicator_style);
+                      
+                       if(session.getAttribute("lockNames")==null){
+                         shet1.setColumnWidth(13, 0);
+                           cell4 = rw1.createCell(13);
+                           cell4.setCellValue("");     
+                       }
+                       else{
+                           if(session.getAttribute("lockNames").toString().equals("YES")){ 
+                           shet1.setColumnWidth(13, 0);
+                           cell4 = rw1.createCell(13);
+                           cell4.setCellValue("");    
+                           }
+                           else{
+                     cell4 = rw1.createCell(13);
                      cell4.setCellValue("PhoneNo");
                       cell4.setCellStyle(indicator_style); 
+                       }
+                       }
+                      
+                      
                         cell4 = rw1.createCell(14);
                      cell4.setCellValue("Residence");
                       cell4.setCellStyle(indicator_style); 
                         cell4 = rw1.createCell(15);
                      cell4.setCellValue("How client learnt DIC");
                       cell4.setCellStyle(indicator_style); 
-                        cell4 = rw1.createCell(16);
-                     cell4.setCellValue("Email");
-                      cell4.setCellStyle(indicator_style); 
-                        cell4 = rw1.createCell(17);
-                     cell4.setCellValue("PhoneNo1");
-                      cell4.setCellStyle(indicator_style); 
+                        
+                       if(session.getAttribute("lockNames")==null){
+                          shet1.setColumnWidth(16, 0);
+                          cell4 = rw1.createCell(16);
+                          cell4.setCellValue("");
+                         
+                      
+                           shet1.setColumnWidth(17, 0);
+                           cell4 = rw1.createCell(17);
+                           cell4.setCellValue("");     
+                       }
+                       else{
+                           if(session.getAttribute("lockNames").toString().equals("YES")){ 
+                           shet1.setColumnWidth(16, 0);
+                          cell4 = rw1.createCell(16);
+                          cell4.setCellValue("");
+                          
+                           shet1.setColumnWidth(17, 0);
+                           cell4 = rw1.createCell(17);
+                           cell4.setCellValue("");    
+                           }
+                           else{
+                          cell4 = rw1.createCell(16);
+                          cell4.setCellValue("Email");
+                          cell4.setCellStyle(indicator_style);
+                          
+                           cell4 = rw1.createCell(17);
+                           cell4.setCellValue("PhoneNo1");
+                           cell4.setCellStyle(indicator_style); 
+                       }
+                       } 
                         cell4 = rw1.createCell(18);
                      cell4.setCellValue("Venue");
                       cell4.setCellStyle(indicator_style); 
-                        cell4 = rw1.createCell(19);
+                     
+                      if(session.getAttribute("lockNames")==null){
+    shet1.setColumnWidth(19, 0);
+    shet1.setColumnWidth(20, 0);
+    shet1.setColumnWidth(21, 0);
+
+                 cell14=rw1.createCell(19);
+                 cell14.setCellValue("");
+                 cell14=rw1.createCell(20);
+                 cell14.setCellValue("");
+                 cell14=rw1.createCell(21);
+                 cell14.setCellValue(""); 
+                                }
+                                else{
+                                if(session.getAttribute("lockNames").toString().equals("YES")){
+    shet1.setColumnWidth(19, 0);
+    shet1.setColumnWidth(20, 0);
+    shet1.setColumnWidth(21, 0);
+
+                 cell14=rw1.createCell(19);
+                 cell14.setCellValue("");
+                 cell14=rw1.createCell(20);
+                 cell14.setCellValue("");
+                 cell14=rw1.createCell(21);
+                 cell14.setCellValue("");    
+                                }
+                                else{
+                    cell4 = rw1.createCell(19);
                      cell4.setCellValue("FirstName");
                       cell4.setCellStyle(indicator_style); 
                         cell4 = rw1.createCell(20);
@@ -1763,6 +1941,10 @@ outStream.flush();
                         cell4 = rw1.createCell(21);
                      cell4.setCellValue("LastName");
                       cell4.setCellStyle(indicator_style); 
+                                }
+                  }
+                   
+                      
                         cell4 = rw1.createCell(22);
                      cell4.setCellValue("venueOther");
                       cell4.setCellStyle(indicator_style); 
@@ -1851,9 +2033,23 @@ count++;
                  cell14.setCellValue(conn.rs4.getString("EducationLevel"));
                    cell14.setCellStyle(cell_styles);
                  }
-                 cell14=rwa.createCell(13);
+                 
+                  if(session.getAttribute("lockNames")==null){
+                         cell4 = rwa.createCell(13);
+                         cell4.setCellValue("");     
+                       }
+                       else{
+                           if(session.getAttribute("lockNames").toString().equals("YES")){ 
+                          cell4 = rwa.createCell(13);
+                           cell4.setCellValue("");    
+                           }
+                           else{
+                    cell14=rwa.createCell(13);
                  cell14.setCellValue(conn.rs.getString(14));
                    cell14.setCellStyle(cell_styles);
+                       }
+                       }
+                    
                  String getResidence= "SELECT * FROM ResidenceArea where ResidenceAreaID ='"+conn.rs.getString(15)+"'";
                  conn.rs5 = conn.state5.executeQuery(getResidence);
                  while(conn.rs5.next()){
@@ -1868,24 +2064,80 @@ count++;
                  cell14.setCellValue(conn.rs6.getString("ClientLearnt"));
                    cell14.setCellStyle(cell_styles);
                }
-                 cell14=rwa.createCell(16);
+               if(session.getAttribute("lockNames")==null){
+                          shet1.setColumnWidth(16, 0);
+                          cell4 = rwa.createCell(16);
+                          cell4.setCellValue("");
+                         
+                      
+                           shet1.setColumnWidth(17, 0);
+                           cell4 = rwa.createCell(17);
+                           cell4.setCellValue("");     
+                       }
+                       else{
+                           if(session.getAttribute("lockNames").toString().equals("YES")){ 
+                           shet1.setColumnWidth(16, 0);
+                          cell4 = rwa.createCell(16);
+                          cell4.setCellValue("");
+                          
+                           shet1.setColumnWidth(17, 0);
+                           cell4 = rwa.createCell(17);
+                           cell4.setCellValue("");    
+                           }
+                           else{
+                          cell14=rwa.createCell(16);
                  cell14.setCellValue(conn.rs.getString(17));
                    cell14.setCellStyle(cell_styles);
                  cell14=rwa.createCell(17);
                  cell14.setCellValue(conn.rs.getString(18));
                    cell14.setCellStyle(cell_styles);
+                   }
+                       }
+               
                  cell14=rwa.createCell(18);
                  cell14.setCellValue(conn.rs.getString(19));
                    cell14.setCellStyle(cell_styles);
+                 if(session.getAttribute("lockNames")==null){
+    shet1.setColumnWidth(19, 0);
+    shet1.setColumnWidth(20, 0);
+    shet1.setColumnWidth(21, 0);
+
                  cell14=rwa.createCell(19);
-                 cell14.setCellValue(conn.rs.getString(20).replace("UPPER(",""));
-                   cell14.setCellStyle(cell_styles);
+                 cell14.setCellValue("");
                  cell14=rwa.createCell(20);
-                 cell14.setCellValue(conn.rs.getString(21).replace("UPPER(",""));
+                 cell14.setCellValue("");
+                 cell14=rwa.createCell(21);
+                 cell14.setCellValue(""); 
+                                }
+                                else{
+                                if(session.getAttribute("lockNames").toString().equals("YES")){
+    shet1.setColumnWidth(19, 0);
+    shet1.setColumnWidth(20, 0);
+    shet1.setColumnWidth(21, 0);
+
+                 cell14=rwa.createCell(19);
+                 cell14.setCellValue("");
+                 cell14=rwa.createCell(20);
+                 cell14.setCellValue("");
+                 cell14=rwa.createCell(21);
+                 cell14.setCellValue("");    
+                                }
+                                else{
+               
+                  cell14=rwa.createCell(19);
+                  cell14.setCellValue(conn.rs.getString(20).replace("UPPER(",""));
+                   cell14.setCellStyle(cell_styles);
+                  cell14=rwa.createCell(20);
+                  cell14.setCellValue(conn.rs.getString(21).replace("UPPER(",""));
                    cell14.setCellStyle(cell_styles);
                  cell14=rwa.createCell(21);
                  cell14.setCellValue(conn.rs.getString(22).replace("UPPER(",""));
                    cell14.setCellStyle(cell_styles);
+                                }
+                  }
+                
+                   
+                   
                  cell14=rwa.createCell(22);
                  cell14.setCellValue(conn.rs.getString(23));
                    cell14.setCellStyle(cell_styles);

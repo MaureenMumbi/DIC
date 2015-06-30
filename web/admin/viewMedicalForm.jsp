@@ -157,7 +157,7 @@ else{ %>
 		
 			<tr>
 			<th>Unique Identifer </th>
-       <th>Full Name</th>
+   <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%> <th>Full Name</th><%}}%>
 
        
        
@@ -192,9 +192,9 @@ else{ %>
 %>
 <tr id="<%= conn.rs2.getString("UniqueID") %>">
     <td> <%= conn.rs2.getString("UniqueID") %></td>
-    <td> <%= conn.rs2.getString("FirstName")+"  "+ conn.rs2.getString("SecondName")+"  "+ conn.rs2.getString("LastName") %> </td>
-    			     </td>  
-     <%String name="";
+   <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%> <td> <%= conn.rs2.getString("FirstName")+"  "+ conn.rs2.getString("SecondName")+"  "+ conn.rs2.getString("LastName") %> </td><%}}%>
+    
+                             <%String name="";
      name=  conn.rs2.getString("FirstName")+"  "+ conn.rs2.getString("SecondName")+"  "+ conn.rs2.getString("LastName");%>
       
       <td><input type="button" name="Edit" value="New Medical Form "  onclick="editRecord('<%= conn.rs2.getString("UniqueID")  %>','<%=name%>')"></td>

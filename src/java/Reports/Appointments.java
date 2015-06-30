@@ -81,11 +81,28 @@ public class Appointments extends HttpServlet {
                                conn.rs2 = conn.state2.executeQuery(query2); 
                                System.out.println(query2);
                                while(conn.rs2.next()){
-                         
-                            DB.setFNAME(conn.rs2.getString("FirstName"));
+                         if(session.getAttribute("lockNames")==null){
+                            DB.setFNAME("");
+                            DB.setMNAME("");
+                            DB.setPHONENO("");
+                            DB.setPHONENO1("");   
+                                }
+                                else{
+                                if(session.getAttribute("lockNames").toString().equals("YES")){
+                            DB.setFNAME("");
+                            DB.setMNAME("");
+                            DB.setPHONENO("");
+                            DB.setPHONENO1("");      
+                                }
+                                else{
+                           
+                            
+                             DB.setFNAME(conn.rs2.getString("FirstName"));
                             DB.setMNAME(conn.rs2.getString("LastName"));
                             DB.setPHONENO(conn.rs2.getString("PhoneNo"));
                             DB.setPHONENO1(conn.rs2.getString("PhoneNo1"));
+                                }
+                         }
                          details.add(DB);
                                }
                      

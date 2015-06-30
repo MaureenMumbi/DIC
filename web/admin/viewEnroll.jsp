@@ -196,13 +196,13 @@ else{ %>
 		
 			<tr>
 			<th>UniqueID</th>
-			<th>Full Name</th>
-			<th>Client Initials</th>
+   <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%><th>Full Name</th><%}}%>
+                        <th>Client Initials</th>
 			<th>DIC Name</th>
 			<th>DOE</th>
 			<th>EDIT</th>
 			<th>Hand Used</th>
-			<th>CAPTURE FINGERPRINT</th>
+                        <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%><th>CAPTURE FINGERPRINT</th><%}}%>
 			<th>DELETE FSW</th>
 			
 			
@@ -238,7 +238,7 @@ else{ %>
             <tr id="<%=pageContext.getAttribute("UniqueID")%>">
            
            <td class="sorting_1">  ${today.UNIQUEID} </td>
-           <td class="sorting_1">${today.NAME} </td>
+         <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%><td class="sorting_1">${today.NAME} </td><%}}%>
            <td class="sorting_1">${today.CLIENTINIT} </td>
            <td class="sorting_1">${today.DICNAME} </td>
            <td class="sorting_1">${today.DOE} </td>
@@ -256,10 +256,8 @@ else{ %>
                                     <option value="left and right">both hands</option>
                                 </select> ${today.HAND} </td>
                       
-              
-                <td class="sorting_1"><input type="button"  name="capture" value="Capture Fingerprint" onclick="capturefingerprint('${today.UNIQUEID}')"></td>
-              
-             
+              <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%><td class="sorting_1"><input type="button"  name="capture" value="Capture Fingerprint" onclick="capturefingerprint('${today.UNIQUEID}')"></td><%}}%>
+               
                <% session.setAttribute("UniqueID", pageContext.getAttribute("UniqueID"));%>
 
             <% if (session.getAttribute("AccessLevel").equals("2")){%>

@@ -598,11 +598,11 @@ UniqueID=request.getParameter("UniqueID");
             <td></td> 
             <td>Client Name :</td> <td>     
               <% if(session.getAttribute("UniqueID")!=null){%>
-                <input type="text" name="client_name" id="client_name" value="<%=session.getAttribute("name")%>" style="width: 200px" required="true" disabled="true" class="textbox">
+                <input type="text" name="client_name" id="client_name" value="<%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%> <%=name%><%}}%>" style="width: 200px" required="true" disabled="true" class="textbox">
            
                 <%} else if(!name.equals("") && name!=null){%>
                 
-                <input type="text" name="client_name" id="client_name" value="<%= name%>" style="width: 200px" required="true" disabled="true" class="textbox">
+                <input type="text" name="client_name" id="client_name" value="<%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%> <%=name%><%}}%>" style="width: 200px" required="true" disabled="true" class="textbox">
            
             <%}%>
             </td>  </tr>

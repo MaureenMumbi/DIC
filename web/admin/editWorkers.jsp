@@ -85,9 +85,18 @@ if(request.getAttribute("userList")!=null && request.getAttribute("userList")!="
                 AgeID=userList.get(22).toString();
                 venueOther=userList.get(23).toString();
                 Diclearn1=userList.get(24).toString();
+                if(session.getAttribute("lockNames")==null){
+                    
+                }
+                else{
+                     if(session.getAttribute("lockNames").toString().equals("YES")){
+                     }
+                     else{
                 FirstName=userList.get(25).toString();
                 MiddleName=userList.get(26).toString();
                 LastName=userList.get(27).toString();
+                }
+                }
                 rowid=userList.get(28).toString();
 		
 		
@@ -804,7 +813,7 @@ else{ %>
 
                                  </select></td>
                 </tr>
-                <tr class="d0"><td>Client Initials <font style="color: blue">*</font></td><td><input class="inputSize" type="text" name="ClientInit" id="ClientInit" value="<%= ClientInit%>" onfocus="return names_pop_up();" required><input type="hidden" name="client_name" id="client_name" value="<%=FirstName +" "+MiddleName+" "+LastName %>"></td>
+                <tr class="d0"><td>Client Initials <font style="color: blue">*</font></td><td><input class="inputSize" type="text" name="ClientInit" id="ClientInit" value="<%= ClientInit%>" <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%>onfocus="return names_pop_up();"<%}}%> readonly="true" required><input type="hidden" name="client_name" id="client_name" value="<%=FirstName +" "+MiddleName+" "+LastName %>"></td>
                     <td>Unique Identifier <font style="color: blue">*</font></td><td><input type="text" class="inputSize" name="UniqueID"  value="<%= UniqueID %>" id="UniqueID" required> <input type="hidden" class="inputSize" name="OLDUniqueID"  value="<%= UniqueID %>" id="OLDUniqueID" ></td>
                  </tr>
                 <tr>

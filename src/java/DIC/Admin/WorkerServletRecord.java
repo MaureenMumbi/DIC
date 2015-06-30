@@ -21,15 +21,20 @@ import javax.servlet.http.HttpSession;
  */
 public class WorkerServletRecord extends HttpServlet {
 HttpSession session;
-     
+  String user=""; 
+  boolean isnotAdminServer=true;
+   String AccessLevel;    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+      dbConnect conn = new dbConnect();		
+      session =request.getSession();
       
       String [] district=null;
       String DICName="";
-      
+      isnotAdminServer=true;
+     AccessLevel=user=""; 
        String start_date="";
        String end_date="";
       if(request.getParameter("DICName")!=null && !request.getParameter("DICName").equals("")){
@@ -42,10 +47,9 @@ HttpSession session;
 //      district = request.getParameterValues("district");}
           try {
               ArrayList enrollments =new ArrayList();
-		dbConnect conn = new dbConnect();		
-				
-			session =request.getSession();	
-			
+    
+     System.out.println("to lock : "+session.getAttribute("lockNames").toString());
+                        
 				String query = "select * from enrollment where DICName='"+DICName+"' and (STR_TO_DATE(DOE,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+start_date+"','%e/%c/%Y')) AND (STR_TO_DATE('"+end_date+"','%e/%c/%Y'))";
 				System.out.println(query);
 				conn.rs = conn.state.executeQuery(query);
@@ -54,9 +58,38 @@ HttpSession session;
 				while(conn.rs.next())
 				{
 					
-				 SummaryBean DB= new SummaryBean();
-                                 DB.setUNIQUEID(conn.rs.getString("UniqueID"));
+				SummaryBean DB= new SummaryBean();
+                                DB.setUNIQUEID(conn.rs.getString("UniqueID"));
+                                if(session.getAttribute("lockNames")==null){
+                                DB.setNAME("");     
+                                }
+                                else{
+                                if(session.getAttribute("lockNames").toString().equals("YES")){
+                               DB.setNAME("");      
+                                }
+                                else{
+//                                    if(conn.rs.getString("FirstName")!=null && !conn.rs.getString("FirstName").trim().equals("") && !conn.rs.getString("FirstName").equals("null")){
+//                                      String FirstName =    conn.rs.getString("FirstName");
+//                                        AES.decrypt(FirstName.trim());
+//                                       System.out.println("String To Decrypt : " + FirstName);
+//                                       System.out.println("Decrypted : " + AES.getDecryptedString());}
+//                                       
+//                          if(conn.rs.getString("SecondName")!=null && !conn.rs.getString("SecondName").trim().equals("") && !conn.rs.getString("SecondName").equals("null")){               
+//                     String SecondName =  conn.rs.getString("SecondName");
+//                    AES.decrypt(SecondName.trim());
+//                     System.out.println("String To Decrypt : " + SecondName);
+//                    System.out.println("Decrypted : " + AES.getDecryptedString());
+//                          }
+//                      if(conn.rs.getString("LastName")!=null && !conn.rs.getString("LastName").trim().equals("") && !conn.rs.getString("LastName").equals("null")){
+//                     String Lastname =  conn.rs.getString("LastName");
+//                    AES.decrypt(Lastname.trim());
+//                     System.out.println("String To Decrypt : " + Lastname);
+//                    System.out.println("Decrypted : " + AES.getDecryptedString());
+//                    
+//                      }
                                  DB.setNAME(conn.rs.getString("FirstName") +" "+conn.rs.getString("SecondName")+" "+conn.rs.getString("LastName"));
+                                }
+                                }
                                  DB.setCLIENTINIT(conn.rs.getString("ClientInit"));
                                  DB.setDOE(conn.rs.getString("DOE"));
                                  DB.setDICNAME(conn.rs.getString("DICName"));
