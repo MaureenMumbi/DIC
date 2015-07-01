@@ -183,21 +183,21 @@ public  Connection connect = null;
 
     }
 
-    public void calldbjsp() {
-        try {
-
-            //not so good for now because the host name is static
-
-
-            String url = "http://localhost:8080/DIC/db.jsp";
-            java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
-            //getdbsettings("M");
-        } catch (IOException ex) {
-            Logger.getLogger(dbConnect.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-
-    }
+//    public void calldbjsp() {
+//        try {
+//
+//            //not so good for now because the host name is static
+//
+//
+//            String url = "http://localhost:8080/DIC/db.jsp";
+//            java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
+//            //getdbsettings("M");
+//        } catch (IOException ex) {
+//            Logger.getLogger(dbConnect.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//
+//    }
 }
 
  

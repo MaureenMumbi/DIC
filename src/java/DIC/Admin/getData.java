@@ -4,6 +4,7 @@
  */
 package DIC.Admin;
 
+import dbConnect.AES;
 import dbConnect.dbConnect;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -48,25 +49,55 @@ public class getData extends HttpServlet {
   String dicname="";
   String wards="";
   String alldata="";
-       
+      String FirstName="";
+      String MiddleName="";
+      String LastName="";    
                                         ArrayList warddata = new ArrayList();
 //  alldata+="<thead><th>FULL NAME</th><th>UNIQUE ID</th><th>DIC</th><th>WARD</th></thead><tbody>";
   dic=request.getParameter("type");
   dbConnect conn = new dbConnect();
   
        if(warddata!=null && warddata.size()>0 ){warddata.clear();}
-  String getppls="select UPPER(FirstName),UPPER(SecondName), UPPER(LastName), UniqueID,dicname,ward from enrollment where dicname='"+dic+"'";
+  String getppls="select FirstName,SecondName, LastName, UniqueID,dicname,ward from enrollment where dicname='"+dic+"'";
   System.out.println(getppls);
   conn.rs= conn.state.executeQuery(getppls);
   while(conn.rs.next()){
-  fullname=conn.rs.getString(1)+" "+conn.rs.getString(2)+"  "+conn.rs.getString(3);
+      
+      
+      final  String strPssword ="?*1>9@(&#";    
+              AES.setKey(strPssword);
+                         if(conn.rs.getString("FirstName")!=null && !conn.rs.getString("FirstName").trim().equals("") && !conn.rs.getString("FirstName").equals("null")){
+                                    
+                                        AES.decrypt(conn.rs.getString("FirstName").trim());
+                                       System.out.println("String To Decrypt : " +  conn.rs.getString("FirstName"));
+                                       System.out.println("Decrypted : " + AES.getDecryptedString());
+                                                   
+                                                      FirstName =  AES.getDecryptedString()  ;
+                                                   }
+                                       
+                          if(conn.rs.getString("SecondName")!=null && !conn.rs.getString("SecondName").trim().equals("") && !conn.rs.getString("SecondName").equals("null")){               
+//                        
+                    AES.decrypt(conn.rs.getString("SecondName").trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString("SecondName"));
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                    MiddleName=AES.getDecryptedString();
+                          }
+                      if(conn.rs.getString("LastName")!=null && !conn.rs.getString("LastName").trim().equals("") && !conn.rs.getString("LastName").equals("null")){
+//                      Lastname =  conn.rs.getString("LastName");
+                    AES.decrypt(conn.rs.getString("LastName").trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString("LastName"));
+                     LastName=AES.getDecryptedString();
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                    
+                      }
+  fullname=FirstName+" "+MiddleName+"  "+LastName;
   dicname=conn.rs.getString(5);
   uniqueid=conn.rs.getString(4);
   wards=conn.rs.getString(6);
 // String getWards="select * from wards where subcounty='"+dicname+"'";
-//  conn.rs2= conn.state2.executeQuery(getWards);
-//  while(conn.rs2.next()){
-//  wards= conn.rs2.getString("ward");
+//  conn.rs= conn.state2.executeQuery(getWards);
+//  while(conn.rs.next()){
+//  wards= conn.rs.getString("ward");
 //  }
 
                wardbean DB= new wardbean();

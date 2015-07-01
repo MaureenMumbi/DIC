@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package biometric;
+package dbConnect;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -92,7 +92,7 @@ public class AES {
 
     public AES () {
         final String strToEncrypt = "";
-        final String jesus = "?*1>9@(&#";
+        final String jesus = "";
         AES.setKey(jesus);
 //        AES.encrypt(strToEncrypt.trim());
 //        System.out.println("String to Encrypt: " + strToEncrypt);

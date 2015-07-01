@@ -4,6 +4,7 @@
  */
 package DIC.Admin;
 
+import dbConnect.AES;
 import dbConnect.dbConnect;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -39,7 +40,9 @@ public class visitSummary extends HttpServlet {
           try {
               ArrayList summary =new ArrayList();
 		dbConnect conn = new dbConnect();		
-				
+		    String FirstName="";
+      String MiddleName="";
+      String LastName="";		
 			session =request.getSession();	
 				
 				String query = "select * from enrollment";
@@ -60,7 +63,42 @@ public class visitSummary extends HttpServlet {
                                DB.setNAME("");      
                                 }
                                 else{
-                                 DB.setNAME(conn.rs.getString("FirstName") +" "+conn.rs.getString("SecondName")+" "+conn.rs.getString("LastName"));
+                                     final  String strPssword ="?*1>9@(&#"; 
+              AES.setKey(strPssword);
+                         if(conn.rs.getString("FirstName")!=null && !conn.rs.getString("FirstName").trim().equals("") && !conn.rs.getString("FirstName").equals("null")){
+                                    
+                                        AES.decrypt(conn.rs.getString("FirstName").trim());
+                                       System.out.println("String To Decrypt : " +  conn.rs.getString("FirstName"));
+                                       System.out.println("Decrypted : " + AES.getDecryptedString());
+                                                   
+                                                      FirstName =  AES.getDecryptedString()  ;
+                                                   }
+                                       
+                          if(conn.rs.getString("SecondName")!=null && !conn.rs.getString("SecondName").trim().equals("") && !conn.rs.getString("SecondName").equals("null")){               
+//                        
+                    AES.decrypt(conn.rs.getString("SecondName").trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString("SecondName"));
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                    MiddleName=AES.getDecryptedString();
+                          }
+                      if(conn.rs.getString("LastName")!=null && !conn.rs.getString("LastName").trim().equals("") && !conn.rs.getString("LastName").equals("null")){
+//                      Lastname =  conn.rs.getString("LastName");
+                    AES.decrypt(conn.rs.getString("LastName").trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString("LastName"));
+                     LastName=AES.getDecryptedString();
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                    
+                      }
+              
+              
+                           
+                     
+                                 DB.setNAME(FirstName +" "+MiddleName+" "+LastName);
+                                    
+                                    
+                                    
+                                    
+//                                 DB.setNAME(conn.rs.getString("FirstName") +" "+conn.rs.getString("SecondName")+" "+conn.rs.getString("LastName"));
                                 }
                                 }
                                  DB.setCLIENTINIT(conn.rs.getString("ClientInit"));

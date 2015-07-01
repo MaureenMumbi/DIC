@@ -369,7 +369,8 @@ else{ %>
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
     <thead>
     <th>UNIQUEID</th>
-<%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%>  <th>FULLNAME</th><%}}%>
+<%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{
+    %>  <th>FULLNAME</th><%}}%>
    <th>DICNAME</th>
     <th>WARD</th>
 <!--    <th>Current</th>-->

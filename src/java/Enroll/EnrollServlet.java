@@ -370,49 +370,50 @@ System.out.println(UniqueID);
                     
                   
                     String first="";
-                  
+                     final  String strPssword ="?*1>9@(&#";    
+              AES.setKey(strPssword);
                     if(firstname!=null && !firstname.trim().equals("") && !firstname.equals("null")){
-                       Destest.encrypt (firstname.trim());
+                       AES.encrypt (firstname.trim());
                         System.out.println("Encrypted______________________: " + firstname);
                    
-                    System.out.println("Encrypted:____________________ " + Destest.getEncryptedString());
-                      first= Destest.getEncryptedString();
+                    System.out.println("Encrypted:____________________ " + AES.getEncryptedString());
+                      first= AES.getEncryptedString();
             }
                     
                     //middle name encrypt
                       String midname="";
                      if(mname!=null && !mname.trim().equals("") && !mname.equals("null")){
-                     Destest.encrypt (mname.trim());
+                     AES.encrypt (mname.trim());
                         System.out.println("Encrypted______________________: " + mname);
                    
-                    System.out.println("Encrypted:____________________ " + Destest.getEncryptedString());
-                      midname=Destest.getEncryptedString();
+                    System.out.println("Encrypted:____________________ " + AES.getEncryptedString());
+                      midname=AES.getEncryptedString();
                      }
                      //last name encrypt
                      String lasname="";
                       if(lname!=null && !lname.trim().equals("") && !lname.equals("null")){
-                     Destest.encrypt (lname.trim());
+                     AES.encrypt (lname.trim());
                         System.out.println("Encrypted______________________: " + lname);
                    
-                    System.out.println("Encrypted:____________________ " + Destest.getEncryptedString());
-                      lasname= Destest.getEncryptedString();
+                    System.out.println("Encrypted:____________________ " + AES.getEncryptedString());
+                      lasname= AES.getEncryptedString();
                       }
                       String phone="";
                      if(phoneno!=null && !phoneno.trim().equals("") && !phoneno.equals("null")){
-                     Destest.encrypt (phoneno.trim());
+                     AES.encrypt (phoneno.trim());
                       System.out.println("String to Encrypt:_______****(**** " + phoneno); 
-                    System.out.println("Encrypted:________******** " + Destest.getEncryptedString());
+                    System.out.println("Encrypted:________******** " + AES.getEncryptedString());
                     
-                     phone= Destest.getEncryptedString();
+                     phone= AES.getEncryptedString();
                      } 
                      String biofing="";
                      if(fingerprints!=null && !fingerprints.trim().equals("") && !fingerprints.equals("null")){
                     
                     
-                      Destest.encrypt (fingerprints.trim());
+                      AES.encrypt (fingerprints.trim());
                     System.out.println("String to Encrypt:_______+++++++ " + fingerprints); 
-                   System.out.println("Encrypted:_______+++++++ " + Destest.getEncryptedString());
-                    biofing=Destest.getEncryptedString();
+                   System.out.println("Encrypted:_______+++++++ " + AES.getEncryptedString());
+                    biofing=AES.getEncryptedString();
                      }
                      else{
                      biofing="";}

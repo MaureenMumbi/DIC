@@ -4,6 +4,7 @@
  */
 package Reports;
 
+import dbConnect.AES;
 import dbConnect.dbConnect;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -53,6 +54,9 @@ public class Appointments extends HttpServlet {
            String dates="";
            int count=0;
            String date="";
+               String FirstName="";
+      String MiddleName="";
+      String PhoneNo="";
             ArrayList details = new ArrayList();
   // String query = "SELECT * FROM anc_visits WHERE DATE(VisitDate) = DATE(NOW())";     
                             if(details!=null && details.size()>0)
@@ -67,12 +71,12 @@ public class Appointments extends HttpServlet {
                          
                         // query="SELECT UniqueID, DOA FROM riskreductionmain WHERE DOA BETWEEN SYSDATE() AND DATE_ADD(SYSDATE(), INTERVAL 3 MONTH); ";
                          // query="SELECT DOA FROM riskreductionmain where DATE_SUB(DOA,INTERVAL 3 MONTH)=CURDATE()";     
-                         conn.rs = conn.state.executeQuery(query); 
-                          while(conn.rs.next()){
+                         conn.rs2 = conn.state.executeQuery(query); 
+                          while(conn.rs2.next()){
                               count++;
-                              uniqueid= conn.rs.getString(1);
-                              doa= conn.rs.getString(2);
-                              dates= conn.rs.getString(3);
+                              uniqueid= conn.rs2.getString(1);
+                              doa= conn.rs2.getString(2);
+                              dates= conn.rs2.getString(3);
                               
                                   AppointmentBean DB= new AppointmentBean();
                                     DB.setUNIQUEID(uniqueid);
@@ -96,11 +100,43 @@ public class Appointments extends HttpServlet {
                                 }
                                 else{
                            
-                            
-                             DB.setFNAME(conn.rs2.getString("FirstName"));
-                            DB.setMNAME(conn.rs2.getString("LastName"));
-                            DB.setPHONENO(conn.rs2.getString("PhoneNo"));
-                            DB.setPHONENO1(conn.rs2.getString("PhoneNo1"));
+                                final  String strPssword = "?*1>9@(&#";    
+              AES.setKey(strPssword);
+                         if(conn.rs2.getString("FirstName")!=null && !conn.rs2.getString("FirstName").trim().equals("") && !conn.rs2.getString("FirstName").equals("null")){
+                                    
+                                        AES.decrypt(conn.rs2.getString("FirstName").trim());
+                                       System.out.println("String To Decrypt : " +  conn.rs2.getString("FirstName"));
+                                       System.out.println("Decrypted : " + AES.getDecryptedString());
+                                                   
+                                                      FirstName =  AES.getDecryptedString()  ;
+                                                   }
+                                       
+                          if(conn.rs2.getString("SecondName")!=null && !conn.rs2.getString("SecondName").trim().equals("") && !conn.rs2.getString("SecondName").equals("null")){               
+//                        
+                    AES.decrypt(conn.rs2.getString("SecondName").trim());
+                     System.out.println("String To Decrypt : " + conn.rs2.getString("SecondName"));
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                    MiddleName=AES.getDecryptedString();
+                          }
+                      if(conn.rs2.getString("PhoneNo")!=null && !conn.rs2.getString("PhoneNo").trim().equals("") && !conn.rs2.getString("PhoneNo").equals("null")){
+//                      Lastname =  conn.rs2.getString("LastName");
+                    AES.decrypt(conn.rs2.getString("PhoneNo").trim());
+                     System.out.println("String To Decrypt : " + conn.rs2.getString("PhoneNo"));
+                     PhoneNo=AES.getDecryptedString();
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                    
+                      }
+              
+              
+                           
+                     
+//                                 DB.setNAME(FirstName +" "+MiddleName+" "+PhoneNo);
+                                    
+                                    
+                             DB.setFNAME(FirstName);
+                            DB.setMNAME(MiddleName);
+                            DB.setPHONENO(PhoneNo);
+                            DB.setPHONENO1("");
                                 }
                          }
                          details.add(DB);

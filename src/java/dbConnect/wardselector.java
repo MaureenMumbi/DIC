@@ -40,7 +40,7 @@ public class wardselector extends HttpServlet {
            currentwards="";
            
            String districts="select * from wards where subcounty='"+dicname+"'";
-           System.out.println(districts);
+//           System.out.println(districts);
            dbConnect conn=new dbConnect();
            
            conn.rs=conn.state.executeQuery(districts);

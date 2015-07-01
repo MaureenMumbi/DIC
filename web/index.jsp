@@ -83,7 +83,7 @@
       <div><h1 style="text-align: center"><img src="images/aphia_logo.png" height="70" width="200"/>
           </h1></div>   
     
-    
+    <H3 style="text-align: center;">DIC SYSTEM</h3>
     
     <div id="container">
         
@@ -100,9 +100,11 @@
                 </script> <%
                 
                 session.removeAttribute("backupsms");
-                            }%>  
+                            }%> 
+                            
+                            
       <form name=login id="login" method="post"  action="LoginServlet">
-                        <h2>Login:</h2>
+                        <h2>Login</h2>
                         <%
  
                             if ( session.getAttribute("login") != null)  { %>
@@ -144,7 +146,7 @@ checkVersion();
  });   
  function checkVersion(){
 //    CHECK Version------------------- 
-$("#version").html("<p>Checking for newer Version...</p>");
+$("#versionChecker").html("<p>Checking for newer Version...</p>");
 var versionText="",daysRemaining,warningText="",sentOn="",version_name="";
  $.ajax({
                     url:"version",

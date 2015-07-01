@@ -8,6 +8,7 @@ import com.digitalpersona.uareu.Reader;
 import com.digitalpersona.uareu.ReaderCollection;
 import com.digitalpersona.uareu.UareUException;
 import com.digitalpersona.uareu.UareUGlobal;
+import dbConnect.AES;
 import dbConnect.dbConnect;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -52,7 +53,9 @@ public class searchFP extends HttpServlet {
          locationid="";
          chosenreader = "";
         returntable="";
-       
+          String FirstName="";
+      String MiddleName="";
+      String LastName="";
       
         
         mcollection=null;
@@ -220,9 +223,47 @@ public class searchFP extends HttpServlet {
           
                   count++;
         
-               
-             returntable=returntable+"<tr><td><h3>Full Name   :</h3></td><td><h3>"+conn.rs1.getString("FirstName") +"  "+conn.rs1.getString("LastName") +"</h3></td></tr><tr><td><h3>DIC Name</h3></td><td><h3>"+conn.rs1.getString("DICName") +"</h3></td></tr><tr><td><h3>UniqueID    :</h3></td><td><h3>"+conn.rs1.getString("UniqueID")+"</h3></td></tr>";  
-           
+                final  String strPssword ="?*1>9@(&#";    
+              AES.setKey(strPssword);
+                         if(conn.rs1.getString("FirstName")!=null && !conn.rs1.getString("FirstName").trim().equals("") && !conn.rs1.getString("FirstName").equals("null")){
+                                    
+                                        AES.decrypt(conn.rs1.getString("FirstName").trim());
+                                       System.out.println("String To Decrypt : " +  conn.rs1.getString("FirstName"));
+                                       System.out.println("Decrypted : " + AES.getDecryptedString());
+                                                   
+                                                      FirstName =  AES.getDecryptedString()  ;
+                                                   }
+                                       
+                          if(conn.rs1.getString("SecondName")!=null && !conn.rs1.getString("SecondName").trim().equals("") && !conn.rs1.getString("SecondName").equals("null")){               
+//                        
+                    AES.decrypt(conn.rs1.getString("SecondName").trim());
+                     System.out.println("String To Decrypt : " + conn.rs1.getString("SecondName"));
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                    MiddleName=AES.getDecryptedString();
+                          }
+                      if(conn.rs1.getString("LastName")!=null && !conn.rs1.getString("LastName").trim().equals("") && !conn.rs1.getString("LastName").equals("null")){
+//                      Lastname =  conn.rs.getString("LastName");
+                    AES.decrypt(conn.rs1.getString("LastName").trim());
+                     System.out.println("String To Decrypt : " + conn.rs1.getString("LastName"));
+                     LastName=AES.getDecryptedString();
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                    
+                      }
+                      
+                      if(session.getAttribute("lockNames")==null){
+                             returntable=returntable+"<tr><td>Kindly Login to view details</td></tr>";  
+                
+                                }
+                                else{
+                                if(session.getAttribute("lockNames").toString().equals("YES")){
+                             returntable=returntable+"<tr><td><h3>Not allowed to view names</h3></td></tr><tr><td><h3>DIC Name</h3></td><td><h3>"+conn.rs1.getString("DICName") +"</h3></td></tr><tr><td><h3>UniqueID    :</h3></td><td><h3>"+conn.rs1.getString("UniqueID")+"</h3></td></tr>";  
+                
+                                }
+                                else{
+                                
+                                 returntable=returntable+"<tr><td><h3>Full Name   :</h3></td><td><h3>"+FirstName +"  "+LastName +"</h3></td></tr><tr><td><h3>DIC Name</h3></td><td><h3>"+conn.rs1.getString("DICName") +"</h3></td></tr><tr><td><h3>UniqueID    :</h3></td><td><h3>"+conn.rs1.getString("UniqueID")+"</h3></td></tr>";  
+           }}
+            
                
            }
             

@@ -64,8 +64,8 @@ String username="";
      function editRecord(UniqueID){
     var f=document.form;
     f.method="post";
-    f.action="/DIC/WorkerServlet?UniqueID='"+UniqueID+"'";
-    window.open("/DIC/WorkerServlet?UniqueID='"+UniqueID+"'",'_blank')
+    f.action="/DIC/admin/editWorkers.jsp?UniqueID='"+UniqueID+"'";
+    window.open("/DIC/admin/editWorkers.jsp?UniqueID='"+UniqueID+"'",'_blank')
     f.submit();
     
 }
@@ -151,7 +151,8 @@ function deleteRecord(UniqueID){
        <a class="button-1" href="../DIC/logoutServlet">LogOut</a>          
      <h5>Welcome <%=username%></h5>
      <% }else{
-               response.sendRedirect("/DIC/index.jsp"); }
+//               response.sendRedirect("/DIC/index.jsp"); 
+     }
      %>
            </div>
              <div><h1 style="text-align: center"><img src="images/aphia_logo.png" height="70" width="200"/></h1></div>   
@@ -207,6 +208,7 @@ else{ %>
 			
 			
 			
+			
 		</tr>
 			
 
@@ -235,7 +237,7 @@ else{ %>
         <input type="hidden" id="Name" name="Name" value="<%= pageContext.getAttribute("Name")%>" />
         <input type="hidden" id="Hand" name="Hand" value="<%= pageContext.getAttribute("hand")%>" />
          
-            <tr id="<%=pageContext.getAttribute("UniqueID")%>">
+             <tr id="<%=pageContext.getAttribute("UniqueID")%>">
            
            <td class="sorting_1">  ${today.UNIQUEID} </td>
          <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%><td class="sorting_1">${today.NAME} </td><%}}%>

@@ -33,7 +33,7 @@ boolean isConnected;
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-          system_version=1;maxDays=10;daysRemaining=0;daysOutdated=0;
+          system_version=1;maxDays=5;daysRemaining=0;daysOutdated=0;
           days=maxId=0;versionDate="";
        url="";
          isConnected=true;
@@ -58,7 +58,7 @@ boolean isConnected;
                url=conn.rs1.getString(4);
                System.out.println("days : "+days);
            }
-           if(days>10){
+           if(days>maxDays){
                daysOutdated=days-maxDays;
                status="outdated@@"+days+"@@"+versionDate+"@@"+version_name;
                status="<p style='color:red'>You are using an outdated version of DIC system,Please <a href='"+url+"' target='_blank'>Click here to download updates.</a><img src='images/new_arrow2.gif' style='width: 40px; height:40px;'/></p>" +

@@ -4,11 +4,14 @@
  */
 package Reports;
 
+import dbConnect.AES;
+
 import dbConnect.dbConnect;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -48,7 +51,9 @@ HttpSession session;
         try {
             dbConnect conn = new dbConnect();
           session=request.getSession();
+          if(session.getAttribute("lockNames")!=null){
           System.out.println("status : "+session.getAttribute("lockNames").toString());
+          }
          String startdate="";
           String enddate="";
           String type="";
@@ -1799,6 +1804,12 @@ outStream.flush();
     }
     
     if(type.equals("enrollment")){
+ final String jesus = "?*1>9@(&#";
+        AES.setKey(jesus);
+                   String PhoneNo="";       
+                   String FirstName="";       
+                   String MiddleName="";       
+                   String LastName="";       
               String fingerprint="";
                  String fingerprints="";
                         cell = rw1.createCell(0);
@@ -1932,6 +1943,11 @@ outStream.flush();
                  cell14.setCellValue("");    
                                 }
                                 else{
+                                    
+                                    
+                                    
+                                    
+                                    
                     cell4 = rw1.createCell(19);
                      cell4.setCellValue("FirstName");
                       cell4.setCellStyle(indicator_style); 
@@ -1962,7 +1978,7 @@ outStream.flush();
         
    String alldata="select UniqueID, UPPER(ClientInit),DOE,District,DICName, DOB, Sex, Age,MaritalStatus, Children, ChildNo, "
            + "Religion, EducationLevel, PhoneNo, Residence, DICLearn, Email, "
-           + "PhoneNo1, Venue,  UPPER(FirstName), UPPER(SecondName), UPPER(LastName), venueOther, DicLearnOther,capturedhand,fingerprint "
+           + "PhoneNo1, Venue,  FirstName, SecondName,LastName, venueOther, DicLearnOther,capturedhand,fingerprint "
            + "from enrollment where (STR_TO_DATE(DOE, '%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+startdate+"', '%e/%c/%Y')) AND (STR_TO_DATE('"+enddate+"', '%e/%c/%Y')) order by enrollment.UniqueID limit 1000000 ";
 System.out.println(alldata);
 conn.rs = conn.state.executeQuery(alldata);
@@ -2023,6 +2039,7 @@ count++;
                  cell14=rwa.createCell(10);
                  cell14.setCellValue(conn.rs.getString(11));
                    cell14.setCellStyle(cell_styles);
+                   
                  cell14=rwa.createCell(11);
                  cell14.setCellValue(conn.rs.getString(12));
                    cell14.setCellStyle(cell_styles);
@@ -2044,8 +2061,19 @@ count++;
                            cell4.setCellValue("");    
                            }
                            else{
+                               
+                        
+              
+               if(conn.rs.getString("PhoneNo")!=null && !conn.rs.getString("PhoneNo").trim().equals("") && !conn.rs.getString("PhoneNo").equals("null")){
+//                      Lastname =  conn.rs.getString("LastName");
+                    AES.decrypt(conn.rs.getString("PhoneNo").trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString("PhoneNo"));
+                     PhoneNo=AES.getDecryptedString();
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                    
+                      }
                     cell14=rwa.createCell(13);
-                 cell14.setCellValue(conn.rs.getString(14));
+                     cell14.setCellValue("aaaa"+PhoneNo);
                    cell14.setCellStyle(cell_styles);
                        }
                        }
@@ -2123,16 +2151,54 @@ count++;
                  cell14.setCellValue("");    
                                 }
                                 else{
-               
                   cell14=rwa.createCell(19);
-                  cell14.setCellValue(conn.rs.getString(20).replace("UPPER(",""));
+                  cell14.setCellValue("");
                    cell14.setCellStyle(cell_styles);
+                         if(conn.rs.getString("FirstName")!=null && !conn.rs.getString("FirstName").trim().equals("") && !conn.rs.getString("FirstName").equals("null")){
+                                    
+                                        AES.decrypt(conn.rs.getString("FirstName").trim());
+                                       System.out.println("String To Decrypt : " +  conn.rs.getString("FirstName"));
+                                       System.out.println("Decrypted : " + AES.getDecryptedString());
+                                                   
+                                                      FirstName =  AES.getDecryptedString()  ;
+                                                 
+                         cell14=rwa.createCell(19);
+                  cell14.setCellValue(FirstName.toUpperCase());
+                   cell14.setCellStyle(cell_styles);
+//                   System.out.println("locale   "+FirstName.toUpperCase(Locale.ENGLISH));
+                         }
                   cell14=rwa.createCell(20);
-                  cell14.setCellValue(conn.rs.getString(21).replace("UPPER(",""));
+                  cell14.setCellValue("");
+                   cell14.setCellStyle(cell_styles);            
+                          if(conn.rs.getString("SecondName")!=null && !conn.rs.getString("SecondName").trim().equals("") && !conn.rs.getString("SecondName").equals("null")){               
+//                        
+                    AES.decrypt(conn.rs.getString("SecondName").trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString("SecondName"));
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                    MiddleName=AES.getDecryptedString();
+                         
+                              
+                  cell14=rwa.createCell(20);
+                  cell14.setCellValue(MiddleName.toUpperCase());
                    cell14.setCellStyle(cell_styles);
-                 cell14=rwa.createCell(21);
-                 cell14.setCellValue(conn.rs.getString(22).replace("UPPER(",""));
+                          }
+                  cell14=rwa.createCell(21);
+                 cell14.setCellValue("");
+                  cell14.setCellStyle(cell_styles);
+                      if(conn.rs.getString(22)!=null && !conn.rs.getString(22).trim().equals("") && !conn.rs.getString(22).equals("null")){
+//                      Lastname =  conn.rs.getString("LastName");
+                    AES.decrypt(conn.rs.getString(22).trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString(22));
+                     LastName=AES.getDecryptedString();
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                      cell14=rwa.createCell(21);
+                 cell14.setCellValue(LastName.toUpperCase());
                    cell14.setCellStyle(cell_styles);
+                      }
+              System.out.println("name     "+conn.rs.getString(22));
+              
+              
+               
                                 }
                   }
                 

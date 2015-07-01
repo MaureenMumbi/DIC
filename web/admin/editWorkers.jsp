@@ -1,3 +1,4 @@
+<%@page import="dbConnect.AES"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%-- 
@@ -9,7 +10,7 @@
 <%@page import="dbConnect.dbConnect"%>
 <%!
  String child="";
-dbConnect conn = new dbConnect();
+
 String operation="";
 String occupation="";
 
@@ -51,40 +52,49 @@ String FirstName="";
 String MiddleName="";
 String LastName="";
  String rowid="" ;
-
+String ward="";
 List  userList=null;
 %>
 <%
-//fetching the data stored in the arraylist called userlist 
-if(request.getAttribute("userList")!=null && request.getAttribute("userList")!="")
-{
-		userList = (ArrayList)request.getAttribute("userList");
-		
-		UniqueID=userList.get(0).toString();
-		ClientInit=userList.get(1).toString();
-		DOE=userList.get(2).toString();
-		District=userList.get(3).toString();
-		DICName=userList.get(4).toString();
-		DOB=userList.get(5).toString();
-		Sex=userList.get(6).toString();
-		Age=userList.get(7).toString();
-		MaritalStatus=userList.get(8).toString();
-                Children=userList.get(9).toString();
-                ChildNo=userList.get(10).toString();
-                Religion=userList.get(11).toString();
-                EducationLevel=userList.get(12).toString();
-                PhoneNo=userList.get(13).toString();
-                Residence=userList.get(14).toString();
-                OperationArea=userList.get(15).toString();
-                Occupation=userList.get(16).toString();
-                MemberofID=userList.get(17).toString();
-                DICLearn=userList.get(18).toString();
-                Email=userList.get(19).toString();
-                PhoneNo1=userList.get(20).toString();
-                Venue=userList.get(21).toString();
-                AgeID=userList.get(22).toString();
-                venueOther=userList.get(23).toString();
-                Diclearn1=userList.get(24).toString();
+                       dbConnect conn = new dbConnect();
+		 String UniqueIDs=request.getParameter("UniqueID");
+		String query = "select * from enrollment where UniqueID ="+UniqueIDs;
+          
+				conn.rs = conn.state7.executeQuery(query);
+
+
+				while(conn.rs.next()){
+         UniqueID =conn.rs.getString("UniqueID");
+         ClientInit=conn.rs.getString("ClientInit");
+         DOE=conn.rs.getString("DOE");
+         District=conn.rs.getString("District");
+         DICName=conn.rs.getString("DICName");
+         DOB=conn.rs.getString("DOB");
+         Sex=conn.rs.getString("Sex");
+         Age=conn.rs.getString("Age");
+         MaritalStatus=conn.rs.getString("MaritalStatus");
+         Children=conn.rs.getString("Children");
+         ChildNo=conn.rs.getString("ChildNo");
+         Religion=conn.rs.getString("Religion"); 
+         EducationLevel=conn.rs.getString("EducationLevel"); 
+//         PhoneNo=conn.rs.getString("PhoneNo"); 
+         Residence=conn.rs.getString("Residence"); 
+         OperationArea=conn.rs.getString("OperationArea"); 
+         Occupation=conn.rs.getString("Occupation"); 
+         MemberofID=conn.rs.getString("MemberOfID"); 
+         DICLearn=conn.rs.getString("DICLearn"); 
+         Email=conn.rs.getString("Email"); 
+         PhoneNo1=conn.rs.getString("PhoneNo1"); 
+         Venue=conn.rs.getString("Venue"); 
+         AgeID=conn.rs.getString("AgeID"); 
+          ward=conn.rs.getString("ward");
+//         FirstName=conn.rs.getString("FirstName"); 
+//         MiddleName=conn.rs.getString("SecondName"); 
+//         LastName=conn.rs.getString("LastName"); 
+         venueOther=conn.rs.getString("venueOther"); 
+           
+              
+              
                 if(session.getAttribute("lockNames")==null){
                     
                 }
@@ -92,17 +102,97 @@ if(request.getAttribute("userList")!=null && request.getAttribute("userList")!="
                      if(session.getAttribute("lockNames").toString().equals("YES")){
                      }
                      else{
-                FirstName=userList.get(25).toString();
-                MiddleName=userList.get(26).toString();
-                LastName=userList.get(27).toString();
+//                FirstName=userList.get(25).toString();
+//                MiddleName=userList.get(26).toString();
+//                LastName=userList.get(27).toString();
+                  final  String strPssword = "?*1>9@(&#";      
+              AES.setKey(strPssword);
+                         if(conn.rs.getString("FirstName")!=null && !conn.rs.getString("FirstName").trim().equals("") && !conn.rs.getString("FirstName").equals("null")){
+                                    
+                                        AES.decrypt(conn.rs.getString("FirstName").trim());
+                                       System.out.println("String To Decrypt : " +  conn.rs.getString("FirstName"));
+                                       System.out.println("Decrypted : " + AES.getDecryptedString());
+                                                   
+                                                      FirstName =  AES.getDecryptedString()  ;
+                                                   }
+                                       
+                          if(conn.rs.getString("SecondName")!=null && !conn.rs.getString("SecondName").trim().equals("") && !conn.rs.getString("SecondName").equals("null")){               
+//                        
+                    AES.decrypt(conn.rs.getString("SecondName").trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString("SecondName"));
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                    MiddleName=AES.getDecryptedString();
+                          }
+                      if(conn.rs.getString("LastName")!=null && !conn.rs.getString("LastName").trim().equals("") && !conn.rs.getString("LastName").equals("null")){
+//                      Lastname =  conn.rs.getString("LastName");
+                    AES.decrypt(conn.rs.getString("LastName").trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString("LastName"));
+                     LastName=AES.getDecryptedString();
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                    
+                      }
+              
+               if(conn.rs.getString("PhoneNo")!=null && !conn.rs.getString("PhoneNo").trim().equals("") && !conn.rs.getString("PhoneNo").equals("null")){
+//                      Lastname =  conn.rs.getString("LastName");
+                    AES.decrypt(conn.rs.getString("PhoneNo").trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString("PhoneNo"));
+                     PhoneNo=AES.getDecryptedString();
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                    
+                      }
+                     
+                     
+                     
+                      System.out.println("nnnnnnnnnnnnn"+FirstName+"  "+MiddleName+" "+LastName);
+                     
+                     
+                     
+                     }
                 }
-                }
-                rowid=userList.get(28).toString();
-		
+                                               
+              
+        
+//        System.out.println("nnnnnnnnnnnnn"+FirstName+"  "+MiddleName+" "+LastName);
+        
+         
+                 }
+         
+         
+         
+//		UniqueID=conn.rs2.toString();
+//		ClientInit=userList.get(1).toString();
+//		DOE=userList.get(2).toString();
+//		District=userList.get(3).toString();
+//		DICName=userList.get(4).toString();
+//		DOB=userList.get(5).toString();
+//		Sex=userList.get(6).toString();
+//		Age=userList.get(7).toString();
+//		MaritalStatus=userList.get(8).toString();
+//                Children=userList.get(9).toString();
+//                ChildNo=userList.get(10).toString();
+//                Religion=userList.get(11).toString();
+//                EducationLevel=userList.get(12).toString();
+//                PhoneNo=userList.get(13).toString();
+//                Residence=userList.get(14).toString();
+//                OperationArea=userList.get(15).toString();
+//                Occupation=userList.get(16).toString();
+//                MemberofID=userList.get(17).toString();
+//                DICLearn=userList.get(18).toString();
+//                Email=userList.get(19).toString();
+//                PhoneNo1=userList.get(20).toString();
+//                Venue=userList.get(21).toString();
+//                AgeID=userList.get(22).toString();
+//                venueOther=userList.get(23).toString();
+//                Diclearn1=userList.get(24).toString();
+//                FirstName=userList.get(25).toString();
+//                MiddleName=userList.get(26).toString();
+//                LastName=userList.get(27).toString();
+//                rowid=userList.get(28).toString();
+//		
 		
 		
 
-}
+
 %>
 
 <html>
@@ -112,18 +202,18 @@ if(request.getAttribute("userList")!=null && request.getAttribute("userList")!="
     
     
 
-    <link rel="StyleSheet" href="admin/css/main.css" type="text/css" />
-    <link rel="stylesheet" href="admin/css/style.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="admin/themes/base/jquery.ui.all.css">
-    <link rel="stylesheet" href="admin/themes/eggplant/jquery.ui.all.css">
+    <link rel="StyleSheet" href="css/main.css" type="text/css" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="themes/base/jquery.ui.all.css">
+    <link rel="stylesheet" href="themes/eggplant/jquery.ui.all.css">
     
     <script src="scripts/jquery-1.7.2.js"></script>
     
-    <script src="admin/ui/jquery.ui.core.js"></script>
-    <script src="admin/ui/jquery.ui.widget.js"></script>
-    <script src="admin/ui/jquery.ui.datepicker.js"></script>
-    <script src="admin/js/datepicker.js"></script>
-       <script src="admin/ui/jquery.ui.datepicker.js"></script>
+    <script src="ui/jquery.ui.core.js"></script>
+    <script src="ui/jquery.ui.widget.js"></script>
+    <script src="ui/jquery.ui.datepicker.js"></script>
+    <script src="js/datepicker.js"></script>
+       <script src="ui/jquery.ui.datepicker.js"></script>
         <script>	
                 $(function() {
         $( ".datepickerDOB" ).datepicker({
@@ -306,6 +396,50 @@ xmlhttp.send();
 Unique();
 
 }//end of filter districts
+
+
+function filter_wards(DICName){
+ 
+     
+   var dist = document.getElementById("DICName").value;
+   var distr = new Array();
+// this will return an array with strings "1", "2", etc.
+distr = dist.split(",");
+var dicname=distr[0];
+//
+// window.open("districtselector?county="+dist.value);     
+var xmlhttp;    
+if (dicname=="")
+{
+//filter the districts    
+
+
+
+document.getElementById("ward").innerHTML="<option value=\"\">Choose Ward</option>";
+return;
+}
+if (window.XMLHttpRequest)
+{// code for IE7+, Firefox, Chrome, Opera, Safari
+xmlhttp=new XMLHttpRequest();
+}
+else
+{// code for IE6, IE5
+xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+}
+xmlhttp.onreadystatechange=function()
+{
+if (xmlhttp.readyState==4 && xmlhttp.status==200)
+{
+document.getElementById("ward").innerHTML=xmlhttp.responseText;
+}
+}
+xmlhttp.open("POST","/DIC/wardselector?dicname="+dicname,true);
+
+xmlhttp.send();
+
+
+}//end of filter districts
+
 </script> 
 
 <SCRIPT language="JAVASCRIPT">
@@ -690,7 +824,7 @@ String UniqueCode;
    
            <!--=========================================menu=========================================-->     
               <div style=" width:1350px;"> 
-                     <%
+     <%
 if(session.getAttribute("AccessLevel")!=null){            
 
 if (session.getAttribute("AccessLevel").equals("2")) {%>
@@ -808,12 +942,23 @@ else{ %>
                                  </select></td>
                                  <td>DIC Name <font style="color: red">*</font></td>
                                  <td>
-                                 <select id="DICName"  name="DICName" >
+                                 <select id="DICName"  name="DICName" onchange="filter_wards(this);">
                                  <option selected value="<%= DICName %>"><%= DICName %></option>  
 
                                  </select></td>
                 </tr>
-                <tr class="d0"><td>Client Initials <font style="color: blue">*</font></td><td><input class="inputSize" type="text" name="ClientInit" id="ClientInit" value="<%= ClientInit%>" <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%>onfocus="return names_pop_up();"<%}}%> readonly="true" required><input type="hidden" name="client_name" id="client_name" value="<%=FirstName +" "+MiddleName+" "+LastName %>"></td>
+                 <tr  class="d1">
+               
+                         <td>Ward <font style="color: blue">*</font></td>
+                                 <td>
+                                 <select id="ward"  name="ward" >
+                                 <option value="">Choose Ward </option>  
+                                      <option selected value="<%= ward %>"><%= ward %></option>  
+                                 </select></td>
+                   
+                    
+                </tr>
+                <tr class="d0"><td>Client Initials <font style="color: blue">*</font></td><td><input class="inputSize" type="text" name="ClientInit" id="ClientInit" value="<%= ClientInit%>" onfocus="return names_pop_up();" required><input type="hidden" name="client_name" id="client_name" value="<%=FirstName +" "+MiddleName+" "+LastName %>"></td>
                     <td>Unique Identifier <font style="color: blue">*</font></td><td><input type="text" class="inputSize" name="UniqueID"  value="<%= UniqueID %>" id="UniqueID" required> <input type="hidden" class="inputSize" name="OLDUniqueID"  value="<%= UniqueID %>" id="OLDUniqueID" ></td>
                  </tr>
                 <tr>
@@ -835,12 +980,20 @@ else{ %>
                        <% if((Sex).equalsIgnoreCase("Female")){ %>
                            
                              <option selected value=" <%= Sex  %>"><%= Sex %></option>
+                             <option  value="Male">Male</option>
                            
                              <%}
-                       else{%>
-                        <option selected value=""></option>
-                        <option selected value="Female"></option>
-                       <%}%>
+                                                      else if((Sex).equalsIgnoreCase("Male")){%>
+                                                     <option  value="Female"></option>
+                                                      <option selected value="Male"></option>
+                       
+                       <%}else{%>
+                                                      <option  value=""></option>
+                                                      <option  value="Female"></option>
+                                                      <option selected value="Male"></option>
+                                                      <%
+                       }
+%>
                         </select>
                      </td>
                  </tr>
@@ -964,7 +1117,7 @@ else{ %>
                                                                  residences=  conn.rs2.getString("ResidenceArea"); 
                                                                 }
 
-                                                  for(int i=0;i<residenceList.size();i++){
+         for(int i=0;i<residenceList.size();i++){
                 
                                   if(residenceList.get(i).equals(residences)){
                                       %>
@@ -1374,7 +1527,9 @@ else if(id1.equals("[2]")){%>
     <option  value="1">Yes</option>
    <option  value="2">No</option>
    
-     <%}%>                       
+     <%}%> 
+  <option  value="1">Yes</option>
+   <option  value="2">No</option>
        <input type="hidden" name="memID0" value="<%= memID0%>">                   
        <input type="hidden" name="memID1" value="<%= memID1%>">                   
        <input type="hidden" name="memID2" value="<%= memID2%>">                   
@@ -1397,7 +1552,7 @@ else if(id1.equals("[2]")){%>
                             <option value="1">Yes</option>
                             <option selected value="2">No</option>
                             <%  } 
-     else if(id2.equals("")){
+     else {
                             %>
                             
                              <option value="1">Yes</option>

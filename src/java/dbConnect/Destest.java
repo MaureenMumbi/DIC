@@ -101,7 +101,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
                     final String strToEncrypt = "My text to encrypt";
                     final String strToEncrypt1 = "Maureen";
                     final String strToEncrypt2 = "Mumbi";
-                    final String strPssword = "encryptor key";
+                    final String strPssword = "?*1>9@(&#";
                     Destest.setKey(strPssword);
                    
 //                  

@@ -24,6 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import com.digitalpersona.uareu.*;
+import dbConnect.AES;
 import dbConnect.dbConnect;
 import java.math.BigInteger;
 import java.util.Calendar;
@@ -44,6 +45,7 @@ public class verification
 //        private String locationid;
 //        private String tdate;
 	 public static String Uniqid="";
+           String decfingerprint="" ;
       
 	private final String m_strPrompt1 = "Verification started\n    put your registered finger on the reader\n\n";
 	private final String m_strPrompt2 = "    put the same or any other finger on the reader\n\n";
@@ -54,7 +56,7 @@ public class verification
 
             Uniqid="";
            
-                
+             
 		final int vgap = 5;
 		final int width = 380;
 		
@@ -154,13 +156,23 @@ public class verification
                         while (conn.rs.next()) {
                             mycount++;
                             try {
-                                
-                               if(conn.rs.getString("fingerprint")!=null&&!conn.rs.getString("fingerprint").equals("")){
+                                  final  String strPssword ="?*1>9@(&#";    
+              AES.setKey(strPssword);
+                         if(conn.rs.getString("fingerprint")!=null && !conn.rs.getString("fingerprint").trim().equals("") 
+                                 && !conn.rs.getString("fingerprint").equals("null")){
+                                    
+                                        AES.decrypt(conn.rs.getString("fingerprint").trim());
+                                       System.out.println("String To Decrypt : " +  conn.rs.getString("fingerprint"));
+                                       System.out.println("Decrypted : " + AES.getDecryptedString());
+                                                   
+                                                      decfingerprint =  AES.getDecryptedString()  ;
+                                                   }
+                               if(decfingerprint!=null&&!decfingerprint.equals("")){
                                 
                                 
                       //get fingerprint data from the database data from the database
                                 //convert data back into bytes
-                                byte[] fp = new BigInteger(conn.rs.getString("fingerprint"),16).toByteArray();
+                                byte[] fp = new BigInteger(decfingerprint,16).toByteArray();
                                 
                                 
                dbfmd=UareUGlobal.GetImporter().ImportFmd(fp,Fmd.Format.ANSI_378_2004,Fmd.Format.ANSI_378_2004);

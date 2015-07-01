@@ -3,7 +3,7 @@
     Created on : Dec 3, 2014, 11:13:46 AM
     Author     : Maureen
 --%>
-
+<%@page import="dbConnect.AES"%>
 <%@page import="dbConnect.dbConnect"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -23,6 +23,9 @@
 <%@page import="java.util.List"%>
 <%! HttpSession session;
 String username="";
+   String FirstName="";
+      String MiddleName="";
+      String LastName="";
    %>
 
 <html><head>
@@ -195,7 +198,37 @@ else{ %>
    <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%> <td> <%= conn.rs2.getString("FirstName")+"  "+ conn.rs2.getString("SecondName")+"  "+ conn.rs2.getString("LastName") %> </td><%}}%>
     
                              <%String name="";
-     name=  conn.rs2.getString("FirstName")+"  "+ conn.rs2.getString("SecondName")+"  "+ conn.rs2.getString("LastName");%>
+                             
+                             
+                                final  String strPssword ="?*1>9@(&#";    
+              AES.setKey(strPssword);
+                         if(conn.rs2.getString("FirstName")!=null && !conn.rs2.getString("FirstName").trim().equals("") && !conn.rs2.getString("FirstName").equals("null")){
+                                    
+                                        AES.decrypt(conn.rs2.getString("FirstName").trim());
+                                       System.out.println("String To Decrypt : " +  conn.rs2.getString("FirstName"));
+                                       System.out.println("Decrypted : " + AES.getDecryptedString());
+                                                   
+                                                      FirstName =  AES.getDecryptedString()  ;
+                                                   }
+                                       
+                          if(conn.rs2.getString("SecondName")!=null && !conn.rs2.getString("SecondName").trim().equals("") && !conn.rs2.getString("SecondName").equals("null")){               
+//                        
+                    AES.decrypt(conn.rs2.getString("SecondName").trim());
+                     System.out.println("String To Decrypt : " + conn.rs2.getString("SecondName"));
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                    MiddleName=AES.getDecryptedString();
+                          }
+                      if(conn.rs2.getString("LastName")!=null && !conn.rs2.getString("LastName").trim().equals("") && !conn.rs2.getString("LastName").equals("null")){
+//                      Lastname =  conn.rs2.getString("LastName");
+                    AES.decrypt(conn.rs2.getString("LastName").trim());
+                     System.out.println("String To Decrypt : " + conn.rs2.getString("LastName"));
+                     LastName=AES.getDecryptedString();
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                    
+                      }
+        
+                             
+     name=  FirstName+"  "+ MiddleName+"  "+ LastName;%>
       
       <td><input type="button" name="Edit" value="New Medical Form "  onclick="editRecord('<%= conn.rs2.getString("UniqueID")  %>','<%=name%>')"></td>
                        
