@@ -115,7 +115,7 @@ public  Connection connect = null;
             //call the jsp page that does configuration
 
             if (issetdbcalled_exception%2 == 0) {
-                calldbjsp();
+                //calldbjsp();
                 issetdbcalled_exception ++;
             }
             else{
@@ -164,7 +164,7 @@ public  Connection connect = null;
             System.out.println("MY VALUE:" + issetdbcalled_file_exists);
 
             if (issetdbcalled_file_exists%2 == 0) {
-                calldbjsp();
+                //calldbjsp();
                 issetdbcalled_file_exists++;
             }
             else{
