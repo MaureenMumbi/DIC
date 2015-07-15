@@ -194,7 +194,7 @@ mcount++;
                         %>
                         <table>                 
                             <tr>          
-                                <td><input type="email" name="mandemail" required  value="<%=mandemail%>" class="textbox1" style="height:40px;" /></td>
+                                <td><input type="text" name="mandemail" required  value="<%=mandemail%>" class="textbox1" style="height:40px;" /></td>
                                 <td>
 
                                 </td>

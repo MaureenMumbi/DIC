@@ -367,8 +367,8 @@ return false;
     for(var j=0,l=selects.length;j<l;j++)
     {
         
-       
-        if(LubricantUse==="Yes" && selects[j].checked===true )
+//       alert(selects[0] +" "+selects[1]);
+        if(LubricantUse==="Yes" && (selects[0].checked===true ||selects[1].checked===true) )
         {
             checks=true;
         }
@@ -376,7 +376,7 @@ return false;
            checks=true; 
            
         }
-        else if(LubricantUse==="Yes" && selects[j].checked==false){ 
+        else if(LubricantUse==="Yes" && (selects[0].checked==false|| selects[1].checked==false)){ 
             checks=false;
         }
         

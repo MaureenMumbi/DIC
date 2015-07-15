@@ -4,11 +4,17 @@
  */
 package Reports;
 
+
+import Reports.copytemplates_1;
 import dbConnect.dbConnect;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -16,8 +22,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -29,8 +33,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  * @author Maureen
  */
-@WebServlet(name = "KPMSReport", urlPatterns = {"/KPMSReport"})
-public class KPMSReport extends HttpServlet {
+@WebServlet(name = "KPMSReportAged", urlPatterns = {"/KPMSReportAged"})
+public class KPMSReportAged extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -56,7 +60,7 @@ public class KPMSReport extends HttpServlet {
           String month="";
           int qtr=0;
           String quarters="";
-            
+           String agebracket=""; 
              startdate= request.getParameter("startdate");
           enddate= request.getParameter("enddate");
          // period= "monthly";
@@ -87,15 +91,50 @@ public class KPMSReport extends HttpServlet {
         //}
 //    for(int e=0;e<dics.size();e++){ 
     
-    
+    String mydrive="";
     if(period.equals("monthly")){
-         String allpath = getServletContext().getRealPath("/newenrolled.xlsm");
+      String path=getServletContext().getRealPath("/dbconnection.txt");
+      mydrive = path.substring(0, 1);
+      
+            System.out.println("drive name   "+mydrive);
+        Date da= new Date();
+String dat2 = da.toString().replace(" ", "_");
+ dat2 = dat2.toString().replace(":", "_");
+
+      
+       String np=mydrive+":\\DIC_DBBACKUP\\MACROS\\enrolled"+dat2+".xlsm";
+     
+             // String desteepath1 = getServletContext().getRealPath("/Females 15to24.xlsm");
+              String sr = getServletContext().getRealPath("/EnrolledTemplate.xlsm");
+    //check if file exists
+              
+   //first time , it should create those folders that host the macro file
+    File f = new File(np);
+if(!f.exists()&& !f.isDirectory() ) { /* do something */
+copytemplates_1 ct= new copytemplates_1();
+    ct.transfermacros(sr,np);
+ //rem np is the destination file name  
+   
+    System.out.println("Copying macros first time ..");
+    
+}
+else
+  //copy the file alone  
+{
+copytemplates_1 ct= new copytemplates_1();
+//copy the agebased file only
+ct.copymacros(sr,np);
+
+}
+     //String allpath = getServletContext().getRealPath("/EnrolledTemplate.xlsm");
 
                 
                 XSSFWorkbook wb;
 
-wb = new XSSFWorkbook(OPCPackage.open(allpath));
+//wb = new XSSFWorkbook();
+wb = new XSSFWorkbook(OPCPackage.open(np));
             XSSFSheet shet1=wb.getSheet("Sheet0");
+//XSSFSheet shet1=wb.createSheet();
                 XSSFRow rw1=shet1.createRow(1);
                    
                     
@@ -122,16 +161,40 @@ wb = new XSSFWorkbook(OPCPackage.open(allpath));
                      cell3.setCellValue("COUNTY");
                         cell4 = rw1.createCell(3);
                      cell4.setCellValue("MONTH NAME");
+                        cell4 = rw1.createCell(4);
+                     cell4.setCellValue("AGE BRACKET");
                          
-   String enrollments="select count(UniqueID),DICName,"
-            + " case when DICName='Naivasha' then district='Naivasha'"
-          + " else district end as County"
-            + ""
-            + ",month(STR_TO_DATE(DOE,'%e/%c/%Y')), YEAR(STR_TO_DATE(DOE,'%e/%c/%Y')) from enrollment  where "
-                + " (STR_TO_DATE(DOE,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+startdate+"','%e/%c/%Y'))"
-                + " AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y')) group by DICName,District,month(STR_TO_DATE(DOE,'%e/%c/%Y'))  ";
-        
+//   String enrollments="select count(UniqueID),DICName,"
+//            + " case when DICName='Naivasha' then district='Naivasha'"
+//          + " else district end as County"
+//            + " ,SUM(CASE WHEN DOB<='14' THEN 1 ELSE 0 END) AS <14, "
+//           +   "SUM(CASE WHEN DOB>'14' AND DOB<='19' THEN 1 ELSE 0 END) AS 15-19 "
+//           +   "SUM(CASE WHEN DOB>'19' AND DOB<='24' THEN 1 ELSE 0 END) AS 20-24 "
+//           +   "SUM(CASE WHEN DOB>'24' AND DOB<='49' THEN 1 ELSE 0 END) AS 25-49 "
+//       
+//            + ",month(STR_TO_DATE(DOE,'%e/%c/%Y')), YEAR(STR_TO_DATE(DOE,'%e/%c/%Y')), TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE()) from enrollment  where "
+//                + " (STR_TO_DATE(DOE,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+startdate+"','%e/%c/%Y'))"
+//                + " AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y')) group by DICName,District,month(STR_TO_DATE(DOE,'%e/%c/%Y'))  ";
+//        
              
+String enrollments="select count(UniqueID),DICName," +
+"             case when DICName='Naivasha' then district='Naivasha'" +
+"          else district end as County ," +
+"          month(STR_TO_DATE(DOE,'%e/%c/%Y')) as month, " +
+"          YEAR(STR_TO_DATE(DOE,'%e/%c/%Y'))," +
+"         CASE " +
+"                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())<='14' THEN '<14'" +
+"                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'14' AND TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())<='19' THEN '15-19' " +
+"                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'19' AND TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())<='24' THEN '20-24'" +
+"		 WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'24'AND TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())<='49' THEN  '25-49' " +
+"                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'49' THEN  '25-49' END AS AGEBRACKET" +
+"         " +
+"         ,TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())" +
+"          from enrollment  where " +
+"               (STR_TO_DATE(DOE,'%e/%c/%Y')) " +
+"               BETWEEN (STR_TO_DATE('"+startdate+"','%e/%c/%Y'))" +
+"                AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y')) " +
+"                group by DICName,AGEBRACKET,month" ;
 
 conn.rs = conn.state.executeQuery(enrollments);
 while(conn.rs.next()){
@@ -162,6 +225,7 @@ count++;
   XSSFRow rwa = shet1.createRow(a+=1);
   System.out.println("^^^"+a+""+count);
                  cell12=rwa.createCell(0);
+               
                  cell12.setCellValue(conn.rs.getInt(1));
                  cell12=rwa.createCell(1);
                  cell12.setCellValue(conn.rs.getString(2));
@@ -169,6 +233,8 @@ count++;
                  cell12.setCellValue(district);
                  cell13=rwa.createCell(3);
                  cell13.setCellValue(""+conn.rs.getInt(5)+ " ("+conn.rs.getInt(4)+") "+ month.substring(0,3) );
+                    cell12=rwa.createCell(4);
+                 cell12.setCellValue(conn.rs.getString(6));
 //                 cell14=rwa.createCell(4);
 //                 cell14.setCellValue(conn.rs.getString(5));
 
@@ -185,7 +251,7 @@ byte [] outArray = outByteStream.toByteArray();
 response.setContentType("application/ms-excel");
 response.setContentLength(outArray.length);
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename=EnrollmentMonthly_"+startdate+"-"+enddate+".xlsm");
+response.setHeader("Content-Disposition", "attachment; filename=EnrollmentMonthlyAgeReport_"+startdate+"-"+enddate+".xlsm");
 OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
 outStream.flush();
@@ -193,18 +259,60 @@ outStream.flush();
     }
     
     else if(period.equals("quarterly")){
-         String allpath = getServletContext().getRealPath("/MonthlyServed.xlsm");
+           String path=getServletContext().getRealPath("/dbconnection.txt");
+      mydrive = path.substring(0, 1);
+      
+            System.out.println("drive name   "+mydrive);
+        Date da= new Date();
+String dat2 = da.toString().replace(" ", "_");
+ dat2 = dat2.toString().replace(":", "_");
 
-                
+      
+       String np=mydrive+":\\DIC_DBBACKUP\\MACROS\\served"+dat2+".xlsm";
+     
+             // String desteepath1 = getServletContext().getRealPath("/Females 15to24.xlsm");
+              String sr = getServletContext().getRealPath("/ServedTemplate.xlsm");
+    //check if file exists
+              
+   //first time , it should create those folders that host the macro file
+    File f = new File(np);
+if(!f.exists()&& !f.isDirectory() ) { /* do something */
+copytemplates_1 ct= new copytemplates_1();
+    ct.transfermacros(sr,np);
+ //rem np is the destination file name  
+   
+    System.out.println("Copying macros first time ..");
+    
+}
+else
+  //copy the file alone  
+{
+copytemplates_1 ct= new copytemplates_1();
+//copy the agebased file only
+ct.copymacros(sr,np);
+
+}   
+      //  byte dataToWrite[] = //...;
+FileOutputStream out = new FileOutputStream("the-file-name");
+//out.write(dataToWrite);
+out.close();
+         //String allpath = getServletContext().getRealPath(np);
+
+            System.out.println("nn   "+np);
                 XSSFWorkbook wb;
 
-wb = new XSSFWorkbook(OPCPackage.open(allpath));
+wb = new XSSFWorkbook(OPCPackage.open(np));
         
             XSSFSheet shet1=wb.getSheet("Sheet0");
                 XSSFRow rw1=shet1.createRow(1);
                    
-                    
-   
+
+
+//wb = new XSSFWorkbook();
+//
+//XSSFSheet shet1=wb.createSheet();
+//                XSSFRow rw1=shet1.createRow(1);           
+//   
      
       shet1.setColumnWidth(1, 15000 ); 
     shet1.setColumnWidth(2,4000); 
@@ -227,15 +335,24 @@ wb = new XSSFWorkbook(OPCPackage.open(allpath));
                      cell3.setCellValue("COUNTY");
                         cell4 = rw1.createCell(3);
                      cell4.setCellValue("MONTH");
+                        cell4 = rw1.createCell(4);
+                     cell4.setCellValue("AGE BRACKET");
                         
     String enrollments="select count(DISTINCT riskreductionmain.UniqueID),DICName,"
             + " case when DICName='Naivasha' then district='Naivasha'"
           + " else district end as County"
-            + ""
-            + ",MONTH(STR_TO_DATE(DOA,'%e/%c/%Y')),YEAR(STR_TO_DATE(DOA,'%e/%c/%Y'))from enrollment,riskreductionmain  where "
+
+            + ",MONTH(STR_TO_DATE(DOA,'%e/%c/%Y')),YEAR(STR_TO_DATE(DOA,'%e/%c/%Y')),"
+         +   "         CASE " +
+"                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())<='14' THEN '<14'" +
+"                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'14' AND TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())<='19' THEN '15-19' " +
+"                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'19' AND TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())<='24' THEN '20-24'" +
+"		 WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'24'AND TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())<='49' THEN  '25-49' " +
+"                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'49' THEN  '25-49' END AS AGEBRACKET" +
+"                   ,TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())from enrollment,riskreductionmain  where "
                 + " (STR_TO_DATE(DOA,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+startdate+"','%e/%c/%Y'))"
                 + " AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y')) and enrollment.uniqueid=riskreductionmain.uniqueid "
-            + " group by DICName,MONTH(STR_TO_DATE(DOA,'%e/%c/%Y')) ";
+            + " group by DICName,AGEBRACKET,MONTH(STR_TO_DATE(DOA,'%e/%c/%Y')) ";
      
                      
                      
@@ -306,6 +423,8 @@ wb = new XSSFWorkbook(OPCPackage.open(allpath));
                  cell12.setCellValue(district);
                  cell13=rwa.createCell(3);
                   cell13.setCellValue(""+conn.rs.getInt(5)+ " ("+conn.rs.getInt(4)+") "+ month.substring(0,3) );
+                 cell14=rwa.createCell(4);
+                 cell14.setCellValue(conn.rs.getString(6));
 }
 
 //}
@@ -317,7 +436,8 @@ byte [] outArray = outByteStream.toByteArray();
 response.setContentType("application/ms-excel");
 response.setContentLength(outArray.length);
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename=ServedMonthlyAgeReport_"+startdate+"-"+enddate+".xlsm");
+response.setHeader("Content-Disposition", "attachment; filename=ServedQuarterlyAgeReport_"+startdate+"-"+enddate+".xlsm");
+
 OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
 outStream.flush();

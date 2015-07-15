@@ -26,6 +26,7 @@ String username="";
    String FirstName="";
       String MiddleName="";
       String LastName="";
+      String name="";
    %>
 
 <html><head>
@@ -111,7 +112,7 @@ function deleteRecord(UniqueID,MedicalID){
         String username=(String)session.getAttribute("Username");
       %>
           
-       <a class="button-1" href="../DIC/logoutServlet">LogOut</a>          
+       <a class="button-1" href="/DIC/logoutServlet">LogOut</a>          
      <h5>Welcome <%=username%></h5>
      <% }else{
 //               response.sendRedirect("/DIC/index.jsp"); 
@@ -195,9 +196,9 @@ else{ %>
 %>
 <tr id="<%= conn.rs2.getString("UniqueID") %>">
     <td> <%= conn.rs2.getString("UniqueID") %></td>
-   <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%> <td> <%= conn.rs2.getString("FirstName")+"  "+ conn.rs2.getString("SecondName")+"  "+ conn.rs2.getString("LastName") %> </td><%}}%>
+   <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%> 
     
-                             <%String name="";
+                             <%
                              
                              
                                 final  String strPssword ="?*1>9@(&#";    
@@ -229,7 +230,7 @@ else{ %>
         
                              
      name=  FirstName+"  "+ MiddleName+"  "+ LastName;%>
-      
+      <td> <%= name %> </td><%}}%>
       <td><input type="button" name="Edit" value="New Medical Form "  onclick="editRecord('<%= conn.rs2.getString("UniqueID")  %>','<%=name%>')"></td>
                        
                         

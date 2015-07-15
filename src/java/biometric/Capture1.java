@@ -13,6 +13,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import com.digitalpersona.uareu.*;
+import dbConnect.AES;
 import dbConnect.dbConnect;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -332,13 +333,23 @@ public class Capture1
             String fpr = fingerprint;
             String handss=hands;
             dbConnect conn = new dbConnect();
-
+String biofing="";
 System.out.println(fpr);
 String checkifexist="select * from enrollment where UniqueID='" + uid + "'";
 conn.rs2 = conn.state2.executeQuery(checkifexist);
 if(conn.rs2.next()==true){
-
-            String addtodb = "update enrollment SET fingerprint='" + fpr + "', capturedhand='"+handss+"' where UniqueID='" + uid + "'";
+   final  String strPssword ="?*1>9@(&#";    
+              AES.setKey(strPssword);
+              
+                if(fpr!=null && !fpr.trim().equals("") && !fpr.equals("null")){
+                    
+                    
+                      AES.encrypt (fpr.trim());
+                    System.out.println("String to Encrypt:_______+++++++ " + fpr); 
+                   System.out.println("Encrypted:_______+++++++ " + AES.getEncryptedString());
+                    biofing=AES.getEncryptedString();
+                     }
+            String addtodb = "update enrollment SET fingerprint='" + biofing + "', capturedhand='"+handss+"' where UniqueID='" + uid + "'";
 
             System.out.println(addtodb);
 

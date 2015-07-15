@@ -34,7 +34,7 @@ public String filenames,cu,dates,computername,senderofmail;
  String full_date;
     public Send_Data(){
     }  
- public void Sendattachment (String date,String path,String comp, String senderofmail,String filname)throws MessagingException, SQLException {
+ public void Sendattachment (String date,String path,String comp, String senderofmail,String filname,String location)throws MessagingException, SQLException {
      String toAddress="";
      
      dbConnect conn= new dbConnect();
@@ -103,7 +103,7 @@ public String filenames,cu,dates,computername,senderofmail;
 
         messageBodyPart.setDataHandler(new DataHandler(source));
 
-        messageBodyPart.setFileName(filname+""+versionname+".sql");
+        messageBodyPart.setFileName(filname+""+location+""+versionname+".sql");
         multipart.addBodyPart(messageBodyPart);
 
         message.setContent(multipart);

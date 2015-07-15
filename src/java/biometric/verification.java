@@ -274,19 +274,29 @@ public class verification
                                                      
                                                      }//end of db while
                                                      
-                                if(userdetacted==0){
-                                    
-                                    m_text.append("No matching fingerprint was found in the database.\n Ensure You are using the registered finger\n\n");
-                               
-                                
-                                }                        
+                                                      
                                                                  
                                                          //discard FMDs
                                                          m_fmds[0] = null;
                                                          m_fmds[1] = null;
 
                                                          //the new loop starts
-                                                         m_text.append(m_strPrompt1);
+                                                         m_text.append("  successfully.");
+//                                                         StopCaptureThread();
+                                                         
+                                                         
+                                                         
+                                                         
+                                                         
+                                                           if(userdetacted==0){
+                                    
+                                    m_text.append("No matching fingerprint was found in the database.\n Ensure You are using the registered finger\n\n");
+                               
+                                
+                                }else{
+                                        StopCaptureThread();
+                                                                            
+                                                           }
                                                          
                                                          //close the db connections
                                                          

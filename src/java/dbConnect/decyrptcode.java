@@ -14,7 +14,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import org.apache.tomcat.util.codec.binary.Base64;
 
-public class AES {
+public class decyrptcode {
 
     public static SecretKeySpec secretKey;
     public static byte[] key;
@@ -90,18 +90,31 @@ public class AES {
         return null;
     }
 
-    public AES () {
+    public decyrptcode () {
         final String strToEncrypt = "";
         final String jesus = "?*1>9@(&#";
         AES.setKey(jesus);
 //        AES.encrypt(strToEncrypt.trim());
 //        System.out.println("String to Encrypt: " + strToEncrypt);
 //        System.out.println("Encrypted: " + AES.getEncryptedString());
-        final String strToDecrypt = "ftW5iEp19bLx606rGSiYd63G/WJVFUVg1j6HaAB6lTk=";
+        final String strToDecrypt = "pS5xS/LHtOSclxDqI19+M1cnqcRk31BhN2kcp2Z8Gqs=";
         AES.decrypt(strToDecrypt.trim());
         System.out.println("String To Decrypt : " + strToDecrypt);
         System.out.println("Decrypted : " + AES.getDecryptedString());
 
     }
-
+ public static void main(String args []) throws Exception
+    {
+       final String strToEncrypt = "";
+        final String jesus = "?*1>9@(&#";
+        decyrptcode.setKey(jesus);
+//        AES.encrypt(strToEncrypt.trim());
+//        System.out.println("String to Encrypt: " + strToEncrypt);
+//        System.out.println("Encrypted: " + AES.getEncryptedString());
+        final String strToDecrypt = "WGwRXAvekaiNGnVvnNGucw==";
+        decyrptcode.decrypt(strToDecrypt.trim());
+        System.out.println("String To Decrypt : " + strToDecrypt);
+        System.out.println("Decrypted : " + AES.getDecryptedString());
+ 
+    }   
 }

@@ -102,9 +102,10 @@ List  userList=null;
                      if(session.getAttribute("lockNames").toString().equals("YES")){
                      }
                      else{
-//                FirstName=userList.get(25).toString();
-//                MiddleName=userList.get(26).toString();
-//                LastName=userList.get(27).toString();
+                FirstName="";
+                MiddleName="";
+                LastName="";
+                PhoneNo="";
                   final  String strPssword = "?*1>9@(&#";      
               AES.setKey(strPssword);
                          if(conn.rs.getString("FirstName")!=null && !conn.rs.getString("FirstName").trim().equals("") && !conn.rs.getString("FirstName").equals("null")){
@@ -119,7 +120,7 @@ List  userList=null;
                           if(conn.rs.getString("SecondName")!=null && !conn.rs.getString("SecondName").trim().equals("") && !conn.rs.getString("SecondName").equals("null")){               
 //                        
                     AES.decrypt(conn.rs.getString("SecondName").trim());
-                     System.out.println("String To Decrypt : " + conn.rs.getString("SecondName"));
+                     System.out.println("String To Decrypt :SECOND NAME " + conn.rs.getString("SecondName"));
                     System.out.println("Decrypted : " + AES.getDecryptedString());
                     MiddleName=AES.getDecryptedString();
                           }
@@ -143,7 +144,7 @@ List  userList=null;
                      
                      
                      
-                      System.out.println("nnnnnnnnnnnnn"+FirstName+"  "+MiddleName+" "+LastName);
+                      System.out.println("nnnnnnnnnnnnn"+FirstName+"  "+MiddleName+" "+LastName +" "+PhoneNo);
                      
                      
                      
@@ -628,28 +629,45 @@ popWindow = window.open('/DIC/home1.jsp', 'popWin',
     function check(){
   
 for(var i=0; i<=7; i++) {
-    var o=document.getElementById("occupationalString").value;
-
-    var t =document.getElementById("Occupation"+i).value;
-   
+    var o;
+    var t;
+    if(document.getElementById("occupationalString")!=null){
+     o=document.getElementById("occupationalString").value;
+    }
+if(document.getElementById("Occupation"+i)!=null){
+     t =document.getElementById("Occupation"+i).value;
+}
+    if(o!=null || t!=null ){
  if(o.contains(t)) {
    document.getElementById("Occupation"+i).checked=true;
    }
+}
 }
  
    
   
 for(var i=0; i<=8; i++) {
-    var j= document.getElementById("operation").value;
+    var j;
+     if(document.getElementById("operation")!=null){
+    j= document.getElementById("operation").value;}
+if(j!=null){
    if(j.contains(document.getElementById("OperationArea"+i).value)) {
                     document.getElementById("OperationArea"+i).checked=true;
     
-}
+}}
    
 }
 for(var i=0; i<6; i++) {
-var f = document.getElementById("child").value;
-var k = document.getElementById("childage").value;
+    var f;
+    var k;
+     if(document.getElementById("child")!=null){
+
+ f = document.getElementById("child").value;
+     }
+      if(document.getElementById("childage")!=null){
+
+ k = document.getElementById("childage").value;
+      }
 var t= k.split("_");
 var c= f.split("_");
 //alert("hhhh"+f);
@@ -799,9 +817,9 @@ String UniqueCode;
    
 <div class="example">
            <div class="login">
-     <% String logStatus=(String)session.getAttribute("loggedIn");
-       if(session.getAttribute("loggedIn").toString()==null){
-//                   response.sendRedirect("/DIC/index.jsp");
+     <% 
+       if(session.getAttribute("loggedIn")==null){
+                   
              } else{
      %>
                    <a class="button-1" href="../logoutServlet">LogOut</a> 
@@ -827,7 +845,8 @@ String UniqueCode;
      <%
 if(session.getAttribute("AccessLevel")!=null){            
 
-if (session.getAttribute("AccessLevel").equals("2")) {%>
+if (session.getAttribute("AccessLevel").equals("2")) {
+%>
             <%@include file="../menu/adminmenu.html" %>
             <%}
 else{%>
@@ -838,7 +857,9 @@ else{%>
 
 }
 
-else{ %>
+else{ 
+//            response.sendRedirect("/DIC/index.jsp");
+%>
         
              <%@include file="../menu/clerkmenu.html" %>
             
@@ -856,7 +877,7 @@ else{ %>
 
 <table align="center" border="0" cellpadding="0" cellspacing="0">
 <tr><td>
-                <form name="form"  method="post" action="EditWorker">
+                <form name="form"  method="post" action="/DIC/EditWorker">
                     
                      <input type='hidden' name="issubmit" value="1">
 <!-- Tabs -->
@@ -943,7 +964,29 @@ else{ %>
                                  <td>DIC Name <font style="color: red">*</font></td>
                                  <td>
                                  <select id="DICName"  name="DICName" onchange="filter_wards(this);">
-                                 <option selected value="<%= DICName %>"><%= DICName %></option>  
+                                
+                                     
+                                       <% 
+                                String getdic= " SELECT  * from dicname where DistrictID='"+District+"' ";
+                                System.out.println(getdic);
+                                                   
+				conn.rs = conn.state2.executeQuery(getdic);
+                                                      while(conn.rs.next())
+                                                           {
+                                                               if(DICName.equals(conn.rs.getString("DICName"))){
+                                                   %>                                                                       
+                           <option selected value="<%= conn.rs.getString("DICName") %>"><%= conn.rs.getString("DICName") %></option>  
+                                                   
+                    
+                                                   <%
+                                                                                                         }
+                                                               else{
+                              
+                                                   %>
+                          <option value="<%= conn.rs.getString("DICName") %>"><%= conn.rs.getString("DICName") %></option>  
+                               
+                                                   <%}}%>
+                                   
 
                                  </select></td>
                 </tr>
@@ -953,7 +996,32 @@ else{ %>
                                  <td>
                                  <select id="ward"  name="ward" >
                                  <option value="">Choose Ward </option>  
-                                      <option selected value="<%= ward %>"><%= ward %></option>  
+                                 
+                                    
+                                       <% 
+                                String getward= " SELECT  * from wards where subcounty='"+DICName+"' ";
+                                System.out.println(getward);
+                                                   
+				conn.rs = conn.state2.executeQuery(getward);
+                                                      while(conn.rs.next())
+                                                           { if(ward!=null){
+                                                               if(ward.equals(conn.rs.getString("ward"))){
+                                                   %>                                                                       
+                           <option selected value="<%= conn.rs.getString("ward") %>"><%= conn.rs.getString("ward") %></option>  
+                                                   
+                    
+                                                   <%
+                                                                                                         }else{
+                                                                                                         %>
+                                                                                              <option value="<%= conn.rs.getString("ward") %>"><%= conn.rs.getString("ward") %></option>              
+                                                                                                  <%       }}
+                                                               else{
+                              
+                                                   %>
+                          <option value="<%= conn.rs.getString("ward") %>"><%= conn.rs.getString("ward") %></option>  
+                               
+                                                   <%}}%>
+                                    
                                  </select></td>
                    
                     
@@ -977,20 +1045,20 @@ else{ %>
                     <td>Date of Birth <font style="color: blue">*</font></td><td><input type="text"  name="DOB" class="datepickerDOB" readonly title="Enter date" value="<%= DOB %>"  required ></td>
                 <td>Sex <font style="color: blue">*</font></td>
                     <td><select name="Sex" class="inputSize">
-                       <% if((Sex).equalsIgnoreCase("Female")){ %>
+                       <% if((Sex.trim()).equalsIgnoreCase("Female")){ %>
                            
                              <option selected value=" <%= Sex  %>"><%= Sex %></option>
                              <option  value="Male">Male</option>
                            
                              <%}
-                                                      else if((Sex).equalsIgnoreCase("Male")){%>
-                                                     <option  value="Female"></option>
-                                                      <option selected value="Male"></option>
+                                                      else if((Sex.trim()).equalsIgnoreCase("Male")){%>
+                                                     <option  value="Female">Female</option>
+                                                      <option selected value="Male">Male</option>
                        
                        <%}else{%>
                                                       <option  value=""></option>
-                                                      <option  value="Female"></option>
-                                                      <option selected value="Male"></option>
+                                                      <option  value="Female">Female</option>
+                                                      <option  value="Male"> <ale</option>
                                                       <%
                        }
 %>

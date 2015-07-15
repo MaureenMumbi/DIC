@@ -3,6 +3,8 @@
     Created on : Jan 16, 2014, 1:18:24 PM
    @author Hare Cheka Arnold
 --%>
+<%@page import="dbConnect.AES"%>
+<%@page import="dbConnect.AES"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="dbConnect.dbConnect"%>
 <%@page import="java.util.ArrayList"%>
@@ -604,7 +606,7 @@ mcount++;
      
         else{
      %>
-    <a class="button-1" href="../DIC/logoutServlet">LogOut</a>         
+    <a class="button-1" href="/DIC/logoutServlet">LogOut</a>         
      <h5>Welcome <%=username%></h5>
      <%
                }
@@ -691,15 +693,43 @@ else{ %>
        String client_name="";
        String client_name1="";
        String full_name = "";
+      String FirstName="";
+      String MiddleName="";
+      String LastName="";
        try {
               if(conn.state.isClosed()){conn= new dbConnect();}
        conn.rs=conn.state.executeQuery(random);
        
-       if(conn.rs.next())
-				{
-            client_name = conn.rs.getString(24);
-            client_name1 = conn.rs.getString(26);
-            full_name = (client_name +" "+ client_name1);
+       if(conn.rs.next()){
+	    final  String strPssword ="?*1>9@(&#";    
+              AES.setKey(strPssword);
+                         if(conn.rs.getString("FirstName")!=null && !conn.rs.getString("FirstName").trim().equals("") && !conn.rs.getString("FirstName").equals("null")){
+                                    
+                                        AES.decrypt(conn.rs.getString("FirstName").trim());
+                                       System.out.println("String To Decrypt : " +  conn.rs.getString("FirstName"));
+                                       System.out.println("Decrypted : " + AES.getDecryptedString());
+                                                   
+                                                      FirstName =  AES.getDecryptedString()  ;
+                                                   }
+                                       
+                          if(conn.rs.getString("SecondName")!=null && !conn.rs.getString("SecondName").trim().equals("") && !conn.rs.getString("SecondName").equals("null")){               
+//                        
+                    AES.decrypt(conn.rs.getString("SecondName").trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString("SecondName"));
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                    MiddleName=AES.getDecryptedString();
+                          }
+                      if(conn.rs.getString("LastName")!=null && !conn.rs.getString("LastName").trim().equals("") && !conn.rs.getString("LastName").equals("null")){
+//                      Lastname =  conn.rs2.getString("LastName");
+                    AES.decrypt(conn.rs.getString("LastName").trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString("LastName"));
+                     LastName=AES.getDecryptedString();
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                    
+                      }			
+//            client_name = conn.rs.getString(24);
+//            client_name1 = conn.rs.getString(26);
+            full_name = (FirstName +" "+ LastName);
             System.out.println(random);
             System.out.println(full_name);
             
@@ -718,9 +748,11 @@ else{ %>
 %>  
         <tr>
             <td></td> 
-            <td>Client Name :</td> <td>     
-            
-                <input type="text" name="client_name" id="client_name" value="<%= generateRandom() %>" style="width: 200px" required="true" readonly class="textbox">
+               
+             <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%> <td>Client Name :</td> <td>  <input type="text" name="client_name" id="client_name" value="<%= generateRandom() %>" style="width: 200px" required="true" readonly class="textbox"><%}}%>
+
+  
+                
             </td>  </tr>
         <tr></tr>
          <tr></tr>

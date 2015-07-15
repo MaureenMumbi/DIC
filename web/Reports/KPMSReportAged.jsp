@@ -1,8 +1,10 @@
 <%-- 
-    Document   : reportUI
-    Created on : Nov 26, 2013, 9:21:06 AM
-    Author     : Maureen
+    Document   : KPMSReportAged
+    Created on : Apr 10, 2015, 8:32:50 AM
+    Author     : user
 --%>
+
+
 <!DOCTYPE html>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="dbConnect.dbConnect"%>
@@ -141,96 +143,10 @@ if(semiannual!=""){
             }
 }
         </script> 
-    <script type="text/javascript">
-// a function that filters the districts in the passed county as per the county drop down.
-
-function filter_districts(DICName){
- 
-     
-   var dist = document.getElementById("district").value;
-   var distr = new Array();
-// this will return an array with strings "1", "2", etc.
-distr = dist.split(",");
-var districtsName=distr[0];
-//
-// window.open("districtselector?county="+dist.value);     
-var xmlhttp;    
-if (districtsName=="")
-{
-//filter the districts    
-
-
-
-document.getElementById("DICName").innerHTML="<option value=\"\">Choose DIC Name</option>";
-return;
-}
-if (window.XMLHttpRequest)
-{// code for IE7+, Firefox, Chrome, Opera, Safari
-xmlhttp=new XMLHttpRequest();
-}
-else
-{// code for IE6, IE5
-xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-}
-xmlhttp.onreadystatechange=function()
-{
-if (xmlhttp.readyState==4 && xmlhttp.status==200)
-{
-document.getElementById("DICName").innerHTML=xmlhttp.responseText;
-}
-}
-xmlhttp.open("POST","/DIC/districtselector?district="+districtsName,true);
-
-xmlhttp.send();
-
-
-}//end of filter districts
-</script>
-  <script type="text/javascript">
-// a function that hides either quarterly or monthly fields wen a report type is selected.
-
-function disabler() {
-   
-  var v= document.getElementById("type").value;
-  var months = document.getElementById("months");
-  var Quarter = document.getElementById("Quarter");
-  var label_months = document.getElementById("label_months");
-  var label_Quarter = document.getElementById("label_Quarter");
-//  alert(" geek     :  "+v)
-
-if(v=="monthly") {
-  months.hidden = false; 
-  Quarter.hidden = true; 
-  label_months.hidden = false; 
-  label_Quarter.hidden = true;
-  months.required = true; 
-  Quarter.required = false; 
-  
-  //
-  }
-if(v=="quarterly") {
- months.hidden = true; 
-  Quarter.hidden = false;
-  label_months.hidden = true; 
-  label_Quarter.hidden = false;
-  months.required = false; 
-  Quarter.required = true;
-  }
-  if(v!="monthly" && v!="quarterly"){
-     months.hidden = true; 
-  Quarter.hidden = true; 
-  label_months.hidden = true; 
-  label_Quarter.hidden = true;
-  months.required = true; 
-  Quarter.required = true;
-  }}
-</script> 
-    
     
     <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen">
     </head>
-    <body onload="disabler();">
-         
+    <body>
          
 
         <div class="example" style="width: 1350px; height: 700px;">
@@ -268,7 +184,7 @@ else{%>
  
  String Sectionshelp[]=new String [25];
 int mcount=0;
- if(conn.state2.isClosed()){conn= new dbConnect();}
+   if(conn.state2.isClosed()){conn= new dbConnect();}
 conn.rs2=conn.state2.executeQuery("Select * from help where help_id<='25'");
 while(conn.rs2.next()){
     
@@ -297,7 +213,7 @@ mcount++;
         <h3> Reports <a href="#" id="dialog-link1" style="padding-right: 0px;">
                 <img src="../images/help_24.png"/> </a></h3>
        
-        <form method="post" action="/DIC/newriskred">
+        <form method="post" action="../KPMSReportAged">
         <table>
 <!--            <tr class="d0"><td>County <font style="color: blue">*</font> </td><td>
                         //gets the districts as stored in db and dispaly them in a drop down
@@ -307,8 +223,7 @@ mcount++;
   <%
              
                                                       String QueryDist= "SELECT District,DistrictID FROM districts";
-                                                        if(conn.state.isClosed()){conn= new dbConnect();}
-                                                      conn.state= conn.connect.createStatement();
+                                                     conn.state= conn.connect.createStatement();
 				conn.rs = conn.state.executeQuery(QueryDist);
                                                       while(conn.rs.next())
                                                            {
@@ -331,124 +246,22 @@ mcount++;
                                  </select></td>-->
 <!--                </tr>-->
             
-                <tr class="d1">
-                    
-                    <td>Select a Parameter</td>
-                    <td>
-                        <select name="parameter" id="parameter" onchange="return select_parameter();" required="true">
-                            <option value=""> </option>
-                          
-                            <option value="Services Provided">Services Provided </option>
-                           
-<!--                            <option value="Risk Assessments"> Risk Assessment Questions</option>
-                            <option value="Risk Reductions">Risk Reduction Questions</option>-->
-                          
-                            
-                            
-                            
-                        </select>
-                        
-                       
-                        
-                    </td></tr>
+               
                 
                 <tr class="d0">
                     
-                    <td> Select a period</td>
-                    <td> <select name="period" id="type"required="true" onchange="disabler()">
+                    <td> Select a Parameter</td>
+                    <td> <select name="period" required="true">
                       <option value=""> </option>
-                            <option value="monthly"> Monthly</option>
-                            <option value="quarterly"> Quarterly</option>
+                            <option value="monthly"> Enrollments</option>
+                            <option value="quarterly"> People Served</option>
                 </select>      
                     </td>
                 </tr>
-                 <tr class="d0">
-                    <td>Year</td>
-                    <td><select  name="year" id="year" required="true" >
-                            <option value="">Select Year</option>
-                             
-                            <option value="2011">2011</option> 
-                            <option value="2012">2012</option> 
-                            <option value="2013">2013</option>
-                            <option value="2014">2014</option>
-                            <option value="2015">2015</option>
-                            
-                           
-                        </select></td>
-                </tr>
                 
                 
-<!--                <tr class="d0">
-                    <td>Report Type</td>
-                    <td><select  name="type" id="type"  onchange="disabler()" required="true">
-                            <option value="">Select Report Type</option>
-                            <option value="1">Monthly</option> 
-                            <option value="2">Quarterly</option> 
-                            
-                            
-                           
-                        </select></td>
-                </tr>
-                -->
-                <tr class="d0">
-                    <td id="label_months">Months</td>
-                    <td><select name="months" id="months" multiple= "true" size = "4px" >
-                          <!--  <option value="">Select Quarter</option>-->
-                            <option value="10">October</option> 
-                            <option value="11">November</option> 
-                            <option value="12">December</option>
-                            <option value="1">January</option> 
-                            <option value="2">February</option> 
-                            <option value="3">March</option> 
-                            <option value="4">April</option>
-                            <option value="5">May</option> 
-                            <option value="6">June</option> 
-                            <option value="7">July</option> 
-                            <option value="8">August</option>
-                            <option value="9">September</option> 
-                            
-                            
-                            
-                           
-                        </select></td>
-                </tr>
-                
-                <tr class="d0">
-                    <td id="label_Quarter">Quarter</td>
-                    <td><select name="Quarter" id="Quarter" multiple= "true" size = "4px"  >
-                          <!--  <option value="">Select Quarter</option>-->
-                            <option value="Q1">Oct - Dec</option> 
-                            <option value="Q2">Jan - Mar</option> 
-                            <option value="Q3">Apr - Jun</option> 
-                            <option value="Q4">Jul - Sep</option> 
-                            
-                           
-                        </select></td>
-                </tr>
-                
-                <tr class="d1"><td>County <font style="color: blue">*</font> </td>
-                    <td>     <select onchange="filter_districts(this);" name="district" id="district" multiple="true">
-  <%
-            String QueryDists= "SELECT District,DistrictID FROM districts";
-                                                     conn.state= conn.connect.createStatement();
-				conn.rs = conn.state.executeQuery(QueryDists);
-                                 if(conn.state.isClosed()){conn= new dbConnect();}
-                                                      while(conn.rs.next())
-                                                           {
-                                                   %>                                                                       
-            <option value='<%=conn.rs.getString("DistrictID")%>'><%=conn.rs.getString("District")%></option>
-                                                   <%
-                                                      
- System.out.println(conn.rs.getInt("DistrictID"));
-                                System.out.println(conn.rs.getString("DistrictID"));                                                      }
-                                
-                               
-                                                   %>
-
-
-                                 </select></td>
-                                
-                </tr>
+                <tr class="d1"> <td>Data from</td><td><input type="text" name="startdate" id="startdate" class="datepicker" value="" required ="true"></td></tr>
+                <tr class="d0"><td>To</td><td><input type="text" name="enddate" id="enddate" class="datepicker" value="" required ="true"></td></tr>
                 
                 
 
@@ -467,4 +280,5 @@ mcount++;
       
     </body>
 </html>
+
 

@@ -33,7 +33,7 @@ public class Send_Data_Main {
  String full_date;
     public Send_Data_Main(){
     }  
- public void Sendattachments (String date,String path,String comp, String senderofmail,String filname)throws MessagingException, SQLException {
+ public void Sendattachments (String date,String path,String comp, String senderofmail,String filname,String location)throws MessagingException, SQLException {
      String toAddress="";
      
      dbConnect conn= new dbConnect();
@@ -102,7 +102,7 @@ public class Send_Data_Main {
         messageBodyPart.setDataHandler(new DataHandler(source));
 
 //        messageBodyPart.setFileName(filname+"_DIC.sql");
-         messageBodyPart.setFileName(filname+""+versionname+".sql");
+         messageBodyPart.setFileName(filname+""+location+""+versionname+".sql");
         multipart.addBodyPart(messageBodyPart);
 
         message.setContent(multipart);

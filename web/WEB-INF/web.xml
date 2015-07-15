@@ -928,6 +928,22 @@
         <servlet-name>callBAT</servlet-name>
         <servlet-class>Maintenance.callBAT</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>KPMSReportAged</servlet-name>
+        <servlet-class>Reports.KPMSReportAged</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>KPMSReportwards</servlet-name>
+        <servlet-class>Reports.KPMSReportwards</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>updatewards</servlet-name>
+        <servlet-class>Reports.updatewards</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>encryptdata</servlet-name>
+        <servlet-class>biometric.encryptdata</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Enroll</servlet-name>
         <url-pattern>/Enroll</url-pattern>
@@ -1856,7 +1872,23 @@
         <servlet-name>callBAT</servlet-name>
         <url-pattern>/callBAT</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>KPMSReportAged</servlet-name>
+        <url-pattern>/KPMSReportAged</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>KPMSReportwards</servlet-name>
+        <url-pattern>/KPMSReportwards</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updatewards</servlet-name>
+        <url-pattern>/updatewards</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>encryptdata</servlet-name>
+        <url-pattern>/encryptdata</url-pattern>
+    </servlet-mapping>
     <session-config>
-        <session-timeout>900000</session-timeout>
+        <session-timeout>-1</session-timeout>
     </session-config>
 </web-app>

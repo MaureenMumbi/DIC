@@ -5,7 +5,7 @@
 package Reports;
 
 import dbConnect.dbConnect;
-
+import dbConnect.dbConnectTemp;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Maureen
  */
-public class query extends HttpServlet {
+public class updatewards extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -37,7 +37,7 @@ public class query extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-           dbConnect conn = new dbConnect();
+           dbConnectTemp conn = new dbConnectTemp();
            String id="";
            String update="select * from enrollment where District='2'";
            conn.rs= conn.state.executeQuery(update);

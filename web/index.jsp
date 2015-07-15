@@ -135,7 +135,7 @@
       </div>
                             <div id="versionChecker" style="font-weight: bolder; text-align:center;">
                          </div><br>
-               <p align="center" title="Version 1.23 Last Updated 21/06/2015."> &copy DIC System Version 1.23 Last Updated on 21/06/2015. Aphia Plus | USAID </p>
+               <p align="center" title="Version 1.26 Last Updated 15/07/2015."> &copy DIC System Version 1.26 Last Updated on  15/07/2015. Aphia Plus | USAID </p>
                
 </div>
   
@@ -159,7 +159,11 @@ var versionText="",daysRemaining,warningText="",sentOn="",version_name="";
         }
                         else{
                             
-                            
+                         if(!('contains' in String.prototype)) {
+       String.prototype.contains = function(str, startIndex) {
+                return -1 !== String.prototype.indexOf.call(this, str, startIndex);
+       };
+ }   
                       if(data.contains("outdated version")){
                           $("#container").hide();   
                       }

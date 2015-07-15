@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.omg.PortableServer.REQUEST_PROCESSING_POLICY_ID;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -32,6 +33,8 @@ public class db_backup implements Job{
 String usersession="";
   String computername="";
    String senderofmail="";
+   HttpSession session;
+//     session= request.getSession();
     public void execute(JobExecutionContext context) throws JobExecutionException {
         try {
             
@@ -82,7 +85,7 @@ Date dates= new Date();
              dbname=conn.dbsetup[1];                 
              
              }
-             
+         
 System.out.println("PASSWORD IS :"+password);
              System.out.println("USER IS :"+user);
              System.out.println("DBNAME IS :"+dbname);
@@ -141,8 +144,12 @@ System.out.println("PASSWORD IS :"+password);
      }
                 if(!"127.0.0.1".equals(InetAddress.getLocalHost().getHostAddress().toString())){
                 Send_Data dt=new Send_Data();
-                    try {
-                        dt.Sendattachment(dat, dbpath,computername,senderofmail,filname);
+                    try {  
+                           String locations="";
+                if(session.getAttribute("Location").toString()!=null){
+                locations= session.getAttribute("Location").toString();}
+                else{locations="";}
+                        dt.Sendattachment(dat, dbpath,computername,senderofmail,filname,locations);
                     } catch (MessagingException ex) {
                         Logger.getLogger(db_backup.class.getName()).log(Level.SEVERE, null, ex);
                         System.out.println(ex.toString());

@@ -194,7 +194,7 @@ xmlhttp.send();
                           
      function editRecord(UniqueID,ward){
 //     var ward=document.getElementById("ward").value;
-        alert(ward.value);
+//        alert(ward.value);
         
              $.ajax({
                     url:"../addWard?UniqueID="+UniqueID+"&ward="+ward.value,
@@ -238,7 +238,7 @@ xmlhttp.send();
         String username=(String)session.getAttribute("Username");
       %>
           
-       <a class="button-1" href="../DIC/logoutServlet">LogOut</a>          
+       <a class="button-1" href="/DIC/logoutServlet">LogOut</a>          
      <h5>Welcome <%=username%></h5>
      <% }else{
 //               response.sendRedirect("/DIC/index.jsp");

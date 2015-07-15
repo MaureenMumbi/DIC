@@ -571,7 +571,7 @@ style_header1.setBottomBorderColor(HSSFColor.LEMON_CHIFFON.index);
   
         String enrollments="select count(UniqueID),DICName,District,QUARTER(STR_TO_DATE(DOE,'%e/%c/%Y'))from enrollment  where "
                 + " (STR_TO_DATE(DOE,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+startdate+"','%e/%c/%Y'))"
-                + " AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y')) GROUP BY QUARTER(STR_TO_DATE(DOE,'%e/%c/%Y')),DICName ORDER BY QUARTER(STR_TO_DATE(DOE,'%e/%c/%Y'))";
+                + " AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y')) GROUP BY QUARTER(STR_TO_DATE(DOE,'%e/%c/%Y')),DICName ORDER BY QUARTER(STR_TO_DATE(DOE,'%e/%c/%Y')),District";
         
         System.out.println(enrollments);
          conn.rs = conn.state.executeQuery(enrollments);
@@ -661,7 +661,7 @@ style_header1.setBottomBorderColor(HSSFColor.LEMON_CHIFFON.index);
               + "district, QUARTER(STR_TO_DATE(AssessmentDate,'%e/%c/%Y'))"
               + "  FROM enrollment,riskassessmentmain where"
               + " (STR_TO_DATE(AssessmentDate,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+startdate+"','%e/%c/%Y')) "
-              + "AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y'))and enrollment.Uniqueid= riskassessmentmain.uniqueid group by dicname,QUARTER(STR_TO_DATE(AssessmentDate,'%e/%c/%Y')) ORDER BY QUARTER(STR_TO_DATE(AssessmentDate,'%e/%c/%Y')) ";  
+              + "AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y'))and enrollment.Uniqueid= riskassessmentmain.uniqueid group by dicname,QUARTER(STR_TO_DATE(AssessmentDate,'%e/%c/%Y')) ORDER BY QUARTER(STR_TO_DATE(AssessmentDate,'%e/%c/%Y')),District ";  
         
 //        String riskassessments="select dicname, count(riskassessmentmain.uniqueid),district,MONTH(STR_TO_DATE(AssessmentDate,'%e/%c/%Y'))from enrollment, riskassessmentmain where enrollment.uniqueid in(select uniqueid from riskassessmentmain "
 //                + " where (STR_TO_DATE(AssessmentDate,'%e/%c/%Y')) BETWEEN "
@@ -758,7 +758,7 @@ style_header1.setBottomBorderColor(HSSFColor.LEMON_CHIFFON.index);
                   + "(STR_TO_DATE('"+enddate+"','%e/%c/%Y'))and "
                   + "enrollment.Uniqueid= riskreductionmain.uniqueid "
                   + "group by dicname,QUARTER(STR_TO_DATE(DOA,'%e/%c/%Y')) "
-                  + "ORDER BY QUARTER(STR_TO_DATE(DOA,'%e/%c/%Y')) ";  
+                  + "ORDER BY QUARTER(STR_TO_DATE(DOA,'%e/%c/%Y')),District ";  
       System.out.println(riskreductions);
          conn.rs3 = conn.state3.executeQuery(riskreductions);
           while(conn.rs3.next()){

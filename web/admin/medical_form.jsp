@@ -505,7 +505,7 @@ mcount++;
      
         else{
      %>
-    <a class="button-1" href="../DIC/logoutServlet">LogOut</a>         
+    <a class="button-1" href="/DIC/logoutServlet">LogOut</a>         
      <h5>Welcome <%=username%></h5>
      <%
                }

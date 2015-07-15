@@ -11,7 +11,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.SQLException;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -21,8 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.util.CellRangeAddress;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -1916,6 +1913,8 @@ outStream.flush();
                         cell4 = rw1.createCell(18);
                      cell4.setCellValue("Venue");
                       cell4.setCellStyle(indicator_style); 
+                      
+                      
                      
                       if(session.getAttribute("lockNames")==null){
     shet1.setColumnWidth(19, 0);
@@ -1975,10 +1974,18 @@ outStream.flush();
                      cell4.setCellValue("Fingerprint");
                       cell4.setCellStyle(indicator_style); 
                     
+                      
+                      cell4 = rw1.createCell(27);
+                     cell4.setCellValue("Ward");
+                      cell4.setCellStyle(indicator_style); 
+                      
+                       cell4 = rw1.createCell(26);
+                     cell4.setCellValue("Month");
+                      cell4.setCellStyle(indicator_style);
         
    String alldata="select UniqueID, UPPER(ClientInit),DOE,District,DICName, DOB, Sex, Age,MaritalStatus, Children, ChildNo, "
            + "Religion, EducationLevel, PhoneNo, Residence, DICLearn, Email, "
-           + "PhoneNo1, Venue,  FirstName, SecondName,LastName, venueOther, DicLearnOther,capturedhand,fingerprint "
+           + "PhoneNo1, Venue,  FirstName, SecondName,LastName, venueOther, DicLearnOther,capturedhand,fingerprint ,ward,monthname((STR_TO_DATE(DOE, '%e/%c/%Y')))"
            + "from enrollment where (STR_TO_DATE(DOE, '%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+startdate+"', '%e/%c/%Y')) AND (STR_TO_DATE('"+enddate+"', '%e/%c/%Y')) order by enrollment.UniqueID limit 1000000 ";
 System.out.println(alldata);
 conn.rs = conn.state.executeQuery(alldata);
@@ -2073,7 +2080,7 @@ count++;
                     
                       }
                     cell14=rwa.createCell(13);
-                     cell14.setCellValue("aaaa"+PhoneNo);
+                     cell14.setCellValue(PhoneNo);
                    cell14.setCellStyle(cell_styles);
                        }
                        }
@@ -2226,6 +2233,14 @@ count++;
                  cell14.setCellValue(fingerprints);
                  cell14.setCellStyle(cell_styles);
                 fingerprints="";
+                
+                 cell14=rwa.createCell(26);
+                 cell14.setCellValue(conn.rs.getString(28));
+                 cell14.setCellStyle(cell_styles);
+                
+                  cell14=rwa.createCell(27);
+                   cell14.setCellValue(conn.rs.getString(27));
+                 cell14.setCellStyle(cell_styles);
                 
 
 }

@@ -66,7 +66,7 @@ String username="";
     f.method="post";
     f.action="/DIC/admin/editWorkers.jsp?UniqueID='"+UniqueID+"'";
     window.open("/DIC/admin/editWorkers.jsp?UniqueID='"+UniqueID+"'",'_blank')
-    f.submit();
+//    f.submit();
     
 }
 function deleteRecord(UniqueID){
@@ -148,7 +148,7 @@ function deleteRecord(UniqueID){
         String username=(String)session.getAttribute("Username");
       %>
           
-       <a class="button-1" href="../DIC/logoutServlet">LogOut</a>          
+       <a class="button-1" href="/DIC/logoutServlet">LogOut</a>          
      <h5>Welcome <%=username%></h5>
      <% }else{
 //               response.sendRedirect("/DIC/index.jsp"); 
@@ -173,7 +173,9 @@ else{%>
 
 }
 
-else{ %>
+else{ 
+              response.sendRedirect("/DIC/index.jsp");
+%>
         
              <%@include file="../menu/clerkmenu.html" %>
             
@@ -204,7 +206,8 @@ else{ %>
 			<th>EDIT</th>
 			<th>Hand Used</th>
                         <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%><th>CAPTURE FINGERPRINT</th><%}}%>
-			<th>DELETE FSW</th>
+			 <% if(session.getAttribute("AccessLevel")!=null){
+                         if (session.getAttribute("AccessLevel").equals("2")){%><th>DELETE FSW</th><%}}%>
 			
 			
 			
@@ -246,7 +249,7 @@ else{ %>
            <td class="sorting_1">${today.DOE} </td>
           
                       <td class="sorting_1">
-                        <a href=""  style="background-color: #E0E0E0; height: 12px; width:20px; font-size: 14px; " onclick="editRecord('${today.UNIQUEID}')">Edit</a>  
+                        <a href="/DIC/admin/editWorkers.jsp?UniqueID='${today.UNIQUEID}'" target="_blank" style="background-color: #E0E0E0; height: 12px; width:20px; font-size: 14px; " >Edit</a>  
                         
                       </td>
                      
@@ -262,10 +265,10 @@ else{ %>
                
                <% session.setAttribute("UniqueID", pageContext.getAttribute("UniqueID"));%>
 
-            <% if (session.getAttribute("AccessLevel").equals("2")){%>
+            <%  if(session.getAttribute("AccessLevel")!=null){if (session.getAttribute("AccessLevel").equals("2")){%>
                 <td class="sorting_1"><input type="button"  name="delete" value="Delete" onclick="deleteRecord('${today.UNIQUEID}')"></td>
               <%
-            }
+            }}
 %>
           </tr>
        

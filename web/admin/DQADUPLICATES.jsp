@@ -483,10 +483,14 @@ To sort any column, click at any table column header
                            <%  }              
 }%>
                           
-                           <th>UNIQUE KEY </th>
-                           <th>FIRST NAME</th>
+                           <!--<th>UNIQUE KEY </th>-->
+                           
+                           
+                             <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%> <th>FIRST NAME</th>
                            <th>MIDDLE NAME</th>
-                           <th>LAST NAME</th>
+                           <th>LAST NAME</th><%}}%>
+
+                           
                         
                                                   
                          
@@ -502,10 +506,16 @@ To sort any column, click at any table column header
                                     <td>${alldata.UNIQUEID}</td>
                                     <td>${alldata.DICNAME}</td>
                                     <td>${alldata.DOE}</td>
-                                    <td>${alldata.UNIQUEKEY}</td>                               
-                                    <td>${alldata.FIRSTNAME}</td>                               
+                                    <!--<td>${alldata.UNIQUEKEY}</td>--> 
+                                    
+                                    <%if(session.getAttribute("lockNames")==null){%><%} else
+                                    {if(session.getAttribute("lockNames").toString().equals("YES")){}
+                    else{%>    <td>${alldata.FIRSTNAME}</td>                               
                                     <td>${alldata.SECONDNAME}</td>
                                     <td>${alldata.LASTNAME}</td>
+                           
+                           <%}}%>
+                                 
                                    
                             </tr>
                         </c:forEach>

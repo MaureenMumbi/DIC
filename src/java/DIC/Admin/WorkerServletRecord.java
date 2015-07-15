@@ -34,7 +34,7 @@ HttpSession session;
       String FirstName="";
       String MiddleName="";
       String LastName="";
-      String [] district=null;
+      
       String DICName="";
       isnotAdminServer=true;
      AccessLevel=user=""; 
@@ -48,10 +48,12 @@ HttpSession session;
         end_date = request.getParameter("enddate");}
 //      if(request.getParameterValues("district")!=null && !request.getParameterValues("district").equals("")){
 //      district = request.getParameterValues("district");}
+         
+      
           try {
               ArrayList enrollments =new ArrayList();
-    
-     System.out.println("to lock : "+session.getAttribute("lockNames").toString());
+    if(session.getAttribute("lockNames")!=null){
+     System.out.println("to lock : "+session.getAttribute("lockNames").toString());}
                         
 				String query = "select * from enrollment where DICName='"+DICName+"' and (STR_TO_DATE(DOE,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+start_date+"','%e/%c/%Y')) AND (STR_TO_DATE('"+end_date+"','%e/%c/%Y'))";
 				System.out.println(query);
@@ -60,7 +62,9 @@ HttpSession session;
 
 				while(conn.rs.next())
 				{
-					
+				 FirstName="";
+       MiddleName="";
+       LastName="";	
 				SummaryBean DB= new SummaryBean();
                                 DB.setUNIQUEID(conn.rs.getString("UniqueID"));
                                 if(session.getAttribute("lockNames")==null){
@@ -87,6 +91,8 @@ HttpSession session;
                     AES.decrypt(conn.rs.getString("SecondName").trim());
                      System.out.println("String To Decrypt : " + conn.rs.getString("SecondName"));
                     System.out.println("Decrypted : " + AES.getDecryptedString());
+                   
+                    
                     MiddleName=AES.getDecryptedString();
                           }
                       if(conn.rs.getString("LastName")!=null && !conn.rs.getString("LastName").trim().equals("") && !conn.rs.getString("LastName").equals("null")){
@@ -122,7 +128,12 @@ HttpSession session;
 //				dispatcher.forward(request,response);
 				
 			} catch (Exception e) {
-			out.println(e.toString());
+                        e.printStackTrace();
+                        e.toString();
+                        out.println("dint work");
+                        out.println(e.toString());
+                        out.println(e.toString());
+                       
 			}
        
     }

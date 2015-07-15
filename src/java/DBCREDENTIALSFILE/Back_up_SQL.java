@@ -70,8 +70,13 @@ Date date= new Date();
          if (session.getAttribute("Username") != null) {
           filname=session.getAttribute("Username").toString()+"_";
 
-          senderofmail = " which has been sent by user :: " + session.getAttribute("Username").toString() + " ";
-
+          senderofmail = " which has been sent by user :: " + session.getAttribute("Username").toString() + ". Sent From'"+session.getAttribute("Location").toString()+"' DIC";
+         senderofmail+="To merge this data , "
+                + "\n(1)Download the attachment to any folder of choice;"
+                + " \n(2) Select Bakcups then select Import Data.\n"
+                + "(3)From the merging page that opens, Browse and select the sql file you have downloaded.\n"
+                + "(4)Click on Merge and wait for a success message"
+                + "";
         } else {
             senderofmail = "";
         }
@@ -222,7 +227,11 @@ String daytime=""+year+"-"+month+"-"+day;
                         
                        if(!"127.0.0.1".equals(InetAddress.getLocalHost().getHostAddress().toString())){
                 Send_Data_Main dt=new Send_Data_Main();
-                dt.Sendattachments(full_dates, dbpath,computername,senderofmail,filname);
+                String locations="";
+                if(session.getAttribute("Location").toString()!=null){
+                locations= session.getAttribute("Location").toString();}
+                else{locations="";}
+                dt.Sendattachments(full_dates, dbpath,computername,senderofmail,filname,locations);
                 session.setAttribute("network_error", "Backup has been created and send via mail");
                 //out.println("Backup has been created and send via mail....");
                 }

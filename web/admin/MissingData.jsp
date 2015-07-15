@@ -10,7 +10,7 @@
     Author     : Maureen
 --%>
 
-
+<%@page import="dbConnect.AES"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="dbConnect.dbConnect"%>
 
@@ -275,7 +275,9 @@ To sort any column, click at any table column header
 		            <thead>
 		            <tr>
 		           <th>UNIQUE ID </th>
-		           <th>FULL NAME </th>
+		           <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%> <th>Full Name</th><%}}%>
+
+  
                            <th>INDICATOR</th>
                            <th>HIV TESTED </th>
                            <th>MISSING DATA </th>
@@ -287,7 +289,10 @@ To sort any column, click at any table column header
                               
 
                           
-                               <% 
+                               <%
+  String FirstName="";
+      String MiddleName="";
+      String LastName="";                               
                               
                                String select = "select * from riskreductiondetails where QID='E1' AND currentStatus='Yes' AND (Action=''|| Action='null')";
  conn.rs =conn.state.executeQuery (select);
@@ -304,12 +309,45 @@ while(conn.rs.next()){
                                    conn.rs3 = conn.state3.executeQuery(getuniqueid);
                                    while(conn.rs3.next()){
                                    
-String getName="select UPPER(FirstName),UPPER(SecondName), UPPER(LastName) from enrollment where uniqueid='"+conn.rs3.getString("UniqueID")+"' " ; 
+String getName="select FirstName,SecondName,LastName from enrollment where uniqueid='"+conn.rs3.getString("UniqueID")+"' " ; 
 conn.rs4 = conn.state4.executeQuery(getName);
 while(conn.rs4.next()){
 %>
-
-<%= conn.rs4.getString(1) +"  "+conn.rs4.getString(2)+"  "+ conn.rs4.getString(3)%>
+<%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%>
+    
+                             <%String name="";
+                             
+                             
+                                final  String strPssword ="?*1>9@(&#";    
+              AES.setKey(strPssword);
+                         if(conn.rs4.getString("FirstName")!=null && !conn.rs4.getString("FirstName").trim().equals("") && !conn.rs4.getString("FirstName").equals("null")){
+                                    
+                                        AES.decrypt(conn.rs4.getString("FirstName").trim());
+                                       System.out.println("String To Decrypt : " +  conn.rs4.getString("FirstName"));
+                                       System.out.println("Decrypted : " + AES.getDecryptedString());
+                                                   
+                                                      FirstName =  AES.getDecryptedString()  ;
+                                                   }
+                                       
+                          if(conn.rs4.getString("SecondName")!=null && !conn.rs4.getString("SecondName").trim().equals("") && !conn.rs4.getString("SecondName").equals("null")){               
+//                        
+                    AES.decrypt(conn.rs4.getString("SecondName").trim());
+                     System.out.println("String To Decrypt : " + conn.rs4.getString("SecondName"));
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                    MiddleName=AES.getDecryptedString();
+                          }
+                      if(conn.rs4.getString("LastName")!=null && !conn.rs4.getString("LastName").trim().equals("") && !conn.rs4.getString("LastName").equals("null")){
+//                      Lastname =  conn.rs2.getString("LastName");
+                    AES.decrypt(conn.rs4.getString("LastName").trim());
+                     System.out.println("String To Decrypt : " + conn.rs4.getString("LastName"));
+                     LastName=AES.getDecryptedString();
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                    
+                      }
+        
+                             
+     name=  FirstName+"  "+ MiddleName+"  "+ LastName;%>
+<%= name%><%}}%>
 <%
 
 }

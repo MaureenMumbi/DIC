@@ -4,7 +4,7 @@
  */
 package DIC.Admin;
 
-import dbConnect.Destest;
+import dbConnect.AES;
 import dbConnect.dbConnect;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -53,6 +53,7 @@ String OccupationID= request.getParameter("OccupationID");
 
 String ChildID= request.getParameter("ChildID");
 String operationsID= request.getParameter("OperationsID");
+System.out.println("nnn "+operationsID);
 String occupationsID= request.getParameter("occupationID");
 String childsID= request.getParameter("childsID");
 
@@ -219,14 +220,14 @@ DICLearn = request.getParameter("DICLearn1").toString();
 HttpSession session =request.getSession(true);
 String queryOperation="";
 String[] OperationArea =null;
-        if(request.getParameterValues("OperationArea")!=null){
-        OperationArea= request.getParameterValues("OperationArea");}
-//System.out.println("OperationArea LENGTH"+OperationArea.length);
-if(OperationArea.length != 0 ){
-for(int i=0; i<operationIDArray.length;i++){
-    //System.out.println("OperationArea             "+OperationArea[i]);
+        if(request.getParameterValues("OperationArea")!=null && !request.getParameterValues("OperationArea").equals("")){
+        OperationArea= request.getParameterValues("OperationArea");
+System.out.println("OperationArea LENGTH"+OperationArea.length);
+
+for(int i=0; i<OperationArea.length;i++){
+    System.out.println("OperationArea             "+OperationArea[i]);
 try {
-    if(!operationIDArray[i].equals("") && operationIDArray[i]!=null ){
+    if(!OperationArea[i].equals("") && OperationArea[i]!=null ){
 queryOperation="UPDATE clientoparea SET AreaOpID='"+OperationArea[i]+"', UniqueID='"+UniqueID+"',syncstatus=0 where ID='"+operationIDArray[i]+"'";
 }
 //        System.out.println("queryOperation    "+queryOperation) ;                     
@@ -236,18 +237,17 @@ Logger.getLogger(EditWorker.class.getName()).log(Level.SEVERE, null, ex);
 }
 }
 }
-
-if(request.getParameterValues("Occupation")!=null){
+if(request.getParameterValues("Occupation")!=null && !request.getParameterValues("Occupation").equals("")){
  Occupation= request.getParameterValues("Occupation");
-}
+
 
 
 String queryOccupation="";
 //if(Occupation.length != 0){
    
-for(int i=0; i<occupationIDArray.length;i++){
+for(int i=0; i<Occupation.length;i++){
 //    System.out.println("Occupation              "+Occupation[i]);
-    if(occupationIDArray[i]!= null && !occupationIDArray[i].equals("")){
+    if(Occupation[i]!= null && !Occupation[i].equals("")){
 queryOccupation ="UPDATE clientoccupation SET OccupationID= '"+Occupation[i]+"',UniqueID='"+UniqueID+"',syncstatus=0  where ID='"+occupationIDArray[i]+"'";
     }
 try {
@@ -256,7 +256,7 @@ try {
 } catch (SQLException ex) {
  Logger.getLogger(EditWorker.class.getName()).log(Level.SEVERE, null, ex);
 }
-}
+}}
 //}
 String[] AgeNo = request.getParameterValues("AgeNo");
 String No="";
@@ -332,55 +332,56 @@ if(name_length>2){
                      String phoneno = PhoneNo;
                    
                      String strPssword = "?*1>9@(&#";
-                    Destest.setKey(strPssword);
+                    AES.setKey(strPssword);
                     String first="";
                   
                     if(firstname!=null && !firstname.trim().equals("") && !firstname.equals("null")){
-                       Destest.encrypt (firstname.trim());
-                        System.out.println("Encrypted______________________: " + firstname);
+                       AES.encrypt (fname.trim());
+                        System.out.println("Encrypted______________________: " + fname);
                    
-                    System.out.println("Encrypted:____________________ " + Destest.getEncryptedString());
-                      first= Destest.getEncryptedString();
+                    System.out.println("Encrypted:____________________ " + AES.getEncryptedString());
+                      first= AES.getEncryptedString();
             }
                     
                     //middle name encrypt
                       String midname="";
                      if(mname!=null && !mname.trim().equals("") && !mname.equals("null")){
-                     Destest.encrypt (mname.trim());
+                     AES.encrypt (mname.trim());
                         System.out.println("Encrypted______________________: " + mname);
                    
-                    System.out.println("Encrypted:____________________ " + Destest.getEncryptedString());
-                      midname=Destest.getEncryptedString();
+                    System.out.println("Encrypted:____________________ " + AES.getEncryptedString());
+                      midname=AES.getEncryptedString();
                      }
                      //last name encrypt
                      String lasname="";
                       if(lname!=null && !lname.trim().equals("") && !lname.equals("null")){
-                     Destest.encrypt (lname.trim());
+                     AES.encrypt (lname.trim());
                         System.out.println("Encrypted______________________: " + lname);
                    
-                    System.out.println("Encrypted:____________________ " + Destest.getEncryptedString());
-                      lasname= Destest.getEncryptedString();
+                    System.out.println("Encrypted:____________________ " + AES.getEncryptedString());
+                      lasname= AES.getEncryptedString();
                       }
                       String phone="";
                      if(phoneno!=null && !PhoneNo.trim().equals("") && !phoneno.equals("null")){
-                     Destest.encrypt (phoneno.trim());
+                     AES.encrypt (phoneno.trim());
                       System.out.println("String to Encrypt:_______****(**** " + phoneno); 
-                    System.out.println("Encrypted:________******** " + Destest.getEncryptedString());
+                    System.out.println("Encrypted:________******** " + AES.getEncryptedString());
                     
-                     phone= Destest.getEncryptedString();
+                     phone= AES.getEncryptedString();
                      } 
-                    
+                     String ward="";
+        if(request.getParameter("ward")!=null && !request.getParameter("ward").equals("") ){
+ ward=request.getParameter("ward");}            
 
-query = "UPDATE  enrollment set ClientInit='"+ClientInit+"',DOE= '"+DOE+"',District='"+Districts+"',DOB='"+DOB+"',"
-+ "DICName='"+DICName+"',Sex='"+Sex+"',Age='"+Age+"',MaritalStatus='"+MaritalStatus+"',Children='"+Children+"',ChildNo='"+ChildNo+"',Religion='"+Religion+"',"
+String query1 = "UPDATE enrollment set ClientInit='"+ClientInit+"',DOE= '"+DOE+"',District='"+Districts+"',DOB='"+DOB+"',"
++ "DICName='"+DICName+"',ward='"+ward+"',Sex='"+Sex+"',Age='"+Age+"',MaritalStatus='"+MaritalStatus+"',Children='"+Children+"',ChildNo='"+ChildNo+"',Religion='"+Religion+"',"
 + "EducationLevel='"+EducationLevel+"',PhoneNo='"+phone+"',Residence='"+Residence+"',OperationArea='"+OperationAreaID+"',Occupation='"+OccupationID+"',MemberOfID='"+OperationAreaID+"',DICLearn='"+DICLearn+"',"
-+ "Email='"+Email+"',PhoneNo1='"+PhoneNo1+"',Venue='"+Venue+"',AgeID='"+OperationAreaID+"',FirstName='"+first+"',SecondName='"+midname+"', Lastname='"+lasname+"', UniqueID=?,syncstatus=0  where EnrollID='"+rowid+"'";
- conn.ps1 = conn.connect.prepareStatement(query);
- 
- 
- System.out.println(query);
-conn.ps1.setString(1,UniqueID);
-conn.ps1.executeUpdate(); 
++ "Email='"+Email+"',PhoneNo1='"+PhoneNo1+"',Venue='"+Venue+"',AgeID='"+OperationAreaID+"',FirstName='"+first+"',SecondName='"+midname+"', Lastname='"+lasname+"',syncstatus=0 where UniqueID='"+UniqueID+"'";
+// conn.ps1 = conn.connect.prepareStatement(query1);
+ System.out.println(query1);
+//conn.ps1.setString(1,UniqueID);
+//conn.ps1.executeUpdate(); 
+conn.state.executeUpdate(query1);
 
 
 String getRRUniqueID="select * from riskreductionmain where UniqueID='"+oldUniqueID+"'";

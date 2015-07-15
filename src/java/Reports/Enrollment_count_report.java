@@ -437,7 +437,7 @@ year_style_header.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
      ///End of getting the Pefar years
         // while(anza <= kwisha){
            //Doin the counts for Eact DIC
-          String DIC_count_enrol="select count(DISTINCT UniqueID),DICName,QUARTER(STR_TO_DATE(DOE,'%e/%c/%Y')),Pefar_year,DOE,count(fingerprint) from enrollment where DICName='"+ dic_name+"' AND (STR_TO_DATE(DOE,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+start_date+"','%e/%c/%Y')) AND (STR_TO_DATE('"+end_date+"','%e/%c/%Y'))  GROUP BY QUARTER(STR_TO_DATE(DOE,'%e/%c/%Y')),DICName,Pefar_year ";
+          String DIC_count_enrol="select count(DISTINCT UniqueID),DICName,QUARTER(STR_TO_DATE(DOE,'%e/%c/%Y')),Pefar_year,DOE,count(NULLIF(fingerprint,'')) from enrollment where DICName='"+ dic_name+"' AND (STR_TO_DATE(DOE,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+start_date+"','%e/%c/%Y')) AND (STR_TO_DATE('"+end_date+"','%e/%c/%Y'))  GROUP BY QUARTER(STR_TO_DATE(DOE,'%e/%c/%Y')),DICName,Pefar_year ";
           //Prints out the query
           System.out.println(DIC_count_enrol);
           //Executes the query
@@ -1123,7 +1123,7 @@ year_style_header.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
      ///End of getting the Pefar years
         // while(anza <= kwisha){
            //Doin the counts for Eact DIC
-          String DIC_count_enrol="select count(UniqueID),DICName,MONTH(STR_TO_DATE(DOE,'%e/%c/%Y')),Pefar_year,DOE,QUARTER(STR_TO_DATE(DOE,'%e/%c/%Y')),count(fingerprint) from enrollment where DICName='"+ dic_name+"' AND (STR_TO_DATE(DOE,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+start_date+"','%e/%c/%Y')) AND (STR_TO_DATE('"+end_date+"','%e/%c/%Y'))  GROUP BY MONTH(STR_TO_DATE(DOE,'%e/%c/%Y')),QUARTER(STR_TO_DATE(DOE,'%e/%c/%Y')),DICName,Pefar_year ";
+          String DIC_count_enrol="select count(UniqueID),DICName,MONTH(STR_TO_DATE(DOE,'%e/%c/%Y')),Pefar_year,DOE,QUARTER(STR_TO_DATE(DOE,'%e/%c/%Y')),count(NULLIF(fingerprint,'')) from enrollment where DICName='"+ dic_name+"' AND (STR_TO_DATE(DOE,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+start_date+"','%e/%c/%Y')) AND (STR_TO_DATE('"+end_date+"','%e/%c/%Y'))  GROUP BY MONTH(STR_TO_DATE(DOE,'%e/%c/%Y')),QUARTER(STR_TO_DATE(DOE,'%e/%c/%Y')),DICName,Pefar_year ";
           //Prints out the query
           System.out.println(DIC_count_enrol);
           //Executes the query
@@ -1150,9 +1150,10 @@ year_style_header.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
                found1 = conn.rs1.getInt(1);
                //Adding the total
                total_found = total_found + found1;
+              
                captured1 = conn.rs1.getInt(7);
                //Adding the total
-                captured1 = conn.rs1.getInt(7);
+//                captured1 = conn.rs1.getInt(7);
                total_captured = total_captured + captured1;
                //Checking the start years if match the pefar years to check where to place in excel
                while (!(mnth_determine_year00 == Integer.parseInt(Pefar_year)) ){

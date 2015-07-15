@@ -137,6 +137,14 @@
        }else{
          $('#msg_DOE').html('').hide();
        }
+       
+       var ward = $('#ward').val();
+       if(!ward && ward.length <= 0){
+         isValid2 = false;
+            alert('Please select a ward');   
+       }else{
+         $('#msg_DOE').html('').hide();
+       }
          var un = $('#ClientInit').val();
        if(!un && un.length <= 0){
          isValid2 = false;

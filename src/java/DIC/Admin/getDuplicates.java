@@ -5,6 +5,7 @@
 package DIC.Admin;
 
 import Maintenance.DICServlet;
+import dbConnect.AES;
 import dbConnect.dbConnect;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -84,8 +85,9 @@ session = request.getSession(true);
 //+" u.lastname limit 100000000";
 
                            String query="SELECT uniqueid,u.dicname,u.doe "
-           + ",CONCAT(upper(u.firstname),\"\", upper(u.secondname),\"\", upper(u.lastname)) , upper(u.firstname), upper(u.secondname),"
-+"upper(u.lastname) from "
+           + ",CONCAT(upper(u.firstname),\"\", upper(u.secondname),\"\", upper(u.lastname)) ,"
+                                   + " u.firstname, u.secondname,"
++"u.lastname from "
 +"enrollment as u "
 +" inner join("
 +" select count(*) c ,firstname, secondname,dicname,doe,"
@@ -108,7 +110,7 @@ session = request.getSession(true);
 +" u.lastname limit 100000000";
                         
                                             
-                                            System.out.println("query " + query);
+                                            System.out.println("query for first one" + query);
               
                                                         conn.rs = conn.state.executeQuery(query);
         if(missingdata!=null && missingdata.size()>0 ){missingdata.clear();}
@@ -122,9 +124,37 @@ session = request.getSession(true);
                        DB.setDICNAME(conn.rs.getString(2));
                        DB.setDOE(conn.rs.getString(3));
                        DB.setUNIQUEKEY(conn.rs.getString(4));
-                       DB.setFIRSTNAME(conn.rs.getString(5));
-                       DB.setSECONDNAME(conn.rs.getString(6));
-                       DB.setLASTNAME(conn.rs.getString(7));
+                        
+                                final  String strPssword ="?*1>9@(&#";    
+              AES.setKey(strPssword);
+                         if(conn.rs.getString(5)!=null && !conn.rs.getString(5).trim().equals("") && !conn.rs.getString(5).equals("null")){
+                                    
+                                        AES.decrypt(conn.rs.getString(5).trim());
+                                       System.out.println("String To Decrypt : " +  conn.rs.getString(5));
+                                       System.out.println("Decrypted : " + AES.getDecryptedString());
+                                                   
+//                                                      FirstName =  AES.getDecryptedString()  ;
+                                                       DB.setFIRSTNAME(AES.getDecryptedString());
+                                                   }
+                                       
+                          if(conn.rs.getString(6)!=null && !conn.rs.getString(6).trim().equals("") && !conn.rs.getString(6).equals("null")){               
+//                        
+                    AES.decrypt(conn.rs.getString(6).trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString(6));
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+//                    MiddleName=AES.getDecryptedString();
+                     DB.setSECONDNAME(AES.getDecryptedString());
+                          }
+                      if(conn.rs.getString(7)!=null && !conn.rs.getString(7).trim().equals("") && !conn.rs.getString(7).equals("null")){
+//                      Lastname =  conn.rs2.getString("LastName");
+                    AES.decrypt(conn.rs.getString(7).trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString(7));
+//                     LastName=AES.getDecryptedString();
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                     DB.setLASTNAME( AES.getDecryptedString());
+                     
+                    
+                      }
                      
                        
                     
@@ -161,8 +191,8 @@ session = request.getSession(true);
 //+" u.lastname limit 100000000";
 
                            String query="SELECT uniqueid,u.dicname,u.dob "
-           + ",CONCAT(upper(u.firstname),\"\", upper(u.secondname),\"\", upper(u.lastname)) , upper(u.firstname), upper(u.secondname),"
-+"upper(u.lastname) from "
+           + ",CONCAT(upper(u.firstname),\"\", upper(u.secondname),\"\", upper(u.lastname)) , u.firstname, u.secondname,"
++"u.lastname from "
 +"enrollment as u "
 +" inner join("
 +" select count(*) c ,firstname, secondname,dicname,dob,"
@@ -185,7 +215,7 @@ session = request.getSession(true);
 +" u.lastname limit 100000000";
                         
                                             
-                                            System.out.println("query " + query);
+                                            System.out.println("query fro first " + query);
               
                                                         conn.rs = conn.state.executeQuery(query);
         if(missingdata!=null && missingdata.size()>0 ){missingdata.clear();}
@@ -198,11 +228,43 @@ session = request.getSession(true);
                        DB.setUNIQUEID(conn.rs.getString(1));
                        DB.setDICNAME(conn.rs.getString(2));
                        DB.setDOE(conn.rs.getString(3));
-                       DB.setUNIQUEKEY(conn.rs.getString(4));
-                       DB.setFIRSTNAME(conn.rs.getString(5));
-                       DB.setSECONDNAME(conn.rs.getString(6));
-                       DB.setLASTNAME(conn.rs.getString(7));
+                       
+                       
+                       
+                                final  String strPssword ="?*1>9@(&#";    
+              AES.setKey(strPssword);
+                         if(conn.rs.getString(5)!=null && !conn.rs.getString(5).trim().equals("") && !conn.rs.getString(5).equals("null")){
+                                    
+                                        AES.decrypt(conn.rs.getString(5).trim());
+                                       System.out.println("String To Decrypt : " +  conn.rs.getString(5));
+                                       System.out.println("Decrypted : " + AES.getDecryptedString());
+                                                   
+//                                                      FirstName =  AES.getDecryptedString()  ;
+                                                       DB.setFIRSTNAME(AES.getDecryptedString());
+                                                   }
+                                       
+                          if(conn.rs.getString(6)!=null && !conn.rs.getString(6).trim().equals("") && !conn.rs.getString(6).equals("null")){               
+//                        
+                    AES.decrypt(conn.rs.getString(6).trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString(6));
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+//                    MiddleName=AES.getDecryptedString();
+                     DB.setSECONDNAME(AES.getDecryptedString());
+                          }
+                      if(conn.rs.getString(7)!=null && !conn.rs.getString(7).trim().equals("") && !conn.rs.getString(7).equals("null")){
+//                      Lastname =  conn.rs2.getString("LastName");
+                    AES.decrypt(conn.rs.getString(7).trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString(7));
+//                     LastName=AES.getDecryptedString();
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                     DB.setLASTNAME( AES.getDecryptedString());
                      
+                    
+                      }
+                       DB.setUNIQUEKEY(conn.rs.getString(4));
+                      
+                      
+                      
                        
                     
                       
@@ -216,8 +278,8 @@ session = request.getSession(true);
 //                                        String query = "select UniqueID, DICName,DOB from enrollment where (STR_TO_DATE(DOB,'%e/%c/%Y'))>STR_TO_DATE('01/01/2004','%e/%c/%Y') ";
                                        
                                               String query="SELECT uniqueid,dicname,u.dob "
-           + ",CONCAT(upper(u.firstname),\"\", upper(u.secondname),\"\", upper(u.lastname)) , upper(u.firstname), upper(u.secondname),"
-+"upper(u.lastname) from "
+           + ",CONCAT(upper(u.firstname),\"\", upper(u.secondname),\"\", upper(u.lastname)) , u.firstname, u.secondname,"
++"u.lastname from "
 +"enrollment as u "
 +" inner join("
 +" select count(*) c ,firstname, secondname,dob,  "
@@ -254,9 +316,40 @@ session = request.getSession(true);
                        DB.setDICNAME(conn.rs.getString(2));
                        DB.setDOE(conn.rs.getString(3));
                        DB.setUNIQUEKEY(conn.rs.getString(4));
-                       DB.setFIRSTNAME(conn.rs.getString(5));
-                       DB.setSECONDNAME(conn.rs.getString(6));
-                       DB.setLASTNAME(conn.rs.getString(7));
+                                 final  String strPssword ="?*1>9@(&#";    
+              AES.setKey(strPssword);
+                         if(conn.rs.getString(5)!=null && !conn.rs.getString(5).trim().equals("") && !conn.rs.getString(5).equals("null")){
+                                    
+                                        AES.decrypt(conn.rs.getString(5).trim());
+                                       System.out.println("String To Decrypt : " +  conn.rs.getString(5));
+                                       System.out.println("Decrypted : " + AES.getDecryptedString());
+                                                   
+//                                                      FirstName =  AES.getDecryptedString()  ;
+                                                       DB.setFIRSTNAME(AES.getDecryptedString());
+                                                   }
+                                       
+                          if(conn.rs.getString(6)!=null && !conn.rs.getString(6).trim().equals("") && !conn.rs.getString(6).equals("null")){               
+//                        
+                    AES.decrypt(conn.rs.getString(6).trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString(6));
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+//                    MiddleName=AES.getDecryptedString();
+                     DB.setSECONDNAME(AES.getDecryptedString());
+                          }
+                      if(conn.rs.getString(7)!=null && !conn.rs.getString(7).trim().equals("") && !conn.rs.getString(7).equals("null")){
+//                      Lastname =  conn.rs2.getString("LastName");
+                    AES.decrypt(conn.rs.getString(7).trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString(7));
+//                     LastName=AES.getDecryptedString();
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                     DB.setLASTNAME( AES.getDecryptedString());
+                     
+                    
+                      }
+                     
+//                       DB.setFIRSTNAME(conn.rs.getString(5));
+//                       DB.setSECONDNAME(conn.rs.getString(6));
+//                       DB.setLASTNAME(conn.rs.getString(7));
                      
                        
                     
@@ -271,8 +364,8 @@ session = request.getSession(true);
 //                                        String query = "select UniqueID, DICName,DOB from enrollment where (STR_TO_DATE(DOB,'%e/%c/%Y'))>STR_TO_DATE('01/01/2004','%e/%c/%Y') ";
                                        
                                               String query="SELECT uniqueid,u.dicname,doe "
-           + ",CONCAT(upper(u.firstname),\"\", upper(u.secondname),\"\", upper(u.lastname)) , upper(u.firstname), upper(u.secondname),"
-+"upper(u.lastname) from "
+           + ",CONCAT(upper(u.firstname),\"\", upper(u.secondname),\"\", upper(u.lastname)) , u.firstname, u.secondname,"
++"u.lastname from "
 +"enrollment as u "
 +" inner join("
 +" select count(*) c ,firstname, secondname,dicname, "
@@ -309,11 +402,41 @@ session = request.getSession(true);
                        DB.setDICNAME(conn.rs.getString(2));
                        DB.setDOE(conn.rs.getString(3));
                        DB.setUNIQUEKEY(conn.rs.getString(4));
-                       DB.setFIRSTNAME(conn.rs.getString(5));
-                       DB.setSECONDNAME(conn.rs.getString(6));
-                       DB.setLASTNAME(conn.rs.getString(7));
+//                       DB.setFIRSTNAME(conn.rs.getString(5));
+//                       DB.setSECONDNAME(conn.rs.getString(6));
+//                       DB.setLASTNAME(conn.rs.getString(7));
                      
-                       
+                            final  String strPssword ="?*1>9@(&#";    
+              AES.setKey(strPssword);
+                         if(conn.rs.getString(5)!=null && !conn.rs.getString(5).trim().equals("") && !conn.rs.getString(5).equals("null")){
+                                    
+                                        AES.decrypt(conn.rs.getString(5).trim());
+                                       System.out.println("String To Decrypt : " +  conn.rs.getString(5));
+                                       System.out.println("Decrypted : " + AES.getDecryptedString());
+                                                   
+//                                                      FirstName =  AES.getDecryptedString()  ;
+                                                       DB.setFIRSTNAME(AES.getDecryptedString());
+                                                   }
+                                       
+                          if(conn.rs.getString(6)!=null && !conn.rs.getString(6).trim().equals("") && !conn.rs.getString(6).equals("null")){               
+//                        
+                    AES.decrypt(conn.rs.getString(6).trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString(6));
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+//                    MiddleName=AES.getDecryptedString();
+                     DB.setSECONDNAME(AES.getDecryptedString());
+                          }
+                      if(conn.rs.getString(7)!=null && !conn.rs.getString(7).trim().equals("") && !conn.rs.getString(7).equals("null")){
+//                      Lastname =  conn.rs2.getString("LastName");
+                    AES.decrypt(conn.rs.getString(7).trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString(7));
+//                     LastName=AES.getDecryptedString();
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                     DB.setLASTNAME( AES.getDecryptedString());
+                     
+                    
+                      }
+                          
                     
                       
           
@@ -326,8 +449,8 @@ session = request.getSession(true);
 //                                        String query = "select UniqueID, DICName,DOB from enrollment where (STR_TO_DATE(DOB,'%e/%c/%Y'))>STR_TO_DATE('01/01/2004','%e/%c/%Y') ";
                                        
                                               String query="SELECT uniqueid,dicname,doe "
-           + ",CONCAT(upper(u.firstname),\"\", upper(u.secondname),\"\", upper(u.lastname)) , upper(u.firstname), upper(u.secondname),"
-+"upper(u.lastname) from "
+           + ",CONCAT(upper(u.firstname),\"\", upper(u.secondname),\"\", upper(u.lastname)) , u.firstname,u.secondname,"
++"u.lastname from "
 +"enrollment as u "
 +" inner join("
 +" select count(*) c ,firstname, secondname,"
@@ -363,12 +486,42 @@ session = request.getSession(true);
                        DB.setDICNAME(conn.rs.getString(2));
                        DB.setDOE(conn.rs.getString(3));
                        DB.setUNIQUEKEY(conn.rs.getString(4));
-                       DB.setFIRSTNAME(conn.rs.getString(5));
-                       DB.setSECONDNAME(conn.rs.getString(6));
-                       DB.setLASTNAME(conn.rs.getString(7));
+//                       DB.setFIRSTNAME(conn.rs.getString(5));
+//                       DB.setSECONDNAME(conn.rs.getString(6));
+//                       DB.setLASTNAME(conn.rs.getString(7));
                      
                        
+                              final  String strPssword ="?*1>9@(&#";    
+              AES.setKey(strPssword);
+                         if(conn.rs.getString(5)!=null && !conn.rs.getString(5).trim().equals("") && !conn.rs.getString(5).equals("null")){
+                                    
+                                        AES.decrypt(conn.rs.getString(5).trim());
+                                       System.out.println("String To Decrypt : " +  conn.rs.getString(5));
+                                       System.out.println("Decrypted : " + AES.getDecryptedString());
+                                                   
+//                                                      FirstName =  AES.getDecryptedString()  ;
+                                                       DB.setFIRSTNAME(AES.getDecryptedString());
+                                                   }
+                                       
+                          if(conn.rs.getString(6)!=null && !conn.rs.getString(6).trim().equals("") && !conn.rs.getString(6).equals("null")){               
+//                        
+                    AES.decrypt(conn.rs.getString(6).trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString(6));
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+//                    MiddleName=AES.getDecryptedString();
+                     DB.setSECONDNAME(AES.getDecryptedString());
+                          }
+                      if(conn.rs.getString(7)!=null && !conn.rs.getString(7).trim().equals("") && !conn.rs.getString(7).equals("null")){
+//                      Lastname =  conn.rs2.getString("LastName");
+                    AES.decrypt(conn.rs.getString(7).trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString(7));
+//                     LastName=AES.getDecryptedString();
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                     DB.setLASTNAME( AES.getDecryptedString());
+                     
                     
+                      }
+                     
                       
           
                        missingdata.add(DB);

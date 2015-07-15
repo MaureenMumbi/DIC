@@ -111,7 +111,7 @@ function deleteRecord(UniqueID,MedicalID){
         String username=(String)session.getAttribute("Username");
       %>
           
-       <a class="button-1" href="../DIC/logoutServlet">LogOut</a>          
+       <a class="button-1" href="/DIC/logoutServlet">LogOut</a>          
      <h5>Welcome <%=username%></h5>
      <% }else{
 //               response.sendRedirect("/DIC/index.jsp"); 

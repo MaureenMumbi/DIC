@@ -420,7 +420,7 @@ System.out.println(UniqueID);
 //    System.out.println(fname+"     encrypted   "+pw+" decrypted"+decrypted);
 
 if(UniqueID != null && ClientInit!= null && DOE!=null && District!=null && DOB!= null && DICName!=null ){
-query = "INSERT INTO enrollment (UniqueID,ClientInit,DOE,District,DOB,DICName,Ward,Sex,Age,MaritalStatus,Children,ChildNo,Religion,"
+query = "INSERT INTO enrollment (UniqueID,ClientInit,DOE,District,DOB,DICName,ward,Sex,Age,MaritalStatus,Children,ChildNo,Religion,"
      + "EducationLevel,PhoneNo,Residence,OperationArea,Occupation,MemberOfID,DICLearn,DICLearnOther,Email,PhoneNo1,Venue,AgeID,FirstName,SecondName,LastName,VenueOther,Pefar_year,capturedhand,fingerprint,syncstatus)"
 + " VALUES ('"+UniqueID+"','"+ClientInit+"','"+DOE+"','"+Districts+"','"+DOB+"','"+DICName+"','"+ward+"','"+Sex+"','"+Age+"','"+MaritalStatus+"','"+Children+"','"+ChildNo+"',"
      + "'"+Religion+"','"+EducationLevel+"','"+phone+"','"+Residence+"','"+OperationAreaID+"','"+OccupationID+"','"+MemberOfID+"','"+DICLearn+"','"+DICLearn1+"'"
