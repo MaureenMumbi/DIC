@@ -43,7 +43,7 @@ public class addWard extends HttpServlet {
      Uniqueid=request.getParameter("UniqueID");
      ward=request.getParameter("ward");
      
-     String Update="Update enrollment set ward='"+ward+"' where UniqueID='"+Uniqueid+"'";
+     String Update="Update enrollment set ward='"+ward+"',syncstatus='0' where UniqueID='"+Uniqueid+"'";
      System.out.println(Update) ;
      conn.state.executeUpdate(Update);
    
