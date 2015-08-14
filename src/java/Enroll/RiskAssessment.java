@@ -89,6 +89,15 @@ String query = "INSERT INTO RiskAssessment(DOA,District,DICName,ClientInit,Uniqu
                     conn.state.executeUpdate(query);
                     out.println("Inserted into db");
                    response.sendRedirect("../DIC/RiskAssessment2.jsp");
+               
+                
+                
+                
+                		
+            if(conn.rs!=null){ conn.rs.close();}
+            if(conn.state!=null){ conn.state.close();}
+     
+                
                 } catch (SQLException ex) {
                     Logger.getLogger(Enroll.class.getName()).log(Level.SEVERE, null, ex);
                     out.println(ex);

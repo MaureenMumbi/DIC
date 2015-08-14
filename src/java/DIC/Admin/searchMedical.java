@@ -105,7 +105,12 @@ public class searchMedical extends HttpServlet {
             
             
             
-            
+            		
+                         if(conn.rs!=null){ conn.rs.close();}
+        
+        
+         if(conn.state!=null){ conn.state.close();}
+        
             
             
             

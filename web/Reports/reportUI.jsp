@@ -11,7 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>DIC REPORTS</title>
+        <title>DIC ENROLLMENT REPORT</title>
         
         <link rel="stylesheet" type="text/css" href="../js/jquery-ui.css"/>
 	<script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
@@ -222,9 +222,9 @@ mcount++;
     </td>
     </tr>
                         </table>   
-        
-        <h3> Reports <a href="#" id="dialog-link1" style="padding-right: 0px;">
-                <img src="../images/help_24.png"/> </a></h3>
+            <h3>ENROLLMENT REPORTS</h3>
+        <h4> Reports <a href="#" id="dialog-link1" style="padding-right: 0px;">
+                <img src="../images/help_24.png"/> </a></h4>
        
         <form method="post" action="" name="forms">
         <table>

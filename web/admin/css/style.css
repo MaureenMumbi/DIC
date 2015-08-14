@@ -38,7 +38,7 @@ body {
 #nav li {
     margin:10px;
     float:left;
- position:relative;
+    position:relative;
     list-style:none;
 }
 #nav a {

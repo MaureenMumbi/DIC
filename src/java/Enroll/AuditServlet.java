@@ -148,7 +148,16 @@ System.out.println("SESSION"+ UniqueID);
                         out.println("Saved Successfully");
                         session.setAttribute("saved", "Saved Successfully");
                         
-                                           }
+                                         
+                    
+                    		
+                         if(conn.rs!=null){ conn.rs.close();}
+     
+         if(conn.state!=null){ conn.state.close();}
+       
+                    
+                    
+                    }
 catch (SQLException ex) {
                                                Logger.getLogger(AuditServlet.class.getName()).log(Level.SEVERE, null, ex);
                                               System.out.println(ex.toString()) ;

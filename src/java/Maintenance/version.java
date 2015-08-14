@@ -35,7 +35,7 @@ boolean isConnected;
         try {
             
             // changes to new version id
-          system_version=5;maxDays=5;daysRemaining=0;daysOutdated=0;
+          system_version=6;maxDays=5;daysRemaining=0;daysOutdated=0;
           days=maxId=0;versionDate="";
        url="";
          isConnected=true;
@@ -72,7 +72,7 @@ boolean isConnected;
                status="warning@@"+daysRemaining+"@@"+versionDate+"@@"+version_name;
                
                status="<p style='color:yellow'>A new version of DIC system has been detected,Please <a href='"+url+"' target='_blank'>Click here to download updates.</a><img src='images/new_arrow2.gif' style='width: 40px; height:40px;'/></p>" +
-             "<p title=\"Latest Version is "+version_name+" and its updates were sent on "+versionDate+"\">Your have <b>"+daysRemaining+"</b> days remaining to update your system. </p><p>For assistance contact Joel(jkuria@aphiarift.org)</p>";
+             "<p title=\"Latest Version is "+version_name+" and its updates were sent on "+versionDate+"\">You have <b>"+daysRemaining+"</b> days remaining to update your system. </p><p>For assistance contact Joel(jkuria@aphiarift.org)</p>";
            }
           }
           else{

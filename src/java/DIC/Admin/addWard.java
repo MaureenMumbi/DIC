@@ -47,7 +47,12 @@ public class addWard extends HttpServlet {
      System.out.println(Update) ;
      conn.state.executeUpdate(Update);
    
-     
+     		
+                         if(conn.rs!=null){ conn.rs.close();}
+         
+        
+         if(conn.state!=null){ conn.state.close();}
+        
         } finally {            
             out.close();
         }

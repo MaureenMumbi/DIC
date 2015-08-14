@@ -78,7 +78,12 @@ public class searchAssess extends HttpServlet {
 				RequestDispatcher dispatcher;
                                            dispatcher = getServletContext().getRequestDispatcher(nextJSP);
 				dispatcher.forward(request,response);
-				
+						
+       if(conn.rs!=null){ conn.rs.close();}
+        
+        
+         if(conn.state!=null){ conn.state.close();}
+        
 			} catch (Exception e) {
 			out.println(e);
 			}

@@ -89,6 +89,15 @@ public class getSMSEdit extends HttpServlet {
           
               count++; 
 //              session.setAttribute("count", count);
+        
+        
+        
+        
+        		
+                         if(conn.rs!=null){ conn.rs.close();}
+        
+         if(conn.state!=null){ conn.state.close();}
+       
         } finally {            
             out.close();
         }

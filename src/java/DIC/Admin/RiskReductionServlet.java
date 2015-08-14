@@ -68,7 +68,7 @@ String full_name=conn.rs.getString("FirstName")+" "+conn.rs.getString("SecondNam
                         String query = "select currentStatus,Action,Appointments from riskreductiondetails LEFT JOIN  riskreductionmain  ON riskreductiondetails.RiskReductionID = riskreductionmain.RiskReductionID AND riskreductiondetails.RiskReductionID ='"+UniqueID1+"'";
 								System.out.println("query " + query);
 								System.out.println("query " + full_id );
-				conn.state= conn.connect.createStatement();
+				
 				conn.rs = conn.state.executeQuery(query);
 
 
@@ -93,7 +93,22 @@ String full_name=conn.rs.getString("FirstName")+" "+conn.rs.getString("SecondNam
 				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
 				dispatcher.forward(request,response);
 				
-			} catch (Exception e) {
+			
+                		
+                         if(conn.rs!=null){ conn.rs.close();}
+      
+        
+         if(conn.state!=null){ conn.state.close();}
+        
+                
+                
+                
+                
+                
+                
+                
+                
+                } catch (Exception e) {
 			e.printStackTrace();
                         e.toString();
                         out.println("dint work");

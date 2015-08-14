@@ -58,7 +58,7 @@ public class EditSMS extends HttpServlet {
           System.out.println(update);
           conn.state.executeUpdate(update);
           
-          
+          conn.state.close();
           }
         response.sendRedirect("/DIC/admin/manageSMS.jsp");
         } finally {

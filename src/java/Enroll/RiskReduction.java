@@ -121,6 +121,15 @@ String query = "INSERT INTO riskreduction(ClientInit,UniqueID,DICName,Date,Casua
                                                conn.state.executeUpdate(query);
                                                out.println("Inserted into db");
 response.sendRedirect("/index_1.jsp");
+                                          
+                                           
+                                           
+                                           
+                                           		
+        if(conn.rs!=null){ conn.rs.close();}
+        if(conn.state!=null){ conn.state.close();}
+       
+                                           
                                            } catch (SQLException ex) {
                                                Logger.getLogger(Enroll.class.getName()).log(Level.SEVERE, null, ex);
                                            }

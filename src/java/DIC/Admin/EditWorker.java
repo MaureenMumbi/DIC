@@ -219,74 +219,137 @@ DICLearn = request.getParameter("DICLearn1").toString();
 //UniqueCode = District +'/'+time +'/'+ uni;
 HttpSession session =request.getSession(true);
 String queryOperation="";
-String[] OperationArea =null;
-        if(request.getParameterValues("OperationArea")!=null && !request.getParameterValues("OperationArea").equals("")){
-        OperationArea= request.getParameterValues("OperationArea");
-System.out.println("OperationArea LENGTH"+OperationArea.length);
-
-for(int i=0; i<OperationArea.length;i++){
-    System.out.println("OperationArea             "+OperationArea[i]);
-try {
-    if(!OperationArea[i].equals("") && OperationArea[i]!=null ){
-queryOperation="UPDATE clientoparea SET AreaOpID='"+OperationArea[i]+"', UniqueID='"+UniqueID+"',syncstatus=0 where ID='"+operationIDArray[i]+"'";
-}
-//        System.out.println("queryOperation    "+queryOperation) ;                     
- conn.state.executeUpdate(queryOperation);
- }catch (SQLException ex) {
-Logger.getLogger(EditWorker.class.getName()).log(Level.SEVERE, null, ex);
-}
-}
-}
-if(request.getParameterValues("Occupation")!=null && !request.getParameterValues("Occupation").equals("")){
- Occupation= request.getParameterValues("Occupation");
+String Copid="";
+String newopareas="";
+String deleteopareas="";
+ if(request.getParameter("COPID")!=null && !request.getParameter("COPID").equals("")){
+Copid= request.getParameter("COPID");}
+ if(request.getParameter("newoperation")!=null && !request.getParameter("newoperation").equals("")){
+newopareas= request.getParameter("newoperation");}
+ if(request.getParameter("deleteoperation")!=null && !request.getParameter("deleteoperation").equals("")){
+deleteopareas= request.getParameter("deleteoperation");}
+ String newareas[];
+ newareas=newopareas.split("_");
+ String deleteareas[];
+ deleteareas=deleteopareas.split("_");
+       
+ 
 
 
+for(int i=0; i<newareas.length;i++){
+    System.out.println("OperationArea             "+newareas[i] +"       ");
 
-String queryOccupation="";
-//if(Occupation.length != 0){
-   
-for(int i=0; i<Occupation.length;i++){
-//    System.out.println("Occupation              "+Occupation[i]);
-    if(Occupation[i]!= null && !Occupation[i].equals("")){
-queryOccupation ="UPDATE clientoccupation SET OccupationID= '"+Occupation[i]+"',UniqueID='"+UniqueID+"',syncstatus=0  where ID='"+occupationIDArray[i]+"'";
+    if(!newareas[i].equals("") && newareas[i]!=null ){
+       if(!newareas[i].equals("")){
+       String queryOperation1="insert into clientoparea SET AreaOpID='"+newareas[i]+"', COPID='"+Copid+"',UniqueID='"+UniqueID+"',syncstatus=0 ";
+     System.out.println(queryOperation1);
+       conn.state.executeUpdate(queryOperation1);
+       }
     }
-try {
-    System.out.println("queryOccupation          "+queryOccupation);
+       
+   
+ 
+
+
+}
+for(int j=0;j<deleteareas.length;j++){
+
+ if(!deleteareas[j].equals("") && deleteareas[j]!=null ){
+      if(!deleteareas[j].equals("")){
+      String  queryOperation2="delete * from clientoparea where AreaOpID='"+deleteareas[j]+"' and UniqueID='"+UniqueID+"'";
+ System.out.println(queryOperation2);  
+         conn.state.executeUpdate(queryOperation);
+ }}
+      
+
+}
+String Cocid="";
+String newoccupation="";
+String deleteoccupation="";
+
+// Occupation= request.getParameterValues("Occupation");
+ if(request.getParameter("COCID")!=null && !request.getParameter("COCID").equals("")){
+Cocid= request.getParameter("COCID");}
+ if(request.getParameter("newoccupation")!=null && !request.getParameter("newoccupation").equals("")){
+newoccupation= request.getParameter("newoccupation");}
+ if(request.getParameter("deleteoccupation")!=null && !request.getParameter("deleteoccupation").equals("")){
+deleteoccupation= request.getParameter("deleteoccupation");}
+String newoccs[]=newoccupation.split("_");
+String deleteoccs[]=deleteoccupation.split("_");
+  for(int k=0;k<newoccs.length;k++){
+      if(!newoccs[k].equals("")){
+String queryOccupation ="INSERT INTO clientoccupation SET OccupationID= '"+newoccs[k]+"',CoccID='"+Cocid+"',UniqueID='"+UniqueID+"',syncstatus=0";
+  System.out.println("queryOccupation          "+queryOccupation);
  conn.state.executeUpdate(queryOccupation);
-} catch (SQLException ex) {
- Logger.getLogger(EditWorker.class.getName()).log(Level.SEVERE, null, ex);
-}
-}}
+  }}
+  for(int k=0;k<deleteoccs.length;k++){
+      if(!deleteoccs[k].equals("")){
+String queryOccupation ="DELETE * FROM clientoccupation WHERE  OccupationID= '"+deleteoccs[k]+"' AND UniqueID='"+UniqueID+"'";
+  System.out.println("queryOccupation          "+queryOccupation);
+ conn.state.executeUpdate(queryOccupation);
+  }}
+   
+
+String childageid="";
+String newchild="";
+String deletechild="";
+String ageno="";
+  if(request.getParameter("childageid")!=null && !request.getParameter("childageid").equals("")){
+childageid= request.getParameter("childageid");}
+ if(request.getParameter("newchild")!=null && !request.getParameter("newchild").equals("")){
+newchild= request.getParameter("newchild");}
+ if(request.getParameter("deletechild")!=null && !request.getParameter("deletechild").equals("")){
+deletechild= request.getParameter("deletechild");}
+String newchilds[]=newchild.split("_");
+String deletechilds[]=deletechild.split("_");
+  for(int k=0;k<newchilds.length;k++){
+      if(!newchilds[k].equals("")){
+          if( request.getParameter("AgeNo"+k)!=null && !request.getParameter("AgeNo"+k).equals("")){
+    ageno = request.getParameter("AgeNo"+k);
+    } 
+String querychilds ="INSERT INTO childage SET  AgeBrackets='"+newchilds[k]+"',NoChild='"+ageno+"',childID='"+childageid+"',UniqueID='"+UniqueID+"',syncstatus=0";
+  System.out.println("queryOccupation          "+querychilds);
+ conn.state.executeUpdate(querychilds);
+  }}
+  for(int k=0;k<deletechilds.length;k++){
+      if(!deletechilds[k].equals("")){
+String querychild ="DELETE * FROM childage WHERE  AgeBrackets='"+newchilds[k]+"' AND NoChild='"+ageno+"' AND UniqueID='"+UniqueID+"'";
+  System.out.println("queryOccupation          "+querychild);
+ conn.state.executeUpdate(querychild);
+  }}
+  
+  
+  
+  
+//String[] AgeNo = request.getParameterValues("AgeNo");
+//String No="";
+//
+//for(int i=0; i<childsIDArray.length;i++){
+//    String AgeIDs ="";
+//    String AgeNos="";
+//    if( request.getParameter("AgeID"+i)!=null && !request.getParameter("AgeID"+i).equals("")){
+//    AgeIDs = request.getParameter("AgeID"+i);
+//    }  
+//    if( request.getParameter("AgeNo"+i)!=null && !request.getParameter("AgeNo"+i).equals("")){
+//    AgeNos = request.getParameter("AgeNo"+i);
+//    }  
+//    
+//    //System.out.println("childsIDArray[i]               "+childsIDArray[i]);
+//    if(childsIDArray[i]!=null && !childsIDArray[i].equals("")){
+//
+//try {
+//String queryAges1="UPDATE childage SET AgeBrackets='"+AgeIDs+"',NoChild='"+AgeNos+"',syncstatus=0  where ID='"+childsIDArray[i]+"'";
+//System.out.println(queryAges1);
+// conn.state.executeUpdate(queryAges1);
+//} catch (SQLException ex) {
+//Logger.getLogger(EditWorker.class.getName()).log(Level.SEVERE, null, ex);
 //}
-String[] AgeNo = request.getParameterValues("AgeNo");
-String No="";
-
-for(int i=0; i<childsIDArray.length;i++){
-    String AgeIDs ="";
-    String AgeNos="";
-    if( request.getParameter("AgeID"+i)!=null && !request.getParameter("AgeID"+i).equals("")){
-    AgeIDs = request.getParameter("AgeID"+i);
-    }  
-    if( request.getParameter("AgeNo"+i)!=null && !request.getParameter("AgeNo"+i).equals("")){
-    AgeNos = request.getParameter("AgeNo"+i);
-    }  
-    
-    //System.out.println("childsIDArray[i]               "+childsIDArray[i]);
-    if(childsIDArray[i]!=null && !childsIDArray[i].equals("")){
-
-try {
-String queryAges1="UPDATE childage SET AgeBrackets='"+AgeIDs+"',NoChild='"+AgeNos+"',syncstatus=0  where ID='"+childsIDArray[i]+"'";
-System.out.println(queryAges1);
- conn.state.executeUpdate(queryAges1);
-} catch (SQLException ex) {
-Logger.getLogger(EditWorker.class.getName()).log(Level.SEVERE, null, ex);
-}
-}
-
-}                               
+//}
+//
+//}                               
 String member=null;
 
-
+if(request.getParameter("checkifexist").equals("0")){
 String[] MemberOf =null;
 if(request.getParameterValues("member")!=null){
        MemberOf= request.getParameterValues("member");
@@ -307,6 +370,42 @@ Logger.getLogger(EditWorker.class.getName()).log(Level.SEVERE, null, ex);
 }
 }
 }
+}
+String nhifmem="2";
+String nssfmem="2";
+String womenmem="2";
+String micromem="2";
+String memberid="";
+if(request.getParameter("checkifexist").equals("1")){
+if(request.getParameter("nhifmembernew")!=null && !request.getParameter("nhifmembernew").equals("")){
+  nhifmem =request.getParameter("nhifmembernew"); 
+}
+if(request.getParameter("memberid")!=null && !request.getParameter("memberid").equals("")){
+  memberid =request.getParameter("memberid"); 
+}
+if(request.getParameter("nssfmembernew")!=null && !request.getParameter("nssfmembernew").equals("")){
+  nssfmem =request.getParameter("nssfmembernew"); 
+}
+if(request.getParameter("micromembernew")!=null && !request.getParameter("micromembernew").equals("")){
+  micromem =request.getParameter("micromembernew"); 
+}
+if(request.getParameter("womenmembernew")!=null && !request.getParameter("womenmembernew").equals("")){
+  womenmem =request.getParameter("womenmembernew"); 
+}
+String insert1="insert into clientmember SET MemID='"+nhifmem+"',UniqueID='"+UniqueID+"',syncstatus=0,MemberID='"+memberid+"'";
+String insert2="insert into clientmember SET MemID='"+nssfmem+"',UniqueID='"+UniqueID+"',syncstatus=0,MemberID='"+memberid+"'";
+String insert3="insert into clientmember SET MemID='"+micromem+"',UniqueID='"+UniqueID+"',syncstatus=0,MemberID='"+memberid+"'";
+String insert4="insert into clientmember SET MemID='"+womenmem+"',UniqueID='"+UniqueID+"',syncstatus=0,MemberID='"+memberid+"'";
+ conn.state.executeUpdate(insert1);
+ conn.state.executeUpdate(insert2);
+ conn.state.executeUpdate(insert3);
+ conn.state.executeUpdate(insert4);
+ System.out.println(insert1 +"------  "+insert2+"------ "+insert3+"------- "+insert4);
+
+}
+
+
+
 
 String full_name=request.getParameter("client_name");
 String[]full=full_name.split(" ");
@@ -336,7 +435,7 @@ if(name_length>2){
                     String first="";
                   
                     if(firstname!=null && !firstname.trim().equals("") && !firstname.equals("null")){
-                       AES.encrypt (fname.trim());
+                       AES.encrypt (fname.trim().replace("'", ""));
                         System.out.println("Encrypted______________________: " + fname);
                    
                     System.out.println("Encrypted:____________________ " + AES.getEncryptedString());
@@ -346,7 +445,7 @@ if(name_length>2){
                     //middle name encrypt
                       String midname="";
                      if(mname!=null && !mname.trim().equals("") && !mname.equals("null")){
-                     AES.encrypt (mname.trim());
+                     AES.encrypt (mname.trim().replace("'", ""));
                         System.out.println("Encrypted______________________: " + mname);
                    
                     System.out.println("Encrypted:____________________ " + AES.getEncryptedString());
@@ -355,7 +454,7 @@ if(name_length>2){
                      //last name encrypt
                      String lasname="";
                       if(lname!=null && !lname.trim().equals("") && !lname.equals("null")){
-                     AES.encrypt (lname.trim());
+                     AES.encrypt (lname.trim().replace("'", ""));
                         System.out.println("Encrypted______________________: " + lname);
                    
                     System.out.println("Encrypted:____________________ " + AES.getEncryptedString());
@@ -376,7 +475,7 @@ if(name_length>2){
 String query1 = "UPDATE enrollment set ClientInit='"+ClientInit+"',DOE= '"+DOE+"',District='"+Districts+"',DOB='"+DOB+"',"
 + "DICName='"+DICName+"',ward='"+ward+"',Sex='"+Sex+"',Age='"+Age+"',MaritalStatus='"+MaritalStatus+"',Children='"+Children+"',ChildNo='"+ChildNo+"',Religion='"+Religion+"',"
 + "EducationLevel='"+EducationLevel+"',PhoneNo='"+phone+"',Residence='"+Residence+"',OperationArea='"+OperationAreaID+"',Occupation='"+OccupationID+"',MemberOfID='"+OperationAreaID+"',DICLearn='"+DICLearn+"',"
-+ "Email='"+Email+"',PhoneNo1='"+PhoneNo1+"',Venue='"+Venue+"',AgeID='"+OperationAreaID+"',FirstName='"+first+"',SecondName='"+midname+"', Lastname='"+lasname+"',syncstatus=0 where UniqueID='"+UniqueID+"'";
++ "Email='"+Email+"',PhoneNo1='"+PhoneNo1+"',Venue='"+Venue+"',AgeID='"+OperationAreaID+"',FirstName='"+first+"',SecondName='"+midname+"', Lastname='"+lasname+"',syncstatus=0 ,UniqueID='"+UniqueID+"' WHERE EnrollID='"+rowid+"'";
 // conn.ps1 = conn.connect.prepareStatement(query1);
  System.out.println(query1);
 //conn.ps1.setString(1,UniqueID);
@@ -428,6 +527,26 @@ conn.ps.executeUpdate();
         
            
              response.sendRedirect("/DIC/admin/indexWorker.jsp");
+             
+             
+             		
+         if(conn.rs!=null){ conn.rs.close();}
+         if(conn.rs1!=null){ conn.rs1.close();}
+         if(conn.rs2!=null){ conn.rs2.close();}
+         if(conn.rs3!=null){ conn.rs3.close();}
+         if(conn.rs4!=null){ conn.rs4.close();}
+         if(conn.rs5!=null){ conn.rs5.close();}
+         if(conn.rs6!=null){ conn.rs6.close();}
+         if(conn.rs7!=null){ conn.rs7.close();}
+        
+         if(conn.state!=null){ conn.state.close();}
+         if(conn.state1!=null){ conn.state1.close();}
+         if(conn.state2!=null){ conn.state2.close();}
+         if(conn.state3!=null){ conn.state3.close();}
+         if(conn.state4!=null){ conn.state4.close();}
+         if(conn.state5!=null){ conn.state5.close();}
+         if(conn.state6!=null){ conn.state6.close();}
+         if(conn.state7!=null){ conn.state7.close();}
         } catch (SQLException ex) {
             Logger.getLogger(EditWorker.class.getName()).log(Level.SEVERE, null, ex);
         }

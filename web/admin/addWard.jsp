@@ -314,14 +314,14 @@ else{ %>
  }
   
    String QueryDist="";
-                                                if(Location.equalsIgnoreCase("Naivasha")){    
-                                                     QueryDist= "SELECT District,DistrictID FROM districts where DistrictID='3'";
+                                                //if(Location.equalsIgnoreCase("Naivasha")){    
+                                                     //QueryDist= "SELECT District,DistrictID FROM districts where DistrictID='3'";
                                                    
-                                                }
-     else{
+                                              //  }
+  //   else{
           QueryDist= "SELECT District,DistrictID FROM districts where DistrictID!='1' and DistrictID!='5'";
                                                  
-     }
+    // }
 
                                                                                                                                                conn.state= conn.connect.createStatement();
 				conn.rs = conn.state.executeQuery(QueryDist);

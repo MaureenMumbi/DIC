@@ -39,13 +39,15 @@ public class updatewards extends HttpServlet {
         try {
            dbConnectTemp conn = new dbConnectTemp();
            String id="";
-           String update="select * from enrollment where District='2'";
+           String update="select * from enrollment where District='4'";
            conn.rs= conn.state.executeQuery(update);
            while(conn.rs.next()){
            id=conn.rs.getString("enrollID");
-           String updates="update enrollment set ward='Nanyuki' where enrollID='"+id+"' and District='2'";
+           String updates="update enrollment set ward='Narok Town' where enrollID='"+id+"' and District='4'";
            System.out.println(updates);
            conn.state1.executeUpdate(updates);
+          
+           
            }
            
         } finally {            

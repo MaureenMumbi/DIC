@@ -59,6 +59,7 @@ public class addSMS extends HttpServlet {
           
          
         response.sendRedirect("/DIC/admin/manageSMS.jsp");
+        conn.state.close();
         } finally {
             out.close();
         }

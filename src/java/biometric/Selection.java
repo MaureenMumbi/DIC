@@ -44,6 +44,7 @@ public class Selection extends HttpServlet {
     
     String uniqueid="";
     String hand="";
+    String finger="";
     String Responsetext="";
     private String scannercalled;
     int incrementor=0;
@@ -63,6 +64,7 @@ public class Selection extends HttpServlet {
         
         uniqueid=request.getParameter("uniqueid");
         hand=request.getParameter("hand");
+        finger=request.getParameter("capturedfinger");
         Fingerprintstring="";
         
         
@@ -152,13 +154,14 @@ public class Selection extends HttpServlet {
               if (m_reader != null) {
                     
 //              if(scannercalled==false){
-scannercalled= Capture1.Run(m_reader, false,uniqueid,hand);
+scannercalled= Capture1.Run(m_reader, false,uniqueid,hand,finger);
              
          System.out.println("___________!!!!!!"+scannercalled);               
    
 sessions.setAttribute("kidole",scannercalled);
 sessions.setAttribute("uniqueid",uniqueid);
 sessions.setAttribute("hand",hand);
+sessions.setAttribute("finger",finger);
 	//detailssaved=saveEditedFingerprint.Run(m_reader, chwid);
                                    //scannercalled=true;
                                    

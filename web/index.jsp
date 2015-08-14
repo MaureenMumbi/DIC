@@ -48,13 +48,42 @@
                     type:'post',
                     dataType:'html',
                     success:function (data){
-//                        alert("enterd");
+                   
+                  
+   if(data.trim()==="Lock"){
+       $("#container").hide(); 
+         $("#synclock").html  ("<p style='color: yellow; font-size:15px;'>Connect to internet for system to unlock</p>");
+  
+
+
+ } else{}                      
                     }
                         
                             
                                     
                                     
                 
+          })
+        
+          $.ajax({
+                    
+//                      f.action="/DIC/deleteWorker?UniqueID="+UniqueID; 
+                    url:"update_lockDate",
+                    type:'post',
+                    dataType:'html',
+                    success:function (data){
+//                        alert("enterd");
+                    }
+          })
+          $.ajax({
+                    
+//                      f.action="/DIC/deleteWorker?UniqueID="+UniqueID; 
+                    url:"saveLastInternectConn",
+                    type:'post',
+                    dataType:'html',
+                    success:function (data){
+//                        alert("enterd");
+                    }
           })
     </script>
     <script>
@@ -84,14 +113,11 @@
           </h1></div>   
     
     <H3 style="text-align: center;">DIC SYSTEM</h3>
-    
-    <div id="container">
-        
-            <%
+     <%
  
                             if ( session.getAttribute("backupsms") != null)  { %>
                                 <script type="text/javascript"> 
-                                
+                              
                     var n = noty({text: '<%=session.getAttribute("backupsms")%>',
                                         layout: 'center',
                                         type: 'Success'
@@ -101,6 +127,9 @@
                 
                 session.removeAttribute("backupsms");
                             }%> 
+    <div id="container">
+        
+           
                             
                             
       <form name=login id="login" method="post"  action="LoginServlet">
@@ -133,9 +162,10 @@
                          
                             </form>
       </div>
+                            <h3 id="synclock" style=" text-align:center;"></h3>
                             <div id="versionChecker" style="font-weight: bolder; text-align:center;">
                          </div><br>
-               <p align="center" title="Version 1.26 Last Updated 15/07/2015."> &copy DIC System Version 1.26 Last Updated on  15/07/2015. Aphia Plus | USAID </p>
+               <p align="center" title="Version 1.27 Last Updated 15/07/2015."> &copy DIC System Version 1.27 Last Updated on  16/07/2015. Aphia Plus | USAID </p>
                
 </div>
   
@@ -172,7 +202,7 @@ $("#versionChecker").html(data);
   }  
   });   
       }
-      
+ 
       
       function updateSystem(){
           var status="";

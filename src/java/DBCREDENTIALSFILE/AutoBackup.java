@@ -4,7 +4,7 @@
  */
 package DBCREDENTIALSFILE;
 
-import dbConnect.dbConnect;
+import dbConnect.dbConnectTemp;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import DBCREDENTIALSFILE.AutoBackups;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 /**
@@ -36,7 +35,7 @@ int foundClients,foundRegister;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         session=request.getSession();
-        dbConnect conn = new dbConnect();
+        dbConnectTemp conn = new dbConnectTemp();
         
            //CREATE A PATH IN THE COMPUTER FOR STORING TEXT FILES
            //IdGenerator IG = new IdGenerator();
@@ -150,7 +149,29 @@ out.close();
     }
 
         
-//
+
+
+  if(conn.rs!=null){ conn.rs.close();}
+         if(conn.rs1!=null){ conn.rs1.close();}
+         if(conn.rs2!=null){ conn.rs2.close();}
+         if(conn.rs3!=null){ conn.rs3.close();}
+         if(conn.rs4!=null){ conn.rs4.close();}
+         if(conn.rs5!=null){ conn.rs5.close();}
+         if(conn.rs6!=null){ conn.rs6.close();}
+         if(conn.rs7!=null){ conn.rs7.close();}
+        
+         if(conn.state!=null){ conn.state.close();}
+         if(conn.state1!=null){ conn.state1.close();}
+         if(conn.state2!=null){ conn.state2.close();}
+         if(conn.state3!=null){ conn.state3.close();}
+         if(conn.state4!=null){ conn.state4.close();}
+         if(conn.state5!=null){ conn.state5.close();}
+         if(conn.state6!=null){ conn.state6.close();}
+         if(conn.state7!=null){ conn.state7.close();}
+
+
+
+
 
     }
 

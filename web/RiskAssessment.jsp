@@ -406,7 +406,51 @@ else {
 
 
 </SCRIPT>
+<script type="text/javascript">
+// a function that filters the districts in the passed county as per the county drop down.
 
+function filter_districts(District){
+ 
+     
+   var dist = document.getElementById("district").value;
+   var distr = new Array();
+// this will return an array with strings "1", "2", etc.
+distr = dist.split(",");
+var districtsName=distr[0];
+//
+// window.open("districtselector?county="+dist.value);     
+var xmlhttp;    
+if (districtsName=="")
+{
+//filter the districts    
+
+
+
+document.getElementById("DICName").innerHTML="<option value=\"\">Choose DIC Name</option>";
+return;
+}
+if (window.XMLHttpRequest)
+{// code for IE7+, Firefox, Chrome, Opera, Safari
+xmlhttp=new XMLHttpRequest();
+}
+else
+{// code for IE6, IE5
+xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+}
+xmlhttp.onreadystatechange=function()
+{
+if (xmlhttp.readyState==4 && xmlhttp.status==200)
+{
+document.getElementById("DICName").innerHTML=xmlhttp.responseText;
+}
+}
+xmlhttp.open("POST","/DIC/districtselector?district="+districtsName,true);
+
+xmlhttp.send();
+
+
+}//end of filter 
+</script>
  <link href="js/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet">
  
 	<script src="js/jquery-ui-1.10.3.custom.js"></script>
@@ -419,18 +463,35 @@ else {
 	<script src="js/jquery-ui-1.10.3.custom.js"></script>
 <script type="text/javascript" src="js/DICHelp.js"></script>   
        <script src="js/datepicker.js"></script>
-	 <script>	
-                $(function() {
+	 <script>
+              $.ajax({
+                    
+//                      f.action="/DIC/deleteWorker?UniqueID="+UniqueID; 
+                    url:"loadMinDate",
+                    type:'post',
+                    dataType:'html',
+                    success:function (data){
+ var mindate=data; 
+// alert(mindate);
+  $(function() {
+             var dt = new Date(mindate);      
+                var dateToday = new Date(); 
+//               alert("today "+dateToday +" "+mindate +'_'+dt);
         $( ".datepicker" ).datepicker({
                                 dateFormat: "dd/mm/yy",
                                 changeMonth: true,
                                 changeYear: true,
-                                yearRange:'2011:2015'
-                               
+                                yearRange:'2011:2015',
+                                maxDate: dateToday,
+                                minDate:dt
                         });
                     
                 });
+                    }
+          })
+               
             </script>
+        
         
         
    <link rel="StyleSheet" href="css/main.css" type="text/css" />
@@ -666,7 +727,49 @@ mcount++;
                     	<td align="center" colspan="3">&nbsp;</td>
           			</tr>        
                    
-   
+ 
+                                
+                                
+                                 <tr class="d0"><td>County <font style="color: blue">*</font> </td><td>
+                        
+<!--                        //gets the districts as stored in db and dispaly them in a drop down-->
+                        <select onchange="filter_districts(this);" name="district" id="district">
+                              <option value="">Choose County</option> 
+  <%
+  String Location="";
+              if(session.getAttribute("Location")!=null){
+ Location=session.getAttribute("Location").toString();
+ }
+  
+   String QueryDist="";
+                                               
+
+         QueryDist= "SELECT District,DistrictID FROM districts where DistrictID!='1' and DistrictID!='5'";
+                    conn.rs = conn.state.executeQuery(QueryDist);
+                                 if(conn.state.isClosed()){conn= new dbConnect();}
+                                                      while(conn.rs.next())
+                                                           {
+                                                   %>                                                                       
+            <option value='<%=conn.rs.getString("DistrictID")%>'><%=conn.rs.getString("District")%></option>
+                                                   <%
+                                                      
+ System.out.println(conn.rs.getInt("DistrictID"));
+                                System.out.println(conn.rs.getString("DistrictID"));                                                      }
+                                
+                                                   
+%>
+                              
+
+                                 </select></td></tr>
+                                 <tr class="d1">
+                                 <td>DIC Name <font style="color: blue">*</font></td>
+                                 <td>
+                                 <select id="DICName"  name="DICName"  >
+                                 <option value="">Choose DIC Name</option>  
+
+                                 </select>
+                                    </td>
+                </tr>
  <tr class="d0">
        <% 
                             String QstnQuery= "SELECT QuestionsID,Question FROM questions where ID=57";
@@ -2867,3 +2970,26 @@ mcount++;
             
     </body>
 </html>
+<%
+
+  if(conn.rs!=null){ conn.rs.close();}
+         if(conn.rs1!=null){ conn.rs1.close();}
+         if(conn.rs2!=null){ conn.rs2.close();}
+         if(conn.rs3!=null){ conn.rs3.close();}
+         if(conn.rs4!=null){ conn.rs4.close();}
+         if(conn.rs5!=null){ conn.rs5.close();}
+         if(conn.rs6!=null){ conn.rs6.close();}
+         if(conn.rs7!=null){ conn.rs7.close();}
+        
+         if(conn.state!=null){ conn.state.close();}
+         if(conn.state1!=null){ conn.state1.close();}
+         if(conn.state2!=null){ conn.state2.close();}
+         if(conn.state3!=null){ conn.state3.close();}
+         if(conn.state4!=null){ conn.state4.close();}
+         if(conn.state5!=null){ conn.state5.close();}
+         if(conn.state6!=null){ conn.state6.close();}
+         if(conn.state7!=null){ conn.state7.close();}
+
+
+
+%>

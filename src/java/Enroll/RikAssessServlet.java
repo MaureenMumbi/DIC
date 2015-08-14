@@ -46,7 +46,14 @@ public class RikAssessServlet extends HttpServlet {
        //String unique = request.getParameter("unique").toString();
 String Ans1 = request.getParameter("DOA").toString();
 dbConnect conn = new dbConnect();
-
+String County="";
+String DICName="";
+if(request.getParameter("district")!=null && !request.getParameter("district").equals("") ){
+County= request.getParameter("district");       
+        }
+if(request.getParameter("DICName")!=null && !request.getParameter("DICName").equals("") ){
+DICName= request.getParameter("DICName");       
+        }
 
 String Report_Date[]= Ans1.split("/");
 String monthly = Report_Date[1];
@@ -484,20 +491,22 @@ session = request.getSession(true);
     String query="";
     String inserter="";
     if(AssessmentID!=null&& UniqueID!=null){
-   query="INSERT INTO riskassessmentmain(AssessmentID,AssessmentDate,UniqueID,Quarter,Month,Pefar_year,syncstatus)VALUE(?,?,?,?,?,?,?)";
+   query="INSERT INTO riskassessmentmain(AssessmentID,AssessmentDate,UniqueID,County,DICName,Quarter,Month,Pefar_year,syncstatus)VALUE(?,?,?,?,?,?,?,?,?)";
    conn.ps = conn.connect.prepareStatement(query);
             conn.ps.setString(1,AssessmentID);
             conn.ps.setString(2,Ans1);
             conn.ps.setString(3,UniqueID);
-            conn.ps.setString(4,insert_quarter);
-            conn.ps.setString(5,monthly);
+            conn.ps.setString(4,County);
+            conn.ps.setString(5,DICName);
+            conn.ps.setString(6,insert_quarter);
+            conn.ps.setString(7,monthly);
             //Changing the year to be entered into string
             String insert_year1=Integer.toString(insert_year);
-            conn.ps.setString(6,insert_year1);
-            conn.ps.setString(7,"0");
+            conn.ps.setString(8,insert_year1);
+            conn.ps.setString(9,"0");
             conn.ps.executeUpdate(); 
    
-   System.out.println(query);
+//   System.out.println(query);
    
      inserter = "insert into taskauditor set host_comp=?,action=?,time=?,username=?,syncstatus=?";
     
@@ -532,8 +541,12 @@ session = request.getSession(true);
                    
                     conn.ps2.executeUpdate(); 
                     
-                    System.out.println(query2);
+//                    System.out.println(query2);
                         }
+                    
+                  
+        
+         
                     
                     } catch (SQLException ex) {
                         Logger.getLogger(RikAssessServlet.class.getName()).log(Level.SEVERE, null, ex);

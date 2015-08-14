@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,12 +61,15 @@ public class KPMSReportwards extends HttpServlet {
           String month="";
           int qtr=0;
           String quarters="";
-           
+              Date date= new Date();
+            
+                SimpleDateFormat formatter= new SimpleDateFormat("EEE d MMM yy");
+                String formattedDate = formatter.format(date);
              startdate= request.getParameter("startdate");
           enddate= request.getParameter("enddate");
          // period= "monthly";
           period= request.getParameter("period");
-            int a=0;
+            int a=1;
             int count=0;
            // dbConnect  conn = new dbConnect();
                 XSSFCell cell,cell2,cell3,cell4,cell5,cell6,cell7,cell8,cell9,cell10,cell11,cell12,cell13,cell14,cell15,cell16;
@@ -93,54 +97,72 @@ public class KPMSReportwards extends HttpServlet {
     wards="No ward";
         String mydrive="";
     if(period.equals("enrolled")){
-       String path=getServletContext().getRealPath("/dbconnection.txt");
-      mydrive = path.substring(0, 1);
-      
-            System.out.println("drive name   "+mydrive);
-        Date da= new Date();
-String dat2 = da.toString().replace(" ", "_");
- dat2 = dat2.toString().replace(":", "_");
+//       String path=getServletContext().getRealPath("/dbconnection.txt");
+//      mydrive = path.substring(0, 1);
+//      
+//            System.out.println("drive name   "+mydrive);
+//        Date da= new Date();
+//String dat2 = da.toString().replace(" ", "_");
+// dat2 = dat2.toString().replace(":", "_");
+//
+//      
+//       String np=mydrive+":\\DIC_DBBACKUP\\MACROS\\enrolledward"+dat2+".xlsm";
+//     
+//             // String desteepath1 = getServletContext().getRealPath("/Females 15to24.xlsm");
+//              String sr = getServletContext().getRealPath("/DatimEnrolled.xlsm");
+//    //check if file exists
+//              
+//   //first time , it should create those folders that host the macro file
+//    File f = new File(np);
+//if(!f.exists()&& !f.isDirectory() ) { /* do something */
+//copytemplates ct= new copytemplates();
+//    ct.transfermacros(sr,np);
+// //rem np is the destination file name  
+//   
+//    System.out.println("Copying macros first time ..");
+//    
+//}
+//else
+//  //copy the file alone  
+//{
+//copytemplates ct= new copytemplates();
+////copy the agebased file only
+//ct.copymacros(sr,np);
+//
+//}
+//     String allpath = getServletContext().getRealPath("/DatimEnrolled.xlsm");
+//
+//                
+//          System.out.println("nn   "+np);
+//                XSSFWorkbook wb;
+//
+//wb = new XSSFWorkbook(OPCPackage.open(np));
+//        
+//            XSSFSheet shet1=wb.getSheet("Sheet0");
+//                XSSFRow rw1=shet1.createRow(0);
 
-      
-       String np=mydrive+":\\DIC_DBBACKUP\\MACROS\\enrolledward"+dat2+".xlsm";
-     
-             // String desteepath1 = getServletContext().getRealPath("/Females 15to24.xlsm");
-              String sr = getServletContext().getRealPath("/DatimEnrolled.xlsm");
-    //check if file exists
-              
-   //first time , it should create those folders that host the macro file
-    File f = new File(np);
-if(!f.exists()&& !f.isDirectory() ) { /* do something */
-copytemplates ct= new copytemplates();
-    ct.transfermacros(sr,np);
- //rem np is the destination file name  
-   
-    System.out.println("Copying macros first time ..");
-    
-}
-else
-  //copy the file alone  
-{
-copytemplates ct= new copytemplates();
-//copy the agebased file only
-ct.copymacros(sr,np);
+       
+        
+        
+             String allpath = getServletContext().getRealPath("/ENROLLEDDATIM.xlsm");
 
-}
-     String allpath = getServletContext().getRealPath("/DatimEnrolled.xlsm");
-
-                
-          System.out.println("nn   "+np);
+//                
                 XSSFWorkbook wb;
 
-wb = new XSSFWorkbook(OPCPackage.open(np));
+wb = new XSSFWorkbook(OPCPackage.open(allpath));
         
             XSSFSheet shet1=wb.getSheet("Sheet0");
-                XSSFRow rw1=shet1.createRow(0);
-                   
-                    
-   
+                XSSFRow rw1=shet1.createRow(1);
+        
+//                
+//                          XSSFWorkbook wb;
+//wb = new XSSFWorkbook();
+//
+//XSSFSheet shet1=wb.createSheet();
+//XSSFRow rw1=shet1.createRow(1);              
+////   
      
-      shet1.setColumnWidth(1, 15000 ); 
+    shet1.setColumnWidth(1, 15000 ); 
     shet1.setColumnWidth(2,4000); 
     shet1.setColumnWidth(3, 4000); 
     shet1.setColumnWidth(4, 4000); 
@@ -187,7 +209,7 @@ String enrollments="select count(UniqueID),"
 "               (STR_TO_DATE(DOE,'%e/%c/%Y')) " +
 "               BETWEEN (STR_TO_DATE('"+startdate+"','%e/%c/%Y'))" +
 "                AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y')) " +
-"                group by DICName,ward,AGEBRACKET,gender,QTR" ;
+"                group by DICName,ward,AGEBRACKET,gender,QTR,district" ;
 
 conn.rs = conn.state.executeQuery(enrollments);
 while(conn.rs.next()){
@@ -241,14 +263,11 @@ count++;
                   cell13.setCellValue(""+conn.rs.getInt(5)+ " ("+conn.rs.getInt(4)+") "+ month );
                     cell12=rwa.createCell(4);
                  cell12.setCellValue(conn.rs.getString(6));
-             
-                
-      
                  wards=conn.rs.getString(8);   
                  System.out.println("mmmm"+wards);
                 
                  cell14=rwa.createCell(5);
-                 if(wards==null || wards.equals("") || wards.equals(" ") ){
+                 if(wards==null || wards.equals("") || wards.equals(" ") || wards.equals("null") ){
                   cell14.setCellValue("No ward");}
                  else{
                  cell14.setCellValue(wards);
@@ -261,7 +280,7 @@ count++;
 }
 
 //}
-    
+ 
         
           ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
 wb.write(outByteStream);
@@ -269,7 +288,7 @@ byte [] outArray = outByteStream.toByteArray();
 response.setContentType("application/ms-excel");
 response.setContentLength(outArray.length);
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename=EnrollmentQuarterlyWardReport_"+startdate+"-"+enddate+".xlsm");
+response.setHeader("Content-Disposition", "attachment; filename=DIC_DATIM_ENROLLED_QTR"+startdate+"-"+enddate+"_Generated_on_"+formattedDate.replace(" ","")+".xlsm");
 OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
 outStream.flush();
@@ -277,53 +296,53 @@ outStream.flush();
     }
     
     else if(period.equals("served")){
-        String path=getServletContext().getRealPath("/dbconnection.txt");
-      mydrive = path.substring(0, 1);
-      
-            System.out.println("drive name   "+mydrive);
-        Date da= new Date();
-String dat2 = da.toString().replace(" ", "_");
- dat2 = dat2.toString().replace(":", "_");
-
-      
-       String np=mydrive+":\\DIC_DBBACKUP\\MACROS\\servedwards"+dat2+".xlsm";
-     
-             // String desteepath1 = getServletContext().getRealPath("/Females 15to24.xlsm");
-              String sr = getServletContext().getRealPath("/DatimService.xlsm");
-    //check if file exists
-              
-   //first time , it should create those folders that host the macro file
-    File f = new File(np);
-if(!f.exists()&& !f.isDirectory() ) { /* do something */
-copytemplates ct= new copytemplates();
-    ct.transfermacros(sr,np);
- //rem np is the destination file name  
-   
-    System.out.println("Copying macros first time ..");
-    
-}
-else
-  //copy the file alone  
-{
-copytemplates ct= new copytemplates();
-//copy the agebased file only
-ct.copymacros(sr,np);
-
-}   
-      //  byte dataToWrite[] = //...;
-FileOutputStream out = new FileOutputStream("the-file-name");
-//out.write(dataToWrite);
-out.close();
-         //String allpath = getServletContext().getRealPath(np);
-
-            System.out.println("nn   "+np);
-                XSSFWorkbook wb;
-
-wb = new XSSFWorkbook(OPCPackage.open(np));
-        
-            XSSFSheet shet1=wb.getSheet("Sheet0");
-                XSSFRow rw1=shet1.createRow(0);
-                   
+//        String path=getServletContext().getRealPath("/dbconnection.txt");
+//      mydrive = path.substring(0, 1);
+//      
+//            System.out.println("drive name   "+mydrive);
+//        Date da= new Date();
+//String dat2 = da.toString().replace(" ", "_");
+// dat2 = dat2.toString().replace(":", "_");
+//
+//      
+//       String np=mydrive+":\\DIC_DBBACKUP\\MACROS\\servedwards"+dat2+".xlsm";
+//     
+//             // String desteepath1 = getServletContext().getRealPath("/Females 15to24.xlsm");
+//              String sr = getServletContext().getRealPath("/DatimService.xlsm");
+//    //check if file exists
+//              
+//   //first time , it should create those folders that host the macro file
+//    File f = new File(np);
+//if(!f.exists()&& !f.isDirectory() ) { /* do something */
+//copytemplates ct= new copytemplates();
+//    ct.transfermacros(sr,np);
+// //rem np is the destination file name  
+//   
+//    System.out.println("Copying macros first time ..");
+//    
+//}
+//else
+//  //copy the file alone  
+//{
+//copytemplates ct= new copytemplates();
+////copy the agebased file only
+//ct.copymacros(sr,np);
+//
+//}   
+//      //  byte dataToWrite[] = //...;
+//FileOutputStream out = new FileOutputStream("the-file-name");
+////out.write(dataToWrite);
+//out.close();
+//         //String allpath = getServletContext().getRealPath(np);
+//
+//            System.out.println("nn   "+np);
+//                XSSFWorkbook wb;
+//
+//wb = new XSSFWorkbook(OPCPackage.open(np));
+//        
+//            XSSFSheet shet1=wb.getSheet("Sheet0");
+//                XSSFRow rw1=shet1.createRow(0);
+//                   
 //
 //  XSSFWorkbook wb;
 //wb = new XSSFWorkbook();
@@ -331,6 +350,25 @@ wb = new XSSFWorkbook(OPCPackage.open(np));
 //XSSFSheet shet1=wb.createSheet();
 //                XSSFRow rw1=shet1.createRow(0);           
    
+         String allpath = getServletContext().getRealPath("/SERVEDDATIM.xlsm");
+
+                
+                XSSFWorkbook wb;
+
+wb = new XSSFWorkbook(OPCPackage.open(allpath));
+        
+            XSSFSheet shet1=wb.getSheet("Sheet0");
+                XSSFRow rw1=shet1.createRow(1);
+        
+        
+                        
+//                          XSSFWorkbook wb;
+//wb = new XSSFWorkbook();
+//
+//XSSFSheet shet1=wb.createSheet();
+//XSSFRow rw1=shet1.createRow(1);              
+//   
+        
      
       shet1.setColumnWidth(1, 15000 ); 
     shet1.setColumnWidth(2,4000); 
@@ -408,7 +446,7 @@ wb = new XSSFWorkbook(OPCPackage.open(np));
 "                   ,TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE()),ward,Sex from enrollment,riskreductionmain  where "
                 + " (STR_TO_DATE(DOA,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+startdate+"','%e/%c/%Y'))"
                 + " AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y')) and enrollment.uniqueid=riskreductionmain.uniqueid "
-            + " group by DICName,AGEBRACKET,month(STR_TO_DATE(DOA,'%e/%c/%Y')),ward,Sex";
+            + " group by DICName,AGEBRACKET,month(STR_TO_DATE(DOA,'%e/%c/%Y')),ward,Sex,district";
       
                                        
 
@@ -466,7 +504,7 @@ wb = new XSSFWorkbook(OPCPackage.open(np));
                  System.out.println("mmmm"+wards);
                 
                  cell14=rwa.createCell(5);
-                 if(wards==null || wards.equals("") || wards.equals(" ") ){
+                 if(wards==null || wards.equals("") || wards.equals(" ") || wards.equals("null") ){
                   cell14.setCellValue("No ward");}
                  else{
                  cell14.setCellValue(wards);
@@ -485,12 +523,29 @@ byte [] outArray = outByteStream.toByteArray();
 response.setContentType("application/ms-excel");
 response.setContentLength(outArray.length);
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename=ServedQuarterlyWardReport_"+startdate+"-"+enddate+".xlsm");
+response.setHeader("Content-Disposition", "attachment; filename=DIC_DATIM_SERVED_QTR_"+startdate+"-"+enddate+"_Generated_on_"+formattedDate.replace(" ","")+".xlsm");
 
 OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
 outStream.flush();
+		
+                         if(conn.rs!=null){ conn.rs.close();}
+         if(conn.rs1!=null){ conn.rs1.close();}
+         if(conn.rs2!=null){ conn.rs2.close();}
+         if(conn.rs3!=null){ conn.rs3.close();}
+         if(conn.rs4!=null){ conn.rs4.close();}
+         if(conn.rs5!=null){ conn.rs5.close();}
+         if(conn.rs6!=null){ conn.rs6.close();}
+         if(conn.rs7!=null){ conn.rs7.close();}
         
+         if(conn.state!=null){ conn.state.close();}
+         if(conn.state1!=null){ conn.state1.close();}
+         if(conn.state2!=null){ conn.state2.close();}
+         if(conn.state3!=null){ conn.state3.close();}
+         if(conn.state4!=null){ conn.state4.close();}
+         if(conn.state5!=null){ conn.state5.close();}
+         if(conn.state6!=null){ conn.state6.close();}
+         if(conn.state7!=null){ conn.state7.close();}        
         
     }
     

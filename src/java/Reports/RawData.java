@@ -1674,7 +1674,8 @@ count++;
                         }
                    if(QID.equals("R2")){
                   cell14=rwa.createCell(45);
-                 cell14.setCellValue(conn.rs.getString("DirectAnswers"));
+                  String ans=conn.rs.getString("DirectAnswers").replace("NULL","");
+                 cell14.setCellValue(ans.replace("_",","));
                    cell14.setCellStyle(cell_styles); 
                    }
                     if(QID.equals("R3")){
@@ -2260,7 +2261,24 @@ response.setHeader("Content-Disposition", "attachment; filename=Enrollment_Raw_D
 OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
 outStream.flush();
+    		
+                         if(conn.rs!=null){ conn.rs.close();}
+         if(conn.rs1!=null){ conn.rs1.close();}
+         if(conn.rs2!=null){ conn.rs2.close();}
+         if(conn.rs3!=null){ conn.rs3.close();}
+         if(conn.rs4!=null){ conn.rs4.close();}
+         if(conn.rs5!=null){ conn.rs5.close();}
+         if(conn.rs6!=null){ conn.rs6.close();}
+         if(conn.rs7!=null){ conn.rs7.close();}
         
+         if(conn.state!=null){ conn.state.close();}
+         if(conn.state1!=null){ conn.state1.close();}
+         if(conn.state2!=null){ conn.state2.close();}
+         if(conn.state3!=null){ conn.state3.close();}
+         if(conn.state4!=null){ conn.state4.close();}
+         if(conn.state5!=null){ conn.state5.close();}
+         if(conn.state6!=null){ conn.state6.close();}
+         if(conn.state7!=null){ conn.state7.close();}    
     }
     
 

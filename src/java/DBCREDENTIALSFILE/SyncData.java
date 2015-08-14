@@ -126,93 +126,21 @@ public boolean MergeData() throws SQLException{
 //        session=request.getSession();
         
         
-dbConnectTemp conn1 = new dbConnectTemp();
-dbConnect conn = new dbConnect();
+dbConnectTemp online = new dbConnectTemp();
+dbConnect local = new dbConnect();
 
-System.out.println("Merging Data");
+System.out.println("Merging Data TO ONLINE DATABASE");
 audits=enrollments=childages=clientmembers=clientoccupations=clientopareas=dummys=medical_forms=riskassessmentdetail=riskassessmentmains=riskreductiondetails=riskreductionmains=taskauditors=users=0;
 //read data from the new database-indicatoractivities1 
-String selector="SELECT * FROM audit WHERE AuditID!='' and syncstatus='0'";
-conn.rs=conn.state.executeQuery(selector);
-while(conn.rs.next()){
-   
-    
-    already_added=0;
-    AuditID=UniqueID=DrnkAlc=AlchHav=DrnkOcc=StpDrnk=FailDrnk=RemHap=NeedAlc=GuiltDrnk=InjureDrnk=
-            FriendDrnk=DrnkAlctxt=AlcHavtxt=DrnkOcctxt=StpDrnktxt=FailDrnktxt=RemHaptxt=NeedAlctxt
-            =GuiltDrnktxt=InjureDrnktxt=FriendDrnktxt=FinalAudit=""; 
-    
-         AuditID=conn.rs.getString(1);
-         UniqueID=conn.rs.getString(2);
-         DrnkAlc=conn.rs.getString(3);
-         AlchHav=conn.rs.getString(4);
-         DrnkOcc=conn.rs.getString(5);
-         StpDrnk=conn.rs.getString(6);
-         FailDrnk=conn.rs.getString(7);
-         RemHap=conn.rs.getString(8);
-         NeedAlc=conn.rs.getString(9);
-         GuiltDrnk=conn.rs.getString(10);
-         InjureDrnk=conn.rs.getString(11); 
-         FriendDrnk=conn.rs.getString(12); 
-         DrnkAlctxt=conn.rs.getString(13); 
-         AlcHavtxt=conn.rs.getString(14); 
-         DrnkOcctxt=conn.rs.getString(15); 
-         StpDrnktxt=conn.rs.getString(16); 
-         FailDrnktxt=conn.rs.getString(17); 
-         RemHaptxt=conn.rs.getString(18); 
-         NeedAlctxt=conn.rs.getString(19); 
-         GuiltDrnktxt=conn.rs.getString(20); 
-         InjureDrnktxt=conn.rs.getString(21); 
-         FriendDrnktxt=conn.rs.getString(22); 
-         FinalAudit=conn.rs.getString(23); 
-         timestamp=conn.rs.getTimestamp(24).toString(); 
-  
- String check_if_exist="SELECT * FROM audit WHERE UniqueID='"+UniqueID+"'AND DrnkAlc='"+DrnkAlc+"' AND AlchHav='"+AlchHav+"' AND DrnkOcc='"+DrnkOcc+"' AND StpDrnk='"+StpDrnk+"'"
- + " AND FailDrnk='"+FailDrnk+"' AND RemHap='"+RemHap+"' AND NeedAlc='"+NeedAlc+"' AND GuiltDrnk='"+GuiltDrnk+"' AND InjureDrnk='"+InjureDrnk+"'"
-         + " AND FriendDrnk='"+FriendDrnk+"' AND DrnkAlctxt='"+DrnkAlctxt+"' AND AlchHavtxt='"+AlcHavtxt+"' AND DrnkOcctxt='"+DrnkOcctxt+"' AND "
-         + "StpDrnktxt='"+StpDrnktxt+"' AND FailDrnktxt='"+FailDrnktxt+"'AND RemHaptxt='"+RemHaptxt+"'AND NeedAlctxt='"+NeedAlctxt+"'AND GuiltDrnktxt='"+GuiltDrnktxt+"'"
-         + " AND InjureDrnktxt='"+InjureDrnktxt+"'AND FriendDrnktxt='"+FriendDrnktxt+"'AND FinalAudit='"+FinalAudit+"'";
-
-  System.out.println(check_if_exist+"\n");
- 
- conn1.rs3=conn1.state1.executeQuery(check_if_exist);
- if(conn1.rs3.next()==true){
-     already_added=1; 
- 
-  System.out.println("Data already added");
- existingdata++;
- }
- else {
-  String inserter="REPLACE INTO audit (UniqueID,DrnkAlc,AlchHav,DrnkOcc,StpDrnk,FailDrnk,RemHap,NeedAlc,GuiltDrnk,InjureDrnk,FriendDrnk,DrnkAlctxt,AlchHavtxt,DrnkOcctxt,StpDrnktxt,"
-          + "FailDrnktxt,RemHaptxt,NeedAlctxt,GuiltDrnktxt,InjureDrnktxt,FriendDrnktxt,FinalAudit,timestamp)"
-          + "VALUES('"+UniqueID+"','"+DrnkAlc+"','"+AlchHav+"','"+DrnkOcc+"','"+StpDrnk+"','"+FailDrnk+"','"+RemHap+"','"+NeedAlc+"','"+GuiltDrnk+"','"+InjureDrnk+"','"+FriendDrnk+"','"+DrnkAlctxt+"','"+AlcHavtxt+"','"+DrnkOcctxt+"','"+StpDrnktxt+"','"+FailDrnktxt+"','"+RemHaptxt+"','"+NeedAlctxt+"','"+GuiltDrnktxt+"','"+InjureDrnktxt+"','"+FriendDrnktxt+"','"+FinalAudit+"','"+timestamp+"')"   ;
-  
-  System.out.println("_"+inserter+"\n");
-  numberofqueries++;
-  conn1.state2.executeUpdate(inserter);  
-   audits++;
- 
-   
-    String updatesync="update audit set syncstatus='1' WHERE UniqueID='"+UniqueID+"'AND DrnkAlc='"+DrnkAlc+"' AND AlchHav='"+AlchHav+"' AND DrnkOcc='"+DrnkOcc+"' AND StpDrnk='"+StpDrnk+"'"
- + " AND FailDrnk='"+FailDrnk+"' AND RemHap='"+RemHap+"' AND NeedAlc='"+NeedAlc+"' AND GuiltDrnk='"+GuiltDrnk+"' AND InjureDrnk='"+InjureDrnk+"'"
-         + " AND FriendDrnk='"+FriendDrnk+"' AND DrnkAlctxt='"+DrnkAlctxt+"' AND AlchHavtxt='"+AlcHavtxt+"' AND DrnkOcctxt='"+DrnkOcctxt+"' AND "
-         + "StpDrnktxt='"+StpDrnktxt+"' AND FailDrnktxt='"+FailDrnktxt+"'AND RemHaptxt='"+RemHaptxt+"'AND NeedAlctxt='"+NeedAlctxt+"'AND GuiltDrnktxt='"+GuiltDrnktxt+"'"
-         + " AND InjureDrnktxt='"+InjureDrnktxt+"'AND FriendDrnktxt='"+FriendDrnktxt+"'AND FinalAudit='"+FinalAudit+"'";
-
-  conn.state7.executeUpdate(updatesync);
-  System.out.println(updatesync);
- }   
-    
-}
-
+//
 
 // END OF AUDIT 
 //
 // BEGINING OF ENROLMENT
 //
 String enrollment="SELECT * FROM enrollment WHERE UniqueID!='' and syncstatus='0' and timestamp!='0000-00-00 00:00:00'";
-conn.rs=conn.state6.executeQuery(enrollment);
-while(conn.rs.next()){
+local.rs=local.state6.executeQuery(enrollment);
+while(local.rs.next()){
    
     
     already_added=0;
@@ -220,46 +148,46 @@ while(conn.rs.next()){
   EducationLevel=PhoneNo=Residence=OperationArea=Occupation=MemberOfID=DICLearn=Email=PhoneNo1=Venue=AgeID=FirstName=SecondName=LastName=venueOther=DicLearnOther=timestamp1=hand=biometric=""; 
   ward=enrollpefar_year="";
         
-         UniqueIDs=conn.rs.getString("UniqueID");
-         ClientInit=conn.rs.getString("ClientInit");
-         DOE=conn.rs.getString("DOE");
-         District=conn.rs.getString("District");
-         DICName=conn.rs.getString("DICName");
-         DOB=conn.rs.getString("DOB");
-         Sex=conn.rs.getString("Sex");
-         Age=conn.rs.getString("Age");
-         MaritalStatus=conn.rs.getString("MaritalStatus");
-         Children=conn.rs.getString("Children");
-         ChildNo=conn.rs.getString("ChildNo");
-         Religion=conn.rs.getString("Religion"); 
-         EducationLevel=conn.rs.getString("EducationLevel"); 
-         PhoneNo=conn.rs.getString("PhoneNo"); 
-         Residence=conn.rs.getString("Residence"); 
-         OperationArea=conn.rs.getString("OperationArea"); 
-         Occupation=conn.rs.getString("Occupation"); 
-         MemberOfID=conn.rs.getString("MemberOfID"); 
-         DICLearn=conn.rs.getString("DICLearn"); 
-         Email=conn.rs.getString("Email"); 
-         PhoneNo1=conn.rs.getString("PhoneNo1"); 
-         Venue=conn.rs.getString("Venue"); 
-         AgeID=conn.rs.getString("AgeID"); 
-         FirstName=conn.rs.getString("FirstName"); 
-         SecondName=conn.rs.getString("SecondName"); 
-         LastName=conn.rs.getString("LastName"); 
-         venueOther=conn.rs.getString("venueOther"); 
-         DicLearnOther=conn.rs.getString("DicLearnOther");
-         enrollpefar_year=conn.rs.getString("Pefar_year");
-        timestamp = conn.rs.getString("timestamp");
-        hand = conn.rs.getString("capturedhand");
-        biometric = conn.rs.getString("fingerprint");
-         ward=conn.rs.getString("ward");
+         UniqueIDs=local.rs.getString("UniqueID");
+         ClientInit=local.rs.getString("ClientInit");
+         DOE=local.rs.getString("DOE");
+         District=local.rs.getString("District");
+         DICName=local.rs.getString("DICName");
+         DOB=local.rs.getString("DOB");
+         Sex=local.rs.getString("Sex");
+         Age=local.rs.getString("Age");
+         MaritalStatus=local.rs.getString("MaritalStatus");
+         Children=local.rs.getString("Children");
+         ChildNo=local.rs.getString("ChildNo");
+         Religion=local.rs.getString("Religion"); 
+         EducationLevel=local.rs.getString("EducationLevel"); 
+         PhoneNo=local.rs.getString("PhoneNo"); 
+         Residence=local.rs.getString("Residence"); 
+         OperationArea=local.rs.getString("OperationArea"); 
+         Occupation=local.rs.getString("Occupation"); 
+         MemberOfID=local.rs.getString("MemberOfID"); 
+         DICLearn=local.rs.getString("DICLearn"); 
+         Email=local.rs.getString("Email"); 
+         PhoneNo1=local.rs.getString("PhoneNo1"); 
+         Venue=local.rs.getString("Venue"); 
+         AgeID=local.rs.getString("AgeID"); 
+         FirstName=local.rs.getString("FirstName"); 
+         SecondName=local.rs.getString("SecondName"); 
+         LastName=local.rs.getString("LastName"); 
+         venueOther=local.rs.getString("venueOther"); 
+         DicLearnOther=local.rs.getString("DicLearnOther");
+         enrollpefar_year=local.rs.getString("Pefar_year");
+        timestamp = local.rs.getString("timestamp");
+        hand = local.rs.getString("capturedhand");
+        biometric = local.rs.getString("fingerprint");
+         ward=local.rs.getString("ward");
  String check_if_exist="SELECT * FROM enrollment where OperationArea='"+OperationArea+"'"
          + " AND Occupation='"+Occupation+"'AND MemberOfID='"+MemberOfID+"'";
  
   System.out.println(check_if_exist+"\n");
  
- conn1.rs3=conn1.state1.executeQuery(check_if_exist);
- if(conn1.rs3.next()==true){
+ online.rs3=online.state1.executeQuery(check_if_exist);
+ if(online.rs3.next()==true){
      already_added=1; 
 // String inserter="UPDATE enrollment set UniqueID='"+UniqueIDs+"',ClientInit='"+ClientInit+"',DOE='"+DOE+"',District='"+District+"',DICName='"+DICName+"',DOB='"+DOB+"',Sex='"+Sex+"',Age='"+Age+"',"
 //         + "MaritalStatus='"+MaritalStatus+"',Children='"+Children+"',ChildNo='"+ChildNo+"',Religion='"+Religion+"',EducationLevel='"+EducationLevel+"',PhoneNo='"+PhoneNo+"',Residence='"+Residence+"',"
@@ -267,28 +195,48 @@ while(conn.rs.next()){
 //         + "FirstName='"+FirstName+"',SecondName='"+SecondName+"',LastName='"+LastName+"',venueOther='"+venueOther+"',DicLearnOther='"+DicLearnOther+"',capturedhand='"+hand+"',fingerprint='"+biometric+"' where  AgeID='"+AgeID+"'"
 //         + " AND Religion='"+Religion+"' AND EducationLevel='"+EducationLevel+"'AND PhoneNo='"+PhoneNo+"' "
 //         + "AND MemberOfID='"+MemberOfID+"'";
- String inserter="UPDATE enrollment set ward='"+ward+"'where  AgeID='"+AgeID+"'"
+ 
+      String biofing="";
+      
+        
+                   
+//                     final  String strPssword ="?*1>9@(&#";    
+//              AES.setKey(strPssword);
+//                     if(biometric!=null && !biometric.trim().equals("") && !biometric.equals("null")){
+//                    
+//                    
+//                      AES.encrypt (biometric.trim());
+//                    System.out.println("String to Encrypt:_______+++++++ " + biometric); 
+//                   System.out.println("Encrypted:_______+++++++ " + AES.getEncryptedString());
+//                    biofing=AES.getEncryptedString();
+//                     }
+//                     else{
+//                     biofing="";}
+     
+     
+     String inserter="UPDATE enrollment set ward='"+ward+"',capturedhand='"+hand+"',fingerprint='"+biometric+"' where  AgeID='"+AgeID+"'"
          + " AND Religion='"+Religion+"' AND EducationLevel='"+EducationLevel+"'AND PhoneNo='"+PhoneNo+"' "
          + "AND MemberOfID='"+MemberOfID+"' AND  UniqueID='"+UniqueIDs+"'";
             System.out.println(inserter)   ;
-          conn1.state5.executeUpdate(inserter);
+   if(ward!=null && !ward.equals("") && hand!=null && !hand.equals("") && biometric!=null && !biometric.equals("")){
+          online.state5.executeUpdate(inserter);
   System.out.println("Data already added");
   String updatesync="update enrollment set syncstatus='1' where UniqueID='"+UniqueIDs+"'"; 
-  conn.state7.executeUpdate(updatesync);
+  local.state7.executeUpdate(updatesync);
   System.out.println(updatesync);
 //  System.out.println("_"+inserter+"\n");
- existingdata++;
+ existingdata++;}
  }
  else {
      
      
-//                    String firstname = FirstName;
-//                     String secondname = SecondName;
-//                     String lastname = LastName;
-//                     String phoneno = PhoneNo;
-//                     String fingerprints = biometric;
-//                    
-//                  
+                    String firstname = FirstName;
+                     String secondname = SecondName;
+                     String lastname = LastName;
+                     String phoneno = PhoneNo;
+                     String fingerprints = biometric;
+                    
+                  
 //                    String first="";
 //                     final  String strPssword ="?*1>9@(&#";    
 //              AES.setKey(strPssword);
@@ -337,16 +285,16 @@ while(conn.rs.next()){
 //                     }
 //                     else{
 //                     biofing="";}
-  String inserter="REPLACE INTO enrollment(UniqueID,ClientInit,DOE,District,DICName,Ward,DOB,Sex,Age,MaritalStatus,Children,ChildNo,Religion,EducationLevel,PhoneNo,Residence,OperationArea,Occupation,MemberOfID,DICLearn,Email,PhoneNo1,Venue,AgeID,FirstName,SecondName,LastName,venueOther,DicLearnOther,Pefar_year,capturedhand,fingerprint)"
+  String inserter="REPLACE INTO enrollment(UniqueID,ClientInit,DOE,District,DICName,Ward,DOB,Sex,Age,MaritalStatus,Children,ChildNo,Religion,EducationLevel,PhoneNo,Residence,OperationArea,Occupation,MemberOfID,DICLearn,Email,PhoneNo1,Venue,AgeID,FirstName,SecondName,LastName,venueOther,DicLearnOther,Pefar_year,capturedhand,fingerprint,entrydate)"
           + "VALUES('"+UniqueIDs+"','"+ClientInit+"','"+DOE+"','"+District+"','"+DICName+"','"+ward+"','"+DOB+"','"+Sex+"','"+Age+"','"+MaritalStatus+"','"+Children+"','"+ChildNo+"','"+Religion+"','"+EducationLevel+"','"+PhoneNo+"','"+Residence+"','"+OperationArea+"',"
-          + "'"+Occupation+"','"+MemberOfID+"','"+DICLearn+"','"+Email+"','"+PhoneNo1+"','"+Venue+"','"+AgeID+"','"+FirstName+"','"+SecondName+"','"+LastName+"','"+venueOther+"','"+DicLearnOther+"','"+enrollpefar_year+"','"+hand+"','"+biometric+"')"   ;
+          + "'"+Occupation+"','"+MemberOfID+"','"+DICLearn+"','"+Email+"','"+PhoneNo1+"','"+Venue+"','"+AgeID+"','"+FirstName+"','"+SecondName+"','"+LastName+"','"+venueOther+"','"+DicLearnOther+"','"+enrollpefar_year+"','"+hand+"','"+biometric+"','"+timestamp+"')"   ;
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
-  conn1.state2.executeUpdate(inserter);  
+  online.state2.executeUpdate(inserter);  
   enrollments++;
   String updatesync="update enrollment set syncstatus='1' where UniqueID='"+UniqueIDs+"'"; 
-  conn.state7.executeUpdate(updatesync);
+  local.state7.executeUpdate(updatesync);
   System.out.println(updatesync);
    
  }   
@@ -361,21 +309,21 @@ while(conn.rs.next()){
 
 //start of risk assessment main
 String riskasesmain="SELECT * FROM riskassessmentmain WHERE ID!='' and syncstatus='0' and timestamp!='0000-00-00 00:00:00'";
-conn.rs2=conn.state3.executeQuery(riskasesmain);
-while(conn.rs2.next()){
+local.rs2=local.state3.executeQuery(riskasesmain);
+while(local.rs2.next()){
    
     
     already_added=0;
     ID2=CoccID=UniqueID4=OccupationID=timestamp4="";
     String Quarter,Month,Pefar_year="";
-         ID2=conn.rs2.getString(1);
-         AssessID=conn.rs2.getString(2);
-         AssessmentDate=conn.rs2.getString(3);
-         UniqueID6=conn.rs2.getString(4);
-         timestamp4=conn.rs2.getString("timestamp");
-         Quarter=conn.rs2.getString("Quarter");
-         Month=conn.rs2.getString("Month");
-         Pefar_year=conn.rs2.getString("Pefar_year");
+         ID2=local.rs2.getString(1);
+         AssessID=local.rs2.getString(2);
+         AssessmentDate=local.rs2.getString(3);
+         UniqueID6=local.rs2.getString(4);
+         timestamp4=local.rs2.getString("timestamp");
+         Quarter=local.rs2.getString("Quarter");
+         Month=local.rs2.getString("Month");
+         Pefar_year=local.rs2.getString("Pefar_year");
         
       
        
@@ -383,12 +331,12 @@ while(conn.rs2.next()){
 
   System.out.println(check_if_exist+"\n");
  
- conn1.rs3=conn1.state1.executeQuery(check_if_exist);
- if(conn1.rs3.next()==true){already_added=1; 
+ online.rs3=online.state1.executeQuery(check_if_exist);
+ if(online.rs3.next()==true){already_added=1; 
  
   System.out.println("Clerk Data already added");
    String updatesync="update riskassessmentmain set syncstatus='1' WHERE ID='"+ID2+"'and AssessmentID='"+AssessID+"'";
-  conn.state7.executeUpdate(updatesync);
+  local.state7.executeUpdate(updatesync);
   System.out.println(updatesync); 
  existingdata++;
  
@@ -399,35 +347,35 @@ while(conn.rs2.next()){
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
-  conn1.state4.executeUpdate(inserter);  
+  online.state4.executeUpdate(inserter);  
    
    
    riskassessmentmains++;
    
    
    String updatesync="update riskassessmentmain set syncstatus='1' WHERE ID='"+ID2+"'and AssessmentID='"+AssessID+"'";
-  conn.state7.executeUpdate(updatesync);
+  local.state7.executeUpdate(updatesync);
   System.out.println(updatesync); 
  }   
     
 }
 //start of risk reduction main
 String riskredmain="SELECT * FROM riskreductionmain WHERE ID!='' and syncstatus='0' and timestamp!='0000-00-00 00:00:00' ORDER BY DOA DESC";
-conn.rs2=conn.state3.executeQuery(riskredmain);
-while(conn.rs2.next()){
+local.rs2=local.state3.executeQuery(riskredmain);
+while(local.rs2.next()){
    
     
     already_added=0;
     RiskRedID=DOA=CadreProvider=UniqueID7=timestamp4="";
     String qtr="";
     String year="";
-         RiskRedID=conn.rs2.getString(2);
-         DOA=conn.rs2.getString(3);
-         CadreProvider=conn.rs2.getString(4);
-         UniqueID7=conn.rs2.getString(5);
-         timestamp4=conn.rs2.getString("timestamp");
-         qtr=conn.rs2.getString("qtr");
-         year=conn.rs2.getString("year");
+         RiskRedID=local.rs2.getString(2);
+         DOA=local.rs2.getString(3);
+         CadreProvider=local.rs2.getString(4);
+         UniqueID7=local.rs2.getString(5);
+         timestamp4=local.rs2.getString("timestamp");
+         qtr=local.rs2.getString("qtr");
+         year=local.rs2.getString("year");
       
         
       
@@ -436,72 +384,179 @@ while(conn.rs2.next()){
 
   System.out.println(check_if_exist+"\n");
  
- conn1.rs3=conn1.state1.executeQuery(check_if_exist);
- if(conn1.rs3.next()==true){already_added=1; 
+ online.rs3=online.state1.executeQuery(check_if_exist);
+ if(online.rs3.next()==true){already_added=1; 
  
   System.out.println("Clerk Data already added");
    String updatesync="update riskreductionmain set syncstatus='1' WHERE RiskReductionID='"+RiskRedID+"' AND DOA='"+DOA+"' AND CadreProvider='"+CadreProvider+"' ";
-  conn.state7.executeUpdate(updatesync);
+  local.state7.executeUpdate(updatesync);
   System.out.println(updatesync); 
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,entrydate,qtr,year)"
-          + "VALUES('"+RiskRedID+"','"+DOA+"','"+CadreProvider+"','"+UniqueID7+"','"+conn.rs2.getString("timestamp")+"','"+qtr+"','"+year+"')";
+  String inserter="REPLACE INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,entrydate,qtr,year,entrydate)"
+          + "VALUES('"+RiskRedID+"','"+DOA+"','"+CadreProvider+"','"+UniqueID7+"','"+local.rs2.getString("timestamp")+"','"+qtr+"','"+year+"','"+timestamp4+"')";
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
-  conn1.state4.executeUpdate(inserter);  
+  online.state4.executeUpdate(inserter);  
    
    riskreductionmains++;
    
    
    String updatesync="update riskreductionmain set syncstatus='1' WHERE RiskReductionID='"+RiskRedID+"' AND DOA='"+DOA+"' AND CadreProvider='"+CadreProvider+"' ";
-  conn.state7.executeUpdate(updatesync);
+  local.state7.executeUpdate(updatesync);
   System.out.println(updatesync); 
  }   
     
 }
 
 //end of riskassessmentmain
+
+System.out.println("**** to online database syncing before riskreduction details ");
+String riskreddets="SELECT * FROM riskreductiondetails WHERE RiskReductionID!='' and syncstatus='0' and timestamp!='0000-00-00 00:00:00'";
+local.rs2=local.state3.executeQuery(riskreddets);
+while(local.rs2.next()){
+   
+    
+    already_added=0;
+    ID2=CoccID=UniqueID4=OccupationID=timestamp4="";
+    
+         RiskAssessDetailID=local.rs2.getString(1);
+         RiskReductionID=local.rs2.getString(2);
+         QID=local.rs2.getString(3);
+         currentStatus=local.rs2.getString(4);
+         Action=local.rs2.getString(5);
+         Appointments=local.rs2.getString(6);
+       timestamp4=local.rs2.getString("timestamp");
+      System.out.println("entered "+RiskAssessDetailID);
+       
+ String check_if_exist="SELECT * FROM riskreductiondetails WHERE RiskReductionID='"+RiskReductionID+"' AND QID='"+QID+"' AND currentStatus='"+currentStatus+"' AND Action='"+Action+"' AND Appointments='"+Appointments+"'";
+
+  System.out.println(check_if_exist+"\n");
+ 
+ online.rs3=online.state1.executeQuery(check_if_exist);
+ if(online.rs3.next()==true){already_added=1; 
+ 
+  System.out.println("Clerk Data already added");
+   String updatesync="update riskreductiondetails set syncstatus='1' WHERE ID='"+RiskAssessDetailID+"' and RiskReductionID='"+RiskReductionID+"' AND QID='"+QID+"' AND currentStatus='"+currentStatus+"' AND Action='"+Action+"' AND Appointments='"+Appointments+"'";
+  local.state7.executeUpdate(updatesync);
+  System.out.println(updatesync); 
+ existingdata++;
+ }
+ else {
+  String inserter="REPLACE INTO riskreductiondetails(RiskReductionID,QID,currentStatus,Action,Appointments,entrydate)"
+          + "VALUES('"+RiskReductionID+"','"+QID+"','"+currentStatus+"','"+Action+"','"+Appointments+"','"+timestamp4+"')";
+  
+  System.out.println("_"+inserter+"\n");
+  numberofqueries++;
+  online.state4.executeUpdate(inserter);  
+  
+   riskreductiondetails++;  
+   
+   
+    String updatesync="update riskreductiondetails set syncstatus='1' WHERE ID='"+RiskAssessDetailID+"' and RiskReductionID='"+RiskReductionID+"' AND QID='"+QID+"' AND currentStatus='"+currentStatus+"' AND Action='"+Action+"' AND Appointments='"+Appointments+"'";
+  local.state7.executeUpdate(updatesync);
+  System.out.println(updatesync); 
+   
+ }   
+    
+}
+////// end of riskreductiondetails 
+////
+//
+
+String riskassessdets="SELECT * FROM riskassessmentdetails WHERE RiskAssessDetailID!='' and syncstatus=0 and timestamp!='0000-00-00 00:00:00'";
+local.rs2=local.state3.executeQuery(riskassessdets);
+while(local.rs2.next()){
+   
+    
+    already_added=0;
+    ID2=CoccID=UniqueID4=OccupationID=timestamp4="";
+    
+         RiskAssessDetailID=local.rs2.getString(1);
+         AssessmentID=local.rs2.getString(2);
+         QuestionsID=local.rs2.getString(3);
+         DirectAnswers=local.rs2.getString(4);
+         CodedAnswers=local.rs2.getString(5);
+         timestamp4=local.rs2.getString("timestamp");
+       
+      
+       
+ String check_if_exist="SELECT * FROM riskassessmentdetails WHERE AssessmentID='"+AssessmentID+"' AND QuestionID='"+QuestionsID+"' AND DirectAnswers='"+DirectAnswers+"'";
+
+  System.out.println(check_if_exist+"\n");
+ 
+ online.rs3=online.state1.executeQuery(check_if_exist);
+ if(online.rs3.next()==true){already_added=1; 
+ 
+     String updatesync="update riskassessmentdetails set syncstatus='1'  WHERE RiskAssessDetailID='"+RiskAssessDetailID+"'and  AssessmentID='"+AssessmentID+"' AND QuestionID='"+QuestionsID+"' AND DirectAnswers='"+DirectAnswers+"'";
+  local.state7.executeUpdate(updatesync);
+  System.out.println(updatesync);
+  System.out.println("Clerk Data already added");
+ existingdata++;
+ }
+ else {
+  String inserter="REPLACE INTO riskassessmentdetails(AssessmentID,QuestionID,DirectAnswers,CodedAnswers,entrydate)"
+          + "VALUES('"+AssessmentID+"','"+QuestionsID+"','"+DirectAnswers+"','"+CodedAnswers+"','"+timestamp4+"')";
+  
+  System.out.println("_"+inserter+"\n");
+  numberofqueries++;
+  online.state4.executeUpdate(inserter);  
+   
+   riskassessmentdetail++;
+   
+   
+     String updatesync="update riskassessmentdetails set syncstatus='1'  WHERE RiskAssessDetailID='"+RiskAssessDetailID+"'and  AssessmentID='"+AssessmentID+"' AND QuestionID='"+QuestionsID+"' AND DirectAnswers='"+DirectAnswers+"'";
+  local.state7.executeUpdate(updatesync);
+  System.out.println(updatesync);
+   
+ }   
+    
+}
+//// end of riskassessmentdetails 
+
+
+
+
 String childage="SELECT * FROM childage WHERE ID!='' and syncstatus='0'";
-conn.rs2=conn.state3.executeQuery(childage);
-while(conn.rs2.next()){
+local.rs2=local.state3.executeQuery(childage);
+while(local.rs2.next()){
    
     
     already_added=0;
     ID=ChildID=UniqueID2=AgeBrackets=NoChild=timestamp2="";
     
-         ID=conn.rs2.getString(1);
-         ChildID=conn.rs2.getString(2);
-         UniqueID2=conn.rs2.getString(3);
-         AgeBrackets=conn.rs2.getString(4);
-         ChildNo=conn.rs2.getString(5);
-         timestamp2=conn.rs2.getString(6);
+         ID=local.rs2.getString(1);
+         ChildID=local.rs2.getString(2);
+         UniqueID2=local.rs2.getString(3);
+         AgeBrackets=local.rs2.getString(4);
+         ChildNo=local.rs2.getString(5);
+         timestamp2=local.rs2.getString(6);
        
  String check_if_exist="SELECT * FROM childage  WHERE ChildID='"+ChildID+"' AND UniqueID='"+UniqueID2+"' AND AgeBrackets='"+AgeBrackets+"' AND NoChild='"+ChildNo+"'";
 
   System.out.println(check_if_exist+"\n");
  
- conn1.rs3=conn1.state1.executeQuery(check_if_exist);
- if(conn1.rs3.next()==true){already_added=1; 
+ online.rs3=online.state1.executeQuery(check_if_exist);
+ if(online.rs3.next()==true){already_added=1; 
  
   System.out.println("Clerk Data already added");
   String updatesync="update childage set syncstatus='1' where ChildID='"+ChildID+"' AND UniqueID='"+UniqueID2+"' AND AgeBrackets='"+AgeBrackets+"' AND NoChild='"+ChildNo+"'";
-  conn.state7.executeUpdate(updatesync);
+  local.state7.executeUpdate(updatesync);
   System.out.println(updatesync);  
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO childage(ChildID,UniqueID,AgeBrackets,NoChild,timestamp)"
+  String inserter="REPLACE INTO childage(ChildID,UniqueID,AgeBrackets,NoChild,entrydate)"
           + "VALUES('"+ChildID+"','"+UniqueID2+"','"+AgeBrackets+"','"+NoChild+"','"+timestamp2+"')";
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
-  //conn1.state4.executeUpdate(inserter);  
+  //online.state4.executeUpdate(inserter);  
   childages++; 
   String updatesync="update childage set syncstatus='1' where ChildID='"+ChildID+"' AND UniqueID='"+UniqueID2+"' AND AgeBrackets='"+AgeBrackets+"' AND NoChild='"+ChildNo+"'";
-  conn.state7.executeUpdate(updatesync);
+  local.state7.executeUpdate(updatesync);
   System.out.println(updatesync);  
    
  }   
@@ -513,29 +568,29 @@ while(conn.rs2.next()){
 //
 //start of client member
 String clientmember="SELECT * FROM clientmember WHERE ID!='' and syncstatus='0'";
-conn.rs2=conn.state3.executeQuery(clientmember);
-while(conn.rs2.next()){
+local.rs2=local.state3.executeQuery(clientmember);
+while(local.rs2.next()){
    
     
     already_added=0;
     ID1=MemberID=UniqueID3=MemID=timestamp3="";
     
-         ID=conn.rs2.getString(1);
-         MemberID=conn.rs2.getString(2);
-         UniqueID3=conn.rs2.getString(3);
-         MemID=conn.rs2.getString(4);
-         timestamp3=conn.rs2.getString(5);
+         ID=local.rs2.getString(1);
+         MemberID=local.rs2.getString(2);
+         UniqueID3=local.rs2.getString(3);
+         MemID=local.rs2.getString(4);
+         timestamp3=local.rs2.getString(5);
       
        
  String check_if_exist="SELECT * FROM clientmember WHERE MemberID='"+MemberID+"' AND UniqueID='"+UniqueID3+"' AND MemID='"+MemID+"'";
 
   System.out.println(check_if_exist+"\n");
  
- conn1.rs3=conn1.state1.executeQuery(check_if_exist);
- if(conn1.rs3.next()==true){
+ online.rs3=online.state1.executeQuery(check_if_exist);
+ if(online.rs3.next()==true){
     already_added=1; 
      String updatesync="update clientmember set syncstatus='1' where MemberID='"+MemberID+"' AND UniqueID='"+UniqueID3+"' AND MemID='"+MemID+"'";
-  conn.state7.executeUpdate(updatesync);
+  local.state7.executeUpdate(updatesync);
   System.out.println(updatesync);
 // 
 // String inserter="REPLACE INTO clientmember(MemberID,UniqueID,MemID,timestamp)"
@@ -543,20 +598,20 @@ while(conn.rs2.next()){
 //  
 //  System.out.println("_"+inserter+"\n");
 //  numberofqueries++;
-//  conn1.state4.executeUpdate(inserter);  
+//  online.state4.executeUpdate(inserter);  
 // existingdata++;
  }
  else {
-  String inserter="INSERT INTO clientmember(MemberID,UniqueID,MemID,timestamp)"
+  String inserter="INSERT INTO clientmember(MemberID,UniqueID,MemID,entrydate)"
           + "VALUES('"+MemberID+"','"+UniqueID3+"','"+MemID+"','"+timestamp3+"')";
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
-  conn1.state4.executeUpdate(inserter);  
+  online.state4.executeUpdate(inserter);  
    clientmembers++;
    
    String updatesync="update clientmember set syncstatus='1' where MemberID='"+MemberID+"' AND UniqueID='"+UniqueID3+"' AND MemID='"+MemID+"'";
-  conn.state7.executeUpdate(updatesync);
+  local.state7.executeUpdate(updatesync);
   System.out.println(updatesync);
  }   
     
@@ -571,46 +626,46 @@ while(conn.rs2.next()){
 
 ////start of client member
 String clientoccupation="SELECT * FROM clientoccupation WHERE ID!='' and syncstatus='0'";
-conn.rs2=conn.state3.executeQuery(clientoccupation);
-while(conn.rs2.next()){
+local.rs2=local.state3.executeQuery(clientoccupation);
+while(local.rs2.next()){
    
     
     already_added=0;
     ID2=CoccID=UniqueID4=OccupationID=timestamp4="";
     
-         ID2=conn.rs2.getString(1);
-         CoccID=conn.rs2.getString(2);
-         UniqueID4=conn.rs2.getString(3);
-         OccupationID=conn.rs2.getString(4);
-         timestamp4=conn.rs2.getString(5);
+         ID2=local.rs2.getString(1);
+         CoccID=local.rs2.getString(2);
+         UniqueID4=local.rs2.getString(3);
+         OccupationID=local.rs2.getString(4);
+         timestamp4=local.rs2.getString(5);
       
        
  String check_if_exist="SELECT * FROM clientoccupation WHERE CoccID='"+CoccID+"' AND UniqueID='"+UniqueID4+"' AND OccupationID='"+OccupationID+"'";
 
   System.out.println(check_if_exist+"\n");
  
- conn1.rs3=conn1.state1.executeQuery(check_if_exist);
- if(conn1.rs3.next()==true){already_added=1; 
+ online.rs3=online.state1.executeQuery(check_if_exist);
+ if(online.rs3.next()==true){already_added=1; 
  
   System.out.println("Clerk Data already added");
  existingdata++;
   String updatesync="update clientoccupation set syncstatus='1' WHERE CoccID='"+CoccID+"' AND UniqueID='"+UniqueID4+"' AND OccupationID='"+OccupationID+"'";
-  conn.state7.executeUpdate(updatesync);
+  local.state7.executeUpdate(updatesync);
   System.out.println(updatesync);
  }
  else {
-  String inserter="REPLACE INTO clientoccupation(CoccID,UniqueID,OccupationID)"
-          + "VALUES('"+CoccID+"','"+UniqueID4+"','"+OccupationID+"')";
+  String inserter="REPLACE INTO clientoccupation(CoccID,UniqueID,OccupationID,entrydate)"
+          + "VALUES('"+CoccID+"','"+UniqueID4+"','"+OccupationID+"','"+timestamp4+"')";
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
-  conn1.state4.executeUpdate(inserter);  
+  online.state4.executeUpdate(inserter);  
    
    
    clientoccupations++;
    
   String updatesync="update clientoccupation set syncstatus='1' WHERE CoccID='"+CoccID+"' AND UniqueID='"+UniqueID4+"' AND OccupationID='"+OccupationID+"'";
-  conn.state7.executeUpdate(updatesync);
+  local.state7.executeUpdate(updatesync);
   System.out.println(updatesync);
    
  }   
@@ -621,45 +676,45 @@ while(conn.rs2.next()){
 //
 ////start of client op area
 String clientoparea="SELECT * FROM clientoparea WHERE ID!='' and syncstatus='0'";
-conn.rs2=conn.state5.executeQuery(clientoparea);
-while(conn.rs2.next()){
+local.rs2=local.state5.executeQuery(clientoparea);
+while(local.rs2.next()){
    
     
     already_added=0;
     ID3=COPID=UniqueID5=AreaOpID=timestamp5="";
     
-         ID3=conn.rs2.getString(1);
-         COPID=conn.rs2.getString(2);
-         UniqueID5=conn.rs2.getString(3);
-         AreaOpID=conn.rs2.getString(4);
-         timestamp5=conn.rs2.getString(5);
+         ID3=local.rs2.getString(1);
+         COPID=local.rs2.getString(2);
+         UniqueID5=local.rs2.getString(3);
+         AreaOpID=local.rs2.getString(4);
+         timestamp5=local.rs2.getString(5);
       
        
  String check_if_exist="SELECT * FROM clientoparea WHERE COPID='"+COPID+"' AND UniqueID='"+UniqueID5+"' AND AreaOpID='"+AreaOpID+"'";
 
   System.out.println(check_if_exist+"\n");
  
- conn.rs3=conn.state1.executeQuery(check_if_exist);
- if(conn.rs3.next()==true){
+ local.rs3=local.state1.executeQuery(check_if_exist);
+ if(local.rs3.next()==true){
      already_added=1; 
  
   System.out.println("Clerk Data already added");
  existingdata++;
  String updatesync="update clientoparea set syncstatus='1' WHERE ID='"+ID3+"' and  COPID='"+COPID+"' ";
-  conn.state7.executeUpdate(updatesync);
+  local.state7.executeUpdate(updatesync);
   System.out.println(updatesync); 
  }
  else {
-  String inserter="REPLACE INTO clientoparea(COPID,UniqueID,AreaOpID,timestamp)"
+  String inserter="REPLACE INTO clientoparea(COPID,UniqueID,AreaOpID,entrydate)"
           + "VALUES('"+COPID+"','"+UniqueID5+"','"+AreaOpID+"','"+timestamp5+"')";
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
-  conn1.state4.executeUpdate(inserter);  
+  online.state4.executeUpdate(inserter);  
    clientopareas++;
    
    String updatesync="update clientoparea set syncstatus='1' WHERE ID='"+ID3+"' and  COPID='"+COPID+"' ";
-  conn.state7.executeUpdate(updatesync);
+  local.state7.executeUpdate(updatesync);
   System.out.println(updatesync); 
  }   
     
@@ -675,8 +730,8 @@ while(conn.rs2.next()){
 //
 //
 String medical_form="SELECT * FROM medical_form WHERE unique_identifier!='' and syncstatus='0'";
-conn.rs=conn.state.executeQuery(medical_form);
-while(conn.rs.next()){
+local.rs=local.state.executeQuery(medical_form);
+while(local.rs.next()){
    
     
     already_added=0;
@@ -685,43 +740,43 @@ while(conn.rs.next()){
            musculoskeletal=musculoskeletal_findings=respiratory=respiratory_findings=psychological=psychological_findings=diagnosis=management=
            referral=specify_others=TCA=cadre=dater=signature=timestamp6="";
     
-         id=conn.rs.getString(1);
-         unique_identifier=conn.rs.getString(2);
-         temperature=conn.rs.getString(3);
-         temperature_complain=conn.rs.getString(4);
-         blood_pressure=conn.rs.getString(5);
-         blood_pressure_complain=conn.rs.getString(6);
-         p=conn.rs.getString(7);
-         p_complain=conn.rs.getString(8);
-         weight=conn.rs.getString(9);
-         weightcomplain=conn.rs.getString(10);
-         ga=conn.rs.getString(11);
-         ga_findings=conn.rs.getString(12);
-         skin=conn.rs.getString(13); 
-         skin_findings=conn.rs.getString(14); 
-         ent=conn.rs.getString(15); 
-         ent_findings=conn.rs.getString(16); 
-         eyes=conn.rs.getString(17); 
-         eyes_findings=conn.rs.getString(18); 
-         abdomen=conn.rs.getString(19); 
-         abdomen_findings=conn.rs.getString(20); 
-         genitourinary=conn.rs.getString(21); 
-         genitourinary_findings=conn.rs.getString(22); 
-         musculoskeletal=conn.rs.getString(23); 
-         musculoskeletal_findings=conn.rs.getString(24); 
-         respiratory=conn.rs.getString(25); 
-         respiratory_findings=conn.rs.getString(26); 
-         psychological=conn.rs.getString(27);
-         psychological_findings=conn.rs.getString(28);
-         diagnosis=conn.rs.getString(29); 
-         management=conn.rs.getString(30); 
-         referral=conn.rs.getString(31); 
-         specify_others=conn.rs.getString(32); 
-         TCA=conn.rs.getString(33); 
-         cadre=conn.rs.getString(34); 
-         dater=conn.rs.getString(35); 
-         signature=conn.rs.getString(36); 
-         timestamp6=conn.rs.getString(37); 
+         id=local.rs.getString(1);
+         unique_identifier=local.rs.getString(2);
+         temperature=local.rs.getString(3);
+         temperature_complain=local.rs.getString(4);
+         blood_pressure=local.rs.getString(5);
+         blood_pressure_complain=local.rs.getString(6);
+         p=local.rs.getString(7);
+         p_complain=local.rs.getString(8);
+         weight=local.rs.getString(9);
+         weightcomplain=local.rs.getString(10);
+         ga=local.rs.getString(11);
+         ga_findings=local.rs.getString(12);
+         skin=local.rs.getString(13); 
+         skin_findings=local.rs.getString(14); 
+         ent=local.rs.getString(15); 
+         ent_findings=local.rs.getString(16); 
+         eyes=local.rs.getString(17); 
+         eyes_findings=local.rs.getString(18); 
+         abdomen=local.rs.getString(19); 
+         abdomen_findings=local.rs.getString(20); 
+         genitourinary=local.rs.getString(21); 
+         genitourinary_findings=local.rs.getString(22); 
+         musculoskeletal=local.rs.getString(23); 
+         musculoskeletal_findings=local.rs.getString(24); 
+         respiratory=local.rs.getString(25); 
+         respiratory_findings=local.rs.getString(26); 
+         psychological=local.rs.getString(27);
+         psychological_findings=local.rs.getString(28);
+         diagnosis=local.rs.getString(29); 
+         management=local.rs.getString(30); 
+         referral=local.rs.getString(31); 
+         specify_others=local.rs.getString(32); 
+         TCA=local.rs.getString(33); 
+         cadre=local.rs.getString(34); 
+         dater=local.rs.getString(35); 
+         signature=local.rs.getString(36); 
+         timestamp6=local.rs.getString(37); 
   
  String check_if_exist="SELECT * FROM medical_form WHERE id='"+id+"' and unique_identifier='"+unique_identifier+"'and temperature='"+temperature+"' AND temperature_complain='"+temperature_complain+"' AND blood_pressure='"+blood_pressure_complain+"' AND p='"+p+"'"
  + " AND p_complain='"+p_complain+"' AND weight_complain='"+weightcomplain+"' AND ga='"+ga+"' AND ga_findings='"+ga_findings+"' AND skin='"+skin+"'"
@@ -731,8 +786,8 @@ while(conn.rs.next()){
 
   System.out.println(check_if_exist+"\n");
  
- conn1.rs3=conn1.state1.executeQuery(check_if_exist);
- if(conn1.rs3.next()==true){
+ online.rs3=online.state1.executeQuery(check_if_exist);
+ if(online.rs3.next()==true){
      already_added=1; 
  
   System.out.println("Data already added");
@@ -740,7 +795,7 @@ while(conn.rs.next()){
  String updatesync="update medical_form set syncstatus='1' WHERE id='"+id+"' and unique_identifier='"+unique_identifier+"' ";
  
 
-  conn.state7.executeUpdate(updatesync);
+  local.state7.executeUpdate(updatesync);
   System.out.println(updatesync); 
  }
  else {
@@ -748,7 +803,7 @@ while(conn.rs.next()){
           + ",weight_complain,ga,ga_findings,skin,skin_findings,ent,ent_findings,eyes,eyes_findings,"
           + "abdomen,abdomen_findings,genitourinary,genitourinary_findings," 
           +"musculoskeletal,musculoskeletal_findings,respiratory,respiratory_findings,psychological,psychological_findings,"
-          + "diagnosis,management,referral,specify_others,TCA,cadre,dater,signature,timestamp)"
+          + "diagnosis,management,referral,specify_others,TCA,cadre,dater,signature,entrydate)"
           + "VALUES('"+unique_identifier+"','"+temperature+"','"+temperature_complain+"','"+blood_pressure+"','"+blood_pressure_complain+"','"+p+"','"+p_complain+"','"+weight+"',"
           + "'"+weightcomplain+"','"+ga+"','"+ga_findings+"','"+skin+"','"+skin_findings+"','"+ent+"','"+ent_findings+"','"+eyes+"',"
           + "'"+eyes_findings+"','"+abdomen+"','"+abdomen_findings+"','"+genitourinary+"','"+genitourinary_findings+"','"+psychological+"','"+psychological_findings+"',"
@@ -758,7 +813,7 @@ while(conn.rs.next()){
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
-  conn1.state2.executeUpdate(inserter);  
+  online.state2.executeUpdate(inserter);  
    
    medical_forms++;
  
@@ -766,7 +821,7 @@ while(conn.rs.next()){
      String updatesync="update medical_form set syncstatus='1' WHERE id='"+id+"' and unique_identifier='"+unique_identifier+"' ";
  
 
-  conn.state7.executeUpdate(updatesync);
+  local.state7.executeUpdate(updatesync);
   System.out.println(updatesync); 
    
  }   
@@ -783,74 +838,99 @@ while(conn.rs.next()){
 //
 //
 ////start of risk reductiondetails
-String riskreddets="SELECT * FROM riskreductiondetails WHERE RiskReductionID!='' and syncstatus='0'";
-conn.rs2=conn.state3.executeQuery(riskreddets);
-while(conn.rs2.next()){
+
+
+String selector="SELECT * FROM audit WHERE AuditID!='' and syncstatus='0'";
+local.rs=local.state.executeQuery(selector);
+while(local.rs.next()){
    
     
     already_added=0;
-    ID2=CoccID=UniqueID4=OccupationID=timestamp4="";
+    AuditID=UniqueID=DrnkAlc=AlchHav=DrnkOcc=StpDrnk=FailDrnk=RemHap=NeedAlc=GuiltDrnk=InjureDrnk=
+            FriendDrnk=DrnkAlctxt=AlcHavtxt=DrnkOcctxt=StpDrnktxt=FailDrnktxt=RemHaptxt=NeedAlctxt
+            =GuiltDrnktxt=InjureDrnktxt=FriendDrnktxt=FinalAudit=""; 
     
-         RiskAssessDetailID=conn.rs2.getString(1);
-         RiskReductionID=conn.rs2.getString(2);
-         QID=conn.rs2.getString(3);
-         currentStatus=conn.rs2.getString(4);
-         Action=conn.rs2.getString(5);
-         Appointments=conn.rs2.getString(6);
-       timestamp4=conn.rs2.getString("timestamp");
-      
-       
- String check_if_exist="SELECT * FROM riskreductiondetails WHERE RiskReductionID='"+RiskReductionID+"' AND QID='"+QID+"' AND currentStatus='"+currentStatus+"' AND Action='"+Action+"' AND Appointments='"+Appointments+"'";
+         AuditID=local.rs.getString(1);
+         UniqueID=local.rs.getString(2);
+         DrnkAlc=local.rs.getString(3);
+         AlchHav=local.rs.getString(4);
+         DrnkOcc=local.rs.getString(5);
+         StpDrnk=local.rs.getString(6);
+         FailDrnk=local.rs.getString(7);
+         RemHap=local.rs.getString(8);
+         NeedAlc=local.rs.getString(9);
+         GuiltDrnk=local.rs.getString(10);
+         InjureDrnk=local.rs.getString(11); 
+         FriendDrnk=local.rs.getString(12); 
+         DrnkAlctxt=local.rs.getString(13); 
+         AlcHavtxt=local.rs.getString(14); 
+         DrnkOcctxt=local.rs.getString(15); 
+         StpDrnktxt=local.rs.getString(16); 
+         FailDrnktxt=local.rs.getString(17); 
+         RemHaptxt=local.rs.getString(18); 
+         NeedAlctxt=local.rs.getString(19); 
+         GuiltDrnktxt=local.rs.getString(20); 
+         InjureDrnktxt=local.rs.getString(21); 
+         FriendDrnktxt=local.rs.getString(22); 
+         FinalAudit=local.rs.getString(23); 
+         timestamp=local.rs.getTimestamp(24).toString(); 
+  
+ String check_if_exist="SELECT * FROM audit WHERE UniqueID='"+UniqueID+"'AND DrnkAlc='"+DrnkAlc+"' AND AlchHav='"+AlchHav+"' AND DrnkOcc='"+DrnkOcc+"' AND StpDrnk='"+StpDrnk+"'"
+ + " AND FailDrnk='"+FailDrnk+"' AND RemHap='"+RemHap+"' AND NeedAlc='"+NeedAlc+"' AND GuiltDrnk='"+GuiltDrnk+"' AND InjureDrnk='"+InjureDrnk+"'"
+         + " AND FriendDrnk='"+FriendDrnk+"' AND DrnkAlctxt='"+DrnkAlctxt+"' AND AlchHavtxt='"+AlcHavtxt+"' AND DrnkOcctxt='"+DrnkOcctxt+"' AND "
+         + "StpDrnktxt='"+StpDrnktxt+"' AND FailDrnktxt='"+FailDrnktxt+"'AND RemHaptxt='"+RemHaptxt+"'AND NeedAlctxt='"+NeedAlctxt+"'AND GuiltDrnktxt='"+GuiltDrnktxt+"'"
+         + " AND InjureDrnktxt='"+InjureDrnktxt+"'AND FriendDrnktxt='"+FriendDrnktxt+"'AND FinalAudit='"+FinalAudit+"'";
 
   System.out.println(check_if_exist+"\n");
  
- conn1.rs3=conn1.state1.executeQuery(check_if_exist);
- if(conn1.rs3.next()==true){already_added=1; 
+ online.rs3=online.state1.executeQuery(check_if_exist);
+ if(online.rs3.next()==true){
+     already_added=1; 
  
-  System.out.println("Clerk Data already added");
-   String updatesync="update riskreductiondetails set syncstatus='1' WHERE ID='"+RiskAssessDetailID+"' and RiskReductionID='"+RiskReductionID+"' AND QID='"+QID+"' AND currentStatus='"+currentStatus+"' AND Action='"+Action+"' AND Appointments='"+Appointments+"'";
-  conn.state7.executeUpdate(updatesync);
-  System.out.println(updatesync); 
+  System.out.println("Data already added");
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO riskreductiondetails(RiskReductionID,QID,currentStatus,Action,Appointments)"
-          + "VALUES('"+RiskReductionID+"','"+QID+"','"+currentStatus+"','"+Action+"','"+Appointments+"')";
+  String inserter="REPLACE INTO audit (UniqueID,DrnkAlc,AlchHav,DrnkOcc,StpDrnk,FailDrnk,RemHap,NeedAlc,GuiltDrnk,InjureDrnk,FriendDrnk,DrnkAlctxt,AlchHavtxt,DrnkOcctxt,StpDrnktxt,"
+          + "FailDrnktxt,RemHaptxt,NeedAlctxt,GuiltDrnktxt,InjureDrnktxt,FriendDrnktxt,FinalAudit,entrydate)"
+          + "VALUES('"+UniqueID+"','"+DrnkAlc+"','"+AlchHav+"','"+DrnkOcc+"','"+StpDrnk+"','"+FailDrnk+"','"+RemHap+"','"+NeedAlc+"','"+GuiltDrnk+"','"+InjureDrnk+"','"+FriendDrnk+"','"+DrnkAlctxt+"','"+AlcHavtxt+"','"+DrnkOcctxt+"','"+StpDrnktxt+"','"+FailDrnktxt+"','"+RemHaptxt+"','"+NeedAlctxt+"','"+GuiltDrnktxt+"','"+InjureDrnktxt+"','"+FriendDrnktxt+"','"+FinalAudit+"','"+timestamp+"')"   ;
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
-  conn1.state4.executeUpdate(inserter);  
-  
-   riskreductiondetails++;  
+  online.state2.executeUpdate(inserter);  
+   audits++;
+ 
    
-   
-    String updatesync="update riskreductiondetails set syncstatus='1' WHERE ID='"+RiskAssessDetailID+"' and RiskReductionID='"+RiskReductionID+"' AND QID='"+QID+"' AND currentStatus='"+currentStatus+"' AND Action='"+Action+"' AND Appointments='"+Appointments+"'";
-  conn.state7.executeUpdate(updatesync);
-  System.out.println(updatesync); 
-   
+    String updatesync="update audit set syncstatus='1' WHERE UniqueID='"+UniqueID+"'AND DrnkAlc='"+DrnkAlc+"' AND AlchHav='"+AlchHav+"' AND DrnkOcc='"+DrnkOcc+"' AND StpDrnk='"+StpDrnk+"'"
+ + " AND FailDrnk='"+FailDrnk+"' AND RemHap='"+RemHap+"' AND NeedAlc='"+NeedAlc+"' AND GuiltDrnk='"+GuiltDrnk+"' AND InjureDrnk='"+InjureDrnk+"'"
+         + " AND FriendDrnk='"+FriendDrnk+"' AND DrnkAlctxt='"+DrnkAlctxt+"' AND AlchHavtxt='"+AlcHavtxt+"' AND DrnkOcctxt='"+DrnkOcctxt+"' AND "
+         + "StpDrnktxt='"+StpDrnktxt+"' AND FailDrnktxt='"+FailDrnktxt+"'AND RemHaptxt='"+RemHaptxt+"'AND NeedAlctxt='"+NeedAlctxt+"'AND GuiltDrnktxt='"+GuiltDrnktxt+"'"
+         + " AND InjureDrnktxt='"+InjureDrnktxt+"'AND FriendDrnktxt='"+FriendDrnktxt+"'AND FinalAudit='"+FinalAudit+"'";
+
+  local.state7.executeUpdate(updatesync);
+  System.out.println(updatesync);
  }   
     
 }
-////// end of riskreductiondetails 
-////
-//
+
+
 
 
 
 //start of taskauditor
 String taskauditor="SELECT * FROM taskauditor WHERE audit!='' and syncstatus='0'";
-conn.rs2=conn.state3.executeQuery(taskauditor);
-while(conn.rs2.next()){
+local.rs2=local.state3.executeQuery(taskauditor);
+while(local.rs2.next()){
    
     
     already_added=0;
     hostcomp=action=time=username=timestamp11="";
     
-         hostcomp=conn.rs2.getString(2);
-         action=conn.rs2.getString(3);
-         time=conn.rs2.getString(4);
-         username=conn.rs2.getString(5);
-         timestamp11=conn.rs2.getString(6);
+         hostcomp=local.rs2.getString(2);
+         action=local.rs2.getString(3);
+         time=local.rs2.getString(4);
+         username=local.rs2.getString(5);
+         timestamp11=local.rs2.getString(6);
         
       
        
@@ -858,12 +938,12 @@ while(conn.rs2.next()){
 
   System.out.println(check_if_exist+"\n");
  
- conn1.rs3=conn1.state1.executeQuery(check_if_exist);
- if(conn1.rs3.next()==true){already_added=1; 
+ online.rs3=online.state1.executeQuery(check_if_exist);
+ if(online.rs3.next()==true){already_added=1; 
  
   System.out.println("Clerk Data already added");
    String updatesync="update taskauditor set syncstatus='1' WHERE host_comp='"+hostcomp+"' AND action='"+action.replace("'", " ")+"' AND time='"+time+"' AND username='"+username+"' AND timestamp='"+timestamp11+"'";
-  conn.state7.executeUpdate(updatesync);
+  local.state7.executeUpdate(updatesync);
   System.out.println(updatesync);
  existingdata++;
  }
@@ -873,13 +953,13 @@ while(conn.rs2.next()){
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
-  conn1.state4.executeUpdate(inserter);  
+  online.state4.executeUpdate(inserter);  
    
    taskauditors++;
    
    
     String updatesync="update taskauditor set syncstatus='1' WHERE host_comp='"+hostcomp+"' AND action='"+action.replace("'", " ")+"' AND time='"+time+"' AND username='"+username+"' AND timestamp='"+timestamp11+"'";
-  conn.state7.executeUpdate(updatesync);
+  local.state7.executeUpdate(updatesync);
   System.out.println(updatesync);
  }   
     
@@ -890,21 +970,21 @@ while(conn.rs2.next()){
 ////
 ////start of user
 String user="SELECT * FROM user WHERE UserID!='' and syncstatus='0'";
-conn.rs2=conn.state3.executeQuery(user);
-while(conn.rs2.next()){
+local.rs2=local.state3.executeQuery(user);
+while(local.rs2.next()){
    
     
     already_added=0;
     Name=Username=Password=PhoneNos=Email=Location=AccessLevel=timestamp12="";
     
-         Name=conn.rs2.getString(2);
-         Username=conn.rs2.getString(3);
-         Password=conn.rs2.getString(4);
-         PhoneNos=conn.rs2.getString(5);
-         Email=conn.rs2.getString(6);
-         Location=conn.rs2.getString(7);
-         AccessLevel=conn.rs2.getString(8);
-         timestamp12=conn.rs2.getString(9);
+         Name=local.rs2.getString(2);
+         Username=local.rs2.getString(3);
+         Password=local.rs2.getString(4);
+         PhoneNos=local.rs2.getString(5);
+         Email=local.rs2.getString(6);
+         Location=local.rs2.getString(7);
+         AccessLevel=local.rs2.getString(8);
+         timestamp12=local.rs2.getString(9);
         
       
        
@@ -912,8 +992,8 @@ while(conn.rs2.next()){
 
   System.out.println(check_if_exist+"\n");
  
- conn1.rs3=conn1.state1.executeQuery(check_if_exist);
- if(conn1.rs3.next()==true){already_added=1; 
+ online.rs3=online.state1.executeQuery(check_if_exist);
+ if(online.rs3.next()==true){already_added=1; 
  
   System.out.println("Clerk Data already added");
  existingdata++;
@@ -924,14 +1004,14 @@ while(conn.rs2.next()){
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
-  conn1.state4.executeUpdate(inserter);  
+  online.state4.executeUpdate(inserter);  
    
    
    users++;
    
    
     String updatesync="update user set syncstatus='1' WHERE Name='"+Name+"' AND Username='"+Username+"' AND Password='"+Password+"' AND PhoneNo='"+PhoneNos+"' AND Email='"+Email+"'";
-  conn.state7.executeUpdate(updatesync);
+  local.state7.executeUpdate(updatesync);
   System.out.println(updatesync);
  }   
     
@@ -942,55 +1022,7 @@ while(conn.rs2.next()){
 //
 //
 
-String riskassessdets="SELECT * FROM riskassessmentdetails WHERE RiskAssessDetailID!='' and syncstatus=0";
-conn.rs2=conn.state3.executeQuery(riskassessdets);
-while(conn.rs2.next()){
-   
-    
-    already_added=0;
-    ID2=CoccID=UniqueID4=OccupationID=timestamp4="";
-    
-         RiskAssessDetailID=conn.rs2.getString(1);
-         AssessmentID=conn.rs2.getString(2);
-         QuestionsID=conn.rs2.getString(3);
-         DirectAnswers=conn.rs2.getString(4);
-         CodedAnswers=conn.rs2.getString(5);
-         timestamp4=conn.rs2.getString("timestamp");
-       
-      
-       
- String check_if_exist="SELECT * FROM riskassessmentdetails WHERE AssessmentID='"+AssessmentID+"' AND QuestionID='"+QuestionsID+"' AND DirectAnswers='"+DirectAnswers+"'";
 
-  System.out.println(check_if_exist+"\n");
- 
- conn1.rs3=conn1.state1.executeQuery(check_if_exist);
- if(conn1.rs3.next()==true){already_added=1; 
- 
-     String updatesync="update riskassessmentdetails set syncstatus='1'  WHERE RiskAssessDetailID='"+RiskAssessDetailID+"'and  AssessmentID='"+AssessmentID+"' AND QuestionID='"+QuestionsID+"' AND DirectAnswers='"+DirectAnswers+"'";
-  conn.state7.executeUpdate(updatesync);
-  System.out.println(updatesync);
-  System.out.println("Clerk Data already added");
- existingdata++;
- }
- else {
-  String inserter="REPLACE INTO riskassessmentdetails(AssessmentID,QuestionID,DirectAnswers,CodedAnswers,entrydate)"
-          + "VALUES('"+AssessmentID+"','"+QuestionsID+"','"+DirectAnswers+"','"+CodedAnswers+"','"+timestamp4+"')";
-  
-  System.out.println("_"+inserter+"\n");
-  numberofqueries++;
-  conn1.state4.executeUpdate(inserter);  
-   
-   riskassessmentdetail++;
-   
-   
-     String updatesync="update riskassessmentdetails set syncstatus='1'  WHERE RiskAssessDetailID='"+RiskAssessDetailID+"'and  AssessmentID='"+AssessmentID+"' AND QuestionID='"+QuestionsID+"' AND DirectAnswers='"+DirectAnswers+"'";
-  conn.state7.executeUpdate(updatesync);
-  System.out.println(updatesync);
-   
- }   
-    
-}
-//// end of riskassessmentdetails 
 String wholemsg="<font color=\"green\">Data Merging Completed </font>";
 
 if(audits==0 && enrollments==0 && childages==0 && clientmembers==0 && clientoccupations==0 && clientopareas==0 && dummys==0 && medical_forms==0 && riskassessmentdetail==0 && riskreductionmains==0 && taskauditors==0 && users==0 ){
@@ -1022,23 +1054,40 @@ if(existingdata>0){
 //wholemsg+="<br/><b>"+existingdata+"</b> users in this file are already added to the Master database";
 }
 
-     if(conn.rs!=null){ conn.rs.close();}
-         if(conn.rs1!=null){ conn.rs1.close();}
-         if(conn.rs2!=null){ conn.rs2.close();}
-         if(conn.rs3!=null){ conn.rs3.close();}
-         if(conn.rs4!=null){ conn.rs4.close();}
-         if(conn.rs5!=null){ conn.rs5.close();}
-         if(conn.rs6!=null){ conn.rs6.close();}
-         if(conn.rs7!=null){ conn.rs7.close();}
+     if(local.rs!=null){ local.rs.close();}
+         if(local.rs1!=null){ local.rs1.close();}
+         if(local.rs2!=null){ local.rs2.close();}
+         if(local.rs3!=null){ local.rs3.close();}
+         if(local.rs4!=null){ local.rs4.close();}
+         if(local.rs5!=null){ local.rs5.close();}
+         if(local.rs6!=null){ local.rs6.close();}
+         if(local.rs7!=null){ local.rs7.close();}
         
-         if(conn.state!=null){ conn.state.close();}
-         if(conn.state1!=null){ conn.state1.close();}
-         if(conn.state2!=null){ conn.state2.close();}
-         if(conn.state3!=null){ conn.state3.close();}
-         if(conn.state4!=null){ conn.state4.close();}
-         if(conn.state5!=null){ conn.state5.close();}
-         if(conn.state6!=null){ conn.state6.close();}
-         if(conn.state7!=null){ conn.state7.close();}
+         if(local.state!=null){ local.state.close();}
+         if(local.state1!=null){ local.state1.close();}
+         if(local.state2!=null){ local.state2.close();}
+         if(local.state3!=null){ local.state3.close();}
+         if(local.state4!=null){ local.state4.close();}
+         if(local.state5!=null){ local.state5.close();}
+         if(local.state6!=null){ local.state6.close();}
+         if(local.state7!=null){ local.state7.close();}
+     if(online.rs!=null){ online.rs.close();}
+         if(online.rs1!=null){ online.rs1.close();}
+         if(online.rs2!=null){ online.rs2.close();}
+         if(online.rs3!=null){ online.rs3.close();}
+         if(online.rs4!=null){ online.rs4.close();}
+         if(online.rs5!=null){ online.rs5.close();}
+         if(online.rs6!=null){ online.rs6.close();}
+         if(online.rs7!=null){ online.rs7.close();}
+        
+         if(online.state!=null){ online.state.close();}
+         if(online.state1!=null){ online.state1.close();}
+         if(online.state2!=null){ online.state2.close();}
+         if(online.state3!=null){ online.state3.close();}
+         if(online.state4!=null){ online.state4.close();}
+         if(online.state5!=null){ online.state5.close();}
+         if(online.state6!=null){ online.state6.close();}
+         if(online.state7!=null){ online.state7.close();}
          
 
 //since syncing has ended, Now start or end thread

@@ -64,9 +64,9 @@ public class SYNCEXCECUTER implements Job  {
                     if (testInet("google.com") || testInet("twitter.com") || testInet("amazon.com")) {                       
                         try {
         System.out.println("_Internet Connection available.Calling merging page once!");
-                            //Call the page that does merging
-                            
-                            SyncData sd= new SyncData();
+                            //Call the page that does merging 
+//            UNCOMMENT                 
+                           SyncData sd= new SyncData();
                             if(sd.MergeData()==true){
                                 msg="Data Saved Online";
                                 netcheckingstatus=false;
@@ -77,15 +77,17 @@ public class SYNCEXCECUTER implements Job  {
                                     //_t.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
                                     //_t.purge();
                                     
-                                }
-                                //make page called to be zero here
+                                }}
+                            SyncDataLocal sd1= new SyncDataLocal();
+                            if(sd1.MergeData()==true){
+                                msg="Data Saved Online";
+                                netcheckingstatus=false;
                                 
-                                
-                                //********************************************************
-                                //********************************************************
-                                
-                                
-                            }                      
+                                if (a>=1) {
+                                    System.out.println("_Stopping timer to wait for syncing to finish");
+                                    pagecalled="no";
+                                  }
+                                    }                      
                             
                             
                             // once the page is called, it should return back a stop of the

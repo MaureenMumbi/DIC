@@ -60,7 +60,15 @@ int count1=0;
 	  //RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/RiskReduction.jsp");
           response.sendRedirect("RiskReduction.jsp");
 	  //dispatcher.forward(request, response);		
-  }
+  
+        		
+                         if(conn.rs!=null){ conn.rs.close();}
+      
+         if(conn.state!=null){ conn.state.close();}
+        
+        
+        
+        }
         catch (SQLException ex) {
             Logger.getLogger(Counter.class.getName()).log(Level.SEVERE, null, ex);
         }

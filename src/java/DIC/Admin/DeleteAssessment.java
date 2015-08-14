@@ -61,7 +61,7 @@ System.out.println(query1);
 
 
 conn.state.executeUpdate(query1);
-conn.state.executeUpdate(query);
+conn.state1.executeUpdate(query);
 response.sendRedirect("admin/index_Assessment.jsp");
 } 
 

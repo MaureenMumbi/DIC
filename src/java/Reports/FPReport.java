@@ -149,10 +149,10 @@ year_style_header.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
             cell_style.setBorderRight(CellStyle.BORDER_THIN);
             cell_style.setBorderTop(CellStyle.BORDER_THIN);
            
-                  cell = rw1.createCell(0);
+                  cell = rw1.createCell(1);
                       cell.setCellValue("QTR");
                        cell.setCellStyle(style_header);
-                  cell = rw1.createCell(1);
+                  cell = rw1.createCell(0);
                       cell.setCellValue("DICNAME");
                       cell.setCellStyle(style_header);
                         cell2 = rw1.createCell(2);
@@ -219,6 +219,9 @@ if(request.getParameter("startdate") !=null && !request.getParameter("startdate"
                 else if(conn.rs.getString(4).equals("4")){
                   qtr=1;
                 }
+                
+                
+                // code for quarter to appear in colmun 1
                   String getqtr="select quarter_name from quarters where quarter_id='"+qtr+"' ";
             conn.rs5 = conn.state5.executeQuery(getqtr);
             while(conn.rs5.next()){
@@ -231,10 +234,10 @@ if(request.getParameter("startdate") !=null && !request.getParameter("startdate"
                 System.out.println("88"+qtrs);
                 System.out.println("88"+counter);
                                 
-                cell11=rwa.createCell(0);
+                cell11=rwa.createCell(1);
                 cell11.setCellValue(qtrs);
                 cell11.setCellStyle(indicator_style);
-                shet1.addMergedRegion(new CellRangeAddress(qtrcopy,counter-1,0,0));
+                shet1.addMergedRegion(new CellRangeAddress(qtrcopy,counter-1,1,1));
                 qtrcopy=counter;
             
             }
@@ -244,11 +247,11 @@ if(request.getParameter("startdate") !=null && !request.getParameter("startdate"
                 System.out.println("!!!"+qtrcopy);
                 System.out.println("!!!!"+counter);
                 
-                   cell11=rwa.createCell(0);
+                   cell11=rwa.createCell(1);
                 cell11.setCellValue(qtrs);
                 cell11.setCellStyle(indicator_style);
 //                cell31.setCellValue(months);
-              shet1.addMergedRegion(new CellRangeAddress(qtrcopy,counter-1,0,0));
+              shet1.addMergedRegion(new CellRangeAddress(qtrcopy,counter-1,1,1));
                 qtrcopy=counter;
                
             }
@@ -257,21 +260,23 @@ if(request.getParameter("startdate") !=null && !request.getParameter("startdate"
            
             }
                 
-             shet1.addMergedRegion(new CellRangeAddress(qtrcopy,counter,0,0));
-                    cell11=rwa.createCell(0);
+             shet1.addMergedRegion(new CellRangeAddress(qtrcopy,counter,1,1));
+                    cell11=rwa.createCell(1);
                 cell11.setCellValue(qtrs);
                 cell11.setCellStyle(indicator_style);        
                 
                 
+                
+                // code for dicname to appear in column 0
                   if(dicval.equals("")){                                                     
               dicval= dicname;
               System.out.println("88"+dicval +"___"+dicname);
              
                                 
-                cell11=rwa.createCell(1);
+                cell11=rwa.createCell(0);
                 cell11.setCellValue(dicval);
                 cell11.setCellStyle(cell_style);
-                shet1.addMergedRegion(new CellRangeAddress(diccopy,counter-1,1,1));
+                shet1.addMergedRegion(new CellRangeAddress(diccopy,counter-1,0,0));
                 diccopy=counter;
             
             }
@@ -280,7 +285,7 @@ if(request.getParameter("startdate") !=null && !request.getParameter("startdate"
                 System.out.println("!!!"+dicname +"___"+diccopy);
               
                 
-                   cell11=rwa.createCell(1);
+                   cell11=rwa.createCell(0);
                 cell11.setCellValue(dicval);
                 cell11.setCellStyle(cell_style);
 //                cell31.setCellValue(months);
@@ -288,8 +293,8 @@ if(request.getParameter("startdate") !=null && !request.getParameter("startdate"
                 diccopy=counter;
                
             }
-                     shet1.addMergedRegion(new CellRangeAddress(diccopy,counter,1,1));                       
-                                        cell11=rwa.createCell(1);
+                     shet1.addMergedRegion(new CellRangeAddress(diccopy,counter,0,0));                       
+                                        cell11=rwa.createCell(0);
                                          cell11.setCellValue(dicname);
                                          cell11.setCellStyle(cell_style);
                                          
@@ -317,10 +322,31 @@ byte [] outArray = outByteStream.toByteArray();
 response.setContentType("application/ms-excel");
 response.setContentLength(outArray.length);
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename=FPMETHODS.xls");
+response.setHeader("Content-Disposition", "attachment; filename=FPMETHODS"+qtrs+".xls");
 OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
 outStream.flush();
+       
+        		
+                         if(conn.rs!=null){ conn.rs.close();}
+         if(conn.rs1!=null){ conn.rs1.close();}
+         if(conn.rs2!=null){ conn.rs2.close();}
+         if(conn.rs3!=null){ conn.rs3.close();}
+         if(conn.rs4!=null){ conn.rs4.close();}
+         if(conn.rs5!=null){ conn.rs5.close();}
+         if(conn.rs6!=null){ conn.rs6.close();}
+         if(conn.rs7!=null){ conn.rs7.close();}
+        
+         if(conn.state!=null){ conn.state.close();}
+         if(conn.state1!=null){ conn.state1.close();}
+         if(conn.state2!=null){ conn.state2.close();}
+         if(conn.state3!=null){ conn.state3.close();}
+         if(conn.state4!=null){ conn.state4.close();}
+         if(conn.state5!=null){ conn.state5.close();}
+         if(conn.state6!=null){ conn.state6.close();}
+         if(conn.state7!=null){ conn.state7.close();}
+        
+        
         } finally {
 //            out.close();
         }

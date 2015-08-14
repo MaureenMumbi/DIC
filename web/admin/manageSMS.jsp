@@ -85,7 +85,7 @@ function checkCat(){
       var j = document.getElementById("category");
   
    var k = j.options[j.selectedIndex].value;
-    alert("category"+k);
+//    alert("category"+k);
 
     
  var xmlhttp;  

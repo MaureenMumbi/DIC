@@ -145,9 +145,9 @@ mcount++;
     </td>
     </tr>
                         </table>   
-        
-        <h3> Reports <a href="#" id="dialog-link1" style="padding-right: 0px;">
-                <img src="../images/help_24.png"/> </a></h3>
+    <H3>RISK ASSESSMENT REPORT </H3>
+        <h4> Reports <a href="#" id="dialog-link1" style="padding-right: 0px;">
+                <img src="../images/help_24.png"/> </a></h4>
        
         <form name="form" method="post" action="/DIC/RiskAssesmentReport">
         <table>

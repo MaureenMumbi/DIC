@@ -93,52 +93,66 @@ public class KPMSReportAged extends HttpServlet {
     
     String mydrive="";
     if(period.equals("monthly")){
-      String path=getServletContext().getRealPath("/dbconnection.txt");
-      mydrive = path.substring(0, 1);
-      
-            System.out.println("drive name   "+mydrive);
-        Date da= new Date();
-String dat2 = da.toString().replace(" ", "_");
- dat2 = dat2.toString().replace(":", "_");
-
-      
-       String np=mydrive+":\\DIC_DBBACKUP\\MACROS\\enrolled"+dat2+".xlsm";
-     
-             // String desteepath1 = getServletContext().getRealPath("/Females 15to24.xlsm");
-              String sr = getServletContext().getRealPath("/EnrolledTemplate.xlsm");
-    //check if file exists
-              
-   //first time , it should create those folders that host the macro file
-    File f = new File(np);
-if(!f.exists()&& !f.isDirectory() ) { /* do something */
-copytemplates_1 ct= new copytemplates_1();
-    ct.transfermacros(sr,np);
- //rem np is the destination file name  
-   
-    System.out.println("Copying macros first time ..");
-    
-}
-else
-  //copy the file alone  
-{
-copytemplates_1 ct= new copytemplates_1();
-//copy the agebased file only
-ct.copymacros(sr,np);
-
-}
-     //String allpath = getServletContext().getRealPath("/EnrolledTemplate.xlsm");
+//      String path=getServletContext().getRealPath("/dbconnection.txt");
+//      mydrive = path.substring(0, 1);
+//      
+//            System.out.println("drive name   "+mydrive);
+//        Date da= new Date();
+//String dat2 = da.toString().replace(" ", "_");
+// dat2 = dat2.toString().replace(":", "_");
+//
+//      
+//       String np=mydrive+":\\DIC_DBBACKUP\\MACROS\\enrolled"+dat2+".xlsm";
+//     
+//             // String desteepath1 = getServletContext().getRealPath("/Females 15to24.xlsm");
+//              String sr = getServletContext().getRealPath("/EnrolledTemplate.xlsm");
+//    //check if file exists
+//              
+//   //first time , it should create those folders that host the macro file
+//    File f = new File(np);
+//if(!f.exists()&& !f.isDirectory() ) { /* do something */
+//copytemplates_1 ct= new copytemplates_1();
+//    ct.transfermacros(sr,np);
+// //rem np is the destination file name  
+//   
+//    System.out.println("Copying macros first time ..");
+//    
+//}
+//else
+//  //copy the file alone  
+//{
+//copytemplates_1 ct= new copytemplates_1();
+////copy the agebased file only
+//ct.copymacros(sr,np);
+//
+//}
+//     //String allpath = getServletContext().getRealPath("/EnrolledTemplate.xlsm");
+//
+//                
+//                XSSFWorkbook wb;
+//
+////wb = new XSSFWorkbook();
+//wb = new XSSFWorkbook(OPCPackage.open(np));
+//            XSSFSheet shet1=wb.getSheet("Sheet0");
+////XSSFSheet shet1=wb.createSheet();
+//                XSSFRow rw1=shet1.createRow(1);
+                   
+//                    
+//     XSSFWorkbook wb;
+//wb = new XSSFWorkbook();
+//
+//XSSFSheet shet1=wb.createSheet();
+//XSSFRow rw1=shet1.createRow(1);   
+        
+           String allpath = getServletContext().getRealPath("/EnrollmentAgeTemplate.xlsm");
 
                 
                 XSSFWorkbook wb;
 
-//wb = new XSSFWorkbook();
-wb = new XSSFWorkbook(OPCPackage.open(np));
+wb = new XSSFWorkbook(OPCPackage.open(allpath));
             XSSFSheet shet1=wb.getSheet("Sheet0");
-//XSSFSheet shet1=wb.createSheet();
                 XSSFRow rw1=shet1.createRow(1);
                    
-                    
-   
      
       shet1.setColumnWidth(1, 15000 ); 
     shet1.setColumnWidth(2,4000); 
@@ -153,7 +167,7 @@ wb = new XSSFWorkbook(OPCPackage.open(np));
     shet1.setColumnWidth(11, 4000);
     shet1.setColumnWidth(12, 4000);
         
-            cell = rw1.createCell(0);
+                      cell = rw1.createCell(0);
                      cell.setCellValue("ENROLLED");
                         cell2 = rw1.createCell(1);
                      cell2.setCellValue("DICNAME ");
@@ -163,6 +177,8 @@ wb = new XSSFWorkbook(OPCPackage.open(np));
                      cell4.setCellValue("MONTH NAME");
                         cell4 = rw1.createCell(4);
                      cell4.setCellValue("AGE BRACKET");
+                        cell4 = rw1.createCell(5);
+                     cell4.setCellValue("GENDER");
                          
 //   String enrollments="select count(UniqueID),DICName,"
 //            + " case when DICName='Naivasha' then district='Naivasha'"
@@ -187,14 +203,14 @@ String enrollments="select count(UniqueID),DICName," +
 "                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'14' AND TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())<='19' THEN '15-19' " +
 "                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'19' AND TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())<='24' THEN '20-24'" +
 "		 WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'24'AND TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())<='49' THEN  '25-49' " +
-"                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'49' THEN  '25-49' END AS AGEBRACKET" +
+"                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'49' THEN  '49' else '49' END AS AGEBRACKET" +
 "         " +
-"         ,TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())" +
+"         ,TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE()),Trim( Sex) as gender" +
 "          from enrollment  where " +
 "               (STR_TO_DATE(DOE,'%e/%c/%Y')) " +
 "               BETWEEN (STR_TO_DATE('"+startdate+"','%e/%c/%Y'))" +
 "                AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y')) " +
-"                group by DICName,AGEBRACKET,month" ;
+"                group by DICName,AGEBRACKET,month,gender,district" ;
 
 conn.rs = conn.state.executeQuery(enrollments);
 while(conn.rs.next()){
@@ -235,6 +251,8 @@ count++;
                  cell13.setCellValue(""+conn.rs.getInt(5)+ " ("+conn.rs.getInt(4)+") "+ month.substring(0,3) );
                     cell12=rwa.createCell(4);
                  cell12.setCellValue(conn.rs.getString(6));
+                    cell12=rwa.createCell(5);
+                 cell12.setCellValue(conn.rs.getString(8));
 //                 cell14=rwa.createCell(4);
 //                 cell14.setCellValue(conn.rs.getString(5));
 
@@ -259,61 +277,68 @@ outStream.flush();
     }
     
     else if(period.equals("quarterly")){
-           String path=getServletContext().getRealPath("/dbconnection.txt");
-      mydrive = path.substring(0, 1);
-      
-            System.out.println("drive name   "+mydrive);
-        Date da= new Date();
-String dat2 = da.toString().replace(" ", "_");
- dat2 = dat2.toString().replace(":", "_");
-
-      
-       String np=mydrive+":\\DIC_DBBACKUP\\MACROS\\served"+dat2+".xlsm";
-     
-             // String desteepath1 = getServletContext().getRealPath("/Females 15to24.xlsm");
-              String sr = getServletContext().getRealPath("/ServedTemplate.xlsm");
-    //check if file exists
-              
-   //first time , it should create those folders that host the macro file
-    File f = new File(np);
-if(!f.exists()&& !f.isDirectory() ) { /* do something */
-copytemplates_1 ct= new copytemplates_1();
-    ct.transfermacros(sr,np);
- //rem np is the destination file name  
-   
-    System.out.println("Copying macros first time ..");
-    
-}
-else
-  //copy the file alone  
-{
-copytemplates_1 ct= new copytemplates_1();
-//copy the agebased file only
-ct.copymacros(sr,np);
-
-}   
-      //  byte dataToWrite[] = //...;
-FileOutputStream out = new FileOutputStream("the-file-name");
-//out.write(dataToWrite);
-out.close();
-         //String allpath = getServletContext().getRealPath(np);
-
-            System.out.println("nn   "+np);
-                XSSFWorkbook wb;
-
-wb = new XSSFWorkbook(OPCPackage.open(np));
-        
-            XSSFSheet shet1=wb.getSheet("Sheet0");
-                XSSFRow rw1=shet1.createRow(1);
-                   
-
-
+//           String path=getServletContext().getRealPath("/dbconnection.txt");
+//      mydrive = path.substring(0, 1);
+//      
+//            System.out.println("drive name   "+mydrive);
+//        Date da= new Date();
+//String dat2 = da.toString().replace(" ", "_");
+// dat2 = dat2.toString().replace(":", "_");
+//
+//      
+//       String np=mydrive+":\\DIC_DBBACKUP\\MACROS\\served"+dat2+".xlsm";
+//     
+//             // String desteepath1 = getServletContext().getRealPath("/Females 15to24.xlsm");
+//              String sr = getServletContext().getRealPath("/ServedTemplate.xlsm");
+//    //check if file exists
+//              
+//   //first time , it should create those folders that host the macro file
+//    File f = new File(np);
+//if(!f.exists()&& !f.isDirectory() ) { /* do something */
+//copytemplates_1 ct= new copytemplates_1();
+//    ct.transfermacros(sr,np);
+// //rem np is the destination file name  
+//   
+//    System.out.println("Copying macros first time ..");
+//    
+//}
+//else
+//  //copy the file alone  
+//{
+//copytemplates_1 ct= new copytemplates_1();
+////copy the agebased file only
+//ct.copymacros(sr,np);
+//
+//}   
+//      //  byte dataToWrite[] = //...;
+//FileOutputStream out = new FileOutputStream("the-file-name");
+////out.write(dataToWrite);
+//out.close();
+//         //String allpath = getServletContext().getRealPath(np);
+//
+//            System.out.println("nn   "+np);
+//                XSSFWorkbook wb;
+//
+//wb = new XSSFWorkbook(OPCPackage.open(np));
+//        
+//            XSSFSheet shet1=wb.getSheet("Sheet0");
+//                XSSFRow rw1=shet1.createRow(1);
+//                   
+//
+//  XSSFWorkbook wb;
 //wb = new XSSFWorkbook();
 //
 //XSSFSheet shet1=wb.createSheet();
 //                XSSFRow rw1=shet1.createRow(1);           
 //   
-     
+      String allpath = getServletContext().getRealPath("/ServedAge.xlsm");
+
+                
+                XSSFWorkbook wb;
+
+wb = new XSSFWorkbook(OPCPackage.open(allpath));
+            XSSFSheet shet1=wb.getSheet("Sheet0");
+                XSSFRow rw1=shet1.createRow(1);
       shet1.setColumnWidth(1, 15000 ); 
     shet1.setColumnWidth(2,4000); 
     shet1.setColumnWidth(3, 4000); 
@@ -337,7 +362,8 @@ wb = new XSSFWorkbook(OPCPackage.open(np));
                      cell4.setCellValue("MONTH");
                         cell4 = rw1.createCell(4);
                      cell4.setCellValue("AGE BRACKET");
-                        
+                         cell4 = rw1.createCell(5);
+                     cell4.setCellValue("GENDER"); 
     String enrollments="select count(DISTINCT riskreductionmain.UniqueID),DICName,"
             + " case when DICName='Naivasha' then district='Naivasha'"
           + " else district end as County"
@@ -348,11 +374,11 @@ wb = new XSSFWorkbook(OPCPackage.open(np));
 "                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'14' AND TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())<='19' THEN '15-19' " +
 "                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'19' AND TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())<='24' THEN '20-24'" +
 "		 WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'24'AND TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())<='49' THEN  '25-49' " +
-"                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'49' THEN  '25-49' END AS AGEBRACKET" +
-"                   ,TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())from enrollment,riskreductionmain  where "
+"                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'49' THEN  '25-49' else '25-49' END AS AGEBRACKET" +
+"                   ,TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE()),Trim( Sex) as gender from enrollment,riskreductionmain  where "
                 + " (STR_TO_DATE(DOA,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+startdate+"','%e/%c/%Y'))"
                 + " AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y')) and enrollment.uniqueid=riskreductionmain.uniqueid "
-            + " group by DICName,AGEBRACKET,MONTH(STR_TO_DATE(DOA,'%e/%c/%Y')) ";
+            + " group by DICName,AGEBRACKET,MONTH(STR_TO_DATE(DOA,'%e/%c/%Y')),gender,district ";
      
                      
                      
@@ -425,6 +451,8 @@ wb = new XSSFWorkbook(OPCPackage.open(np));
                   cell13.setCellValue(""+conn.rs.getInt(5)+ " ("+conn.rs.getInt(4)+") "+ month.substring(0,3) );
                  cell14=rwa.createCell(4);
                  cell14.setCellValue(conn.rs.getString(6));
+                        cell12=rwa.createCell(5);
+                 cell12.setCellValue(conn.rs.getString(8));
 }
 
 //}
@@ -436,12 +464,29 @@ byte [] outArray = outByteStream.toByteArray();
 response.setContentType("application/ms-excel");
 response.setContentLength(outArray.length);
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename=ServedQuarterlyAgeReport_"+startdate+"-"+enddate+".xlsm");
+response.setHeader("Content-Disposition", "attachment; filename=ServedMonthlyAgeReport_"+startdate+"-"+enddate+".xlsm");
 
 OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
 outStream.flush();
+   		
+                         if(conn.rs!=null){ conn.rs.close();}
+         if(conn.rs1!=null){ conn.rs1.close();}
+         if(conn.rs2!=null){ conn.rs2.close();}
+         if(conn.rs3!=null){ conn.rs3.close();}
+         if(conn.rs4!=null){ conn.rs4.close();}
+         if(conn.rs5!=null){ conn.rs5.close();}
+         if(conn.rs6!=null){ conn.rs6.close();}
+         if(conn.rs7!=null){ conn.rs7.close();}
         
+         if(conn.state!=null){ conn.state.close();}
+         if(conn.state1!=null){ conn.state1.close();}
+         if(conn.state2!=null){ conn.state2.close();}
+         if(conn.state3!=null){ conn.state3.close();}
+         if(conn.state4!=null){ conn.state4.close();}
+         if(conn.state5!=null){ conn.state5.close();}
+         if(conn.state6!=null){ conn.state6.close();}
+         if(conn.state7!=null){ conn.state7.close();}     
     }
     
     

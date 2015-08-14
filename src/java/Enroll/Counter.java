@@ -48,7 +48,7 @@ String id = (String) session.getAttribute("UniqueID");
 
 
             String sqlquery="SELECT UniqueID FROM riskassessmentmain where UniqueID='"+ id+"'";
-            System.out.println("bhfasghcdfashjcvhjzxvcbnzxvcbnsz"+sqlquery);
+          
 int count=0;
             
                                 conn.rs = conn.state.executeQuery(sqlquery);
@@ -65,7 +65,16 @@ int count=0;
               response.sendRedirect("RiskAssessment.jsp");                   
 //	  RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/RiskAssessment.jsp");
 //	  dispatcher.forward(request, response);		
-  }
+  		
+                         if(conn.rs!=null){ conn.rs.close();}
+       
+         if(conn.state!=null){ conn.state.close();}
+       
+        
+        
+        
+        
+        }
         catch (SQLException ex) {
             Logger.getLogger(Counter.class.getName()).log(Level.SEVERE, null, ex);
         }

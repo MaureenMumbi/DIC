@@ -71,6 +71,13 @@ String query = "INSERT INTO user(Name,Username,Password,PhoneNo,Email,Location,A
            
             conn.state.executeUpdate(query);
             session.setAttribute("clerk_added", "<font color=\"green\">Clerk added succesfully</font>");
+            
+            		
+       if(conn.rs!=null){ conn.rs.close();}
+         
+        
+         if(conn.state!=null){ conn.state.close();}
+        
         } catch (SQLException ex) {
             Logger.getLogger(RegisterUser.class.getName()).log(Level.SEVERE, null, ex);
             session.setAttribute("clerk_added1", "<font color=\"green\">Clerk Not Added </font>");

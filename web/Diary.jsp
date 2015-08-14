@@ -307,3 +307,15 @@ mcount++;
     </body>
 </html>
 
+<%if(conn.rs!=null){ conn.rs.close();}
+       
+         if(conn.rs2!=null){ conn.rs2.close();}
+         
+        
+       
+         if(conn.state2!=null){ conn.state2.close();}
+       
+
+
+
+%>

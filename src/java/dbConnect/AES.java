@@ -97,10 +97,10 @@ public class AES {
 //        AES.encrypt(strToEncrypt.trim());
 //        System.out.println("String to Encrypt: " + strToEncrypt);
 //        System.out.println("Encrypted: " + AES.getEncryptedString());
-        final String strToDecrypt = "ftW5iEp19bLx606rGSiYd63G/WJVFUVg1j6HaAB6lTk=";
-        AES.decrypt(strToDecrypt.trim());
-        System.out.println("String To Decrypt : " + strToDecrypt);
-        System.out.println("Decrypted : " + AES.getDecryptedString());
+//        final String strToDecrypt = "ftW5iEp19bLx606rGSiYd63G/WJVFUVg1j6HaAB6lTk=";
+//        AES.decrypt(strToDecrypt.trim());
+//        System.out.println("String To Decrypt : " + strToDecrypt);
+//        System.out.println("Decrypted : " + AES.getDecryptedString());
 
     }
 

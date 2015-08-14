@@ -98,8 +98,28 @@ pagecalled="no";
                                 
                                 
                             }                      
-                            
-                            
+                             SyncDataLocal sd1= new SyncDataLocal();
+                                 
+                         
+                            if(sd1.MergeData()==true){
+                                msg="Data Saved Online";
+                                netcheckingstatus=false;
+                                
+                                if (a>=1) {
+                                    System.out.println("_Stopping timer to wait for syncing to finish");
+                                    pagecalled="no";
+                                    _t.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                                    _t.purge();
+                                    
+                                }
+                                //make page called to be zero here
+                                
+                                
+                                //********************************************************
+                                //********************************************************
+                                
+                                
+                            }  
                             // once the page is called, it should return back a stop of the
                         } catch (SQLException ex) {
                             Logger.getLogger(InternetThreadClass.class.getName()).log(Level.SEVERE, null, ex);

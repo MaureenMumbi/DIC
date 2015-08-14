@@ -62,6 +62,12 @@ public class saveStatus extends HttpServlet {
         conn.state.executeUpdate(insert);
         System.out.println(insert);
         response.sendRedirect("admin/addHIVStatus.jsp");
+        		
+                         if(conn.rs!=null){ conn.rs.close();}
+      
+        
+        
+         if(conn.state!=null){ conn.state.close();}
         
         } finally {            
             out.close();

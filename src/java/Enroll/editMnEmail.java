@@ -65,7 +65,14 @@ public class editMnEmail extends HttpServlet {
     }
    
     response.sendRedirect("editMnEmail.jsp");
-        } 
+        
+    
+    		
+                         if(conn.rs!=null){ conn.rs.close();}
+       
+         if(conn.state!=null){ conn.state.close();}
+       
+    } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

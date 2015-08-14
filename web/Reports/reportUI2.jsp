@@ -241,9 +241,9 @@ mcount++;
     </td>
     </tr>
                         </table>   
-        
-        <h3> Reports <a href="#" id="dialog-link1" style="padding-right: 0px;">
-                <img src="../images/help_24.png"/> </a></h3>
+    <h3>RISK REDUCTION REPORT</h3>
+        <h4> Reports <a href="#" id="dialog-link1" style="padding-right: 0px;">
+                <img src="../images/help_24.png"/> </a></h4>
        
         <form method="post" action="/DIC/NumberOfEnrollments">
         <table>

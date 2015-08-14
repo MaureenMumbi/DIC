@@ -34,17 +34,19 @@ public class Capture1
 	private Reader        m_reader;
         private String uniqid;
         private String capturedhand;
+        private String capturedfinger;
 	private ImagePanel    m_image;
 	private boolean       m_bStreaming;
         public static String Fingerprintstr1="";
         
         private int generalcounter=0;
 	
-	private Capture1(Reader reader, boolean bStreaming,String uniqueid, String hand){
+	private Capture1(Reader reader, boolean bStreaming,String uniqueid, String hand,String finger){
 		m_reader = reader;
 		m_bStreaming = bStreaming;
 		uniqid=uniqueid;
                 capturedhand=hand;
+                capturedfinger=finger;
                 Fingerprintstr1="";
                 
 		m_capture = new CaptureThread(m_reader, m_bStreaming, Fid.Format.ANSI_381_2004, Reader.ImageProcessing.IMG_PROC_DEFAULT);
@@ -140,7 +142,7 @@ public class Capture1
 
 //select.holdfingerprint(uniqid, bytesToHexString1(fb));
 
-                   boolean dbsaved = savetodb1(uniqid,capturedhand, bytesToHexString1(fb));
+                   boolean dbsaved = savetodb1(uniqid,capturedhand, bytesToHexString1(fb),capturedfinger);
 
 
                     if (dbsaved) {
@@ -327,11 +329,12 @@ public class Capture1
     }
 
 //=============================================METHOD TO SAVE CONTENTS TO THE DATABASE=====================================           
-    public boolean savetodb1(String uid,String hands, String fingerprint) {
+    public boolean savetodb1(String uid,String hands, String fingerprint,String capturedfinger) {
         try {
 
             String fpr = fingerprint;
             String handss=hands;
+            String finger=capturedfinger;
             dbConnect conn = new dbConnect();
 String biofing="";
 System.out.println(fpr);
@@ -349,7 +352,7 @@ if(conn.rs2.next()==true){
                    System.out.println("Encrypted:_______+++++++ " + AES.getEncryptedString());
                     biofing=AES.getEncryptedString();
                      }
-            String addtodb = "update enrollment SET fingerprint='" + biofing + "', capturedhand='"+handss+"' where UniqueID='" + uid + "'";
+            String addtodb = "update enrollment SET fingerprint='" + biofing + "', capturedhand='"+handss+"',capturedfinger='"+finger+"' where UniqueID='" + uid + "'";
 
             System.out.println(addtodb);
 
@@ -388,9 +391,9 @@ System.out.println("Should be an insert");
         
         
         
-	public static String Run(Reader reader, boolean bStreaming,String uniqueid, String chand){
+	public static String Run(Reader reader, boolean bStreaming,String uniqueid, String chand,String cfinger){
     	JDialog dlg = new JDialog((JDialog)null, "Update Fingerprint", true);
-    	Capture1 capture = new Capture1(reader, bStreaming,uniqueid,chand);
+    	Capture1 capture = new Capture1(reader, bStreaming,uniqueid,chand,cfinger);
     	capture.doModal(dlg);
         //======
         return Fingerprintstr1;

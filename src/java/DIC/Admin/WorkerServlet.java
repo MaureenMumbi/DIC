@@ -119,7 +119,23 @@ public class WorkerServlet extends HttpServlet {
 				dispatcher.forward(request,response);
 				conn.connect.close();
 				System.out.println("Disconnected from database");
-			} catch (Exception e) {
+			
+                
+                
+                		
+                         if(conn.rs!=null){ conn.rs.close();}
+         
+         if(conn.state!=null){ conn.state.close();}
+         
+                
+                
+                
+                
+                
+                
+                
+                
+                } catch (Exception e) {
 			e.printStackTrace();
                         e.toString();
                         out.println("dint work");

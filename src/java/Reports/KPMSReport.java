@@ -65,31 +65,10 @@ public class KPMSReport extends HttpServlet {
             int count=0;
            // dbConnect  conn = new dbConnect();
                 XSSFCell cell,cell2,cell3,cell4,cell5,cell6,cell7,cell8,cell9,cell10,cell11,cell12,cell13,cell14,cell15,cell16;
-//                HSSFWorkbook wb=new HSSFWorkbook();
-//           String allpath="";   
-          
 
-            
-                
-              
-            /* TODO output your page here. You may use following sample code. */
-       //  for(int y=0;y<districts.length;y++){
-//        ArrayList dics = new ArrayList();
-//
-//                     String dicnames="select * from dicname";
-//conn.rs6 = conn.state6.executeQuery(dicnames);
-//while(conn.rs6.next()){  
-//  dics.add(conn.rs6.getString("DICName"));  
-//   System.out.println(dics.get(0));
-//  // diccount++;
-//   
-//}
-        //}
-//    for(int e=0;e<dics.size();e++){ 
-    
     
     if(period.equals("monthly")){
-         String allpath = getServletContext().getRealPath("/newenrolled.xlsm");
+         String allpath = getServletContext().getRealPath("/KEPMSEnrollments.xlsm");
 
                 
                 XSSFWorkbook wb;
@@ -97,11 +76,16 @@ public class KPMSReport extends HttpServlet {
 wb = new XSSFWorkbook(OPCPackage.open(allpath));
             XSSFSheet shet1=wb.getSheet("Sheet0");
                 XSSFRow rw1=shet1.createRow(1);
-                   
-                    
+//                   
    
+//  XSSFWorkbook wb;
+//wb = new XSSFWorkbook();
+//
+//XSSFSheet shet1=wb.createSheet();
+//XSSFRow rw1=shet1.createRow(1);                   
+//   
      
-      shet1.setColumnWidth(1, 15000 ); 
+     shet1.setColumnWidth(1, 15000 ); 
     shet1.setColumnWidth(2,4000); 
     shet1.setColumnWidth(3, 4000); 
     shet1.setColumnWidth(4, 4000); 
@@ -114,7 +98,7 @@ wb = new XSSFWorkbook(OPCPackage.open(allpath));
     shet1.setColumnWidth(11, 4000);
     shet1.setColumnWidth(12, 4000);
         
-            cell = rw1.createCell(0);
+                  cell = rw1.createCell(0);
                      cell.setCellValue("ENROLLED");
                         cell2 = rw1.createCell(1);
                      cell2.setCellValue("DICNAME ");
@@ -122,14 +106,16 @@ wb = new XSSFWorkbook(OPCPackage.open(allpath));
                      cell3.setCellValue("COUNTY");
                         cell4 = rw1.createCell(3);
                      cell4.setCellValue("MONTH NAME");
+                        cell4 = rw1.createCell(4);
+                     cell4.setCellValue("GENDER");
                          
    String enrollments="select count(UniqueID),DICName,"
             + " case when DICName='Naivasha' then district='Naivasha'"
           + " else district end as County"
             + ""
-            + ",month(STR_TO_DATE(DOE,'%e/%c/%Y')), YEAR(STR_TO_DATE(DOE,'%e/%c/%Y')) from enrollment  where "
+            + ",month(STR_TO_DATE(DOE,'%e/%c/%Y')), YEAR(STR_TO_DATE(DOE,'%e/%c/%Y')),Trim( Sex) as gender from enrollment  where "
                 + " (STR_TO_DATE(DOE,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+startdate+"','%e/%c/%Y'))"
-                + " AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y')) group by DICName,District,month(STR_TO_DATE(DOE,'%e/%c/%Y'))  ";
+                + " AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y')) group by DICName,District,month(STR_TO_DATE(DOE,'%e/%c/%Y')),gender  ";
         
              
 
@@ -169,8 +155,8 @@ count++;
                  cell12.setCellValue(district);
                  cell13=rwa.createCell(3);
                  cell13.setCellValue(""+conn.rs.getInt(5)+ " ("+conn.rs.getInt(4)+") "+ month.substring(0,3) );
-//                 cell14=rwa.createCell(4);
-//                 cell14.setCellValue(conn.rs.getString(5));
+                 cell14=rwa.createCell(4);
+                 cell14.setCellValue(conn.rs.getString(6));
 
                   //cell12.setCellStyle(cell_style);
 
@@ -193,7 +179,7 @@ outStream.flush();
     }
     
     else if(period.equals("quarterly")){
-         String allpath = getServletContext().getRealPath("/MonthlyServed.xlsm");
+         String allpath = getServletContext().getRealPath("/ServedKEPMS.xlsm");
 
                 
                 XSSFWorkbook wb;
@@ -203,7 +189,11 @@ wb = new XSSFWorkbook(OPCPackage.open(allpath));
             XSSFSheet shet1=wb.getSheet("Sheet0");
                 XSSFRow rw1=shet1.createRow(1);
                    
-                    
+//          XSSFWorkbook wb;
+//wb = new XSSFWorkbook();
+//
+//XSSFSheet shet1=wb.createSheet();
+//XSSFRow rw1=shet1.createRow(1);              
    
      
       shet1.setColumnWidth(1, 15000 ); 
@@ -219,23 +209,25 @@ wb = new XSSFWorkbook(OPCPackage.open(allpath));
     shet1.setColumnWidth(11, 4000);
     shet1.setColumnWidth(12, 4000);
         
-                cell = rw1.createCell(0);
+                      cell = rw1.createCell(0);
                      cell.setCellValue("SERVED");
                         cell2 = rw1.createCell(1);
-                     cell2.setCellValue("DICNAME ");
+                     cell2.setCellValue("DICNAME");
                         cell3 = rw1.createCell(2);
                      cell3.setCellValue("COUNTY");
                         cell4 = rw1.createCell(3);
                      cell4.setCellValue("MONTH");
+                        cell4 = rw1.createCell(4);
+                     cell4.setCellValue("GENDER");
                         
     String enrollments="select count(DISTINCT riskreductionmain.UniqueID),DICName,"
             + " case when DICName='Naivasha' then district='Naivasha'"
           + " else district end as County"
             + ""
-            + ",MONTH(STR_TO_DATE(DOA,'%e/%c/%Y')),YEAR(STR_TO_DATE(DOA,'%e/%c/%Y'))from enrollment,riskreductionmain  where "
+            + ",MONTH(STR_TO_DATE(DOA,'%e/%c/%Y')),YEAR(STR_TO_DATE(DOA,'%e/%c/%Y')),Trim( Sex) as gender from enrollment,riskreductionmain  where "
                 + " (STR_TO_DATE(DOA,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+startdate+"','%e/%c/%Y'))"
                 + " AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y')) and enrollment.uniqueid=riskreductionmain.uniqueid "
-            + " group by DICName,MONTH(STR_TO_DATE(DOA,'%e/%c/%Y')) ";
+            + " group by DICName,MONTH(STR_TO_DATE(DOA,'%e/%c/%Y')),district,gender ";
      
                      
                      
@@ -305,8 +297,12 @@ wb = new XSSFWorkbook(OPCPackage.open(allpath));
                  cell12=rwa.createCell(2);
                  cell12.setCellValue(district);
                  cell13=rwa.createCell(3);
-                  cell13.setCellValue(""+conn.rs.getInt(5)+ " ("+conn.rs.getInt(4)+") "+ month.substring(0,3) );
-}
+                 cell13.setCellValue(""+conn.rs.getInt(5)+ " ("+conn.rs.getInt(4)+") "+ month.substring(0,3) );
+                 cell12=rwa.createCell(4);
+                 cell12.setCellValue(conn.rs.getString(6));
+         
+         
+         }
 
 //}
     
@@ -317,11 +313,29 @@ byte [] outArray = outByteStream.toByteArray();
 response.setContentType("application/ms-excel");
 response.setContentLength(outArray.length);
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename=ServedMonthlyAgeReport_"+startdate+"-"+enddate+".xlsm");
+response.setHeader("Content-Disposition", "attachment; filename=ServedMonthlyReport_"+startdate+"-"+enddate+".xlsm");
 OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
 outStream.flush();
         
+   		
+                         if(conn.rs!=null){ conn.rs.close();}
+         if(conn.rs1!=null){ conn.rs1.close();}
+         if(conn.rs2!=null){ conn.rs2.close();}
+         if(conn.rs3!=null){ conn.rs3.close();}
+         if(conn.rs4!=null){ conn.rs4.close();}
+         if(conn.rs5!=null){ conn.rs5.close();}
+         if(conn.rs6!=null){ conn.rs6.close();}
+         if(conn.rs7!=null){ conn.rs7.close();}
+        
+         if(conn.state!=null){ conn.state.close();}
+         if(conn.state1!=null){ conn.state1.close();}
+         if(conn.state2!=null){ conn.state2.close();}
+         if(conn.state3!=null){ conn.state3.close();}
+         if(conn.state4!=null){ conn.state4.close();}
+         if(conn.state5!=null){ conn.state5.close();}
+         if(conn.state6!=null){ conn.state6.close();}
+         if(conn.state7!=null){ conn.state7.close();}
     }
     
     

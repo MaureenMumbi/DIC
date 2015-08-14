@@ -7,7 +7,7 @@
 package DBCREDENTIALSFILE;
 
 import dbConnect.dbConnect;
-import dbConnect.dbConnectTemp;
+import dbConnect.dbConnectLocal;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -82,7 +82,7 @@ String [] myalphabet={"B","C","D","E","F","G","H","I","J","K","L","M","N","O","Q
         try {
             processRequest(request, response);
             
-              dbConnectTemp conn = new dbConnectTemp();
+              dbConnectLocal conn = new dbConnectLocal();
             session = request.getSession(true);
             
 //              filename=request.getParameter("filename");

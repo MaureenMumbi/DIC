@@ -128,7 +128,11 @@ String query = "INSERT INTO enrollment(UniqueID,ClientInit,DOE,District,DOB,DICN
 
 out.println("Inserted into db");
 response.sendRedirect("../DIC/home1.jsp");
-
+		
+                         if(conn.rs!=null){ conn.rs.close();}
+        
+         if(conn.state!=null){ conn.state.close();}
+        
 
 } 
         catch (SQLException ex) {                    

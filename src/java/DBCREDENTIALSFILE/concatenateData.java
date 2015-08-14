@@ -7,7 +7,8 @@
 package DBCREDENTIALSFILE;
 
 import dbConnect.dbConnect;
-import dbConnect.dbConnectTemp;
+import dbConnect.dbConnectLocal;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -57,10 +58,10 @@ public class concatenateData extends HttpServlet {
         session=request.getSession();
         System.out.println("entered  *******");
         
-dbConnectTemp conn = new dbConnectTemp();
+dbConnectLocal conn = new dbConnectLocal();
 dbConnect conn1 = new dbConnect();
 
-System.out.println("Merging Data");
+System.out.println("Merging Data to local database from a file");
 
 //read data from the new database-indicatoractivities1 
 String selector="SELECT * FROM audit WHERE AuditID!=''";
@@ -193,8 +194,13 @@ while(conn.rs.next()){
  String inserter="UPDATE enrollment set ward='"+ward+"',capturedhand='"+hand+"',fingerprint='"+biometric+"' where  AgeID='"+AgeID+"'"
          + " AND Religion='"+Religion+"' AND EducationLevel='"+EducationLevel+"'AND PhoneNo='"+PhoneNo+"' "
          + "AND MemberOfID='"+MemberOfID+"' AND  UniqueID='"+UniqueIDs+"'";
-            
-          conn.state5.executeUpdate(inserter);
+            if(ward!=null && !ward.equals("") && hand!=null && !hand.equals("") && biometric!=null && !biometric.equals("")){
+         conn.state5.executeUpdate(inserter);
+  System.out.println("Data already added");
+  
+
+ existingdata++;} 
+         
 //  System.out.println("Data already added");
   System.out.println("_"+inserter+"\n");
  existingdata++;
@@ -575,7 +581,7 @@ while(conn.rs2.next()){
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO riskassessmentmain(AssessmentID,AssessmentDate,UniqueID,Quarter,Month,Pefar_year,entrydate)"
+  String inserter="REPLACE INTO riskassessmentmain(AssessmentID,AssessmentDate,UniqueID,Quarter,Month,Pefar_year,timestamp)"
           + "VALUES('"+AssessID+"','"+AssessmentDate+"','"+UniqueID6+"','"+Quarter+"','"+Month+"','"+Pefar_year+"','"+timestamp4+"')";
   
   System.out.println("_"+inserter+"\n");
@@ -619,7 +625,7 @@ while(conn.rs2.next()){
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,entrydate,qtr,year)"
+  String inserter="REPLACE INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,timestamp,qtr,year)"
           + "VALUES('"+RiskRedID+"','"+DOA+"','"+CadreProvider+"','"+UniqueID7+"','"+timestamp+"','"+qtr+"','"+year+"')";
   
   System.out.println("_"+inserter+"\n");
@@ -756,7 +762,7 @@ while(conn.rs2.next()){
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO riskassessmentdetails(AssessmentID,QuestionID,DirectAnswers,CodedAnswers,entrydate)"
+  String inserter="REPLACE INTO riskassessmentdetails(AssessmentID,QuestionID,DirectAnswers,CodedAnswers,timestamp)"
           + "VALUES('"+AssessmentID+"','"+QuestionsID+"','"+DirectAnswers+"','"+CodedAnswers+"','"+timestamp4+"')";
   
   System.out.println("_"+inserter+"\n");
@@ -810,7 +816,23 @@ conn1.state1.close();
 
   response.sendRedirect("importSQLData.jsp");      
 
-    }
+  if(conn.rs!=null){ conn.rs.close();}
+         if(conn.rs1!=null){ conn.rs1.close();}
+         if(conn.rs2!=null){ conn.rs2.close();}
+         if(conn.rs3!=null){ conn.rs3.close();}
+         if(conn.rs4!=null){ conn.rs4.close();}
+         if(conn.rs5!=null){ conn.rs5.close();}
+         if(conn.rs6!=null){ conn.rs6.close();}
+         if(conn.rs7!=null){ conn.rs7.close();}
+        
+         if(conn.state!=null){ conn.state.close();}
+         if(conn.state1!=null){ conn.state1.close();}
+         if(conn.state2!=null){ conn.state2.close();}
+         if(conn.state3!=null){ conn.state3.close();}
+         if(conn.state4!=null){ conn.state4.close();}
+         if(conn.state5!=null){ conn.state5.close();}
+         if(conn.state6!=null){ conn.state6.close();}
+         if(conn.state7!=null){ conn.state7.close();}   }
 
  
     

@@ -944,6 +944,26 @@
         <servlet-name>encryptdata</servlet-name>
         <servlet-class>biometric.encryptdata</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>dbConnectLocal</servlet-name>
+        <servlet-class>dbConnect.dbConnectLocal</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SyncDataLocal</servlet-name>
+        <servlet-class>DBCREDENTIALSFILE.SyncDataLocal</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>update_lockDate</servlet-name>
+        <servlet-class>DBCREDENTIALSFILE.update_lockDate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loadMinDate</servlet-name>
+        <servlet-class>DBCREDENTIALSFILE.loadMinDate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>saveLastInternectConn</servlet-name>
+        <servlet-class>DBCREDENTIALSFILE.saveLastInternectConn</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Enroll</servlet-name>
         <url-pattern>/Enroll</url-pattern>
@@ -1887,6 +1907,26 @@
     <servlet-mapping>
         <servlet-name>encryptdata</servlet-name>
         <url-pattern>/encryptdata</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>dbConnectLocal</servlet-name>
+        <url-pattern>/dbConnectLocal</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SyncDataLocal</servlet-name>
+        <url-pattern>/SyncDataLocal</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>update_lockDate</servlet-name>
+        <url-pattern>/update_lockDate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loadMinDate</servlet-name>
+        <url-pattern>/loadMinDate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>saveLastInternectConn</servlet-name>
+        <url-pattern>/saveLastInternectConn</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

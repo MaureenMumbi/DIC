@@ -71,7 +71,11 @@ public class editEmail extends HttpServlet {
    
     response.sendRedirect("mandemail.jsp");
     
-    
+    		
+           
+        
+         if(conn.state!=null){ conn.state.close();}
+      
     try {
        
     } finally {            

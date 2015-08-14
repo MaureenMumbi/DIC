@@ -8,7 +8,7 @@
 <%!
 
   dbConnect conn = new dbConnect();
-
+String mindate="";
 %>
 <html>
     <head>
@@ -25,27 +25,46 @@
        <script src="js/DICHelp.js"></script>
 	 <script>	
                 $(function() {
+                      var dateTodays = new Date(); 
+                
         $( ".datepickerDOB" ).datepicker({
                                 dateFormat: "dd/mm/yy",
                                 changeMonth: true,
                                 changeYear: true,
-                                yearRange:'1950:2000'
+                                yearRange:'1950:2000',
+                                maxDate:dateTodays
                                
                         });
                     
                 });
             </script>
-	 <script>	
-                $(function() {
+	 <script>
+              $.ajax({
+                    
+//                      f.action="/DIC/deleteWorker?UniqueID="+UniqueID; 
+                    url:"loadMinDate",
+                    type:'post',
+                    dataType:'html',
+                    success:function (data){
+ var mindate=data; 
+// alert(mindate);
+  $(function() {
+             var dt = new Date(mindate);      
+                var dateToday = new Date(); 
+//               alert("today "+dateToday +" "+mindate +'_'+dt);
         $( ".datepicker" ).datepicker({
                                 dateFormat: "dd/mm/yy",
                                 changeMonth: true,
                                 changeYear: true,
-                                yearRange:'2011:2015'
-                               
+                                yearRange:'2011:2015',
+                                maxDate: dateToday,
+                                minDate:dt
                         });
                     
                 });
+                    }
+          })
+               
             </script>
         
         <script type="text/javascript">
@@ -669,7 +688,24 @@ popWindow = window.open('/DIC/home1.jsp', 'popWin',
            width:1350px; 
     }
     </style>
+<script>
+    
+           
+            function numbers(evt){
+var charCode=(evt.which) ? evt.which : event.keyCode
+if(charCode > 31 && (charCode < 48 || charCode>57)){
+return false;
+}
 
+else{
+ 
+
+
+ 
+return true;
+}
+}
+</script>
 <!--<link href="css/demo_style.css" rel="stylesheet" type="text/css">-->
 
 <link href="css/smart_wizard.css" rel="stylesheet" type="text/css">
@@ -1030,17 +1066,10 @@ mcount++;
  }
   
    String QueryDist="";
-                                                if(Location.equalsIgnoreCase("Naivasha")){    
-                                                     QueryDist= "SELECT District,DistrictID FROM districts where DistrictID='3'";
-                                                   
-                                                }
-     else{
-          QueryDist= "SELECT District,DistrictID FROM districts where DistrictID!='1' and DistrictID!='5'";
-                                                 
-     }
+                                               
 
-                                                                                                                                               conn.state= conn.connect.createStatement();
-				conn.rs = conn.state.executeQuery(QueryDist);
+         QueryDist= "SELECT District,DistrictID FROM districts where DistrictID!='1' and DistrictID!='5'";
+                    conn.rs = conn.state.executeQuery(QueryDist);
                                  if(conn.state.isClosed()){conn= new dbConnect();}
                                                       while(conn.rs.next())
                                                            {
@@ -1098,10 +1127,17 @@ mcount++;
                                     <option value="left hand">left hand</option>
                                     <option value="left and right">both hands</option>
                                 </select></td>
+               <td><label for="town">Finger captured<font color="red">*</font></label></td>
+                            <td><select name="capturedfinger" required id="capturedfinger">
+                                    <option value="">Captured Finger</option>
+                                    <option value="thumb" > Thumb</option>
+                                    <option value="middle">Middle Finger</option>
+                                    
+                                </select></td>
                                 
-                               
+                </tr>   
                                 
-             <td><label for="town">Finger Print.<font color="red">*</font></label></td>
+                <tr class="d1"> <td><label for="town">Finger Print.<font color="red">*</font></label></td>
                             <td>   
                             
 
@@ -1291,7 +1327,7 @@ mcount++;
     </td>
     </tr>
                   <tr class="d1">
-                      <td>Client Phone # <font style="color: blue"></font></td><td><input type="text" pattern="(07)[0-9]{8}" onkeypress="return isNumberKey(event)" name="PhoneNo" class="inputSize" value="" ></td>
+                      <td>Client Phone # <font style="color: blue"></font></td><td><input type="text" pattern="(07)[0-9]{8}" onkeypress="return numbers(event);" name="PhoneNo" class="inputSize" value="" ></td>
                      
                   </tr>
                   <tr class="d0">
@@ -1299,7 +1335,7 @@ mcount++;
                      
                   </tr>
                   <tr class="d1">
-                      <td>Alternative Phone# </td><td><input type="text" pattern="(07)[0-9]{8}" onkeypress="return isNumberKey(event)" name="PhoneNo1" class="inputSize" value=""></td>
+                      <td>Alternative Phone# </td><td><input type="text" pattern="(07)[0-9]{8}" onkeypress="return numbers(event);" name="PhoneNo1" class="inputSize" value=""></td>
                      
                   </tr>
                   <tr class="d0">
@@ -1493,3 +1529,26 @@ mcount++;
      
     </body>
 </html>
+<%
+
+  if(conn.rs!=null){ conn.rs.close();}
+         if(conn.rs1!=null){ conn.rs1.close();}
+         if(conn.rs2!=null){ conn.rs2.close();}
+         if(conn.rs3!=null){ conn.rs3.close();}
+         if(conn.rs4!=null){ conn.rs4.close();}
+         if(conn.rs5!=null){ conn.rs5.close();}
+         if(conn.rs6!=null){ conn.rs6.close();}
+         if(conn.rs7!=null){ conn.rs7.close();}
+        
+         if(conn.state!=null){ conn.state.close();}
+         if(conn.state1!=null){ conn.state1.close();}
+         if(conn.state2!=null){ conn.state2.close();}
+         if(conn.state3!=null){ conn.state3.close();}
+         if(conn.state4!=null){ conn.state4.close();}
+         if(conn.state5!=null){ conn.state5.close();}
+         if(conn.state6!=null){ conn.state6.close();}
+         if(conn.state7!=null){ conn.state7.close();}
+
+
+
+%>

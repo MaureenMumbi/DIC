@@ -61,7 +61,14 @@ session = request.getSession(true);
                 SimpleDateFormat formatter= new SimpleDateFormat("yyyy/MM/dd");
                 String formattedDate = formatter.format(date);
 
-
+String County="";
+String DICName="";
+if(request.getParameter("district")!=null && !request.getParameter("district").equals("") ){
+County= request.getParameter("district");       
+        }
+if(request.getParameter("DICName")!=null && !request.getParameter("DICName").equals("") ){
+DICName= request.getParameter("DICName");       
+        }
 
 //actions
 
@@ -513,18 +520,20 @@ String Ans28_2="";
     if(AssessmentID!=null && !AssessmentID.equals(""))
     {
       
-        query="INSERT INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,qtr,year,syncstatus)"
-            + "VALUES(?,?,?,?,?,?,?)";
+        query="INSERT INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,County,DICName,qtr,year,syncstatus)"
+            + "VALUES(?,?,?,?,?,?,?,?,?)";
             conn.ps = conn.connect.prepareStatement(query);
             conn.ps.setString(1,AssessmentID);
             conn.ps.setString(2,DOA);
             conn.ps.setString(3,Ans);
-            conn.ps.setString(4,UniqueID);
-            conn.ps.setString(5,insert_quarter);
+        conn.ps.setString(4,UniqueID);
+            conn.ps.setString(5,County);
+            conn.ps.setString(6,DICName);
+            conn.ps.setString(7,insert_quarter);
             //Changing the year to be entered into string
             String insert_year1=Integer.toString(insert_year);
-            conn.ps.setString(6,insert_year1);
-            conn.ps.setString(7,"0");
+            conn.ps.setString(8,insert_year1);
+            conn.ps.setString(9,"0");
             conn.ps.executeUpdate(); 
  
 inserter="insert into taskauditor set host_comp=?, action=?,time=?,username=?,syncstatus=?";                     
@@ -584,7 +593,24 @@ for(int b=0;b<Qdates.length;b++){
     
     
                         response.sendRedirect("admin/medical_form.jsp");
-    
+    		
+                         if(conn.rs!=null){ conn.rs.close();}
+         if(conn.rs1!=null){ conn.rs1.close();}
+         if(conn.rs2!=null){ conn.rs2.close();}
+         if(conn.rs3!=null){ conn.rs3.close();}
+         if(conn.rs4!=null){ conn.rs4.close();}
+         if(conn.rs5!=null){ conn.rs5.close();}
+         if(conn.rs6!=null){ conn.rs6.close();}
+         if(conn.rs7!=null){ conn.rs7.close();}
+        
+         if(conn.state!=null){ conn.state.close();}
+         if(conn.state1!=null){ conn.state1.close();}
+         if(conn.state2!=null){ conn.state2.close();}
+         if(conn.state3!=null){ conn.state3.close();}
+         if(conn.state4!=null){ conn.state4.close();}
+         if(conn.state5!=null){ conn.state5.close();}
+         if(conn.state6!=null){ conn.state6.close();}
+         if(conn.state7!=null){ conn.state7.close();}
     
     }
 

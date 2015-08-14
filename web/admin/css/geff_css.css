@@ -6,17 +6,17 @@
         Purpose of the stylesheet follows.
 */
 html, body {
-    background: #ff6600;
+    /*background: #ff6600;*/
 
 }
 
 #container {
     position: relative;
      margin:auto;
-    width: 1000px;
+    width: 1200px;
     height: 700px;
     margin-top: 25px;
-    background:#ff6600;
+    background:white;
     
     border: 6px solid cornflowerblue;
     -webkit-border-radius: 5px;
@@ -40,7 +40,7 @@ html, body {
 }
 
 #sub-header {
-    background:#ff6600#ff6600;
+    background:#ffffff;
     width:700px;
     margin-left: 150px;
 
@@ -57,7 +57,7 @@ html, body {
     float:left;
     width:900px;
     height:740px;
-    background-color:#ff6600;
+    background-color:#ffffff;
 }
 
 #uppercontent {

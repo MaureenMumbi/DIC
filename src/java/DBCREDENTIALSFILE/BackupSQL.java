@@ -44,7 +44,7 @@ public class BackupSQL extends HttpServlet {
     String[] myalphabet = {"B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, MessagingException {
+            throws ServletException, IOException, MessagingException, SQLException {
         session = request.getSession();
         dbConnect conn = new dbConnect();
 
@@ -263,7 +263,25 @@ String daytime=""+year+"-"+month+"-"+day;
         
        
         response.sendRedirect("backup.jsp");
-  
+   if(conn.rs!=null){ conn.rs.close();}
+         if(conn.rs1!=null){ conn.rs1.close();}
+         if(conn.rs2!=null){ conn.rs2.close();}
+         if(conn.rs3!=null){ conn.rs3.close();}
+         if(conn.rs4!=null){ conn.rs4.close();}
+         if(conn.rs5!=null){ conn.rs5.close();}
+         if(conn.rs6!=null){ conn.rs6.close();}
+         if(conn.rs7!=null){ conn.rs7.close();}
+        
+         if(conn.state!=null){ conn.state.close();}
+         if(conn.state1!=null){ conn.state1.close();}
+         if(conn.state2!=null){ conn.state2.close();}
+         if(conn.state3!=null){ conn.state3.close();}
+         if(conn.state4!=null){ conn.state4.close();}
+         if(conn.state5!=null){ conn.state5.close();}
+         if(conn.state6!=null){ conn.state6.close();}
+         if(conn.state7!=null){ conn.state7.close();}
+   
+    
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -279,7 +297,11 @@ String daytime=""+year+"-"+month+"-"+day;
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            processRequest(request, response);
+                    try {
+                        processRequest(request, response);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(BackupSQL.class.getName()).log(Level.SEVERE, null, ex);
+                    }
         } catch (MessagingException ex) {
             Logger.getLogger(BackupSQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -297,7 +319,11 @@ String daytime=""+year+"-"+month+"-"+day;
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            processRequest(request, response);
+                    try {
+                        processRequest(request, response);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(BackupSQL.class.getName()).log(Level.SEVERE, null, ex);
+                    }
         } catch (MessagingException ex) {
             Logger.getLogger(BackupSQL.class.getName()).log(Level.SEVERE, null, ex);
         }

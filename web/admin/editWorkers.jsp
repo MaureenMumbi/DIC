@@ -59,11 +59,13 @@ List  userList=null;
                        dbConnect conn = new dbConnect();
 		 String UniqueIDs=request.getParameter("UniqueID");
 		String query = "select * from enrollment where UniqueID ="+UniqueIDs;
-          
+               System.out.println("bbb   "+query);
+          System.out.println("UniqueIDs  "+UniqueIDs);
 				conn.rs = conn.state7.executeQuery(query);
 
 
 				while(conn.rs.next()){
+                                    rowid=conn.rs.getString(1);
          UniqueID =conn.rs.getString("UniqueID");
          ClientInit=conn.rs.getString("ClientInit");
          DOE=conn.rs.getString("DOE");
@@ -135,6 +137,7 @@ List  userList=null;
               
                if(conn.rs.getString("PhoneNo")!=null && !conn.rs.getString("PhoneNo").trim().equals("") && !conn.rs.getString("PhoneNo").equals("null")){
 //                      Lastname =  conn.rs.getString("LastName");
+                   PhoneNo="";
                     AES.decrypt(conn.rs.getString("PhoneNo").trim());
                      System.out.println("String To Decrypt : " + conn.rs.getString("PhoneNo"));
                      PhoneNo=AES.getDecryptedString();
@@ -195,7 +198,24 @@ List  userList=null;
 
 
 %>
+<script>
+    
+           
+            function numbers(evt){
+var charCode=(evt.which) ? evt.which : event.keyCode
+if(charCode > 31 && (charCode < 48 || charCode>57)){
+return false;
+}
 
+else{
+ 
+
+
+ 
+return true;
+}
+}
+</script>
 <html>
     <head>
         <!--The below code creates a form and shows the input fields-->
@@ -269,35 +289,37 @@ List  userList=null;
 function disableOptions(v) {
   var df = document.form;
   var Children = df.Children;
+  alert(Children.value);
+  alert(v);
   var ChildNo = df.ChildNo;
-  var Age_9 = df.Age_9;
+  var Age1 = df.Age1;
   var Age_9No = df.Age_9No;
-  var Age_14 = df.Age_14;
+  var Age2 = df.Age2;
   var Age_14No = df.Age_14No;
-  var Age_19 = df.Age_19;
+  var Age3 = df.Age3;
   var Age_19No = df.Age_19No;
-  var Age_24 = df.Age_24;
+  var Age4 = df.Age4;
   var Age_24No = df.Age_24No;
-  var Age_25 = df.Age_25;
+  var Age5 = df.Age5;
   var Age_25No = df.Age_25No;
   //var location1=df.location1;
-if(v==1) {
-  Age_9.disabled = false; Age_9No.disabled = false;
-  Age_14.disabled = false; Age_14No.disabled = false;
-  Age_19.disabled = false; Age_19No.disabled = false;
-  Age_24.disabled = false; Age_24No.disabled = false;
-  Age_25.disabled = false; Age_25No.disabled = false;
+if(v==0) {
+  Age1.disabled = false; Age_9No.disabled = false;
+  Age2.disabled = false; Age_14No.disabled = false;
+  Age3.disabled = false; Age_19No.disabled = false;
+  Age4.disabled = false; Age_24No.disabled = false;
+  Age5.disabled = false; Age_25No.disabled = false;
   ChildNo.disabled = false;
   //location1.physics.disabled = false; 
   }
 else {
  // location1.disabled = true;
     ChildNo.disabled = true;
-    Age_9.disabled = true; Age_9No.disabled = true;
-    Age_14.disabled = true; Age_14No.disabled = true;
-    Age_19.disabled = true; Age_19No.disabled = true;
-    Age_24.disabled = true; Age_24No.disabled = true;
-    Age_25.disabled = true; Age_25No.disabled = true;
+    Age1.disabled = true; Age_9No.disabled = true;
+    Age2.disabled = true; Age_14No.disabled = true;
+    Age3.disabled = true; Age_19No.disabled = true;
+    Age4.disabled = true; Age_24No.disabled = true;
+    Age5.disabled = true; Age_25No.disabled = true;
   }
 }
 function disableOptions1(v) {
@@ -628,7 +650,7 @@ popWindow = window.open('/DIC/home1.jsp', 'popWin',
   
     function check(){
   
-for(var i=0; i<=7; i++) {
+for(var i=1; i<=8; i++) {
     var o;
     var t;
     if(document.getElementById("occupationalString")!=null){
@@ -646,7 +668,7 @@ if(document.getElementById("Occupation"+i)!=null){
  
    
   
-for(var i=0; i<=8; i++) {
+for(var i=1; i<=9; i++) {
     var j;
      if(document.getElementById("operation")!=null){
     j= document.getElementById("operation").value;}
@@ -674,29 +696,29 @@ var c= f.split("_");
 //alert(c[i]);
 if(c[i]!=null && t[i]!=null && c[i]!="" && t[i]!="" ){
 //    alert("a"+t[i]);
-  if(c[i] == document.getElementById("Age_9").value) {
+  if(c[i] == document.getElementById("Age1").value) {
       
-       document.getElementById("Age_9").checked=true;
+       document.getElementById("Age1").checked=true;
        document.getElementById("Age_9No").value=t[i];
         
      }
- else if(c[i]==document.getElementById("Age_14").value) {
-                    document.getElementById("Age_14").checked=true;
+ else if(c[i]==document.getElementById("Age2").value) {
+                    document.getElementById("Age2").checked=true;
                      document.getElementById("Age_14No").value=t[i];
         
      }
-  else if(c[i]==document.getElementById("Age_19").value) {
-                    document.getElementById("Age_19").checked=true;
+  else if(c[i]==document.getElementById("Age3").value) {
+                    document.getElementById("Age3").checked=true;
                      document.getElementById("Age_19No").value=t[i];
         
      }
-  else if(c[i]==document.getElementById("Age_24").value) {
-                    document.getElementById("Age_24").checked=true;
+  else if(c[i]==document.getElementById("Age4").value) {
+                    document.getElementById("Age4").checked=true;
                      document.getElementById("Age_24No").value=t[i];
         
      }
-  else if(c[i]==document.getElementById("Age_25").value) {
-                    document.getElementById("Age_25").checked=true;
+  else if(c[i]==document.getElementById("Age5").value) {
+                    document.getElementById("Age5").checked=true;
                      document.getElementById("Age_25No").value=t[i];
         
      }
@@ -1254,16 +1276,19 @@ else{
                  
                     <td> <input type="hidden" name="child" id="child" value="<%= child %>">
                         <input type="hidden" name="childage" id="childage" value="<%= childage %>">
+                        <input type="hidden" name="childageid" id="childageid" value="<%= AgeID %>">
                         <input type="hidden" name="childsID" id="childsID" value="<%= AgesID %>">
-                        <input type="checkbox" name="AgeID0" id="Age_9" value="1"> 0 - 9 yrs
+                        <input type="hidden" name="newchild" id="newchild" value="">
+                        <input type="hidden" name="deletechild" id="deletechild" value="">
+                        <input type="checkbox" name="AgeID0" id="Age1" value="1" onclick="getCheckedChild('1');"> 0 - 9 yrs
                       <input type="text" name="AgeNo0" id ="Age_9No" value="" placeholder="Enter No of Children" ></td>
-                   <td><input type="checkbox" name="AgeID1" id="Age_14" value="2"> 10 - 14 yrs
+                   <td><input type="checkbox" name="AgeID1" id="Age2" value="2" onclick="getCheckedChild('2');"> 10 - 14 yrs
                    <input type="text" name="AgeNo1" id ="Age_14No" value="" placeholder="Enter No of Children" ></td></tr>
-                  <tr class="d0"> <td><input type="checkbox" id="Age_19" name="AgeID2" value="3"> 15-19 yrs
+                  <tr class="d0"> <td><input type="checkbox" id="Age3" name="AgeID2" value="3" onclick="getCheckedChild('3');"> 15-19 yrs
                    <input type="text" name="AgeNo2" id ="Age_19No" value="" placeholder="Enter No of Children" ></td>
-                   <td><input type="checkbox" name="AgeID3" id="Age_24" value="4"> 20 - 24 yrs 
+                   <td><input type="checkbox" name="AgeID3" id="Age4" value="4" onclick="getCheckedChild('4');"> 20 - 24 yrs 
                    <input type="text" name="AgeNo3" id ="Age_24No" value="" placeholder="Enter No of Children" ></td></tr>
-                  <tr class="d1"> <td></td><td><input type="checkbox" name="AgeID4" id="Age_25" value="5"> 25+ yrs
+                  <tr class="d1"> <td></td><td><input type="checkbox" name="AgeID4" id="Age5" value="5" onclick="getCheckedChild('5');"> 25+ yrs
                       <input type="text" name="AgeNo4" id ="Age_25No" value="" placeholder="Enter No of Children" ></td></tr>
 
                   <tr class="d1">
@@ -1370,7 +1395,7 @@ else{
           			</tr>        
               
                   <tr class="d1">
-                      <td>Client Phone # <font style="color: blue">*</font></td><td><input type="text" pattern="(07)[0-9]{8}" onkeypress="return isNumberKey(event)" name="PhoneNo" class="inputSize" value="<%= PhoneNo %>" ></td>
+                      <td>Client Phone # <font style="color: blue">*</font></td><td><input type="text" pattern="(07)[0-9]{8}" name="PhoneNo" onkeypress="return numbers(event);" class="inputSize" value="<%= PhoneNo %>" ></td>
                      
                   </tr>
                   <tr class="d0">
@@ -1378,7 +1403,7 @@ else{
                      
                   </tr>
                   <tr class="d1">
-                      <td>Alternative Phone# </td><td><input type="text" pattern="(07)[0-9]{8}" onkeypress="return isNumberKey(event)" name="PhoneNo1" class="inputSize" value="<%= PhoneNo1 %>"></td>
+                      <td>Alternative Phone# </td><td><input type="text" pattern="(07)[0-9]{8}" onkeypress="return numbers(event);" name="PhoneNo1" class="inputSize" value="<%= PhoneNo1 %>"></td>
                      
                   </tr>
                   <tr class="d0">
@@ -1394,27 +1419,35 @@ else{
                                                       while(conn.rs.next())
                                                            {
                                                          
-				 operation+=conn.rs.getString(4)+"_";
+				 operations+=conn.rs.getString(4)+"_";
 				 OperationsID+=conn.rs.getString(1)+"_";
-        
+         System.out.println("String for operation   "+conn.rs.getString(4));
+                                System.out.println("String for OperationsID     "+conn.rs.getString(1));
                                                         }
                                 
-                                System.out.println("String for operation   "+operation);
+                                System.out.println("String for operation   "+operations);
                                 System.out.println("String for OperationsID     "+OperationsID);
                                 
                          %>
-                  <tr><td><input type="checkbox" name="OperationArea" value="1" id="OperationArea0">Naivasha</td>
-                      <input type="hidden" name="operation" id="operation" value="<%= operation %>">
+                  <tr>
+                      <input type="hidden" name="COPID" id="COPID" value="<%= OperationArea %>">
+                      <input type="hidden" name="operation" id="operation" value="<%= operations %>">
+                      
+                     
+                      
+                      <input type="hidden" name="newoperation" id="newoperation" value="">
+                      <input type="hidden" name="deleteoperation" id="deleteoperation" value="">
                       <input type="hidden" name="OperationsID" id="operationid" value="<%= OperationsID %>">
-                      <td><input type="checkbox" name="OperationArea" value="2" id="OperationArea1">Gilgil</td></tr>
-                  <tr><td><input type="checkbox" name="OperationArea" value="3" id="OperationArea2">Nanyuki</td>
-                      <td><input type="checkbox" name="OperationArea" value="4" id="OperationArea3">Ngong</td></tr>
-                  <tr><td><input type="checkbox" name="OperationArea" value="5" id="OperationArea4">Narok</td>
-                      <td><input type="checkbox" name="OperationArea" value="6" id="OperationArea5">Nakuru</td></tr>
-                  <tr> <td><input type="checkbox" name="OperationArea" value="7" id="OperationArea6">Salgaa</td>
-                     <td><input type="checkbox" name="OperationArea" value="8" id="OperationArea7">Makutano</td></tr>
-                  <tr>  <td><input type="checkbox" name="OperationArea" value="9" id="OperationArea8">Others,Specify 
-                          <input type="text" name="Others" value="" class="inputSize" id="Others"> </td>
+                      <td><input type="checkbox" name="OperationArea"  onclick="getCheckedID('1');" value="1" id="OperationArea1">Naivasha</td>
+                      <td><input type="checkbox" name="OperationArea" value="2" onclick="getCheckedID('2');" id="OperationArea2">Gilgil</td></tr>
+                  <tr><td><input type="checkbox" name="OperationArea" value="3" onclick="getCheckedID('3');" id="OperationArea3">Nanyuki</td>
+                      <td><input type="checkbox" name="OperationArea" value="4" onclick="getCheckedID('4');" id="OperationArea4">Ngong</td></tr>
+                  <tr><td><input type="checkbox" name="OperationArea" value="5" onclick="getCheckedID('5');" id="OperationArea5">Narok</td>
+                      <td><input type="checkbox" name="OperationArea" value="6" onclick="getCheckedID('6');" id="OperationArea6">Nakuru</td></tr>
+                  <tr> <td><input type="checkbox" name="OperationArea" value="7" onclick="getCheckedID('7');"  id="OperationArea7">Salgaa</td>
+                     <td><input type="checkbox" name="OperationArea" value="8" onclick="getCheckedID('8');" id="OperationArea8">Makutano</td></tr>
+                  <tr>  <td><input type="checkbox" name="OperationArea" value="9" onclick="getCheckedID('9');" id="OperationArea9">Others,Specify 
+                          <input type="text" name="Others" value=""  class="inputSize" id="Others"> </td>
                   </tr>
                   
                   
@@ -1515,17 +1548,19 @@ else{
                                 
                          %>
                    
+                    <input type="hidden" name="COCID" id="COCID" value="<%= Occupation %>">
                     <input type="hidden" name="occupationalString" id="occupationalString" value="<%= occupationString %>">
                     <input type="hidden" name="occupationID" id="occupationID" value="<%= occupationID %>">
-                  <tr><td><input type="checkbox" name="Occupation" value="1" id="Occupation0">Small Business  </td>
-                  
-                      <td><input type="checkbox" name="Occupation" value="2" id="Occupation1">Hawking</td></tr>
-                  <tr><td><input type="checkbox" name="Occupation" value="3" id="Occupation2">Farming</td>
-                      <td><input type="checkbox" name="Occupation" value="4" id="Occupation3">Artisan(Jua Kali)</td></tr>
-                  <tr><td><input type="checkbox" name="Occupation" value="5" id="Occupation4">Formal Employment</td>
-                      <td><input type="checkbox" name="Occupation" value="6" id="Occupation5">Sex Work</td></tr>
-                  <tr> <td><input type="checkbox" name="Occupation" value="7" id="Occupation6">Casual Labourer</td>
-                  <tr> <td><input type="checkbox" name="Occupation" value="8" id="Occupation7">None</td>
+                    <input type="hidden" name="newoccupation" id="newoccupation" value="">
+                    <input type="hidden" name="deleteoccupation" id="deleteoccupation" value="">
+                  <tr><td><input type="checkbox" name="Occupation" value="1" onclick="getCheckedOcc('1');" id="Occupation1">Small Business  </td>
+                   <td><input type="checkbox" name="Occupation" value="2"  onclick="getCheckedOcc('2');"  id="Occupation2">Hawking</td></tr>
+                  <tr><td><input type="checkbox" name="Occupation" value="3" onclick="getCheckedOcc('3');" id="Occupation3">Farming</td>
+                      <td><input type="checkbox" name="Occupation" value="4" onclick="getCheckedOcc('4');" id="Occupation4">Artisan(Jua Kali)</td></tr>
+                  <tr><td><input type="checkbox" name="Occupation" value="5" onclick="getCheckedOcc('5');" id="Occupation5">Formal Employment</td>
+                      <td><input type="checkbox" name="Occupation" value="6" onclick="getCheckedOcc('6');" id="Occupation6">Sex Work</td></tr>
+                  <tr> <td><input type="checkbox" name="Occupation" value="7" onclick="getCheckedOcc('7');" id="Occupation7">Casual Labourer</td>
+                  <tr> <td><input type="checkbox" name="Occupation" value="8" onclick="getCheckedOcc('8');" id="Occupation8">None</td>
                   
                   
                   </tr>
@@ -1535,39 +1570,46 @@ else{
                      <td>Are you a member of: 
                  </tr>
                    <tr class="d1">
-                     <td align="right">NHIF</td>
-                     <td>
-                     <select name="member" class="inputSize">
+                  
                          
-                   <%    String Query5= "SELECT * FROM clientmember where MemberID='"+MemberofID+"'";
+                   <%   
+int count=0;                   String Query5= "SELECT * FROM clientmember where MemberID='"+MemberofID+"'";
+                   System.out.println(Query5);
                                conn.state= conn.connect.createStatement();
 				conn.rs = conn.state.executeQuery(Query5);
-                                ArrayList al=null;
+                                ArrayList al= new ArrayList();
 				List userList1 =new ArrayList();
 				List memID =new ArrayList();
                                                       while(conn.rs.next())
                                                            {
-                                                          al  = new ArrayList();
+                                                          count++;
+                                                       
 				 
                                            al.add(conn.rs.getString("MemID"));
                                             userList1.add(al);      
                                            
 				             memID.add(conn.rs.getString(1));
                                                                                                           
-                                                   
+//                                         for(int i=0;i<memID.size();i++){ 
+//                                    System.out.println("kkkk "+memID.get(i)  +"  "+al.get(i));
+//                                }           
                                                        
                                
                                                         }
+                                System.out.println("count  "+count +"____ "+memID.size() +"  "+ al.size());
+                                for(int i=0;i<memID.size();i++){ 
+                                   System.out.println("kkkk "+memID.get(i)  +"  "+al.get(i));
+                                }
                                 
                                
       List users1=null;                         
           if(userList1!=null && userList1.size()>0 ){
   // users1=(List)userList1;
-     id1= userList1.get(0).toString();
+             id1= al.get(0).toString();
      
-     String id2= userList1.get(1).toString();
-     String id3= userList1.get(2).toString();
-     String id4= userList1.get(3).toString();
+     String id2= al.get(1).toString();
+     String id3= al.get(2).toString();
+     String id4= al.get(3).toString();
      
      String memID0= memID.get(0).toString();
      String memID1= memID.get(1).toString();
@@ -1578,14 +1620,19 @@ else{
    System.out.println(id2);  
    System.out.println(id3);  
    System.out.println(id4);  
-    
-if(id1.equals("[1]")) { %>
+ %>
+  <input type="hidden" name="checkifexist" value="0">
+    <td align="right">NHIF</td>
+                     <td>
+                     <select name="member" class="inputSize">
+ <%
+if(id1.equals("1")) { %>
 
                           <option selected value="1">Yes</option>
                           <option  value="2">No</option>
     <% }                    
   
-else if(id1.equals("[2]")){%>
+else if(id1.equals("2")){%>
 
    <option  value="1">Yes</option>
    <option selected value="2">No</option>
@@ -1610,19 +1657,20 @@ else if(id1.equals("[2]")){%>
                      <td align="right">NSSF <font style="color: blue"></font></td>
                      <td><select name="member" class="inputSize">
                             <%                          
-                          if(id2.equals("[1]")) { %>
+                          if(id2.equals("1")) { %>
 
                             <option selected value="1">Yes</option>
                             <option value="2">No</option>
                              <% }                    
 
-                         else if(id2.equals("[2]")){%>
+                         else if(id2.equals("2")){%>
                             <option value="1">Yes</option>
                             <option selected value="2">No</option>
                             <%  } 
      else {
                             %>
                             
+                             <option value=""></option>
                              <option value="1">Yes</option>
                              <option value="2">No</option>
                              
@@ -1635,18 +1683,19 @@ else if(id1.equals("[2]")){%>
                      <td>
                      <select name="member" class="inputSize">
                               <%                          
-                          if(id3.equals("[1]")) { %>
+                          if(id3.equals("1")) { %>
 
                             <option selected value="1">Yes</option>
                             <option  value="2">No</option>
                              <% }                    
 
-                         else if(id3.equals("[2]")){%>
+                         else if(id3.equals("2")){%>
                             <option value="1">Yes</option>
                             <option value="2" selected >No</option>
                             <%  } 
    else{
                             %>
+                             <option value=""></option>
                              <option value="1">Yes</option>
                              <option value="2">No</option>
                              
@@ -1659,19 +1708,20 @@ else if(id1.equals("[2]")){%>
                      <td>
                      <select name="member" class="inputSize">
                              <%                          
-                          if(id4.equals("[1]")) { %>
+                          if(id4.equals("1")) { %>
 
                             <option selected value="1">Yes</option>
                             <option value="2">No</option>
                              <% }                    
 
-                         else if(id4.equals("[2]")){%>
+                         else if(id4.equals("2")){%>
                             <option  value="1">Yes</option>
                             <option selected value="2" >No</option>
                             <%  } 
 
-                             else{
+                               else {
                             %>
+                             <option value=""></option>
                              <option value="1">Yes</option>
                              <option value="2">No</option>
                              <%
@@ -1681,8 +1731,53 @@ else if(id1.equals("[2]")){%>
                       </td>
                  </tr>
                  <%
-          }
+          }else{
       %>
+      
+      <input type="hidden" name="memberid" value="<%=MemberofID%>">
+      <input type="hidden" name="checkifexist" value="1">
+      <tr class="d1">
+                     <td align="right">NHIF</td>
+                     <td>
+                     <select name="nhifmembernew" class="inputSize">
+                             <option value=""></option>
+                             <option value="1">Yes</option>
+                             <option value="2">No</option>
+                     </select>
+                      </td>
+                 </tr>
+                 <tr class="d0">
+                     <td align="right">NSSF <font style="color: blue"></font></td>
+                     <td><select name="nssfmembernew" class="inputSize">
+                             <option value=""></option>
+                             <option value="1">Yes</option>
+                             <option value="2">No</option>
+                     </select>
+                      </td>
+                 </tr>
+                 <tr class="d1">
+                     <td align="right">MicroFinance Group </td>
+                     <td>
+                     <select name="micromember" class="inputSize">
+                             <option value=""></option>
+                             <option value="1">Yes</option>
+                             <option value="2">No</option>
+                     </select>
+                      </td>
+                 </tr>
+                 <tr class="d0">
+                     <td align="right">Women Group </td>
+                     <td>
+                     <select name="womenmembernew" class="inputSize">
+                             <option value=""></option>
+                             <option value="1">Yes</option>
+                             <option value="2">No</option>
+                     </select>
+                      </td>
+                 </tr>
+      
+      
+      <%}%>
                  <tr class="d1">
                      <td>How client learnt about DIC </td>
                      <td>
@@ -1755,4 +1850,176 @@ else if(id1.equals("[2]")){%>
         
         </div>
     </body>
+     <script>
+                        function getCheckedID(id){
+                           var x = id ; 
+//                           alert(x+" "+id);
+                         
+                         if(document.getElementById("OperationArea"+x).checked==true){
+                            
+                            if(document.getElementById("operation").value.indexOf(x)>-1){
+                           if(document.getElementById("deleteoperation").value.indexOf(x)>-1){
+                             var g=document.getElementById("deleteoperation").value;
+                             
+                            g= g.replace(x+"_",""); 
+                            document.getElementById("deleteoperation").value=g;
+                           }
+                        
+                    
+                                     }
+                  
+                              else{
+                             var y= document.getElementById("newoperation").value ;
+                              y+=x+"_";
+                             document.getElementById("newoperation").value=y;
+                                 
+                             } 
+                             
+                         }
+                         else{
+                             
+                         if(document.getElementById("operation").value.indexOf(x)>-1){
+                         
+                             var g=document.getElementById("deleteoperation").value;
+                              g+=x+"_";
+                             document.getElementById("deleteoperation").value=g;
+                          
+                        
+                    
+                                     }
+                  
+                              else{
+                             var y= document.getElementById("newoperation").value ;
+                              y=y.replace(x+"_","");
+                             document.getElementById("newoperation").value=y;
+                                 
+                             } 
+                             
+                         }
+                       
+                   }
+                   
+                   
+                       function getCheckedOcc(id){
+                           var x = id ; 
+//                           alert(x+" "+id);
+                         
+                         if(document.getElementById("Occupation"+x).checked==true){
+                            
+                            if(document.getElementById("occupationalString").value.indexOf(x)>-1){
+                           if(document.getElementById("deleteoccupation").value.indexOf(x)>-1){
+                             var g=document.getElementById("deleteoccupation").value;
+                             
+                            g= g.replace(x+"_",""); 
+                            document.getElementById("deleteoccupation").value=g;
+                           }
+                        
+                    
+                                     }
+                  
+                              else{
+                             var y= document.getElementById("newoccupation").value ;
+                              y+=x+"_";
+                             document.getElementById("newoccupation").value=y;
+                                 
+                             } 
+                             
+                         }
+                         else{
+                             
+                         if(document.getElementById("occupationalString").value.indexOf(x)>-1){
+                         
+                             var g=document.getElementById("deleteoccupation").value;
+                              g+=x+"_";
+                             document.getElementById("deleteoccupation").value=g;
+                          
+                        
+                    
+                                     }
+                  
+                              else{
+                             var y= document.getElementById("newoccupation").value ;
+                              y=y.replace(x+"_","");
+                             document.getElementById("newoccupation").value=y;
+                                 
+                             } 
+                             
+                         }
+                       
+                   }
+                             
+                    function getCheckedChild(id){
+                           var x = id ; 
+//                           alert(x+" "+id);
+                         
+                         if(document.getElementById("Age"+x).checked==true){
+                            
+                            if(document.getElementById("child").value.indexOf(x)>-1){
+                           if(document.getElementById("deletechild").value.indexOf(x)>-1){
+                             var g=document.getElementById("deletechild").value;
+                             
+                            g= g.replace(x+"_",""); 
+                            document.getElementById("deletechild").value=g;
+                           }
+                        
+                    
+                                     }
+                  
+                              else{
+                             var y= document.getElementById("newchild").value ;
+                              y+=x+"_";
+                             document.getElementById("newchild").value=y;
+                                 
+                             } 
+                             
+                         }
+                         else{
+                             
+                         if(document.getElementById("child").value.indexOf(x)>-1){
+                         
+                             var g=document.getElementById("deletechild").value;
+                              g+=x+"_";
+                             document.getElementById("deletechild").value=g;
+                          
+                        
+                    
+                                     }
+                  
+                              else{
+                             var y= document.getElementById("newchild").value ;
+                              y=y.replace(x+"_","");
+                             document.getElementById("newchild").value=y;
+                                 
+                             } 
+                             
+                         }
+                       
+                   }
+                                        
+                          
+                      </script>
 </html>
+
+<%
+
+  if(conn.rs!=null){ conn.rs.close();}
+         if(conn.rs1!=null){ conn.rs1.close();}
+         if(conn.rs2!=null){ conn.rs2.close();}
+         if(conn.rs3!=null){ conn.rs3.close();}
+         if(conn.rs4!=null){ conn.rs4.close();}
+         if(conn.rs5!=null){ conn.rs5.close();}
+         if(conn.rs6!=null){ conn.rs6.close();}
+         if(conn.rs7!=null){ conn.rs7.close();}
+        
+         if(conn.state!=null){ conn.state.close();}
+         if(conn.state1!=null){ conn.state1.close();}
+         if(conn.state2!=null){ conn.state2.close();}
+         if(conn.state3!=null){ conn.state3.close();}
+         if(conn.state4!=null){ conn.state4.close();}
+         if(conn.state5!=null){ conn.state5.close();}
+         if(conn.state6!=null){ conn.state6.close();}
+         if(conn.state7!=null){ conn.state7.close();}
+
+
+
+%>
