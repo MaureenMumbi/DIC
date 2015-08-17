@@ -143,7 +143,7 @@ public class Capture1
 //select.holdfingerprint(uniqid, bytesToHexString1(fb));
 
                    boolean dbsaved = savetodb1(uniqid,capturedhand, bytesToHexString1(fb),capturedfinger);
-
+System.out.println("capturedfinger "+capturedfinger);
 
                     if (dbsaved) {
                         
@@ -329,12 +329,12 @@ public class Capture1
     }
 
 //=============================================METHOD TO SAVE CONTENTS TO THE DATABASE=====================================           
-    public boolean savetodb1(String uid,String hands, String fingerprint,String capturedfinger) {
+    public boolean savetodb1(String uid,String hands, String fingerprint,String capturedfingers) {
         try {
 
             String fpr = fingerprint;
             String handss=hands;
-            String finger=capturedfinger;
+            String fingers=capturedfingers;
             dbConnect conn = new dbConnect();
 String biofing="";
 System.out.println(fpr);
@@ -352,7 +352,7 @@ if(conn.rs2.next()==true){
                    System.out.println("Encrypted:_______+++++++ " + AES.getEncryptedString());
                     biofing=AES.getEncryptedString();
                      }
-            String addtodb = "update enrollment SET fingerprint='" + biofing + "', capturedhand='"+handss+"',capturedfinger='"+finger+"' where UniqueID='" + uid + "'";
+            String addtodb = "update enrollment SET fingerprint='" + biofing + "', capturedhand='"+handss+"',capturedfinger='"+fingers+"', syncstatus='0' where UniqueID='" + uid + "'";
 
             System.out.println(addtodb);
 

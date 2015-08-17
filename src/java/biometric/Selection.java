@@ -66,7 +66,7 @@ public class Selection extends HttpServlet {
         hand=request.getParameter("hand");
         finger=request.getParameter("capturedfinger");
         Fingerprintstring="";
-        
+        System.out.println("capturedfinger "+uniqueid+"   "+hand+"  "+finger);
         
         
      
