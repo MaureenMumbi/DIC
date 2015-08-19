@@ -964,6 +964,14 @@
         <servlet-name>saveLastInternectConn</servlet-name>
         <servlet-class>DBCREDENTIALSFILE.saveLastInternectConn</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SyncMissingData</servlet-name>
+        <servlet-class>DBCREDENTIALSFILE.SyncMissingData</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>invokeglobalsyncing</servlet-name>
+        <servlet-class>biometric.invokeglobalsyncing</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Enroll</servlet-name>
         <url-pattern>/Enroll</url-pattern>
@@ -1927,6 +1935,14 @@
     <servlet-mapping>
         <servlet-name>saveLastInternectConn</servlet-name>
         <url-pattern>/saveLastInternectConn</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SyncMissingData</servlet-name>
+        <url-pattern>/SyncMissingData</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>invokeglobalsyncing</servlet-name>
+        <url-pattern>/invokeglobalsyncing</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

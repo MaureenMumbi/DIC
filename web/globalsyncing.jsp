@@ -32,9 +32,6 @@ else
 }
 
 </script>
-
-
-
  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
  <link rel="StyleSheet" href="main.css" type="text/css" />
  <style type="text/css">
@@ -47,7 +44,8 @@ else
                 width:900px; 
     }
     </style>
-     
+    
+    
     <!----------------------button style----------------------->
        <style>
        .btn {
@@ -79,6 +77,7 @@ else
 </style>
        
        <!--------------------------------------------------------->
+       
     
     
  <script type="text/javascript">
@@ -107,9 +106,16 @@ else
          <script>   
          function newuser(){
     
+    
+                     
+                    
+            
+    
+
                 // window.open("districtchooser?county="+dist.value);     
                 var xmlhttp;  
        
+                
                 if (window.XMLHttpRequest)
                 {// code for IE7+, Firefox, Chrome, Opera, Safari
                     xmlhttp=new XMLHttpRequest();
@@ -129,7 +135,7 @@ else
   document.getElementById("capturefp").innerHTML="<font color=\"white\"><b>Detect New User</b></font></p>";
                     }
                 }
-                xmlhttp.open("POST","searchFP",true);
+                xmlhttp.open("POST","invokeglobalsyncing",true);
                 xmlhttp.send();
                 document.getElementById("replymsg").innerHTML="<img src=\"images/sending.gif\" alt=\"searching\"> Launching fingerprint scanner!!";
 //               
@@ -228,28 +234,13 @@ else{ %>
 
                         %>
 
-       <% 
- 
- //get the helps from the database.
- 
- String Sectionshelp[]=new String [12];
-int mcount=0;
-conn.rs2=conn.state2.executeQuery("Select * from help where help_id<='12'");
-while(conn.rs2.next()){
-    
-Sectionshelp[mcount]=conn.rs2.getString(2);
-if(mcount<=12){
-mcount++;
-}
-}
-
-%>
-<h2>Verify Fingerprint</h2>
+      
+<h2>Sync data from online storage for a specific Client</h2>
 <table> 
 <!--    <a href="#" onclick="newuser();" class="button blue" id="capturefp" style="">
         <b><font color="white">Detect New User</font></b>
     </a> -->
-     <td class="sorting_1"><input type="button" class='btn' name="capture"  id="capturefp" value="Capture Fingerprint" onclick="newuser();"></td>
+     <td class="sorting_1"><input type="button" class="btn" name="capture"  id="capturefp" value="Start Syncing" onclick="newuser();"></td><td><h3>(Requires Internet Connectivity)</h3></td>
               
 </table>  
                     <table class="viewpdt" id="presentmembers" style="width:800px;margin-left: 50px;">

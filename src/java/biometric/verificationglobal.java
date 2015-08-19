@@ -8,6 +8,7 @@ package biometric;
  *
  * @author SIXTYFOURBIT
  */
+import DBCREDENTIALSFILE.SyncMissingData;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,10 +27,11 @@ import javax.swing.JTextArea;
 import com.digitalpersona.uareu.*;
 import dbConnect.AES;
 import dbConnect.dbConnect;
+import dbConnect.dbConnectTemp;
 import java.math.BigInteger;
 import java.util.Calendar;
 
-public class verification 
+public class verificationglobal 
 	extends JPanel
 	implements ActionListener
 {
@@ -47,10 +49,10 @@ public class verification
 	 public static String Uniqid="";
            String decfingerprint="" ;
       
-	private final String m_strPrompt1 = "Verification started\n    put your registered finger on the reader\n\n";
-	private final String m_strPrompt2 = "    put the same or any other finger on the reader\n\n";
+	private final String m_strPrompt1 = "Put your registered finger on the reader to sync data\n\n";
+	private final String m_strPrompt2 = "put the same or any other finger on the reader\n\n";
 
-	private verification(Reader reader){
+	private verificationglobal(Reader reader){
 		m_reader = reader;
 		m_fmds = new Fmd[2]; //two FMDs to perform comparison
 
@@ -142,14 +144,14 @@ public class verification
                         //========================================DB COMPARISON======================================================                             
                                                      //select * from the database
                                                      
-                                           dbConnect conn = new dbConnect();
+                                           dbConnectTemp conn = new dbConnectTemp();
 
                         System.out.println("Performing Fingerprint Comparison");
 
+                        m_text.append("Syncing in progress...\nPlease Be Patient ");   
+                        //read the fsws whose fingerprints are captured
                         
-                        //read the chws whose fingerprints are captured
-                        
-                        conn.rs = conn.state.executeQuery("select * from enrollment where fingerprint!='new data' && fingerprint!=''");
+                        conn.rs = conn.state.executeQuery("select UniqueID,fingerprint from enrollment where  fingerprint!='null' && fingerprint is not null && fingerprint!=''");
                         int mycount=0;
                         
                          int userdetacted=0;  
@@ -184,52 +186,43 @@ public class verification
                                     
 
                        int target_falsematch_rate = Engine.PROBABILITY_ONE / 100000; //target rate is 0.00001
-                                    
+                          
+                              
                                  
                        if (falsematch_rate < target_falsematch_rate) {
                                         
                             userdetacted=1;
                             Uniqid=conn.rs.getString("UniqueID");
-//                            String texttodisplay="___"+conn.rs.getString("FirstName") +" "+conn.rs.getString("LastName") +" has matched \n";
+                            
+                            SyncMissingData sd=new SyncMissingData();
+                            if(sd.syncbetweentwodics(Uniqid)==true){
+                            
+                            System.out.println("Syncing complete");
+                                m_text.append("________________________\nSyncing completed Successfully\n________________________\n");  
+                            
+                            }
+                            else {
+                            m_text.append("Data Syncing completed with an error\n");  
+                            }
+                       //String texttodisplay="___"+conn.rs.getString("FirstName") +" "+conn.rs.getString("LastName") +" has matched \n";
                             
                             // Toolkit.getDefaultToolkit().beep(); 
                       // m_text.append("___Match Found___\n");
                      
-                        System.out.println("Fingerprints matched"+Uniqid);                
+                                    
                           
-                          Calendar cal = Calendar.getInstance();
+       Calendar cal = Calendar.getInstance();
 
        int hour = cal.get(Calendar.HOUR_OF_DAY);
        int min = cal.get(Calendar.MINUTE);
        int sec = cal.get(Calendar.SECOND);
                         
-          String time_of_day=hour+":"+min+":"+sec;              
-                        //insert into attendance register
+      String time_of_day=hour+":"+min+":"+sec;              
+         //insert into attendance register
           
           
-//          String chwid=conn.rs.getString("chwid") ;
-//          
-//                        String myqry="Insert into attendance(venueid,chwid,date,timein,Agenda)values('"+locationid+"','"+chwid +"','"+tdate+"','"+time_of_day+"','Reports')";
-//                        System.out.println(myqry);
-//                        
-//                        //avoid saving chwid twice..
-//                        
-//                        conn.rs4=conn.state4.executeQuery("select * from attendance where chwid='"+chwid+"' and date='"+tdate+"'");
-//                        
-//                        if(!conn.rs4.next()){
-//                             
-//                        conn.state3.executeUpdate(myqry);
-//                        
-//                        }
-//                        
-//                        else{
-//                        
-//                       System.out.println("user already checked in_____\n"); 
-//                       texttodisplay="___"+conn.rs.getString("fname") +" "+conn.rs.getString("lname") +" has AlREADY checked in_____\n"; 
-//                       
-//                        }
                         
-                          m_text.append("Fingerprint Matched");
+                       
                         
                         
                        String str = String.format("dissimilarity score: 0x%x.\n", falsematch_rate);
@@ -281,7 +274,7 @@ public class verification
                                                          m_fmds[1] = null;
 
                                                          //the new loop starts
-                                                       //  m_text.append("  successfully.");
+                                                         //m_text.append("  successfully.");
 //                                                         StopCaptureThread();
                                                          
                                                          
@@ -396,8 +389,8 @@ public class verification
         
         
 	public static String Run(Reader reader){
-    	JDialog dlg = new JDialog((JDialog)null, "CHECK IN USING YOUR REGISTERED FINGERPRINT", true);
-    	verification verification = new verification(reader);
+    	JDialog dlg = new JDialog((JDialog)null, "PLACE REGISTERED FINGERPRINT", true);
+    	verificationglobal verification = new verificationglobal(reader);
     	verification.doModal(dlg);
         
         return Uniqid;

@@ -23,6 +23,42 @@ String mindate="";
        <script src="js/datepicker.js"></script>
        <script src="admin/ui/jquery.ui.datepicker.js"></script>
        <script src="js/DICHelp.js"></script>
+       
+       <!----------------------button style----------------------->
+       <style>
+       .btn {
+  background: #d9344f;
+  background-image: -webkit-linear-gradient(top, #d9344f, #b82b2b);
+  background-image: -moz-linear-gradient(top, #d9344f, #b82b2b);
+  background-image: -ms-linear-gradient(top, #d9344f, #b82b2b);
+  background-image: -o-linear-gradient(top, #d9344f, #b82b2b);
+  background-image: linear-gradient(to bottom, #d9344f, #b82b2b);
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  font-family: Georgia;
+  color: #ffffff;
+  font-size: 13px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #3cb0fd;
+  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  text-decoration: none;
+}
+</style>
+       
+       <!--------------------------------------------------------->
+       
+       
+       
+       
 	 <script>	
                 $(function() {
                       var dateTodays = new Date(); 
@@ -869,8 +905,9 @@ return true;
 
 String query2="SELECT max(UniqueID) from dummy";
 int Unique=0;
-conn.state= conn.connect.createStatement();
  if(conn.state.isClosed()){conn= new dbConnect();}
+conn.state= conn.connect.createStatement();
+
 conn.rs = conn.state.executeQuery(query2);
 
 while(conn.rs.next()){
@@ -949,8 +986,9 @@ else{ %>
  
  String Sectionshelp[]=new String [12];
 int mcount=0;
-conn.rs2=conn.state2.executeQuery("Select * from help where help_id<='12'");
  if(conn.state2.isClosed()){conn= new dbConnect();}
+conn.rs2=conn.state2.executeQuery("Select * from help where help_id<='12'");
+
 while(conn.rs2.next()){
     
 Sectionshelp[mcount]=conn.rs2.getString(2);
@@ -1069,8 +1107,9 @@ mcount++;
                                                
 
          QueryDist= "SELECT District,DistrictID FROM districts where DistrictID!='1' and DistrictID!='5'";
-                    conn.rs = conn.state.executeQuery(QueryDist);
-                                 if(conn.state.isClosed()){conn= new dbConnect();}
+          if(conn.state.isClosed()){conn= new dbConnect();}           
+         conn.rs = conn.state.executeQuery(QueryDist);
+                                
                                                       while(conn.rs.next())
                                                            {
                                                    %>                                                                       
@@ -1142,7 +1181,7 @@ mcount++;
                             
 
 <!--                    <a href="#" class="button blue" id="capturefp" onclick="return getReader();"  style="background-color:#202020 ;color:white ; height:30px; width:166px;"><b><font color="white">Capture Fingerprint</font></b></a> </section>-->
-      <a href="#" title="Ensure the fingerprint scanner device is plugged into a usb port" onclick="capturefingerprint();" class="linkstyle">Capture fingerprint</a>
+      <a href="#"  title="Ensure the fingerprint scanner device is plugged into a usb port" onclick="capturefingerprint();" class="linkstyle">Capture fingerprint</a>
     
                             </td></tr>
                             
@@ -1185,9 +1224,10 @@ mcount++;
                <%
              
                                                       String Query= "SELECT Marital_Status,Marital_StatusID FROM Marital_Status";
-                                                     conn.state= conn.connect.createStatement();
+                                                      if(conn.state.isClosed()){conn= new dbConnect();}
+                                                      conn.state= conn.connect.createStatement();
 				conn.rs = conn.state.executeQuery(Query);
-                                 if(conn.state.isClosed()){conn= new dbConnect();}
+                                
                                                       while(conn.rs.next())
                                                            {
                                                    %>                                                                       
@@ -1490,9 +1530,10 @@ mcount++;
                           <option value=""></option> 
                <%
                             String Query5= "SELECT ClientLearnt,ClientLearntID FROM clientlearnt";
-                                                     conn.state= conn.connect.createStatement();
+                              if(conn.state.isClosed()){conn= new dbConnect();}                         
+                            conn.state= conn.connect.createStatement();
 				conn.rs = conn.state.executeQuery(Query5);
-                                 if(conn.state.isClosed()){conn= new dbConnect();}
+                               
                                                       while(conn.rs.next())
                                                            {
                                                    %>                                                                       
