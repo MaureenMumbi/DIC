@@ -7,6 +7,18 @@
 <%@page import="dbConnect.dbConnect"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
+<%if(session.getAttribute("accessTrail")!=null){ %>
+<%@page import="Maintenance.saveAccessTrail"%>
+<%
+saveAccessTrail access = new saveAccessTrail();
+String task="Accessed added a new medical form . ";
+String username=session.getAttribute("accessTrail").toString();
+access.addAccess(username,task);
+
+%>
+<%}%>
+
 <html>
 
 <head>

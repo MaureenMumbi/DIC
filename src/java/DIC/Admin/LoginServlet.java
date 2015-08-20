@@ -107,9 +107,15 @@ String inserter="insert into taskauditor set host_comp='"+computername+" "+ip+"'
                                         }
 //                                        conn.rs.close();
                                              
-       String AccessLevel="",user="";        
-               
-        		
+       String AccessLevel="",user=""; 
+       
+       
+          System.out.println(">>>>      DELETE THIS CODE      >>>>>>>>");              
+           session.setAttribute("accessTrail", conn.rs.getString("Username"));
+          System.out.println("access user name : "+session.getAttribute("accessTrail").toString()); 
+          
+          System.out.println(">>>>     UP TO HERE    >>>>>>>>");   
+          
 	if(session.getAttribute("AccessLevel")!=null){		
        AccessLevel=session.getAttribute("AccessLevel").toString();
         }
@@ -122,16 +128,22 @@ String inserter="insert into taskauditor set host_comp='"+computername+" "+ip+"'
 //            System.out.println("host name is : "+conn.rs.getString(1));
         user=conn.rs.getString(1);
        }
-       
-       if(!AccessLevel.equals("2")  && !user.startsWith("root@")){
+     
+        
+       if(!(user.equals("root@10.5.15.41")|| user.equals("root@fhi360-pc3") || user.equals("root@localhost")  || user.equals("root@127.0.0.1") )){
+       session.setAttribute("accessTrail", conn.rs.getString("Username"));
+       }
+       if(!AccessLevel.equals("2")  && !(user.equals("root@10.5.15.41")|| user.equals("root@fhi360-pc3") || user.equals("root@localhost")  || user.equals("root@127.0.0.1") )){
         session.setAttribute("lockNames", "YES");
        }
        else{
        session.setAttribute("lockNames", "NO");     
        }
-      
-           System.out.println("to lock : "+session.getAttribute("lockNames").toString());          
-                
+      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+       System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+           System.out.println("to lock : "+session.getAttribute("lockNames").toString()+" access trails : "+session.getAttribute("accessTrail").toString());          
+         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");        
                
                                     }
 

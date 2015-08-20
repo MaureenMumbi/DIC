@@ -8,6 +8,19 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
+<%if(session.getAttribute("accessTrail")!=null){ %>
+<%@page import="Maintenance.saveAccessTrail"%>
+<%
+saveAccessTrail access = new saveAccessTrail();
+String task="Accessed Backing up data module. ";
+String username=session.getAttribute("accessTrail").toString();
+access.addAccess(username,task);
+
+%>
+<%}%>
+
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

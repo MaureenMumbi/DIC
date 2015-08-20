@@ -33,6 +33,19 @@
 //    }
 %>
 <!DOCTYPE html>
+
+<%if(session.getAttribute("accessTrail")!=null){ %>
+<%@page import="Maintenance.saveAccessTrail"%>
+<%
+saveAccessTrail access = new saveAccessTrail();
+String task="Accessed DA Module for Missing data in HIV Status. ";
+String username=session.getAttribute("accessTrail").toString();
+access.addAccess(username,task);
+
+%>
+<%}%>
+
+
 <html>
     <head>
          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

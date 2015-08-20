@@ -5,6 +5,7 @@
 package DIC.Admin;
 
 import Maintenance.BehaviourBean;
+import Maintenance.saveAccessTrail;
 import dbConnect.dbConnect;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -71,6 +72,14 @@ enddate=request.getParameter("enddate");
 //				  userList.add(al);
 				}
 
+if(session.getAttribute("accessTrail")!=null){
+saveAccessTrail access = new saveAccessTrail();
+String task="Loaded risk assessment forms for all the clients for possible editing or deleting. ";
+String username=session.getAttribute("accessTrail").toString();
+access.addAccess(username,task);
+}
+                                
+                                
 //				request.setAttribute("userList",userList);
 				  session.setAttribute("assessments", assessments);
                                 String nextJSP = "/admin/viewAssess.jsp";
