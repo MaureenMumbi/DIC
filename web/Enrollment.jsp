@@ -10,6 +10,18 @@
   dbConnect conn = new dbConnect();
 String mindate="";
 %>
+
+<%if(session.getAttribute("accessTrail")!=null){ %>
+<%@page import="Maintenance.saveAccessTrail"%>
+<%
+saveAccessTrail access = new saveAccessTrail();
+String task="Accessed Client enrollment module.";
+String username=session.getAttribute("accessTrail").toString();
+access.addAccess(username,task);
+
+%>
+<%}%>
+
 <html>
     <head>
         <!--The below code creates a form and shows the input fields-->

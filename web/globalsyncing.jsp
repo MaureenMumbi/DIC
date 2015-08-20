@@ -9,6 +9,18 @@
 
 dbConnect conn = new dbConnect();
 %>
+
+<%if(session.getAttribute("accessTrail")!=null){ %>
+<%@page import="Maintenance.saveAccessTrail"%>
+<%
+saveAccessTrail access = new saveAccessTrail();
+String task="Accessed global syncing module. Users are required to sync data from online server using this module.";
+String username=session.getAttribute("accessTrail").toString();
+access.addAccess(username,task);
+
+%>
+<%}%>
+
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">

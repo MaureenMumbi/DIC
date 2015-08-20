@@ -4,6 +4,20 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
+
+<%if(session.getAttribute("accessTrail")!=null){ %>
+<%@page import="Maintenance.saveAccessTrail"%>
+<%
+saveAccessTrail access = new saveAccessTrail();
+String task="Accessed Risk Assessment module. i.e page to enter client unique ID ";
+String username=session.getAttribute("accessTrail").toString();
+access.addAccess(username,task);
+
+%>
+<%}%>
+
+
+
 <!DOCTYPE html>
 <%!
 
