@@ -40,6 +40,7 @@ HttpSession session;
      AccessLevel=user=""; 
        String start_date="";
        String end_date="";
+       String finger="";
       if(request.getParameter("DICName")!=null && !request.getParameter("DICName").equals("")){
       DICName = request.getParameter("DICName");}
         if(request.getParameter("startdate")!=null && !request.getParameter("startdate").equals("")){
@@ -114,6 +115,7 @@ HttpSession session;
                                  DB.setDOE(conn.rs.getString("DOE"));
                                  DB.setDICNAME(conn.rs.getString("DICName"));
                                  DB.setHAND(conn.rs.getString("capturedhand"));
+                                 DB.setFINGER(conn.rs.getString("capturedfinger"));
 			
 				enrollments.add(DB);
 				}

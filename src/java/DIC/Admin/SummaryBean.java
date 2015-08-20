@@ -15,6 +15,15 @@ public class SummaryBean {
     String DICNAME;
     String CLIENTINIT;
 String HAND;
+
+    public String getFINGER() {
+        return FINGER;
+    }
+
+    public void setFINGER(String FINGER) {
+        this.FINGER = FINGER;
+    }
+String FINGER;
     public String getNAME() {
         return NAME;
     }

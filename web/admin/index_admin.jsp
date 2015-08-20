@@ -68,7 +68,7 @@
     String username=(String)session.getAttribute("Username");
       
                if(session.getAttribute("Username")==null){
-                    response.sendRedirect("index.jsp"); 
+                    response.sendRedirect("/DIC/index.jsp"); 
                }           
      
         else{

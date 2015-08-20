@@ -51,8 +51,9 @@
                                 changeMonth: true,
                                 changeYear: true,
                                 yearRange:'2011:2015',
-                                maxDate: dateToday,
-                                minDate:dt
+                                maxDate: dateToday
+//                                ,
+//                                minDate:dt
                         });
                     
                 });

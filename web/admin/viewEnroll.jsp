@@ -86,9 +86,11 @@ function deleteRecord(UniqueID){
        var id= UniqueID; 
        // alert(id)
         var handid="capturedhand"+id;
+        var capturedfingerid="capturedfinger"+id;
        // alert(handid);
        var hand= document.getElementById(handid).value;
-       // alert(hand);
+       var capturedfinger= document.getElementById(capturedfingerid).value;
+//        alert(capturedfinger);
         var xmlhttp;  
                 
                
@@ -110,7 +112,7 @@ function deleteRecord(UniqueID){
        // window.location.reload();
                     }
                 }
-                xmlhttp.open("POST","/DIC/Selection?uniqueid="+id+"&hand="+hand,true);
+                xmlhttp.open("POST","/DIC/Selection?uniqueid="+id+"&hand="+hand+"&capturedfinger="+capturedfinger,true);
                 xmlhttp.send();
 //                document.getElementById("example").innerHTML="";
    document.getElementById("msg").innerHTML="<img src=\"images/sending.gif\" alt=\"searching\">Adding fingerprint";
@@ -205,6 +207,7 @@ else{
 			<th>DOE</th>
 			<th>EDIT</th>
 			<th>Hand Used</th>
+			<th>Finger Used</th>
                         <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%><th>CAPTURE FINGERPRINT</th><%}}%>
 			 <% if(session.getAttribute("AccessLevel")!=null){
                          if (session.getAttribute("AccessLevel").equals("2")){%><th>DELETE FSW</th><%}}%>
@@ -235,10 +238,12 @@ else{
           <c:set var="dicname"  value="${today.DICNAME}"></c:set>
           <c:set var="doe"  value="${today.DOE}"></c:set>
           <c:set var="hand"  value="${today.HAND}"></c:set>
+          <c:set var="finger"  value="${today.FINGER}"></c:set>
            
         <input type="hidden" id="UniqueID" name="UniqueID" value="<%= pageContext.getAttribute("UniqueID")%>" />
         <input type="hidden" id="Name" name="Name" value="<%= pageContext.getAttribute("Name")%>" />
         <input type="hidden" id="Hand" name="Hand" value="<%= pageContext.getAttribute("hand")%>" />
+        <input type="hidden" id="Finger" name="Finger" value="<%= pageContext.getAttribute("finger")%>" />
          
              <tr id="<%=pageContext.getAttribute("UniqueID")%>">
            
@@ -260,6 +265,13 @@ else{
                                     <option value="left hand">left hand</option>
                                     <option value="left and right">both hands</option>
                                 </select> ${today.HAND} </td>
+                   
+                            <td><select name="capturedfinger" required id="capturedfinger${today.UNIQUEID}">
+                                    <option value="">Captured Finger</option>
+                                    <option value="thumb" > Thumb</option>
+                                    <option value="middle">Middle Finger</option>
+                                    
+                                </select> ${today.FINGER}</td>
                       
               <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%><td class="sorting_1"><input type="button"  name="capture" value="Capture Fingerprint" onclick="capturefingerprint('${today.UNIQUEID}')"></td><%}}%>
                

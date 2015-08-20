@@ -42,11 +42,31 @@ public class visitSummary extends HttpServlet {
 		dbConnect conn = new dbConnect();		
 		    String FirstName="";
       String MiddleName="";
-      String LastName="";		
+      String LastName="";
+      String dicname="";
+     String alldata="";
+      if(request.getParameter("DICName")!=null && !request.getParameter("DICName").equals("")){
+      dicname=request.getParameter("DICName");}
+      System.out.println(" dicname  "+dicname);
 			session =request.getSession();	
+				alldata+="<thead>\n" +
+"		<tr>" +
+"			<th>UniqueID</th>" ;
+
+    alldata+="<th>Full Name</th>";
+
+alldata+="<th>Client Initials</th>\n" +
+"           <th>DIC Name</th>\n" +
+"           <th>DOA</th>\n" +
+"           <th>LAST VISIT</th>\n" +
+"		</tr>\n" +
+"	</thead><tbody>";
 				
-				String query = "select * from enrollment";
-				
+String query="SELECT riskassessmentmain.UniqueID,FirstName,SecondName,LastName,ClientInit,AssessmentDate,enrollment.DICName from enrollment,riskassessmentmain WHERE enrollment.UniqueID=riskassessmentmain.UniqueID  and enrollment.DICName='"+dicname+"' and "
+        + " AssessmentDate IN (SELECT MAX(AssessmentDate) FROM riskassessmentmain GROUP BY riskassessmentmain.UniqueID)";
+
+//String query = "select * from enrollment,riskassessmentmain where enrollment.UniqueID=riskassessmentmain.UniqueID and   DICName='"+dicname+"' and MAX(STR_TO_DATE(riskassessmentmain.DOA,'%e/%c/%Y'))";
+				  System.out.println(query);
 				conn.rs = conn.state.executeQuery(query);
 
 
@@ -54,7 +74,7 @@ public class visitSummary extends HttpServlet {
 				{
 					
 				 SummaryBean DB= new SummaryBean();
-                                 DB.setUNIQUEID(conn.rs.getString("UniqueID"));
+                                 DB.setUNIQUEID(conn.rs.getString(1));
                                 if(session.getAttribute("lockNames")==null){
                                 DB.setNAME("");     
                                 }
@@ -65,26 +85,26 @@ public class visitSummary extends HttpServlet {
                                 else{
                                      final  String strPssword ="?*1>9@(&#"; 
               AES.setKey(strPssword);
-                         if(conn.rs.getString("FirstName")!=null && !conn.rs.getString("FirstName").trim().equals("") && !conn.rs.getString("FirstName").equals("null")){
+                         if(conn.rs.getString(2)!=null && !conn.rs.getString(2).trim().equals("") && !conn.rs.getString(2).equals("null")){
                                     
-                                        AES.decrypt(conn.rs.getString("FirstName").trim());
-                                       System.out.println("String To Decrypt : " +  conn.rs.getString("FirstName"));
+                                        AES.decrypt(conn.rs.getString(2).trim());
+                                       System.out.println("String To Decrypt : " +  conn.rs.getString(2));
                                        System.out.println("Decrypted : " + AES.getDecryptedString());
                                                    
                                                       FirstName =  AES.getDecryptedString()  ;
                                                    }
                                        
-                          if(conn.rs.getString("SecondName")!=null && !conn.rs.getString("SecondName").trim().equals("") && !conn.rs.getString("SecondName").equals("null")){               
+                          if(conn.rs.getString(3)!=null && !conn.rs.getString(3).trim().equals("") && !conn.rs.getString(3).equals("null")){               
 //                        
-                    AES.decrypt(conn.rs.getString("SecondName").trim());
-                     System.out.println("String To Decrypt : " + conn.rs.getString("SecondName"));
+                    AES.decrypt(conn.rs.getString(3).trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString(3));
                     System.out.println("Decrypted : " + AES.getDecryptedString());
                     MiddleName=AES.getDecryptedString();
                           }
-                      if(conn.rs.getString("LastName")!=null && !conn.rs.getString("LastName").trim().equals("") && !conn.rs.getString("LastName").equals("null")){
+                      if(conn.rs.getString(4)!=null && !conn.rs.getString(4).trim().equals("") && !conn.rs.getString(4).equals("null")){
 //                      Lastname =  conn.rs.getString("LastName");
-                    AES.decrypt(conn.rs.getString("LastName").trim());
-                     System.out.println("String To Decrypt : " + conn.rs.getString("LastName"));
+                    AES.decrypt(conn.rs.getString(4).trim());
+                     System.out.println("String To Decrypt : " + conn.rs.getString(4));
                      LastName=AES.getDecryptedString();
                     System.out.println("Decrypted : " + AES.getDecryptedString());
                     
@@ -95,24 +115,38 @@ public class visitSummary extends HttpServlet {
                      
                                  DB.setNAME(FirstName +" "+MiddleName+" "+LastName);
                                     
-                                    
+                                    System.out.println("names  "+FirstName +" "+MiddleName+" "+LastName);
                                     
                                     
 //                                 DB.setNAME(conn.rs.getString("FirstName") +" "+conn.rs.getString("SecondName")+" "+conn.rs.getString("LastName"));
                                 }
                                 }
-                                 DB.setCLIENTINIT(conn.rs.getString("ClientInit"));
-                                 DB.setDOE(conn.rs.getString("DOE"));
-                                 DB.setDICNAME(conn.rs.getString("DICName"));
+                                 DB.setCLIENTINIT(conn.rs.getString(5));
+                                 DB.setDOE(conn.rs.getString(6));
+                                 DB.setDICNAME(conn.rs.getString(7));
 			
 				summary.add(DB);
-				}
+				
+                    alldata+=" <tr id='"+conn.rs.getString(1)+"'>\n" +
+"           \n" +
+"           <td class=\"sorting_1\">"+conn.rs.getString(1)+"</td>\n" ;
+
+   alldata+="<td class=\"sorting_1\">"+FirstName +" "+MiddleName+" "+LastName+"</td>";
+
+alldata+="<td class=\"sorting_1\">"+conn.rs.getString(5)+" </td>\n" +
+"         <td class=\"sorting_1\">"+conn.rs.getString(7)+" </td>\n" +
+"         <td class=\"sorting_1\">"+conn.rs.getString(6)+" </td>\n" +
+"         <td class=\"sorting_1\"><input type=\"button\"  name=\"view\" value=\"Last Visit\" onclick=\"viewRecord('"+conn.rs.getString("UniqueID")+"')\"> </td>\n" +
+"          </tr>"  ;    }      
+                               
+alldata+="</tbody>";
+System.out.println(alldata);
 
 				session.setAttribute("summary",summary);
 				
 //                                String nextJSP = "admin/summaryVisit.jsp";
 //				response.sendRedirect(nextJSP);
-                                
+                                	out.println(alldata);
                                  String nextJSP = "/summaryVisit.jsp";
 				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
 				dispatcher.forward(request,response);
@@ -138,7 +172,7 @@ public class visitSummary extends HttpServlet {
           
           
           } catch (Exception e) {
-			out.println(e);
+//			out.println(e);
 			}
        
     }

@@ -32,17 +32,12 @@ public class districtselector extends HttpServlet {
             throws ServletException, IOException {
         try {
             response.setContentType("text/html;charset=UTF-8");
-           session= request.getSession();
+           
        
            DistrictID=request.getParameter("district"); 
            System.out.println(" District:"+ DistrictID); 
            current_districts="";
- String Location="";
- if(session.getAttribute("Location")!=null){
- Location=session.getAttribute("Location").toString();
- }
- 
- System.out.println("bbb   "+Location);
+           
            String districts="select * from dicname where DistrictID='"+DistrictID+"'";
            System.out.println(districts);
            dbConnect conn=new dbConnect();
@@ -60,26 +55,9 @@ public class districtselector extends HttpServlet {
           
           
           //dynamically add districts to the string array
-          if(Location.equalsIgnoreCase("Naivasha")){
-              current_districts="";
-               current_districts+="<option value=\"\">Choose DIC Name</option>";
-          current_districts+="<option value=\"Naivasha\">Naivasha</option>";
-
-          }
-          else{
-              current_districts="";
-                current_districts+="<option value=\"\">Choose DIC Name</option>";
           
-              String districts1="select * from dicname where DistrictID='"+DistrictID+"' and DICName!='Naivasha'";  
-              System.out.println(districts1);
-              conn.rs2= conn.state2.executeQuery(districts1);
-              while(conn.rs2.next()){
-           current_districts+="<option value=\""+conn.rs2.getString("DICName")+"\">"+conn.rs2.getString("DICName")+"</option>";
-             System.out.println(current_districts);
-              
-              }
-          }
-          //        session.setAttribute("dist_names",dist);
+          current_districts=current_districts+"<option value=\""+conn.rs.getString("DICName")+"\">"+conn.rs.getString("DICName")+"</option>";
+//        session.setAttribute("dist_names",dist);
          //12767711
         //3840
        //      1994
@@ -106,24 +84,7 @@ public class districtselector extends HttpServlet {
            
            
            
-       		
-                         if(conn.rs!=null){ conn.rs.close();}
-         if(conn.rs1!=null){ conn.rs1.close();}
-         if(conn.rs2!=null){ conn.rs2.close();}
-         if(conn.rs3!=null){ conn.rs3.close();}
-         if(conn.rs4!=null){ conn.rs4.close();}
-         if(conn.rs5!=null){ conn.rs5.close();}
-         if(conn.rs6!=null){ conn.rs6.close();}
-         if(conn.rs7!=null){ conn.rs7.close();}
-        
-         if(conn.state!=null){ conn.state.close();}
-         if(conn.state1!=null){ conn.state1.close();}
-         if(conn.state2!=null){ conn.state2.close();}
-         if(conn.state3!=null){ conn.state3.close();}
-         if(conn.state4!=null){ conn.state4.close();}
-         if(conn.state5!=null){ conn.state5.close();}
-         if(conn.state6!=null){ conn.state6.close();}
-         if(conn.state7!=null){ conn.state7.close();}    
+           
         
           // response.sendRedirect("myajax.html");
         } catch (SQLException ex) {

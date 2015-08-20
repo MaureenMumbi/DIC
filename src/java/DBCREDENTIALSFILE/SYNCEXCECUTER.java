@@ -78,16 +78,16 @@ public class SYNCEXCECUTER implements Job  {
                                     //_t.purge();
                                     
                                 }}
-                            SyncDataLocal sd1= new SyncDataLocal();
-                            if(sd1.MergeData()==true){
-                                msg="Data Saved Online";
-                                netcheckingstatus=false;
-                                
-                                if (a>=1) {
-                                    System.out.println("_Stopping timer to wait for syncing to finish");
-                                    pagecalled="no";
-                                  }
-                                    }                      
+//                            SyncDataLocal sd1= new SyncDataLocal();
+//                            if(sd1.MergeData()==true){
+//                                msg="Data Saved Online";
+//                                netcheckingstatus=false;
+//                                
+//                                if (a>=1) {
+//                                    System.out.println("_Stopping timer to wait for syncing to finish");
+//                                    pagecalled="no";
+//                                  }
+//                                    }                      
                             
                             
                             // once the page is called, it should return back a stop of the
