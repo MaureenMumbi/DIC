@@ -7,6 +7,17 @@
     Author     : Maureen
 --%>
 
+<%if(session.getAttribute("accessTrail")!=null){ %>
+<%@page import="Maintenance.saveAccessTrail"%>
+<%
+saveAccessTrail access = new saveAccessTrail();
+String task="Accessed edit enrollments module.Within this page, users are able to edit client enrollment details.";
+String username=session.getAttribute("accessTrail").toString();
+access.addAccess(username,task);
+
+%>
+<%}%>
+
 <%@page import="dbConnect.dbConnect"%>
 <%!
  String child="";
