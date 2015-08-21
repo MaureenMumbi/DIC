@@ -1,3 +1,12 @@
+<%-- 
+    Document   : clerkmenu
+    Created on : Aug 21, 2015, 9:51:18 AM
+    Author     : Maureen
+--%>
+
+<%--<%@page contentType="text/html" pageEncoding="UTF-8"%>--%>
+<!DOCTYPE html>
+
 <!--
 To change this template, choose Tools | Templates
 and open the template in the editor.
@@ -19,7 +28,8 @@ and open the template in the editor.
           <li><a href="#">Enrollments</a>
             <ul>
              <li><a href="/DIC/Enrollment.jsp">New Enrollment</a></li>    
-             <li><a href="globalsyncing.jsp">Track in other Dics</a></li>    
+             <li><a href="globalsyncing.jsp">Track on Online Database</a></li>    
+             <li><a href="/DIC/searchBiometric.jsp">Track on Local Database </a> </li>      
                 
             </ul>
         </li>
@@ -89,3 +99,4 @@ and open the template in the editor.
     
     </body>
 </html>
+

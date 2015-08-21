@@ -43,7 +43,7 @@ dbConnect conn = new dbConnect();
       
    <div><h1 style="text-align: center"><img src="images/aphia_logo.png" height="70" width="200" /></h1></div>
    <div id="header" style=" width:1350px;">
-               <%@include file="/menu/adminmenu.html" %>  
+               <%@include file="/menu/adminmenu.jsp" %>  
             </div>
             <% 
  

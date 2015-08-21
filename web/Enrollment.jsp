@@ -959,11 +959,11 @@ String UniqueCode;
 if(session.getAttribute("AccessLevel")!=null){            
 
 if (session.getAttribute("AccessLevel").equals("2")) {%>
-            <%@include file="menu/adminmenu.html" %>
+            <%@include file="menu/adminmenu.jsp" %>
             <%}
 else{%>
 
- <%@include file="menu/clerkmenu.html" %>
+ <%@include file="menu/clerkmenu.jsp" %>
 
 <%}
 
@@ -971,7 +971,7 @@ else{%>
 
 else{ %>
         
-             <%@include file="menu/clerkmenu.html" %>
+             <%@include file="menu/clerkmenu.jsp" %>
             
            <%}%>
             
@@ -1175,13 +1175,14 @@ mcount++;
                                 </select></td>
                                 
                 </tr>   
-                                
+                <br/> 
+                <tr></tr>
                 <tr class="d1"> <td><label for="town">Finger Print.<font color="red">*</font></label></td>
                             <td>   
                             
 
 <!--                    <a href="#" class="button blue" id="capturefp" onclick="return getReader();"  style="background-color:#202020 ;color:white ; height:30px; width:166px;"><b><font color="white">Capture Fingerprint</font></b></a> </section>-->
-      <a href="#"  title="Ensure the fingerprint scanner device is plugged into a usb port" onclick="capturefingerprint();" class="linkstyle">Capture fingerprint</a>
+      <a href="#"  class="btn" title="Ensure the fingerprint scanner device is plugged into a usb port" onclick="capturefingerprint();" class="linkstyle">Capture fingerprint</a>
     
                             </td></tr>
                             

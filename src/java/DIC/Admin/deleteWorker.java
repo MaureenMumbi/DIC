@@ -47,6 +47,7 @@ dbConnect conn = new dbConnect();
      String childage = "delete from childage where UniqueID='"+UniqueID+"'";
      String clientoparea = "delete from clientoparea where UniqueID='"+UniqueID+"'";
      String clientoccupation = "delete from clientoccupation where UniqueID='"+UniqueID+"'";
+     String medical = "delete from medical_form where unique_identifier='"+UniqueID+"'";
      
     
 String selectRA="select *  from riskreductionmain where  UniqueID ='"+UniqueID+"'";
@@ -74,6 +75,7 @@ conn.state.executeUpdate(riskassessmentmain);
 conn.state.executeUpdate(childage);
 conn.state.executeUpdate(clientoparea);
 conn.state.executeUpdate(clientoccupation);
+conn.state.executeUpdate(medical);
 
 response.sendRedirect("admin/indexWorker.jsp");
 

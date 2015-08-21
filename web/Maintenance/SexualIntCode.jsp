@@ -120,7 +120,7 @@
            </div>
              <div><h1 style="text-align: center"><img src="images/aphia_logo.png" height="70" width="200"/></h1></div>   
    
-   <%@include file="../menu/adminmenu.html" %>
+   <%@include file="../menu/adminmenu.jsp" %>
 		<div id="container">
 		
 			<div id="demo">

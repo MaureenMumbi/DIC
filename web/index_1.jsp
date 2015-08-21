@@ -1,8 +1,15 @@
+
+<%-- 
+    Document   : clerkmenu
+    Created on : Aug 21, 2015, 9:51:18 AM
+    Author     : Maureen
+--%>
+
+
 <%@page import="dbConnect.dbConnect"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%--<%@ page language="java" contentType="text/html; charset=ISO-8859-1"    pageEncoding="ISO-8859-1"%>--%>
 
 <!DOCTYPE html>
 <%!
@@ -103,11 +110,11 @@ else
 if(session.getAttribute("AccessLevel")!=null){            
 
 if (session.getAttribute("AccessLevel").equals("2")) {%>
-            <%@include file="menu/adminmenu.html" %>
+            <%@include file="menu/adminmenu.jsp" %>
             <%}
 else{%>
 
- <%@include file="menu/clerkmenu.html" %>
+ <%@include file="menu/clerkmenu.jsp" %>
 
 <%}
 
@@ -115,7 +122,7 @@ else{%>
 
 else{ %>
         
-             <%@include file="menu/clerkmenu.html" %>
+             <%@include file="menu/clerkmenu.jsp" %>
             
            <%}%>
             

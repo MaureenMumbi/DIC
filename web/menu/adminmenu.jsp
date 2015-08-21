@@ -1,3 +1,12 @@
+<%-- 
+    Document   : adminmenu
+    Created on : Aug 21, 2015, 9:50:43 AM
+    Author     : Maureen
+--%>
+
+<%@page import="java.net.InetAddress"%>
+<%--<%@page contentType="text/html" pageEncoding="UTF-8"%>--%>
+<!DOCTYPE html>
 <!--
 To change this template, choose Tools | Templates
 and open the template in the editor.
@@ -19,8 +28,8 @@ and open the template in the editor.
         <li><a href="#">Enrollments</a>
             <ul>
              <li><a href="/DIC/Enrollment.jsp">New Enrollment</a></li>    
-             <li><a href="globalsyncing.jsp">Track in other Dics</a></li>    
-                
+             <li><a href="globalsyncing.jsp">Track on Online Database</a></li>    
+             <li><a href="/DIC/searchBiometric.jsp">Track on Local Database </a> </li>   
             </ul>
         </li>
          <li><a href="/DIC/index_1.jsp">Perform Risk Assessment</a></li>
@@ -79,7 +88,21 @@ and open the template in the editor.
                 <li><a href="/DIC/KnowledgeCodeServlet">Editing HIV Knowledge Codes</a> 
                 <li><a href="/DIC/CadreCode">Editing Cadre Codes</a>
                 </ul>
-             <li><a href="/DIC/RegisterUser.jsp">Register User</a> </li>
+                   
+               <%
+String computername="";
+computername=InetAddress.getLocalHost().getHostName();
+                                           if(session.getAttribute("Username")!=null){
+               String usernames=(String)session.getAttribute("Username");
+      if(computername.equals("KENAK1VM1001")){
+               if(usernames.equalsIgnoreCase("joel")){
+                 %>
+                  <li><a href="/DIC/RegisterUser.jsp">Register User</a> </li>
+                 <%
+               }else{}
+} else{%>
+               <li><a href="/DIC/RegisterUser.jsp">Register User</a> </li>
+             <%}}%>
                 <li><a href="#">Others</a> 
         
             <ul>

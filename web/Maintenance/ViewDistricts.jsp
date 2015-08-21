@@ -84,7 +84,7 @@ function deleteRecord(idw){
       %>
            </div>
    
-   <%@include file="../menu/adminmenu.html" %>
+   <%@include file="../menu/adminmenu.jsp" %>
     
     
     

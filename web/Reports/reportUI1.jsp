@@ -108,11 +108,11 @@ if(v==2) {
 if(session.getAttribute("AccessLevel")!=null){            
 
 if (session.getAttribute("AccessLevel").equals("2")) {%>
-            <%@include file="../menu/adminmenu.html" %>
+            <%@include file="../menu/adminmenu.jsp" %>
             <%}
 else{%>
 
- <%@include file="../menu/clerkmenu.html" %>
+ <%@include file="../menu/clerkmenu.jsp" %>
 
 <%}
 
@@ -120,7 +120,7 @@ else{%>
 
 else{ %>
         
-             <%@include file="../menu/clerkmenu.html" %>
+             <%@include file="../menu/clerkmenu.jsp" %>
             
            <%}%>
      

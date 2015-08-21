@@ -85,6 +85,51 @@ access.addAccess(username,task);
        
        
     </script>
+       <script type="text/javascript">
+// a function that filters the districts in the passed county as per the county drop down.
+
+function filter_districts(District){
+ 
+     
+   var dist = document.getElementById("district").value;
+   var distr = new Array();
+// this will return an array with strings "1", "2", etc.
+distr = dist.split(",");
+var districtsName=distr[0];
+//
+// window.open("districtselector?county="+dist.value);     
+var xmlhttp;    
+if (districtsName=="")
+{
+//filter the districts    
+
+
+
+document.getElementById("DICName").innerHTML="<option value=\"\">Choose DIC Name</option>";
+return;
+}
+if (window.XMLHttpRequest)
+{// code for IE7+, Firefox, Chrome, Opera, Safari
+xmlhttp=new XMLHttpRequest();
+}
+else
+{// code for IE6, IE5
+xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+}
+xmlhttp.onreadystatechange=function()
+{
+if (xmlhttp.readyState==4 && xmlhttp.status==200)
+{
+document.getElementById("DICName").innerHTML=xmlhttp.responseText;
+}
+}
+xmlhttp.open("POST","/DIC/districtselector?district="+districtsName,true);
+
+xmlhttp.send();
+
+
+}//end of filter 
+</script>
     <script type="text/javascript">
 
     
@@ -535,11 +580,11 @@ mcount++;
 if(session.getAttribute("AccessLevel")!=null){            
 
 if (session.getAttribute("AccessLevel").equals("2")) {%>
-            <%@include file="../menu/adminmenu.html" %>
+            <%@include file="../menu/adminmenu.jsp" %>
             <%}
 else{%>
 
- <%@include file="../menu/clerkmenu.html" %>
+ <%@include file="../menu/clerkmenu.jsp" %>
 
 <%}
 
@@ -547,7 +592,7 @@ else{%>
 
 else{ %>
         
-             <%@include file="../menu/clerkmenu.html" %>
+             <%@include file="../menu/clerkmenu.jsp" %>
             
            <%}%>
             
@@ -635,7 +680,45 @@ UniqueID=request.getParameter("UniqueID");
           </tr>
                 <tr></tr>
          <tr></tr>
-                 
+            <tr ><td>County <font style="color: blue">*</font> </td><td>
+                        
+<!--                        //gets the districts as stored in db and dispaly them in a drop down-->
+                        <select onchange="filter_districts(this);" class="textbox2"   required name="district" id="district">
+                              <option value="">Choose County</option> 
+  <%
+  String Location="";
+              if(session.getAttribute("Location")!=null){
+ Location=session.getAttribute("Location").toString();
+ }
+  
+   String QueryDist="";
+                                               
+
+         QueryDist= "SELECT District,DistrictID FROM districts where DistrictID!='1' and DistrictID!='5'";
+                    conn.rs = conn.state.executeQuery(QueryDist);
+                                 if(conn.state.isClosed()){conn= new dbConnect();}
+                                                      while(conn.rs.next())
+                                                           {
+                                                   %>                                                                       
+            <option value='<%=conn.rs.getString("DistrictID")%>%>'><%=conn.rs.getString("District")%></option>
+                                                   <%
+                                                      
+ System.out.println(conn.rs.getInt("DistrictID"));
+                                System.out.println(conn.rs.getString("DistrictID"));                                                      }
+                                                  
+%>
+                              
+
+                                 </select></td>
+                                 <td>DIC Name <font style="color: blue">*</font></td>
+                                 <td>
+                                 <select id="DICName"  class="textbox2"  required  name="DICName"  onchange="filter_wards(this);">
+                                 <option value="">Choose DIC Name</option>  
+
+                                 </select>
+                                    </td>
+                </tr>
+     
          <tr><td colspan="2">Vital Signs:</td> <td>Current Complains:</td></tr>
 <!--                 <tr></tr>
                  <tr></tr>-->
