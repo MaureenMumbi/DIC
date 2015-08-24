@@ -972,6 +972,14 @@
         <servlet-name>invokeglobalsyncing</servlet-name>
         <servlet-class>biometric.invokeglobalsyncing</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>updatedics</servlet-name>
+        <servlet-class>Enroll.updatedics</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>syncbyuniqueid</servlet-name>
+        <servlet-class>DBCREDENTIALSFILE.syncbyuniqueid</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Enroll</servlet-name>
         <url-pattern>/Enroll</url-pattern>
@@ -1943,6 +1951,14 @@
     <servlet-mapping>
         <servlet-name>invokeglobalsyncing</servlet-name>
         <url-pattern>/invokeglobalsyncing</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updatedics</servlet-name>
+        <url-pattern>/updatedics</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>syncbyuniqueid</servlet-name>
+        <url-pattern>/syncbyuniqueid</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

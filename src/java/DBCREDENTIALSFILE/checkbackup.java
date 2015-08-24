@@ -46,7 +46,7 @@ public class checkbackup extends HttpServlet {
         String message="";
      maxdays=3;
      
-         String getbackup=" select count(uniqueid) from enrollment where syncstatus='0'";  
+         String getbackup=" select count(uniqueid) from enrollment where syncstatus='1'";  
             
          dbConnect conn= new dbConnect();   
             try {
@@ -58,7 +58,7 @@ public class checkbackup extends HttpServlet {
                 } 
                
                 
-                String is20recordsunsaved="SELECT COUNT(UniqueID) FROM riskassessmentmain WHERE syncstatus='0' ";  
+                String is20recordsunsaved="SELECT COUNT(UniqueID) FROM riskassessmentmain WHERE syncstatus='1' ";  
             
             System.out.println(is20recordsunsaved);
             
@@ -93,23 +93,38 @@ public class checkbackup extends HttpServlet {
       if(days>maxdays){
 //       if(days>maxdays  ){
        // lock system
+          msg="";
              daysafterlock=days-maxdays;
           if( (noofassess>=5)||(noofenrollments>=5)){
-            msg="<div><h3>Note: Kindly connect to the internet for system to unlock. Your system was locked "+daysafterlock+" days ago</h3><h4> Click here to close the alert</h4></div> ";
+               if (saveLastInternectConn.checkinternet("google.com") || saveLastInternectConn.checkinternet("twitter.com") || saveLastInternectConn.checkinternet("amazon.com")) {
+          msg="<div><h3>Note: Syncing started</h3><h4> Click here to close the alert</h4></div> ";
+           session.setAttribute("syncmsg",msg);   
+         }else{
+          msg="<div><h3>Note: Kindly connect to the internet for system to unlock. Your system was locked "+daysafterlock+" days ago</h3><h4> Click here to close the alert</h4></div> ";
+         session.setAttribute("syncmsg",msg);
+               }
+//            msg="<div><h3>Note: Kindly connect to the internet for system to unlock. Your system was locked "+daysafterlock+" days ago</h3><h4> Click here to close the alert</h4></div> ";
               message="Lock" ; 
-            session.setAttribute("backupsms",msg); }    
-       } else if(days<maxdays){
+             }    
+       } else if(days<=maxdays){
+           msg="";
            remainingdays=maxdays-days;
        System.out.println("nnn"+days);
             System.out.println(noofassess+" bbb  "+noofenrollments);
               if((noofassess>=5)||(noofenrollments>=5)){
 //                    msg="<font color='green'><h3>Note: </font> <font color='orange'>You have not backed your data for <b>"+days+"</b> days.</font><br/> <font color='green'>Kindly Log into the system,<br/> On the systems menu,point <br/> >> Data........................... <br/> >>Send Backup to M&E Officer <br/>>> Send Backup.................. </h3></font>";
-                     
-                 msg="<h3>Note: You have not connected your computer to the internet for data syncing to occur <br/> Kindly connect to the internet and Log into the system for data syncing to occur.<br/>You have "+remainingdays+" days remaining before system locks.</h3><h4> Click here to close the alert</h4>";
-                  // msg="<h3>Note: You have not backed your data for <b>"+days+"</b> days.<br/> <font color='green'>Kindly Log into the system,<br/> On the systems menu,point <br/> >> Data........................... <br/> >>Send Backup to M&E Officer <br/>>> Send Backup.................. </font></h3>";
+                    if (saveLastInternectConn.checkinternet("google.com") || saveLastInternectConn.checkinternet("twitter.com") || saveLastInternectConn.checkinternet("amazon.com")) {  
+                 msg="<div><h3>Note: Syncing started</h3><h4> Click here to close the alert</h4></div> ";
+            System.out.println(msg); 
+                    }else{
+                 msg="<h3>Note:You have not connected your computer to the internet for data syncing to occur <br/> Kindly connect to the internet and Log into the system for data syncing to occur.<br/>You have "+remainingdays+" days remaining before system locks.</h3><h4> Click here to close the alert</h4>";
+                  System.out.println(msg); 
+                    }
+                 
+                 // msg="<h3>Note: You have not backed your data for <b>"+days+"</b> days.<br/> <font color='green'>Kindly Log into the system,<br/> On the systems menu,point <br/> >> Data........................... <br/> >>Send Backup to M&E Officer <br/>>> Send Backup.................. </font></h3>";
                 //    msg="not backed up";
                    System.out.println(msg); 
-                      session.setAttribute("backupsms",msg);   
+                      session.setAttribute("syncmsg",msg);   
               
             }
         message="Unlock" ; 
@@ -122,11 +137,11 @@ public class checkbackup extends HttpServlet {
     
        
      
-      if(msg.equals("")){
-              
-       session.setAttribute("backupsms",null);   
-      
-      }      
+//      if(msg.equals("")){
+//              
+//       session.setAttribute("backupsms",null);   
+//      
+//      }      
         if(conn.rs!=null){ conn.rs.close();}
          if(conn.rs1!=null){ conn.rs1.close();}
          if(conn.rs2!=null){ conn.rs2.close();}

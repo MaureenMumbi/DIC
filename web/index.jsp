@@ -40,8 +40,9 @@
     </style>
     <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
        <script>
-        
-          $.ajax({
+        $(document).ready(function(){
+        function checkbackup(){
+            $.ajax({
                     
 //                      f.action="/DIC/deleteWorker?UniqueID="+UniqueID; 
                     url:"checkbackup",
@@ -63,7 +64,8 @@
                                     
                                     
                 
-          })
+          });}
+          });
         
           $.ajax({
                     
@@ -74,7 +76,7 @@
                     success:function (data){
 //                        alert("enterd");
                     }
-          })
+          });
           $.ajax({
                     
 //                      f.action="/DIC/deleteWorker?UniqueID="+UniqueID; 
@@ -84,7 +86,7 @@
                     success:function (data){
 //                        alert("enterd");
                     }
-          })
+          });
     </script>
     <script>
         
@@ -100,11 +102,11 @@
                                     
                                     
                 
-          })
+          });
     </script>
  
     </head>
-    <body>
+    <body onload="checkbackup();">
   
 <div class="example">
      
@@ -115,17 +117,17 @@
     <H3 style="text-align: center;">DIC SYSTEM</h3>
      <%
  
-                            if ( session.getAttribute("backupsms") != null)  { %>
+                            if ( session.getAttribute("syncmsg") != null)  { %>
                                 <script type="text/javascript"> 
                               
-                    var n = noty({text: '<%=session.getAttribute("backupsms")%>',
+                    var n = noty({text: '<%=session.getAttribute("syncmsg")%>',
                                         layout: 'center',
                                         type: 'Success'
                                     });
                     
                 </script> <%
                 
-                session.removeAttribute("backupsms");
+                session.removeAttribute("syncmsg");
                             }%> 
     <div id="container">
         

@@ -542,10 +542,8 @@ session = request.getSession(true);
                     conn.ps2.executeUpdate(); 
                     
 //                    System.out.println(query2);
-                        }
-                    
+                      }
                   
-        
          
                     
                     } catch (SQLException ex) {
@@ -558,7 +556,17 @@ session = request.getSession(true);
 
  
  }
-    
+      String regdic="";
+                   String getdic="select DICName from enrollment where UniqueID='"+UniqueID+"'" ;
+                   conn.rs3 = conn.state.executeQuery(getdic);
+                   if(conn.rs3.next()){
+                   regdic=conn.rs3.getString(1);
+                   }
+                    String servicetracker="insert into servicetracker set UniqueID='"+UniqueID+"',RegisteredDIC='"+regdic+"',visitedDIC='"+DICName+"',RiskAssessment='Done',RiskReduction='',Date='"+Ans1+"'";
+                    System.out.println(servicetracker);
+                    conn.state.executeUpdate(servicetracker);
+        session.setAttribute("DOA",Ans1);
+        session.setAttribute("regdic",regdic);
      RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Counter1");
 	                  dispatcher.forward(request, response);
                         

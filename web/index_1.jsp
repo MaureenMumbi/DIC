@@ -151,19 +151,19 @@ else{ %>
 
   <%
  
-                            if ( session.getAttribute("msg") != null)  { %>
+                            if ( session.getAttribute("msg") != null  )  {
+  if(!session.getAttribute("msg").toString().equals("")){ %>
                                 <script type="text/javascript"> 
                     
                     var n = noty({text: '<%=session.getAttribute("msg")%>',
                         layout: 'center',
                         type: 'Success',
- 
-                         timeout: 1800});
+                        timeout: 1800});
                     
                 </script> <%
                 
                 session.removeAttribute("msg");
-                            }
+                            }}
 
                         %>
 

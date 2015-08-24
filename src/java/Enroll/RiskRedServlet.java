@@ -590,8 +590,12 @@ for(int b=0;b<Qdates.length;b++){
 //                        System.out.println("QUERY 2   "+querys);
  
  }
-    
-    
+String doa="" ;
+doa=(String)session.getAttribute("DOA");
+
+String servicetracker="update  servicetracker set RiskReduction='Done' where Date='"+doa+"' and  UniqueID='"+UniqueID+"'";
+    conn.state2.executeUpdate(servicetracker);
+      System.out.println(servicetracker);
                         response.sendRedirect("admin/medical_form.jsp");
     		
                          if(conn.rs!=null){ conn.rs.close();}

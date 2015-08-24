@@ -27,14 +27,14 @@ public class Search extends HttpServlet {
 
       HttpSession session;
 
-    String msg;
-     public void doGet(HttpServletRequest request, HttpServletResponse response)throws IOException, ServletException{
-        doPost(request, response);
-    }
 
-   public void doPost(HttpServletRequest request, HttpServletResponse response)
-                                   throws ServletException,IOException{
-       PrintWriter out = response.getWriter();
+      protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+          String msg;
+          msg="";
+     
        session = request.getSession(true);
         try {
             response.setContentType("text/html");
@@ -46,27 +46,29 @@ String value= request.getParameter("value");
 System.out.println("///////"+value);            
 
 
-            String sqlquery="SELECT UniqueID,ClientInit,District,DICName,Sex FROM enrollment WHERE UniqueID LIKE '%"+value+"%'";
+            String sqlquery="SELECT UniqueID,ClientInit,District,DICName,Sex FROM enrollment WHERE UniqueID LIKE '%/"+value+"'";
 List userlist=new ArrayList();
             conn.state = conn.connect.createStatement();
                                 conn.rs = conn.state.executeQuery(sqlquery);
                                  List user=new ArrayList();
-                                 while (conn.rs.next()) {
+                                 if (conn.rs.next()==true) {
                                               user.add(conn.rs.getString(1));
                                               user.add(conn.rs.getString(2));
                                               user.add(conn.rs.getString(3));
                                               user.add(conn.rs.getString(4));
                                               user.add(conn.rs.getString(5));
                                     userlist.add(user);
-                                    System.out.println(userlist);
+//                                    System.out.println(userlist);
 	  
 	  
-	  request.setAttribute("userlist",userlist);  
-	  RequestDispatcher dispatcher1 = getServletContext().getRequestDispatcher("/index_1.jsp");
-	  dispatcher1.forward(request, response);		
+		
   }
+          request.setAttribute("userlist",userlist);  
+	  RequestDispatcher dispatcher1 = getServletContext().getRequestDispatcher("/index_1.jsp");
+	  dispatcher1.forward(request, response);
+          System.out.println(userlist.size());
                                  if(userlist.size()<1){
-                                 
+                               
                                  msg="User not in the System.";
                                
                                  session.setAttribute("msg", msg);
@@ -75,11 +77,12 @@ List userlist=new ArrayList();
 	 
                                  
                                 }
-                                 else{
-                                  session.setAttribute("msg","");
+                                 else{ 
+                                     msg="";
+                                  session.setAttribute("msg",msg);
                                  
                                  }
-                               
+                      System.out.println("msg  "+msg);      
 		
                          if(conn.rs!=null){ conn.rs.close();}
          if(conn.rs1!=null){ conn.rs1.close();}
@@ -105,8 +108,59 @@ List userlist=new ArrayList();
             out.println("user doesnt exist in the system");
          
         }				  
-   }}
-                
+   }
+      
+   
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP
+     * <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(EnrollServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Handles the HTTP
+     * <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(EnrollServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+}
+     
 
     
          

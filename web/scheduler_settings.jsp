@@ -155,7 +155,7 @@ document.getElementById("myschedulerlink").value="stopping...";
             
                 <!--=========================================menu=========================================-->     
                 <br/>
-                <%@include file="menu/adminmenu.html" %>
+                <%@include file="menu/adminmenu.jsp" %>
 
                 <br/>
                 <!--=====================================================================================--> 

@@ -5,6 +5,7 @@
 --%>
 
 
+<%@page import="dbConnect.dbConnect"%>
 <!DOCTYPE html>
 <%@page contentType="text/html" pageEncoding="UTF-8" %> 
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -19,8 +20,8 @@
 	<title>Summary</title>
 		
 
-        <script src="scripts/jquery-1.4.4.min.js" type="text/javascript"></script>
-        <script src="scripts/jquery.dataTables.min.js" type="text/javascript"></script>
+        <script src="scripts/jquery-1.8.3.js" type="text/javascript"></script>
+        <script src="scripts/jquery.dataTables.js" type="text/javascript"></script>
         <script src="scripts/jquery.jeditable.js" type="text/javascript"></script>
         <!--<script src="media/js/jquery-ui.js" type="text/javascript"></script>-->
 <!--   <script src="media/js/jquery.validate.js" type="text/javascript"></script>-->
@@ -33,24 +34,18 @@
         <link href="media/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
         <link href="media/themes/smoothness/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" media="all" />
 
-		<script type="text/javascript">
+<!--		<script type="text/javascript">
 			$(document).ready( function () {
 				$('#example').dataTable().makeEditable({
                                   
-									
-                                                                        sUpdateURL: "UpdateClientLearnt",
-                                                                        sAddURL: "AddClientLearnt",
-                                                                        sDeleteURL: "DeleteClientLearnt",
-                    							"aoColumns": [ null,
-{},                                                                            
-                    									
-                    									null,null
+                    							"aoColumns": [ null, null,null,null,null,null
+//                    									
 											]									
 
 										});
 				
 			} );
-		</script>
+		</script>-->
 
 <script>
     
@@ -69,8 +64,15 @@
             function viewRecord(UniqueID){
                 
                           
-                        var Uniqueids= UniqueID;   
-                    
+                        var Uniqueids= UniqueID; 
+//                           $("#view_"+Uniqueids).css();
+                             document.getElementById("view_"+Uniqueids).style.display="none";
+                             document.getElementById("viewimage"+Uniqueids).style.display="block";
+
+//var viewid="view_"+Uniqueids;
+//lert(viewid);
+//document.getElementById(viewid).innerHTML= " loading data...<img src='images/utube.gif'></img> " ;
+//                  document.getElementById("view").innerHTML="<i style='margin-left: 450px; margin-top: 200px;'> loading data...<img src='images/utube.gif'</i> >";    
                   
                 if(Uniqueids!=""){  
 //                 alert(Uniqueids);
@@ -93,9 +95,80 @@
                
                 
             }
-            
-            
+              function LoadRecord(){
+            var dicname= document.getElementById("DICName").value;
+            document.getElementById("loading").innerHTML=" loading data...<img src='images/utube.gif'>";
+           $.ajax({  
+               
+                           url:"visitSummary?DICName="+dicname ,  
+                            type:'post',  
+                            dataType: 'html',  
+                            success: function(data) {
+//                                 alert(data);
+                     
+        document.getElementById("example").innerHTML=data;
+            document.getElementById("loading").innerHTML=" ";
+//                         $('#example').html=data;
+//                  var table=  $('#example').dataTable();
+      
+ 
+               var table=$('#example').dataTable( {
+                   destroy: true
+                    } );
+                  table.destroy();
+                table= $('#example').dataTable( {
+                    paging:true
+                } );
 
+//                 table=  $('#example').dataTable();
+                        
+                        }});  }
+
+        
+     
+// a function that filters the districts in the passed county as per the county drop down.
+
+function filter_districts(District){
+ 
+     
+   var dist = document.getElementById("district").value;
+   var distr = new Array();
+// this will return an array with strings "1", "2", etc.
+distr = dist.split(",");
+var districtsName=distr[0];
+//
+// window.open("districtselector?county="+dist.value);     
+var xmlhttp;    
+if (districtsName=="")
+{
+//filter the districts    
+
+
+
+document.getElementById("DICName").innerHTML="<option value=\"\">Choose DIC Name</option>";
+return;
+}
+if (window.XMLHttpRequest)
+{// code for IE7+, Firefox, Chrome, Opera, Safari
+xmlhttp=new XMLHttpRequest();
+}
+else
+{// code for IE6, IE5
+xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+}
+xmlhttp.onreadystatechange=function()
+{
+if (xmlhttp.readyState==4 && xmlhttp.status==200)
+{
+document.getElementById("DICName").innerHTML=xmlhttp.responseText;
+}
+}
+xmlhttp.open("POST","/DIC/districtselector?district="+districtsName,true);
+
+xmlhttp.send();
+
+
+}//end of filter 
         </script>
 	<link rel="StyleSheet" href="css/main.css" type="text/css" />
  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen"/>
@@ -142,11 +215,11 @@
 if(session.getAttribute("AccessLevel")!=null){            
 
 if (session.getAttribute("AccessLevel").equals("2")) {%>
-            <%@include file="menu/adminmenu.html" %>
+            <%@include file="menu/adminmenu.jsp" %>
             <%}
 else{%>
 
- <%@include file="menu/clerkmenu.html" %>
+ <%@include file="menu/clerkmenu.jsp" %>
 
 <%}
 
@@ -154,7 +227,7 @@ else{%>
 
 else{ %>
         
-             <%@include file="menu/clerkmenu.html" %>
+             <%@include file="menu/clerkmenu.jsp" %>
             
            <%}%>
             
@@ -167,54 +240,59 @@ else{ %>
 		<div id="container">
 		
 			<div id="demo">
-  
+                            <table>
+  <tr class="d1"><td>County <font style="color: blue">*</font> </td><td>
+<!--                        //gets the districts as stored in db and dispaly them in a drop down-->
+                        <select onchange="filter_districts(this);" required name="district" id="district">
+  <%
+             dbConnect conn = new dbConnect();
+             
+                                                      String QueryDist= "SELECT District,DistrictID FROM districts";
+                                                    if(conn.state.isClosed()){conn= new dbConnect();}
+				conn.rs = conn.state.executeQuery(QueryDist);
+                               
+                                                      while(conn.rs.next())
+                                                           {
+                                                   %>                                                                       
+            <option value='<%=conn.rs.getString("DistrictID")%>,<%=conn.rs.getString("District")%>'><%=conn.rs.getString("District")%></option>
+                                                   <%
+                                                      
+ System.out.println(conn.rs.getInt("DistrictID"));
+                                System.out.println(conn.rs.getString("DistrictID"));                                                      }
+                                
+                               
+                                                   %>
+                                
+
+                                 </select></td>
+                                 <td>DIC Name <font style="color: blue">*</font></td>
+                                 <td>
+                                     <select id="DICName"  name="DICName" required onchange="LoadRecord()">
+                                 <option value="">Choose DIC Name</option>  
+
+                                 </select> </td>
+                </tr> 
+                            </table>
                             <form name="form">
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
 	<thead>
-		<tr>
-			<th>UniqueID</th>
-                       <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%><th>Full Name</th><%}}%><th>Client Initials</th>
-			<th>DIC Name</th>
-			<th>DOE</th>
-			<th>LAST VISIT</th>
-			
-			
-		</tr>
-	</thead>
-	<tfoot>
-		<tr>
-
-		        
-		</tr>
-
-	</tfoot>
-   <tbody>
-		 
-        <c:forEach  var="today" items="${summary}"  >
-          
-          <c:set var="UniqueID"  value="${today.UNIQUEID}"></c:set>
-          <c:set var="Name"  value="${today.NAME}"></c:set>
-          <c:set var="clientInit"  value="${today.CLIENTINIT}"></c:set>
-          <c:set var="dicname"  value="${today.DICNAME}"></c:set>
-          <c:set var="doe"  value="${today.DOE}"></c:set>
-           
-        <input type="hidden" id="UniqueID" name="UniqueID" value="<%= pageContext.getAttribute("UniqueID")%>" />
-        <input type="hidden" id="Name" name="Name" value="<%= pageContext.getAttribute("Name")%>" />
-         
-            <tr id="<%=pageContext.getAttribute("UniqueID")%>">
-           
-           <td class="sorting_1">  ${today.UNIQUEID} </td>
-          <%if(session.getAttribute("lockNames")==null){%><%} else{if(session.getAttribute("lockNames").toString().equals("YES")){}else{%><td class="sorting_1">${today.NAME} </td><%}}%> 
-           <td class="sorting_1">${today.CLIENTINIT} </td>
-           <td class="sorting_1">${today.DICNAME} </td>
-           <td class="sorting_1">${today.DOE} </td>
-           <td class="sorting_1"><input type="button"  name="view" value="Last Visit" onclick="viewRecord('${today.UNIQUEID}')"> </td>
-          
-          </tr>
-       
-         </c:forEach>
-               
-	</tbody>
+<tr> 
+<th>UniqueID</th>
+<th>Full Name</th>
+<th>Client Initials</th>
+<th>DIC Name</th>
+<th>DOA</th>
+<th>RR</th>
+<th>RR</th>
+<th>LAST VISIT</th>
+</tr>
+</thead>
+<tbody>
+    
+    <i style="margin-left: 450px; margin-top: 200px;" id="loading"> </i>
+                         
+<!--</tbody>-->
+	
 </table>
                                 
                                 
