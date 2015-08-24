@@ -48,10 +48,13 @@ System.out.println("///////"+value);
 
             String sqlquery="SELECT UniqueID,ClientInit,District,DICName,Sex FROM enrollment WHERE UniqueID LIKE '%/"+value+"'";
 List userlist=new ArrayList();
+int x=0;
+x=0;
             conn.state = conn.connect.createStatement();
                                 conn.rs = conn.state.executeQuery(sqlquery);
                                  List user=new ArrayList();
                                  if (conn.rs.next()==true) {
+                                     x++;
                                               user.add(conn.rs.getString(1));
                                               user.add(conn.rs.getString(2));
                                               user.add(conn.rs.getString(3));
@@ -63,17 +66,14 @@ List userlist=new ArrayList();
 	  
 		
   }
-          request.setAttribute("userlist",userlist);  
-	  RequestDispatcher dispatcher1 = getServletContext().getRequestDispatcher("/index_1.jsp");
-	  dispatcher1.forward(request, response);
-          System.out.println(userlist.size());
-                                 if(userlist.size()<1){
+        
+                                 if(x<1){
                                
                                  msg="User not in the System.";
                                
                                  session.setAttribute("msg", msg);
-                                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index_1.jsp");
-                                dispatcher.forward(request, response);	 
+//                                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index_1.jsp");
+//                                dispatcher.forward(request, response);	 
 	 
                                  
                                 }
@@ -82,6 +82,10 @@ List userlist=new ArrayList();
                                   session.setAttribute("msg",msg);
                                  
                                  }
+                                   request.setAttribute("userlist",userlist);  
+	  RequestDispatcher dispatcher1 = getServletContext().getRequestDispatcher("/index_1.jsp");
+	  dispatcher1.forward(request, response);
+          System.out.println(userlist.size());
                       System.out.println("msg  "+msg);      
 		
                          if(conn.rs!=null){ conn.rs.close();}
