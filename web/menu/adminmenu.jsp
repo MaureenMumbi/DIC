@@ -28,7 +28,7 @@ and open the template in the editor.
         <li><a href="#">Enrollments</a>
             <ul>
              <li><a href="/DIC/Enrollment.jsp">New Enrollment</a></li>    
-             <li><a href="globalsyncing.jsp">Track on Online Database</a></li>    
+             <li><a href="/DIC/globalsyncing.jsp">Track on Online Database</a></li>    
              <li><a href="/DIC/searchBiometric.jsp">Track on Local Database </a> </li>   
             </ul>
         </li>

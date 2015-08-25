@@ -43,6 +43,24 @@ else
 
 }
 
+
+function togglesearchtype(){
+ 
+        if($("#synctype").val()==='fingerprint'){
+            
+            $(".displayfirst").css("display","block");
+            $(".hidefirst").css("display","none");
+        }
+        else if($("#synctype").val()==='uniqid'){
+            
+            $(".displayfirst").css("display","none");
+            $(".hidefirst").css("display","block");
+        } 
+    
+    
+    
+}
+
 </script>
  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
  <link rel="StyleSheet" href="main.css" type="text/css" />
@@ -85,6 +103,16 @@ else
   background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
   background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
   text-decoration: none;
+}
+
+.displayfirst{
+    
+ display:block;   
+}
+
+.hidefirst{
+    
+   display:none;    
 }
 </style>
        
@@ -247,16 +275,26 @@ else{ %>
                         %>
 
       
-<h2>Sync data from online storage for a specific Client</h2>
+<h2>Requires Internet Connectivity</h2><h3>(Sync data for a specific Client from online database)</h3>
 <table> 
 <!--    <a href="#" onclick="newuser();" class="button blue" id="capturefp" style="">
         <b><font color="white">Detect New User</font></b>
     </a> -->
-     <td class="sorting_1"><input type="button" class="btn" name="capture"  id="capturefp" value="Start Syncing" onclick="newuser();"></td><td><h3>(Requires Internet Connectivity)</h3></td>
-              
+    <tr><td><h3>Choose Syncing method</h3></td>
+        <td class="sorting_1">
+            <select style="height:35px;" onchange="togglesearchtype();" name="synctype" id="synctype" >
+            <option value="fingerprint">Use Client Fingerprint</option>
+            <option value="uniqid">Use Client Unique Id</option>
+            </select></td>
+        <td></td></tr>   
+    <tr class="displayfirst"><td><h3>Start Fingerprint Scanner</h3></td> <td class="sorting_1"><input type="button" class="btn" name="capture"  id="capturefp" value="Start Scanner" onclick="newuser();"></td></tr>
+    
+    <tr class="hidefirst"><td ><h3>Enter Unique Identifier</h3></td>
+    <td><input type="text" value="" required style="height:32px;" id="value"  name="value"></td><td><input onclick="searchbyuniqueid();"  class="btn" type="text" style="cursor:" name="search" value="Search" ></td>
+    </tr>         
 </table>  
-                    <table class="viewpdt" id="presentmembers" style="width:800px;margin-left: 50px;">
-                       <tr><td colspan="6"><p id="replymsg"></p></td></tr>
+                    <table class="viewpdt" id="replymsg"  style="width:800px;margin-left: 50px;">
+                       <tr><td colspan="6"></td></tr>
                        
 <!--                       <tr><td colspan="6" style="background-color:yellow;height:60px;"><h4> Attendance List for  chws Present at the meeting held</h4></td></tr>
                         <tr><td>Number</td><td>First Name</td><td>Last Name</td><td>Id Number</td><td>Time in</td><td>Location id</td></tr>-->
@@ -268,7 +306,32 @@ else{ %>
  
       </div>
 </div>      
-      
+                        <script>
+                            togglesearchtype();
+                            
+                            function searchbyuniqueid(){
+                              var val=$("#value").val(); 
+                              if(val.trim()!==''){
+                                    document.getElementById("replymsg").innerHTML="<tr><td><h3 style='color:red;'>Loading..<img src='images/utube.gif' alt='loading'></h3></td></tr>";
+                             $.ajax({
+                              url:"syncbyuniqueid?value="+val,   
+                              type:'post',
+                              dataType:'html',
+                              success:function (data){
+                                  
+                                  var responsemsg=data.split('%');
+                                  document.getElementById("replymsg").innerHTML=responsemsg[1];
+                                  //$("#replymsg").html(responsemsg[1]);
+                                  
+                        var n = noty({text:"<font color=\"green\">"+ responsemsg[0]+"</font>",
+                        layout: 'center',
+                        type: 'Success'});
+                                  
+                              }
+                             });   
+                         } 
+                            }
+                        </script>   
 </body>
 </html>
 

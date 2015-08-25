@@ -148,7 +148,7 @@ public class verificationglobal
 
                         System.out.println("Performing Fingerprint Comparison");
 
-                        m_text.append("Syncing in progress...\nPlease Be Patient ");   
+                        m_text.append("Syncing in progress...\n Please Be Patient \n");   
                         //read the fsws whose fingerprints are captured
                         
                         conn.rs = conn.state.executeQuery("select UniqueID,fingerprint from enrollment where  fingerprint!='null' && fingerprint is not null && fingerprint!=''");
