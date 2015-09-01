@@ -41,7 +41,8 @@
     <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
        <script>
         $(document).ready(function(){
-        function checkbackup(){
+    
+//            alert("bbb");
             $.ajax({
                     
 //                      f.action="/DIC/deleteWorker?UniqueID="+UniqueID; 
@@ -64,7 +65,7 @@
                                     
                                     
                 
-          });}
+          });
           });
         
           $.ajax({
@@ -106,7 +107,7 @@
     </script>
  
     </head>
-    <body onload="checkbackup();">
+    <body>
   
 <div class="example">
      
@@ -167,7 +168,7 @@
                             <h3 id="synclock" style=" text-align:center;"></h3>
                             <div id="versionChecker" style="font-weight: bolder; text-align:center;">
                          </div><br>
-               <p align="center" title="Version 1.27 Last Updated 15/07/2015."> &copy DIC System Version 1.27 Last Updated on  16/07/2015. Aphia Plus | USAID </p>
+               <p align="center" title="Version 1.28 Last Updated 28/08/2015."> &copy DIC System Version 1.28 Last Updated on  28/08/2015. Aphia Plus | USAID </p>
                
 </div>
   
@@ -232,7 +233,7 @@ $("#versionChecker").html(data);
 
       
      </script>
- 
+    
       
     </body>
 </html>

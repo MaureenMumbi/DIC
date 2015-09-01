@@ -89,13 +89,15 @@ access.addAccess(username,task);
 // a function that filters the districts in the passed county as per the county drop down.
 
 function filter_districts(District){
- 
+
      
    var dist = document.getElementById("district").value;
+   
    var distr = new Array();
 // this will return an array with strings "1", "2", etc.
-distr = dist.split(",");
-var districtsName=distr[0];
+distr = dist;
+var districtsName=distr;
+// alert(districtsName);
 //
 // window.open("districtselector?county="+dist.value);     
 var xmlhttp;    
@@ -684,6 +686,7 @@ UniqueID=request.getParameter("UniqueID");
                         
 <!--                        //gets the districts as stored in db and dispaly them in a drop down-->
                         <select onchange="filter_districts(this);" class="textbox2"   required name="district" id="district">
+                              
                               <option value="">Choose County</option> 
   <%
   String Location="";
@@ -700,19 +703,19 @@ UniqueID=request.getParameter("UniqueID");
                                                       while(conn.rs.next())
                                                            {
                                                    %>                                                                       
-            <option value='<%=conn.rs.getString("DistrictID")%>%>'><%=conn.rs.getString("District")%></option>
+            <option value='<%=conn.rs.getString("DistrictID")%>'><%=conn.rs.getString("District")%></option>
                                                    <%
                                                       
  System.out.println(conn.rs.getInt("DistrictID"));
                                 System.out.println(conn.rs.getString("DistrictID"));                                                      }
-                                                  
-%>
-                              
+                                
+                                                   
+%>                        
 
                                  </select></td>
                                  <td>DIC Name <font style="color: blue">*</font></td>
                                  <td>
-                                 <select id="DICName"  class="textbox2"  required  name="DICName"  onchange="filter_wards(this);">
+                                 <select id="DICName"  class="textbox2"  required  name="DICName" >
                                  <option value="">Choose DIC Name</option>  
 
                                  </select>

@@ -46,7 +46,7 @@ public class checkbackup extends HttpServlet {
         String message="";
      maxdays=3;
      
-         String getbackup=" select count(uniqueid) from enrollment where syncstatus='1'";  
+         String getbackup=" select count(uniqueid) from enrollment where syncstatus='0'";  
             
          dbConnect conn= new dbConnect();   
             try {
@@ -58,7 +58,7 @@ public class checkbackup extends HttpServlet {
                 } 
                
                 
-                String is20recordsunsaved="SELECT COUNT(UniqueID) FROM riskassessmentmain WHERE syncstatus='1' ";  
+                String is20recordsunsaved="SELECT COUNT(UniqueID) FROM riskassessmentmain WHERE syncstatus='0' ";  
             
             System.out.println(is20recordsunsaved);
             
@@ -93,6 +93,7 @@ public class checkbackup extends HttpServlet {
       if(days>maxdays){
 //       if(days>maxdays  ){
        // lock system
+          System.out.println("entered");
           msg="";
              daysafterlock=days-maxdays;
           if( (noofassess>=5)||(noofenrollments>=5)){

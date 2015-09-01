@@ -110,7 +110,7 @@ public class viewLastVisit extends HttpServlet {
           }
           }
             String[]  questionsRed = new String[]{"B1","B3","D2","E1","E2","F1","G1","H1","I","J3"};
-            String[]  qstnsReduction = new String[]{"No of Condoms Provided","No of WBL Provided","Helth Education Provided","Provided HIV Testing","Tested with partner","STI Checkup","CC Screening","TB Screening","GBV Referal Provided","FP Method Provided"};
+            String[]  qstnsReduction = new String[]{"No of Condoms Provided","No of WBL Provided","Health Education Provided","Provided HIV Testing","Tested with partner","STI Checkup","CC Screening","TB Screening","GBV Referal Provided","FP Method Provided"};
            String assIDs="";
            String DirectAns1="";
            String DOA1="";

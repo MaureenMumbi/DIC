@@ -35,7 +35,7 @@ boolean isConnected;
         try {
             
             // changes to new version id
-          system_version=6;maxDays=5;daysRemaining=0;daysOutdated=0;
+          system_version=7;maxDays=5;daysRemaining=0;daysOutdated=0;
           days=maxId=0;versionDate="";
        url="";
          isConnected=true;
@@ -77,7 +77,7 @@ boolean isConnected;
           }
           else{
               status="current";
-              status="<p style='color: green'>Your DIC system is updated.</p><p>For assistance contact Joel(jkuria@aphiarift.org)</p>";
+              status="<p style='color: green'>Your DIC system is up-to-date.</p><p>For assistance contact Joel(jkuria@aphiarift.org)</p>";
           }
           
      if(conn.state!=null){conn.state.close();}

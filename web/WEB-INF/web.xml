@@ -980,6 +980,14 @@
         <servlet-name>syncbyuniqueid</servlet-name>
         <servlet-class>DBCREDENTIALSFILE.syncbyuniqueid</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>backdater</servlet-name>
+        <servlet-class>Enroll.backdater</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ComprehensiveReport</servlet-name>
+        <servlet-class>Reports.ComprehensiveReport</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Enroll</servlet-name>
         <url-pattern>/Enroll</url-pattern>
@@ -1959,6 +1967,14 @@
     <servlet-mapping>
         <servlet-name>syncbyuniqueid</servlet-name>
         <url-pattern>/syncbyuniqueid</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>backdater</servlet-name>
+        <url-pattern>/backdater</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ComprehensiveReport</servlet-name>
+        <url-pattern>/ComprehensiveReport</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

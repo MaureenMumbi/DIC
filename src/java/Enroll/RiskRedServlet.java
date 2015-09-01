@@ -520,7 +520,7 @@ String Ans28_2="";
     if(AssessmentID!=null && !AssessmentID.equals(""))
     {
       
-        query="INSERT INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,County,DICName,qtr,year,syncstatus)"
+        query="INSERT INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,County1,DICName1,qtr,year,syncstatus)"
             + "VALUES(?,?,?,?,?,?,?,?,?)";
             conn.ps = conn.connect.prepareStatement(query);
             conn.ps.setString(1,AssessmentID);

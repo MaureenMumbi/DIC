@@ -39,7 +39,7 @@ public  Connection connect = null;
     public dbConnectTemp() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            connect = DriverManager.getConnection("jdbc:mysql://eu-cdbr-azure-west-c.cloudapp.net:3306/dic","bd081b09107667", "1d86f3bf");
+            connect = DriverManager.getConnection("jdbc:mysql://104.45.29.195:3306/dic","root", "admin");
            
             //if the saved host name is less than 2 letters long, then thats not a genuine host name
 

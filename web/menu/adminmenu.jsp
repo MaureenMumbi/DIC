@@ -23,7 +23,10 @@ and open the template in the editor.
             <li><a href="/DIC/admin/index_admin.jsp">Home</a>
             <ul>
             <!--<li><a href="/DIC/admin/index_admin.jsp">Home</a></li>-->
-            <li ><a href="/DIC/audit_1.jsp">Audit Trail</a></li></ul>
+            <li ><a href="/DIC/audit_1.jsp">Audit Trail</a></li>
+            <li ><a href="/DIC/admin/viewaccesstrail.jsp">Access Trail</a></li>
+            <li ><a href="/DIC/admin/viewservicetracker.jsp">Service Tracker </a></li>
+            </ul>
                 </li>
         <li><a href="#">Enrollments</a>
             <ul>
@@ -152,6 +155,9 @@ computername=InetAddress.getLocalHost().getHostName();
         </li>
         <li>
             <a href="/DIC/importSQLData.jsp">Import Data </a>
+        </li>
+          <li>
+            <a href="/DIC/backdater.jsp">Back Date Backup </a>
         </li>
                  </ul>
         </li>

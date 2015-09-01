@@ -394,7 +394,7 @@ while(local.rs2.next()){
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,entrydate,qtr,year,entrydate)"
+  String inserter="REPLACE INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,timestamp,qtr,year,entrydate)"
           + "VALUES('"+RiskRedID+"','"+DOA+"','"+CadreProvider+"','"+UniqueID7+"','"+local.rs2.getString("timestamp")+"','"+qtr+"','"+year+"','"+timestamp4+"')";
   
   System.out.println("_"+inserter+"\n");
@@ -1011,6 +1011,60 @@ while(local.rs2.next()){
    
    
     String updatesync="update user set syncstatus='1' WHERE Name='"+Name+"' AND Username='"+Username+"' AND Password='"+Password+"' AND PhoneNo='"+PhoneNos+"' AND Email='"+Email+"'";
+  local.state7.executeUpdate(updatesync);
+  System.out.println(updatesync);
+ }   
+    
+}
+
+
+
+
+
+ String trackerID,UniqueID_1,RegisteredDIC,visitedDIC,RiskAssessment,RiskReduction,Date,timestamp_1;
+
+String servicetracker="SELECT * FROM servicetracker WHERE trackerID!='' and syncstatus='0'";
+local.rs2=local.state3.executeQuery(servicetracker);
+while(local.rs2.next()){
+   
+    
+    already_added=0;
+    trackerID=UniqueID_1=RegisteredDIC=visitedDIC=RiskAssessment=RiskReduction=Date=timestamp_1="";
+    
+         trackerID=local.rs2.getString(1);
+         UniqueID_1=local.rs2.getString(2);
+         RegisteredDIC=local.rs2.getString(3);
+         visitedDIC=local.rs2.getString(4);
+         RiskAssessment=local.rs2.getString(5);
+         RiskReduction=local.rs2.getString(6);
+         Date=local.rs2.getString(7);
+         timestamp_1=local.rs2.getString(8);
+        
+      
+       
+ String check_if_exist="SELECT * FROM servicetracker WHERE trackerID='"+trackerID+"' AND UniqueID='"+UniqueID_1+"' AND RegisteredDIC='"+RegisteredDIC+"' AND visitedDIC='"+visitedDIC+"' AND RiskAssessment='"+RiskAssessment+"' AND RiskReduction='"+RiskReduction+"' AND Date='"+Date+"'";
+
+  System.out.println(check_if_exist+"\n");
+ 
+ online.rs3=online.state1.executeQuery(check_if_exist);
+ if(online.rs3.next()==true){already_added=1; 
+ 
+  System.out.println("Clerk Data already added");
+ existingdata++;
+ }
+ else {
+  String inserter="REPLACE INTO servicetracker(trackerID,UniqueID,RegisteredDIC,visitedDIC,RiskAssessment,RiskReduction,Date,timestamp)"
+          + "VALUES('"+trackerID+"','"+UniqueID_1+"','"+RegisteredDIC+"','"+visitedDIC+"','"+RiskAssessment+"','"+RiskReduction+"','"+Date+"','"+timestamp_1+"')";
+  
+  System.out.println("_"+inserter+"\n");
+  numberofqueries++;
+  online.state4.executeUpdate(inserter);  
+   
+   
+   users++;
+   
+   
+    String updatesync="update servicetracker set syncstatus='1' WHERE trackerID='"+trackerID+"' AND UniqueID='"+UniqueID_1+"' AND RegisteredDIC='"+RegisteredDIC+"' AND visitedDIC='"+visitedDIC+"' AND RiskAssessment='"+RiskAssessment+"'  AND Date='"+Date+"'";
   local.state7.executeUpdate(updatesync);
   System.out.println(updatesync);
  }   

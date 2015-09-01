@@ -491,7 +491,7 @@ session = request.getSession(true);
     String query="";
     String inserter="";
     if(AssessmentID!=null&& UniqueID!=null){
-   query="INSERT INTO riskassessmentmain(AssessmentID,AssessmentDate,UniqueID,County,DICName,Quarter,Month,Pefar_year,syncstatus)VALUE(?,?,?,?,?,?,?,?,?)";
+   query="INSERT INTO riskassessmentmain(AssessmentID,AssessmentDate,UniqueID,County1,DICName1,Quarter,Month,Pefar_year,syncstatus)VALUE(?,?,?,?,?,?,?,?,?)";
    conn.ps = conn.connect.prepareStatement(query);
             conn.ps.setString(1,AssessmentID);
             conn.ps.setString(2,Ans1);

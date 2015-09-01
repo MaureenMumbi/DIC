@@ -427,8 +427,10 @@ function filter_districts(District){
    var dist = document.getElementById("district").value;
    var distr = new Array();
 // this will return an array with strings "1", "2", etc.
-distr = dist.split(",");
-var districtsName=distr[0];
+distr = dist;
+
+var districtsName=distr;
+
 //
 // window.open("districtselector?county="+dist.value);     
 var xmlhttp;    

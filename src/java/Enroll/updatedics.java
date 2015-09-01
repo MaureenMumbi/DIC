@@ -38,8 +38,8 @@ public class updatedics extends HttpServlet {
         try {
             /* TODO output your page here. You may use following sample code. */
             String uniqueid="";
-            String dicname="";
-            String county="";
+            String DICName1="";
+            String County1="";
             String  RID="";
             String  AID="";
             String  MID="";
@@ -48,15 +48,15 @@ public class updatedics extends HttpServlet {
            conn.rs = conn.state.executeQuery(getdic);
            while(conn.rs.next()){
            uniqueid=conn.rs.getString("UniqueID");
-               dicname=conn.rs.getString("DICName");
-               county=conn.rs.getString("district");
+               DICName1=conn.rs.getString("DICName");
+               County1=conn.rs.getString("district");
                
                String select ="select * from riskreductionmain where UniqueID='"+uniqueid+"' ";
                conn.rs3= conn.state4.executeQuery(select);
                while(conn.rs3.next()){
                    RID=conn.rs3.getString("ID");
                    System.out.println(RID);
-               try{String updateriskreductionmain="Update riskreductionmain set County='"+county+"',DICName='"+dicname+"' where UniqueID='"+uniqueid+"' and ID='"+RID+"'";
+               try{String updateriskreductionmain="Update riskreductionmain set County1='"+County1+"',DICName1='"+DICName1+"' where UniqueID='"+uniqueid+"' and ID='"+RID+"'";
                conn.state1.executeUpdate(updateriskreductionmain);
                System.out.println(updateriskreductionmain);}
                catch(SQLException ex) {  
@@ -67,7 +67,7 @@ public class updatedics extends HttpServlet {
                conn.rs5= conn.state5.executeQuery(select1);
                while(conn.rs5.next()){
                      AID=conn.rs5.getString("ID");
-               String updateriskassessmentmain="Update riskassessmentmain set County='"+county+"' , DICName='"+dicname+"' where UniqueID='"+uniqueid+"' AND ID='"+AID+"'";
+               String updateriskassessmentmain="Update riskassessmentmain set County1='"+County1+"' , DICName1='"+DICName1+"' where UniqueID='"+uniqueid+"' AND ID='"+AID+"'";
                         System.out.println(updateriskassessmentmain);
                conn.state2.executeUpdate(updateriskassessmentmain);
                 System.out.println(updateriskassessmentmain);
@@ -76,7 +76,7 @@ public class updatedics extends HttpServlet {
                conn.rs6= conn.state6.executeQuery(select2);
                while(conn.rs6.next()){
                     MID=conn.rs6.getString("id");
-               String updatemedical_form="Update medical_form set county='"+county+"' , DICName='"+dicname+"' where unique_identifier='"+uniqueid+"' AND ID='"+MID+"'";
+               String updatemedical_form="Update medical_form set county1='"+County1+"' , DICName1='"+DICName1+"' where unique_identifier='"+uniqueid+"' AND ID='"+MID+"'";
                 conn.state3.executeUpdate(updatemedical_form);
                System.out.println(updatemedical_form);
            }

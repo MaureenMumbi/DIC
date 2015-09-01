@@ -13,7 +13,7 @@
          <link rel="stylesheet" type="text/css" href="css/divCss_1.css"/>
          <% dbConnect conn= new dbConnect();
 
-String adt="select * from taskauditor";
+String adt="select * from taskauditor limit 10";
  if(conn.state.isClosed()){conn= new dbConnect();}
 conn.rs=conn.state.executeQuery(adt);
 
@@ -46,7 +46,8 @@ while(conn.rs.next()){
 
                     </table>
     </body>
-</html>
+</html> 
+
 
 <%
 

@@ -244,8 +244,8 @@ String visitsarray[] ={"1","2"};
 	+"inner join riskreductiondetails on riskreductiondetails.RiskReductionID= riskreductionmain.RiskReductionID "
 +"and str_to_date(riskreductionmain.DOA,'%e/%c/%Y') between "
 +"str_to_date('"+startdate+"','%e/%c/%Y') and str_to_date('"+enddate+"','%e/%c/%Y') "
- +"and riskreductiondetails.QID='"+qidarray[i]+"'  and dicname='"+dic_name+"'"
-+"group by riskreductionmain.RiskReductionID order by dicname,INDICATORNAME  LIMIT 100000000000";
+ +"and riskreductiondetails.QID='"+qidarray[i]+"'  and enrollment.dicname='"+dic_name+"'"
++"group by riskreductionmain.RiskReductionID order by enrollment.dicname,INDICATORNAME  LIMIT 100000000000";
 
    
 System.out.println(getdata);
