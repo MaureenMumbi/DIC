@@ -28,11 +28,12 @@ access.addAccess(username,task);
 <!DOCTYPE html>
 <%!
 
-dbConnect conn = new dbConnect();
+private dbConnect conn = new dbConnect();
 %>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link rel="shortcut icon" href="images/favicon.png">
     <title>DIC</title>
 <script type="text/javascript">
 function myFunction()
@@ -52,6 +53,9 @@ else
 
 }
 
+
+
+
 </script>
  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
  <link rel="StyleSheet" href="main.css" type="text/css" />
@@ -64,6 +68,34 @@ else
          height:600px;
                 width:900px; 
     }
+    
+    
+          .btn {
+  background: orange;
+  background-image: -webkit-linear-gradient(top, #d9344f, #b82b2b);
+  background-image: -moz-linear-gradient(top, #d9344f, #b82b2b);
+  background-image: -ms-linear-gradient(top, #d9344f, #b82b2b);
+  background-image: -o-linear-gradient(top, #d9344f, #b82b2b);
+  background-image: linear-gradient(to bottom, #d9344f, #b82b2b);
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  font-family: Georgia;
+  color: #ffffff;
+  font-size: 13px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #3cb0fd;
+  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  text-decoration: none;
+}
     </style>
  <script type="text/javascript">
      function alerts(){
@@ -87,6 +119,24 @@ else
   
    <link rel="stylesheet" href="themes/base/jquery.ui.all.css"/>
          <link rel="stylesheet" href="themes/smoothness/jquery.ui.all.css"/>
+         
+         <script>
+             
+             
+             $.ajax({
+                 url:'loaduniqueids',
+                 type:'post',
+                 dataType:'html',
+                 success: function(data){
+                     //change the options of a datalist
+                    $("#uniqueids").html(data); 
+                     
+                                        }
+             });
+             
+         </script>
+         
+         
     </head>
     <body>
       
@@ -173,7 +223,9 @@ else{ %>
  
  String Sectionshelp[]=new String [12];
 int mcount=0;
-    if(conn.state2.isClosed()){conn= new dbConnect();}
+    if(conn.state2.isClosed()){
+        conn= new dbConnect();
+    }
 conn.rs2=conn.state2.executeQuery("Select * from help where help_id<='12'");
 while(conn.rs2.next()){
     
@@ -184,7 +236,7 @@ mcount++;
 }
 
 %>
- <form action ="/DIC/Search"><table align="center">
+ <form action ="/DIC/Search"><table align="center" style="margin-top: 33px;">
          
 <tr id="dialog1" title="DIC Help ">
   
@@ -194,10 +246,17 @@ mcount++;
          <%}%>
     </td>
     </tr>
+    
+   
          <tr><td style="font-size: 20px;">Enter Unique Identifier   <a href="#" id="dialog-link1" style="padding-right: 0px;">
                                      <img src="images/help_24.png"/> </a></td>
-                    <td><input type="text" value="" required  name="value"></td>
-                    <td><input type="submit" name="search" value="Search" ></td>
+                                     <td><input style="height:30px;width:240px;" autocomplete="off" placeholder="enter full unique identifier" type="text" value="" list="uniqueids" required  name="value" id="uids">
+                    <datalist id="uniqueids">
+    <option value="Nakuru/2015/">
+  
+  </datalist>
+                    </td>
+                    <td><input type="submit" name="search" style="height:37px;width:120px;" value="Search" ></td>
                 </tr>
      </table>
     </form>
@@ -250,7 +309,7 @@ List userlist=new ArrayList();
                     <td>Sex</td>
                     <td><input type="text" name="Sex" value="<%= users.get(4)%>" readonly></td>
                     
-                <tr><td style="font-size:19px;"><a href="" onclick="myFunction()" style="color:red"> Risk Assessment</a></td><td></td>   
+                <tr><td style="font-size:19px;"><a href="" class="btn" style="color:white;" onclick="myFunction()" style="color:red"> Risk Assessment</a></td><td></td>   
 
                     
                                        <%

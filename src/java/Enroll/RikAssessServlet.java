@@ -48,13 +48,20 @@ String Ans1 = request.getParameter("DOA").toString();
 dbConnect conn = new dbConnect();
 String County="";
 String DICName="";
+String ward="";
 if(request.getParameter("district")!=null && !request.getParameter("district").equals("") ){
 County= request.getParameter("district");       
         }
 if(request.getParameter("DICName")!=null && !request.getParameter("DICName").equals("") ){
 DICName= request.getParameter("DICName");       
         }
+if(request.getParameter("ward")!=null && !request.getParameter("ward").equals("") )
+{
+ward= request.getParameter("ward");    
 
+        }
+
+        System.out.println("Ward id &&&&:::"+ward);
 String Report_Date[]= Ans1.split("/");
 String monthly = Report_Date[1];
 int yearly = Integer.parseInt(Report_Date[2]);
@@ -491,7 +498,7 @@ session = request.getSession(true);
     String query="";
     String inserter="";
     if(AssessmentID!=null&& UniqueID!=null){
-   query="INSERT INTO riskassessmentmain(AssessmentID,AssessmentDate,UniqueID,County1,DICName1,Quarter,Month,Pefar_year,syncstatus)VALUE(?,?,?,?,?,?,?,?,?)";
+   query="INSERT INTO riskassessmentmain(AssessmentID,AssessmentDate,UniqueID,County1,DICName1,Quarter,Month,Pefar_year,syncstatus,ward1)VALUE(?,?,?,?,?,?,?,?,?,?)";
    conn.ps = conn.connect.prepareStatement(query);
             conn.ps.setString(1,AssessmentID);
             conn.ps.setString(2,Ans1);
@@ -504,6 +511,7 @@ session = request.getSession(true);
             String insert_year1=Integer.toString(insert_year);
             conn.ps.setString(8,insert_year1);
             conn.ps.setString(9,"0");
+            conn.ps.setString(10,ward);
             conn.ps.executeUpdate(); 
    
 //   System.out.println(query);

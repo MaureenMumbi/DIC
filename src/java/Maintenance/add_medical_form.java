@@ -42,9 +42,16 @@ String diagnosis,management,referral,specify_others,TCA,cadre,dater,signature;
          unique_identifier=request.getParameter("unique_identifier");
         }
         String DICName="";
+        String ward="";
          String county="";
          if(request.getParameter("DICName")!=null  && !request.getParameter("DICName").equals("")){
            DICName=request.getParameter("DICName");}
+         
+           if(request.getParameter("ward")!=null  && !request.getParameter("ward").equals(""))
+           {
+           ward=request.getParameter("ward");
+           }
+         
          if(request.getParameter("district")!=null  && !request.getParameter("district").equals("")){
            county=request.getParameter("district");}
        
@@ -99,7 +106,7 @@ String diagnosis,management,referral,specify_others,TCA,cadre,dater,signature;
 //         session.setAttribute("session_fail", "<font color=\"red\">Failed to save the medical form. try Again.</font>");   
 //        }
 //        else{
-        String medical_form_adder="INSERT INTO medical_form SET county1='"+county+"', DICName1='"+DICName+"', unique_identifier='"+unique_identifier+"',temperature='"+temperature+"',"
+        String medical_form_adder="INSERT INTO medical_form SET ward1='"+ward+"', county1='"+county+"', DICName1='"+DICName+"', unique_identifier='"+unique_identifier+"',temperature='"+temperature+"',"
                 + "temperature_complain='"+temperature_complain+"',blood_pressure='"+blood_pressure+"',blood_pressure_complain='"+blood_pressure_complain+"',"
                 + "p='"+p+"',p_complain='"+p_complain+"',weight='"+weight+"',weight_complain='"+weight_complain+"',ga='"+ga+"',"
                 + "ga_findings='"+ga_findings+"',skin='"+skin+"',skin_findings='"+skin_findings+"',ent='"+ent+"',ent_findings='"+ent_findings+"',"

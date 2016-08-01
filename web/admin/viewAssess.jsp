@@ -26,6 +26,8 @@
         <script src="scripts/jquery-1.4.4.min.js" type="text/javascript"></script>
         <script src="scripts/jquery.dataTables.min.js" type="text/javascript"></script>
         <script src="scripts/jquery.jeditable.js" type="text/javascript"></script>
+        
+        <link rel="shortcut icon" href="../images/favicon.png" >
         <!--<script src="media/js/jquery-ui.js" type="text/javascript"></script>-->
 <!--   <script src="media/js/jquery.validate.js" type="text/javascript"></script>-->
 <script src="scripts/jquery-ui.js" type="text/javascript"></script>
@@ -61,6 +63,7 @@
      function editRecord(UniqueID){
     var f=document.form;
     f.method="post";
+    f.target='_blank';
     f.action="/DIC/AssessmentServlet?UniqueID='"+UniqueID+"'";
     f.submit();
     

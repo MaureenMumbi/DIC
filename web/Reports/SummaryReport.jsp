@@ -28,7 +28,7 @@ access.addAccess(username,task);
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>DIC REPORTS</title>
-        
+        <link rel ='shortcut icon' href="../images/favicon.png">
         <link rel="stylesheet" type="text/css" href="../js/jquery-ui.css"/>
 	<script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
     <script type="text/javascript" src="../js/jquery-ui.js"></script>
@@ -280,7 +280,7 @@ mcount++;
                 
 
                 
-                <tr><td> <input type="submit"  name="submit" value="Generate Report">  </td></tr>
+                <tr><td> <input type="submit"  name="submit" value="Generate Report" style="height:35px;">  </td></tr>
             
         </table>
         </form>

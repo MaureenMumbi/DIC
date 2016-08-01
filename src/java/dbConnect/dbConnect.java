@@ -63,7 +63,7 @@ public  Connection connect = null;
                 System.out.println("Syncing Response is_:::_"+itc.startorendthread());
                 pagecalled="yes";
                 //itc.syncingstatus=true;
-                                             }
+                                                                                          }
 
        
         

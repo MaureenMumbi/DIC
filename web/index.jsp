@@ -19,7 +19,7 @@
         <title>DIC</title>
         <link rel="StyleSheet" href="main.css" type="text/css" />
            <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
-<link rel="shortcut icon" href="images/dic.png"/>
+<link rel="shortcut icon" href="images/favicon.png"/>
 <script type="text/javascript" src="js/noty/jquery.noty.js"></script>
 
 <script type="text/javascript" src="js/noty/layouts/top.js"></script>
@@ -30,7 +30,7 @@
         <style type="text/css">
     #container{
                 height:200px;
-                width:300px; 
+                width:379px; 
     }
      #example{
         
@@ -88,6 +88,22 @@
 //                        alert("enterd");
                     }
           });
+          
+          
+          
+          
+            $.ajax({
+                    
+//                      f.action="/DIC/deleteWorker?UniqueID="+UniqueID; 
+                    url:"UpdateWards",
+                    type:'post',
+                    dataType:'html',
+                    success:function (data){
+//                        alert("enterd");
+                    }
+          });
+          
+          
     </script>
     <script>
         
@@ -136,7 +152,7 @@
                             
                             
       <form name=login id="login" method="post"  action="LoginServlet">
-                        <h2>Login</h2>
+                        <h2 style="background: greenyellow;text-align: center;font-family: cambria;">Login</h2>
                         <%
  
                             if ( session.getAttribute("login") != null)  { %>
@@ -154,11 +170,11 @@
                       
                        
                               <table >
-                                  <tr class="d0"><td >Username</td><td><input type="text" name="Username" value=""></td></tr>  
-                                  <tr class="d1"><td >Password</td><td><input type="password" name="Password" value=""></td></tr>  
+                                  <tr class="d0"><td style="font-family: cambria;"><b>Username:</b></td><td><input autofocus="true" type="text" name="Username" style="height:30px;width:170px;" value=""></td></tr>  
+                                  <tr class="d1"><td style="font-family: cambria;"><b>Password:</b></td><td><input type="password" name="Password" style="height:30px;width:170px;" value=""></td></tr>  
                                  
                                   
-                                  <tr><td><input type="submit" name="Login" value="Login"></td></tr>  
+                                  <tr><td><input type="submit" name="Login" value="Login" style="height:35px; width:120px;"></td></tr>  
                                
                               </table>
                         
@@ -168,7 +184,7 @@
                             <h3 id="synclock" style=" text-align:center;"></h3>
                             <div id="versionChecker" style="font-weight: bolder; text-align:center;">
                          </div><br>
-               <p align="center" title="Version 1.28 Last Updated 28/08/2015."> &copy DIC System Version 1.28 Last Updated on  28/08/2015. Aphia Plus | USAID </p>
+               <p align="center" title="Version 1.33 Last Updated 09/03/2016."> &copy DIC System Version 1.33 Last Updated on  09/03/2016. APHIAPlus | USAID </p>
                
 </div>
   

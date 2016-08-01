@@ -76,10 +76,8 @@ enddate=request.getParameter("enddate");
 
 //				request.setAttribute("userList",userList);
 				  session.setAttribute("reduction", reduction);
-                                String nextJSP = "/admin/viewRed.jsp";
-				RequestDispatcher dispatcher;
-                                           dispatcher = getServletContext().getRequestDispatcher(nextJSP);
-				dispatcher.forward(request,response);
+                                String nextJSP = "/DIC/admin/viewRed.jsp";
+				response.sendRedirect(nextJSP);
 					
                          if(conn.rs!=null){ conn.rs.close();}
          if(conn.rs1!=null){ conn.rs1.close();}

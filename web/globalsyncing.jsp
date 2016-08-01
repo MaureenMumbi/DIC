@@ -25,6 +25,7 @@ access.addAccess(username,task);
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>DIC</title>
+    <link rel="shortcut icon" href="images/favicon.png">
 <script type="text/javascript">
 function myFunction()
 {
@@ -289,8 +290,8 @@ else{ %>
         <td></td></tr>   
     <tr class="displayfirst"><td><h3>Start Fingerprint Scanner</h3></td> <td class="sorting_1"><input type="button" class="btn" name="capture"  id="capturefp" value="Start Scanner" onclick="newuser();"></td></tr>
     
-    <tr class="hidefirst"><td ><h3>Enter Unique Identifier</h3></td>
-    <td><input type="text" value="" required style="height:32px;" id="value"  name="value"></td><td><input onclick="searchbyuniqueid();"  class="btn" type="text" style="cursor:" name="search" value="Search" ></td>
+    <tr class="hidefirst"><td ><h3>Enter  Unique Identifier</h3></td>
+    <td><input placeholder="e.g Nakuru/n.k/08/2015/37" type="text" value="" required style="height:32px;width:230px;" id="value"  name="value"></td><td><input onclick="searchbyuniqueid();"  class="btn" type="text" style="cursor:" name="search" value="Search" ></td>
     </tr>         
 </table>  
                     <table class="viewpdt" id="replymsg"  style="width:800px;margin-left: 50px;">

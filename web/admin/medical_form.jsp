@@ -22,6 +22,7 @@ access.addAccess(username,task);
 <html>
 
 <head>
+    <link rel="shortcut icon" href="../images/favicon.png">
         <link rel="StyleSheet" href="css/main.css" type="text/css" />
         <link rel="StyleSheet" href="css/geff_css.css" type="text/css" />
         
@@ -69,7 +70,48 @@ access.addAccess(username,task);
                                 changeYear: true
                         });
                 });
-               
+               function filter_wards(DICName){
+ 
+     
+   var dist = document.getElementById("DICName").value;
+   var distr = new Array();
+// this will return an array with strings "1", "2", etc.
+distr = dist.split(",");
+var dicname=distr[0];
+//
+// window.open("districtselector?county="+dist.value);     
+var xmlhttp;    
+if (dicname=="")
+{
+//filter the districts    
+
+
+
+document.getElementById("ward").innerHTML="<option value=\"\">Choose Ward</option>";
+return;
+}
+if (window.XMLHttpRequest)
+{// code for IE7+, Firefox, Chrome, Opera, Safari
+xmlhttp=new XMLHttpRequest();
+}
+else
+{// code for IE6, IE5
+xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+}
+xmlhttp.onreadystatechange=function()
+{
+if (xmlhttp.readyState==4 && xmlhttp.status==200)
+{
+document.getElementById("ward").innerHTML=xmlhttp.responseText;
+}
+}
+xmlhttp.open("POST","/DIC/wardselector?dicname="+dicname,true);
+
+xmlhttp.send();
+
+
+}//end of filter districts
+
             </script>
 	
 	
@@ -174,14 +216,20 @@ document.getElementById('SubmitFinal').disabled = true;
             else if(document.getElementById('ButtonNext').name == 'Step2')
 
             {
-var temperature,blood_pressure,p,weight,unique_identifier,client_name;
+var temperature,blood_pressure,p,weight,unique_identifier,client_name,ward;
 temperature=document.getElementById("temperature").value;
+ward=document.getElementById("ward").value;
 blood_pressure=document.getElementById("blood_pressure").value;
 p=document.getElementById("p").value;
 weight=document.getElementById("weight").value;
  if(temperature==""){
      alert("Enter temperature value");
      document.getElementById("temperature").focus();
+     return false;
+ }
+  if(ward==""){
+     alert("Select Ward");
+     document.getElementById("ward").focus();
      return false;
  }
  if(blood_pressure==""){
@@ -624,15 +672,15 @@ else{ %>
 
             <td id="HeaderTableStep1" style="background-color:Yellow; height: 60px;">
 
-                Step 1: Basic Information.</td>
+               <h2> Step 1: Basic Information.</h2></td>
 
             <td id="HeaderTableStep2" style="background-color:Silver; height: 60px;">
 
-                Step 2: System Exam.</td>
+               <h2> Step 2: System Exam.</h2></td>
             
             <td id="HeaderTableStep3" style="background-color:Silver; height: 60px;">
 
-                Step 3: Management. </td>
+               <h2> Step 3: Management.</h2> </td>
 
         </tr>
 
@@ -682,7 +730,8 @@ UniqueID=request.getParameter("UniqueID");
           </tr>
                 <tr></tr>
          <tr></tr>
-            <tr ><td>County <font style="color: blue">*</font> </td><td>
+         <tr><td><h2>County</h2><font style="color: blue">*</font></td><td><h2>Dic</h2> <font style="color: blue">*</font></td><td><h2>Ward</h2> <font style="color: blue">*</font></td></tr>
+            <tr ><td>
                         
 <!--                        //gets the districts as stored in db and dispaly them in a drop down-->
                         <select onchange="filter_districts(this);" class="textbox2"   required name="district" id="district">
@@ -713,10 +762,17 @@ UniqueID=request.getParameter("UniqueID");
 %>                        
 
                                  </select></td>
-                                 <td>DIC Name <font style="color: blue">*</font></td>
+                                 
                                  <td>
-                                 <select id="DICName"  class="textbox2"  required  name="DICName" >
-                                 <option value="">Choose DIC Name</option>  
+                                 <select id="DICName" onchange="filter_wards(this);"  class="textbox2"  required  name="DICName" >
+                                 <option value="">Choose County first</option>  
+
+                                 </select>
+                                    </td>
+                                    
+                                   <td>
+                                 <select id="ward" class="textbox2"  name="ward"  >
+                                 <option value="">Choose Dic First</option>  
 
                                  </select>
                                     </td>

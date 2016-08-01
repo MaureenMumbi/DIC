@@ -132,7 +132,25 @@
        var isValid = true; 
        // Validate Username
        var un = $('#DOA').val();
-       if(!un && un.length <= 0){
+       
+       var county=$("#district").val();
+       var dic=$("#DICName").val();
+       var ward=$("#ward").val();
+       
+         if(!county && county.length <= 0){
+       
+         $('#msg_DOA').html('Please select County').show();
+       
+            document.getElementById("district").required="true"; 
+            $("#district").css("border-color","#ff0000");
+            $("#district").slideToggle( "slow", function() {});
+            $("#district").slideToggle( "slow", function() {});
+            $("#district").focus();
+            
+              isValid = false;
+       }
+       
+       else if(!un && un.length <= 0){
        
          $('#msg_DOA').html('Please fill DOA').show();
        
@@ -143,8 +161,41 @@
             $("#DOA").focus();
             
               isValid = false;
-       }else{
+       }
+       
+       else  if(!dic && dic.length <= 0){
+       
+         $('#msg_DOA').html('Please select DIC').show();
+       
+            document.getElementById("DICName").required="true"; 
+            $("#DICName").css("border-color","#ff0000");
+            $("#DICName").slideToggle( "slow", function() {});
+            $("#DICName").slideToggle( "slow", function() {});
+            $("#DICName").focus();
+            
+              isValid = false;
+       }  
+       
+       
+       else   if(!ward && ward.length <= 0){
+       
+         $('#msg_DOA').html('Please select Ward').show();
+       
+            document.getElementById("ward").required="true"; 
+            $("#ward").css("border-color","#ff0000");
+            $("#ward").slideToggle( "slow", function() {});
+            $("#ward").slideToggle( "slow", function() {});
+            $("#ward").focus();
+            
+              isValid = false;
+       } 
+       
+                    else{
          $('#msg_DOA').html('').hide();
+          document.getElementById("district").required="false";
+          document.getElementById("DICName").required="false";
+          document.getElementById("ward").required="false";
+          document.getElementById("DOA").required="false";
               }
        
  

@@ -25,6 +25,7 @@ access.addAccess(username,task);
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>DIC REPORTS</title>
+        <link rel="shortcut icon" href="../images/favicon.png">
         
         <link rel="stylesheet" type="text/css" href="../js/jquery-ui.css"/>
 	<script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
@@ -262,10 +263,10 @@ mcount++;
                 <tr class="d0">
                     
                     <td> Select a Parameter</td>
-                    <td> <select name="period" required="true">
+                    <td> <select style="height:35px;" name="period" required="true">
                       <option value=""> </option>
-                            <option value="monthly"> Enrollments</option>
-                            <option value="quarterly"> People Served</option>
+                            <option title="new enrollments done within the chosen dates" value="monthly"> Enrollments</option>
+                            <option title="unique clients who received risk reduction services" value="quarterly"> People Served</option>
                 </select>      
                     </td>
                 </tr>
@@ -277,7 +278,7 @@ mcount++;
                 
 
                 
-                <tr><td> <input type="submit"  name="submit" value="Generate Report">  </td></tr>
+                <tr><td> <input type="submit" style="height:35px;" name="submit" value="Generate Report">  </td></tr>
             
         </table>
         </form>

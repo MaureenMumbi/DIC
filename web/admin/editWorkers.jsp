@@ -238,7 +238,7 @@ return true;
     <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
     <link rel="stylesheet" href="themes/base/jquery.ui.all.css">
     <link rel="stylesheet" href="themes/eggplant/jquery.ui.all.css">
-    
+    <link rel="shortcut icon" href="../images/favicon.png">
     <script src="scripts/jquery-1.7.2.js"></script>
     
     <script src="ui/jquery.ui.core.js"></script>
@@ -916,7 +916,7 @@ else{
 <!-- Tabs -->
   		<div id="wizard" class="swMain">
   			<ul>
-  				<li><a href="#step-1">
+  				<li style="z-index:0;"><a href="#step-1">
                 <label class="stepNumber">1</label>
                 <span class="stepDesc">
                   Client Details<br />
@@ -924,21 +924,21 @@ else{
                 </span>
             </a></li>
                            
-  				<li><a href="#step-2">
+  				<li style="z-index:0;"><a href="#step-2">
                 <label class="stepNumber">2</label>
                 <span class="stepDesc">
                   Personal Details<br />
                    <small>Fill details marked<font style="color: blue">*</font></small>
                 </span>
             </a></li>
-  				<li><a href="#step-3">
+  				<li style="z-index:0;"><a href="#step-3">
                 <label class="stepNumber">3</label>
                 <span class="stepDesc">
                  Contact Details<br />
                    <small>Fill details marked<font style="color: blue">*</font></small>
                 </span>
              </a></li>
-  				<li><a href="#step-4">
+  				<li style="z-index:0;"><a href="#step-4">
                 <label class="stepNumber">4</label>
                 <span class="stepDesc">
                  Other  Details<br />
@@ -947,7 +947,7 @@ else{
             </a></li>
   			</ul>
                    
-                    <div id="step-1">	
+                    <div id="step-1" style="z-index:0;">	
             <h2 class="StepTitle">Step 1: Clients Details</h2>
             <table cellspacing="3" cellpadding="3" align="center">
           			<tr>
@@ -1066,7 +1066,7 @@ else{
           
               </table>          			
          </div>
-                    <div id="step-2">
+                    <div id="step-2" style="z-index:0;">
             <h2 class="StepTitle">Step 2: Personal Details</h2>	
             <table cellspacing="3" cellpadding="3" align="center">
           			<tr>
@@ -1398,7 +1398,7 @@ else{
                   </tr>
             </table></div>
                                        
-  <div id="step-3">
+  <div id="step-3" style="z-index:0;">
             <h2 class="StepTitle">Step 3: Contact Details</h2>	
             <table cellspacing="3" cellpadding="3" align="center">
           			<tr>
@@ -1530,7 +1530,7 @@ else{
                           
                           
                           
-  			<div id="step-4">
+  			<div id="step-4" style="z-index:0;">
             <h2 class="StepTitle">Step 4: Other Details</h2>	
             <table cellspacing="3" cellpadding="3" align="center">
           			<tr>

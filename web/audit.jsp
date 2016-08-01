@@ -20,6 +20,14 @@
     .example {
     width:1500px;
     height:1600px;}
+    select {
+        
+        height:30px;
+    }
+    input {
+        
+        height:26px;
+    }
     </style>
      <script src="js/jquery-1.7.2.js"></script>
     <script type="text/javascript" src="js/noty/jquery.noty.js"></script>
@@ -641,9 +649,10 @@ String UniqueID=(String)session.getAttribute("UniqueID");
                 </tr>
             
        <tr>
-           <td><input class="button" type="submit" value="Submit" name="Submit"></td>
+           <td><input class="button" type="submit" value="Submit" style='height:35px;width:140px;' name="Submit"></td>
+           <td></td>
            <td>
-           <input type="button" value="CLOSE" style="background-color: #c66200;" onClick="window.close();" />
+           <input type="button" style='height:35px;' value="CLOSE" style="background-color: #c66200;" onClick="window.close();" />
        
            </td>
        </tr>

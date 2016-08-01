@@ -47,7 +47,11 @@ public class newriskred extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
    HttpSession session;
-   String DICName="";
+   
+   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+       
+       String DICName="";
 String reporttype="";
 String reportyear="";
 String question="";
@@ -116,8 +120,8 @@ String DOA1="";
   int totals=0;
   int columnadd=1;
   int columnadd1=1;
-   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+       
+       
 NoofEnrolls=0;
    quarter="";
    semiannual="";
@@ -386,7 +390,7 @@ if(request.getParameterValues("Quarter")!= null && !request.getParameterValues("
  String DOE="";
  String DOE1="";
  int i=3;
- int count=0;
+  count=0;
  int l=2;
  String[] availableQTR;
 System.out.println("reporttype"+reporttype);
@@ -617,7 +621,7 @@ for(int t=0;t<dics.size();t++){
 //                                 ;
                   
                   
-                    String query="select enrollment.DICName, riskreductiondetails.QID, \n" +
+                    String query="select riskreductionmain.DICName1, riskreductiondetails.QID, \n" +
 "	CASE riskreductiondetails.QID\n" +
 "WHEN 'B1' THEN 'CONDOMS PROVIDED'  \n" +
 "		WHEN 'B3' THEN 'WBL PROVIDED' \n" +
@@ -660,13 +664,13 @@ for(int t=0;t<dics.size();t++){
 "	riskreductiondetails\n" +
 "	where riskreductionmain.UniqueID = enrollment.UniqueID \n" +
 "	and riskreductiondetails.RiskReductionID= riskreductionmain.RiskReductionID \n" +
-"	and  Enrollment.DICName='"+dics.get(t).toString()+"' AND RiskReductionDetails.QID='"+questions[g]+"' AND RiskReductionMain.qtr='"+quarters2[z]+"' AND RiskReductionMain.year='"+reportyear+"'"+
+"	and  riskreductionmain.DICName1='"+dics.get(t).toString()+"' AND RiskReductionDetails.QID='"+questions[g]+"' AND RiskReductionMain.qtr='"+quarters2[z]+"' AND RiskReductionMain.year='"+reportyear+"'"+
 //                             + "str_to_date(riskreductionmain.DOA,'%e/%c/%Y') between\n" +G
 //"str_to_date('01/04/2014','%e/%c/%Y') and str_to_date('30/04/2014','%e/%c/%Y')\n" +
-"group by riskreductiondetails.QID,enrollment.DICName\n" +
+"group by riskreductiondetails.QID,riskreductionmain.DICName1 \n" +
 "";
             conn.rs = conn.state2.executeQuery(query);
-          System.out.println("&&&&"+dics.get(t).toString());
+         System.out.println(query);
               
           
             while(conn.rs.next()){
@@ -919,14 +923,14 @@ for(int t=0;t<dics.size();t++){
     cell12=rwc.createCell(2+t);
                  cell12.setCellValue("");
                   cell12.setCellStyle(cell_style);
-//                    String query ="SELECT RiskReductionDetails.RiskReductionID,RiskReductionDetails.currentstatus,RiskReductionDetails.QID,RiskReductionDetails.Action,Enrollment.DICName,COUNT(RiskReductionDetails.currentstatus) AS NOofYes FROM RiskReductionDetails, RiskReductionMain,Enrollment"
+//                    String query ="SELECT RiskReductionDetails.RiskReductionID,RiskReductionDetails.currentstatus,RiskReductionDetails.QID,RiskReductionDetails.Action,riskreductionmain.DICName1,COUNT(RiskReductionDetails.currentstatus) AS NOofYes FROM RiskReductionDetails, RiskReductionMain,Enrollment"
 //                                 + " where RiskReductionMain.riskreductionid = RiskReductionDetails.riskreductionid "
 //                                 + "and Enrollment.uniqueid = RiskReductionMain.uniqueid "
-//                                 + "and RiskReductionDetails.QID='"+qstnsID+"'AND RiskReductionDetails.currentstatus='Yes' AND Enrollment.DICName='"+dics.get(t)+"' AND RiskReductionMain.qtr='"+quarters2[z]+"'AND RiskReductionMain.year='"+reportyear+"' group by Enrollment.DICName "
+//                                 + "and RiskReductionDetails.QID='"+qstnsID+"'AND RiskReductionDetails.currentstatus='Yes' AND riskreductionmain.DICName1='"+dics.get(t)+"' AND RiskReductionMain.qtr='"+quarters2[z]+"'AND RiskReductionMain.year='"+reportyear+"' group by riskreductionmain.DICName1 "
 //                                 ;
                   
                   
-                    String query="select enrollment.DICName, riskreductiondetails.QID, \n" +
+                    String query="select riskreductionmain.DICName1, riskreductiondetails.QID, \n" +
 "	CASE riskreductiondetails.QID\n" +
 "WHEN 'B1' THEN 'CONDOMS PROVIDED'  \n" +
 "		WHEN 'B3' THEN 'WBL PROVIDED' \n" +
@@ -968,10 +972,10 @@ for(int t=0;t<dics.size();t++){
 "	riskreductiondetails\n" +
 "	where riskreductionmain.UniqueID = enrollment.UniqueID \n" +
 "	and riskreductiondetails.RiskReductionID= riskreductionmain.RiskReductionID \n" +
-"	and  Enrollment.DICName='"+dics.get(t).toString()+"' AND RiskReductionDetails.QID='"+questions[g]+"' AND MONTH((STR_TO_DATE(RiskReductionMain.DOA,'%e/%c/%Y')))='"+months1[z]+"' AND RiskReductionMain.year='"+reportyear+"'"+
+"	and  riskreductionmain.DICName1='"+dics.get(t).toString()+"' AND RiskReductionDetails.QID='"+questions[g]+"' AND MONTH((STR_TO_DATE(RiskReductionMain.DOA,'%e/%c/%Y')))='"+months1[z]+"' AND RiskReductionMain.year='"+reportyear+"'"+
 //                             + "str_to_date(riskreductionmain.DOA,'%e/%c/%Y') between\n" +G
 //"str_to_date('01/04/2014','%e/%c/%Y') and str_to_date('30/04/2014','%e/%c/%Y')\n" +
-"group by riskreductiondetails.QID,enrollment.DICName\n" +
+"group by riskreductiondetails.QID,riskreductionmain.DICName1 \n" +
 "";
             conn.rs = conn.state2.executeQuery(query);
           System.out.println("&&&&"+dics.get(t).toString());

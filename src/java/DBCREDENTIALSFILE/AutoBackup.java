@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import DBCREDENTIALSFILE.AutoBackups;
+import java.net.InetAddress;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 /**
@@ -40,7 +41,9 @@ int foundClients,foundRegister;
         
            //CREATE A PATH IN THE COMPUTER FOR STORING TEXT FILES
            //IdGenerator IG = new IdGenerator();
+        String computername=InetAddress.getLocalHost().getHostName();
         
+        if(!computername.equalsIgnoreCase("ANALYTICS")){
         
         Date date= new Date();
                 SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -149,7 +152,7 @@ out.close();
     backup.CreateBackUp();          
     }
 
-        
+     }   
 //
 
     }

@@ -38,7 +38,7 @@ access.addAccess(username,task);
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>DIC RISK REDUCTIONS </title>
-        
+        <link rel="shortcut icon" href="../images/favicon.png">        
         <link rel="stylesheet" type="text/css" href="../js/jquery-ui.css"/>
 	<script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
     <script type="text/javascript" src="../js/jquery-ui.js"></script>
@@ -232,7 +232,7 @@ mcount++;
                 <tr class="d1"> <td>Data from</td><td><input type="text" name="startdate" id="startdate" class="datepicker" value="" required ="true"></td>
                <td>To</td><td><input type="text" name="enddate" id="enddate" class="datepicker" value="" required ="true"></td></tr>
                  
-                <tr><td> <input type="submit"  name="submit" value="View">  </td></tr>
+                <tr><td> <input type="submit" style="height:32px;width:140px;"  name="submit" value="View">  </td></tr>
             
         </table>
         </form>

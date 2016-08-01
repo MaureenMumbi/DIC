@@ -51,7 +51,7 @@ public class updatedics extends HttpServlet {
                DICName1=conn.rs.getString("DICName");
                County1=conn.rs.getString("district");
                
-               String select ="select * from riskreductionmain where UniqueID='"+uniqueid+"' ";
+               String select ="select * from riskreductionmain where UniqueID='"+uniqueid+"' and DICName1 is null ";
                conn.rs3= conn.state4.executeQuery(select);
                while(conn.rs3.next()){
                    RID=conn.rs3.getString("ID");
@@ -63,7 +63,7 @@ public class updatedics extends HttpServlet {
                 Logger.getLogger(updatedics.class.getName()).log(Level.SEVERE, null, ex);
                }
                }
-               String select1 ="select * from riskassessmentmain  where UniqueID='"+uniqueid+"' ";
+               String select1 ="select * from riskassessmentmain  where UniqueID='"+uniqueid+"' and DICName1 is null ";
                conn.rs5= conn.state5.executeQuery(select1);
                while(conn.rs5.next()){
                      AID=conn.rs5.getString("ID");
@@ -72,7 +72,7 @@ public class updatedics extends HttpServlet {
                conn.state2.executeUpdate(updateriskassessmentmain);
                 System.out.println(updateriskassessmentmain);
                }
-                String select2 ="select * from medical_form  where unique_identifier='"+uniqueid+"' ";
+                String select2 ="select * from medical_form  where unique_identifier='"+uniqueid+"' and DICName1 is null";
                conn.rs6= conn.state6.executeQuery(select2);
                while(conn.rs6.next()){
                     MID=conn.rs6.getString("id");

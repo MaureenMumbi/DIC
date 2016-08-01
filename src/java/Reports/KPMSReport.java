@@ -109,11 +109,11 @@ wb = new XSSFWorkbook(OPCPackage.open(allpath));
                         cell4 = rw1.createCell(4);
                      cell4.setCellValue("GENDER");
                          
-   String enrollments="select count(UniqueID),DICName,"
-            + " case when DICName='Naivasha' then district='Naivasha'"
+   String enrollments=" select count(UniqueID),DICName, "
+            + " case when DICName='Naivasha' then district='Naivasha' "
           + " else district end as County"
-            + ""
-            + ",month(STR_TO_DATE(DOE,'%e/%c/%Y')), YEAR(STR_TO_DATE(DOE,'%e/%c/%Y')),Trim( Sex) as gender from enrollment  where "
+            + " "
+            + " ,month(STR_TO_DATE(DOE,'%e/%c/%Y')), YEAR(STR_TO_DATE(DOE,'%e/%c/%Y')),Trim( Sex) as gender from enrollment  where "
                 + " (STR_TO_DATE(DOE,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+startdate+"','%e/%c/%Y'))"
                 + " AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y')) group by DICName,District,month(STR_TO_DATE(DOE,'%e/%c/%Y')),gender  ";
         
@@ -220,14 +220,14 @@ wb = new XSSFWorkbook(OPCPackage.open(allpath));
                         cell4 = rw1.createCell(4);
                      cell4.setCellValue("GENDER");
                         
-    String enrollments="select count(DISTINCT riskreductionmain.UniqueID),DICName,"
-            + " case when DICName='Naivasha' then district='Naivasha'"
-          + " else district end as County"
-            + ""
-            + ",MONTH(STR_TO_DATE(DOA,'%e/%c/%Y')),YEAR(STR_TO_DATE(DOA,'%e/%c/%Y')),Trim( Sex) as gender from enrollment,riskreductionmain  where "
-                + " (STR_TO_DATE(DOA,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+startdate+"','%e/%c/%Y'))"
+    String enrollments="select count(DISTINCT riskreductionmain.UniqueID),DICName1 as DICName,"
+            + " case when DICName1='Naivasha' then County1='Naivasha'"
+          + " else County1 end as County "
+            + " "
+            + " ,MONTH(STR_TO_DATE(DOA,'%e/%c/%Y')),YEAR(STR_TO_DATE(DOA,'%e/%c/%Y')),Trim( Sex) as gender from enrollment,riskreductionmain  where "
+                + " (STR_TO_DATE(DOA,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+startdate+"','%e/%c/%Y')) "
                 + " AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y')) and enrollment.uniqueid=riskreductionmain.uniqueid "
-            + " group by DICName,MONTH(STR_TO_DATE(DOA,'%e/%c/%Y')),district,gender ";
+            + " group by DICName1,MONTH(STR_TO_DATE(DOA,'%e/%c/%Y')),County1,gender ";
      
                      
                      

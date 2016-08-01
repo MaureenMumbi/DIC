@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -367,7 +370,7 @@ style_header1.setBottomBorderColor(HSSFColor.LEMON_CHIFFON.index);
            
          }
         
-      String riskassessments="SELECT dicname,count(distinct(riskassessmentmain.Uniqueid)),district, MONTH(STR_TO_DATE(AssessmentDate,'%e/%c/%Y'))  FROM enrollment,riskassessmentmain where (STR_TO_DATE(AssessmentDate,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+startdate+"','%e/%c/%Y')) AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y'))and enrollment.Uniqueid= riskassessmentmain.uniqueid group by dicname,MONTH(STR_TO_DATE(AssessmentDate,'%e/%c/%Y')) ORDER BY MONTH(STR_TO_DATE(AssessmentDate,'%e/%c/%Y')) ";  
+      String riskassessments="SELECT DICName1 as dicname,count(distinct(riskassessmentmain.Uniqueid)),County1 as district, MONTH(STR_TO_DATE(AssessmentDate,'%e/%c/%Y'))  FROM riskassessmentmain where (STR_TO_DATE(AssessmentDate,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+startdate+"','%e/%c/%Y')) AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y')) and DICName1 is not null group by DICName1,MONTH(STR_TO_DATE(AssessmentDate,'%e/%c/%Y')) ORDER BY MONTH(STR_TO_DATE(AssessmentDate,'%e/%c/%Y')) ";  
         
 //        String riskassessments="select dicname, count(riskassessmentmain.uniqueid),district,MONTH(STR_TO_DATE(AssessmentDate,'%e/%c/%Y'))from enrollment, riskassessmentmain where enrollment.uniqueid in(select uniqueid from riskassessmentmain "
 //                + " where (STR_TO_DATE(AssessmentDate,'%e/%c/%Y')) BETWEEN "
@@ -445,7 +448,7 @@ style_header1.setBottomBorderColor(HSSFColor.LEMON_CHIFFON.index);
 //                + "(STR_TO_DATE('"+startdate+"','%e/%c/%Y')) AND "
 //                + "(STR_TO_DATE('"+enddate+"','%e/%c/%Y')) ) group by dicname";
         
-          String riskreductions="SELECT dicname,count(distinct(riskreductionmain.Uniqueid)),district, MONTH(STR_TO_DATE(DOA,'%e/%c/%Y'))  FROM enrollment,riskreductionmain where (STR_TO_DATE(DOA,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+startdate+"','%e/%c/%Y')) AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y'))and enrollment.Uniqueid= riskreductionmain.uniqueid group by dicname,MONTH(STR_TO_DATE(DOA,'%e/%c/%Y')) ORDER BY MONTH(STR_TO_DATE(DOA,'%e/%c/%Y')) ";  
+          String riskreductions="SELECT DICName1 as dicname,count(distinct(riskreductionmain.Uniqueid)),County1 as district, MONTH(STR_TO_DATE(DOA,'%e/%c/%Y'))  FROM riskreductionmain where (STR_TO_DATE(DOA,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+startdate+"','%e/%c/%Y')) AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y')) and DICName1 is not null group by DICName1,MONTH(STR_TO_DATE(DOA,'%e/%c/%Y')) ORDER BY MONTH(STR_TO_DATE(DOA,'%e/%c/%Y')) ";  
       System.out.println(riskreductions);
          conn.rs3 = conn.state3.executeQuery(riskreductions);
           while(conn.rs3.next()){
@@ -657,11 +660,11 @@ style_header1.setBottomBorderColor(HSSFColor.LEMON_CHIFFON.index);
            
          }
         
-      String riskassessments="SELECT dicname,count(riskassessmentmain.Uniqueid),"
-              + "district, QUARTER(STR_TO_DATE(AssessmentDate,'%e/%c/%Y'))"
-              + "  FROM enrollment,riskassessmentmain where"
+      String riskassessments="SELECT riskassessmentmain.DICName1  as dicname,count(riskassessmentmain.Uniqueid),"
+              + "County1 as district, QUARTER(STR_TO_DATE(AssessmentDate,'%e/%c/%Y'))"
+              + "  FROM riskassessmentmain where"
               + " (STR_TO_DATE(AssessmentDate,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+startdate+"','%e/%c/%Y')) "
-              + "AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y'))and enrollment.Uniqueid= riskassessmentmain.uniqueid group by dicname,QUARTER(STR_TO_DATE(AssessmentDate,'%e/%c/%Y')) ORDER BY QUARTER(STR_TO_DATE(AssessmentDate,'%e/%c/%Y')),District ";  
+              + "AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y')) and DICName1 is not null group by DICName1,QUARTER(STR_TO_DATE(AssessmentDate,'%e/%c/%Y')) ORDER BY QUARTER(STR_TO_DATE(AssessmentDate,'%e/%c/%Y')),County1 ";  
         
 //        String riskassessments="select dicname, count(riskassessmentmain.uniqueid),district,MONTH(STR_TO_DATE(AssessmentDate,'%e/%c/%Y'))from enrollment, riskassessmentmain where enrollment.uniqueid in(select uniqueid from riskassessmentmain "
 //                + " where (STR_TO_DATE(AssessmentDate,'%e/%c/%Y')) BETWEEN "
@@ -750,15 +753,14 @@ style_header1.setBottomBorderColor(HSSFColor.LEMON_CHIFFON.index);
 //                + "(STR_TO_DATE('"+startdate+"','%e/%c/%Y')) AND "
 //                + "(STR_TO_DATE('"+enddate+"','%e/%c/%Y')) ) group by dicname";
         
-          String riskreductions="SELECT dicname,count(riskreductionmain.Uniqueid),"
-                  + "district, QUARTER(STR_TO_DATE(DOA,'%e/%c/%Y')) "
-                  + " FROM enrollment,riskreductionmain where "
+          String riskreductions="SELECT DICName1 as dicname,count(riskreductionmain.Uniqueid),"
+                  + "County1 as district, QUARTER(STR_TO_DATE(DOA,'%e/%c/%Y')) "
+                  + " FROM riskreductionmain where "
                   + "(STR_TO_DATE(DOA,'%e/%c/%Y')) BETWEEN "
                   + "(STR_TO_DATE('"+startdate+"','%e/%c/%Y')) AND "
-                  + "(STR_TO_DATE('"+enddate+"','%e/%c/%Y'))and "
-                  + "enrollment.Uniqueid= riskreductionmain.uniqueid "
-                  + "group by dicname,QUARTER(STR_TO_DATE(DOA,'%e/%c/%Y')) "
-                  + "ORDER BY QUARTER(STR_TO_DATE(DOA,'%e/%c/%Y')),District ";  
+                  + "(STR_TO_DATE('"+enddate+"','%e/%c/%Y')) and DICName1 is not null "                 
+                  + "group by DICName1,QUARTER(STR_TO_DATE(DOA,'%e/%c/%Y')) "
+                  + "ORDER BY QUARTER(STR_TO_DATE(DOA,'%e/%c/%Y')),County1 ";  
       System.out.println(riskreductions);
          conn.rs3 = conn.state3.executeQuery(riskreductions);
           while(conn.rs3.next()){
@@ -961,14 +963,17 @@ style_header1.setBottomBorderColor(HSSFColor.LEMON_CHIFFON.index);
 //          
 //          }
           
-          
+   Date dat=new Date();
+   
+   Format fmt=new SimpleDateFormat("YYYY-MM-dd");
+        String dait=fmt.format(dat);
           ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
 wb.write(outByteStream);
 byte [] outArray = outByteStream.toByteArray();
 response.setContentType("application/ms-excel");
 response.setContentLength(outArray.length);
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename=Summary.xls");
+response.setHeader("Content-Disposition", "attachment; filename=Summary_Generated_on_"+dait+".xls");
 OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
 outStream.flush();
@@ -994,16 +999,7 @@ outStream.flush();
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP
-     * <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -1014,15 +1010,7 @@ outStream.flush();
         }
     }
 
-    /**
-     * Handles the HTTP
-     * <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+   
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -1033,11 +1021,7 @@ outStream.flush();
         }
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+  
     @Override
     public String getServletInfo() {
         return "Short description";

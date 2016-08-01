@@ -134,6 +134,7 @@ computername=InetAddress.getLocalHost().getHostName();
                 <li><a href="/DIC/Reports/FPReport.jsp">Family Planning Report</a> </li>
                  <!--<li><a href="/DIC/Reports/BiometricReport.jsp">Biometric Report</a> </li>-->
                 <li><a href="/DIC/Reports/repeatVisit.jsp">Visits Report</a> </li>
+                <li><a href="/DIC/Reports/BiometricReport.jsp">Biometric Report</a> </li>
             </ul>
         </li>
         <li><a href="#">DQA</a> 

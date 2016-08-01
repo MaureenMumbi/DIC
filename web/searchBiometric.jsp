@@ -12,6 +12,7 @@ dbConnect conn = new dbConnect();
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link rel="shortcut icon" href="images/favicon.png">
     <title>DIC</title>
 <script type="text/javascript">
 function myFunction()
@@ -234,6 +235,7 @@ else{ %>
  
  String Sectionshelp[]=new String [12];
 int mcount=0;
+if(conn.state2.isClosed()){conn=new dbConnect();}
 conn.rs2=conn.state2.executeQuery("Select * from help where help_id<='12'");
 while(conn.rs2.next()){
     

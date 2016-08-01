@@ -63,12 +63,20 @@ session = request.getSession(true);
 
 String County="";
 String DICName="";
+String ward="";
 if(request.getParameter("district")!=null && !request.getParameter("district").equals("") ){
 County= request.getParameter("district");       
         }
-if(request.getParameter("DICName")!=null && !request.getParameter("DICName").equals("") ){
+if(request.getParameter("DICName")!=null && !request.getParameter("DICName").equals("") )
+{
 DICName= request.getParameter("DICName");       
-        }
+}
+
+
+if(request.getParameter("ward")!=null && !request.getParameter("ward").equals("") )
+{
+ward= request.getParameter("ward");       
+}
 
 //actions
 
@@ -520,8 +528,8 @@ String Ans28_2="";
     if(AssessmentID!=null && !AssessmentID.equals(""))
     {
       
-        query="INSERT INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,County1,DICName1,qtr,year,syncstatus)"
-            + "VALUES(?,?,?,?,?,?,?,?,?)";
+        query="INSERT INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,County1,DICName1,qtr,year,syncstatus,ward1)"
+            + "VALUES(?,?,?,?,?,?,?,?,?,?)";
             conn.ps = conn.connect.prepareStatement(query);
             conn.ps.setString(1,AssessmentID);
             conn.ps.setString(2,DOA);
@@ -534,6 +542,7 @@ String Ans28_2="";
             String insert_year1=Integer.toString(insert_year);
             conn.ps.setString(8,insert_year1);
             conn.ps.setString(9,"0");
+            conn.ps.setString(10,ward);
             conn.ps.executeUpdate(); 
  
 inserter="insert into taskauditor set host_comp=?, action=?,time=?,username=?,syncstatus=?";                     

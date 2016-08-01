@@ -8,9 +8,11 @@
 dbConnect conn = new dbConnect();
 %>
 
+
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<link rel="shortcut icon" href="images/favicon.png">
 <!DOCTYPE html>
 
 <%if(session.getAttribute("accessTrail")!=null){ %>
@@ -36,6 +38,15 @@ access.addAccess(username,task);
  width:10px;
  
   
+}
+table{
+    
+    font-family: cambria;
+    font-size: 16px;
+}
+select {
+    height:26px;
+ 
 }
         </style> 
  <script type="text/javascript" src="jquery-1.7.2.js"></script>       
@@ -66,6 +77,7 @@ if(v==2) {
   AlcoholFrequency.disabled = true;
   document.getElementById('AlcoholFrequency').value = "";
   }
+  
 else {
   AlcoholFrequency.disabled = false;
   }
@@ -416,6 +428,47 @@ else {
 }
 
 
+function filter_wards(DICName){
+ 
+     
+   var dist = document.getElementById("DICName").value;
+   var distr = new Array();
+// this will return an array with strings "1", "2", etc.
+distr = dist.split(",");
+var dicname=distr[0];
+//
+// window.open("districtselector?county="+dist.value);     
+var xmlhttp;    
+if (dicname=="")
+{
+//filter the districts    
+
+
+
+document.getElementById("ward").innerHTML="<option value=\"\">Choose Ward</option>";
+return;
+}
+if (window.XMLHttpRequest)
+{// code for IE7+, Firefox, Chrome, Opera, Safari
+xmlhttp=new XMLHttpRequest();
+}
+else
+{// code for IE6, IE5
+xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+}
+xmlhttp.onreadystatechange=function()
+{
+if (xmlhttp.readyState==4 && xmlhttp.status==200)
+{
+document.getElementById("ward").innerHTML=xmlhttp.responseText;
+}
+}
+xmlhttp.open("POST","/DIC/wardselector?dicname="+dicname,true);
+
+xmlhttp.send();
+
+
+}//end of filter districts
 
 </SCRIPT>
 <script type="text/javascript">
@@ -495,7 +548,7 @@ xmlhttp.send();
                                 dateFormat: "dd/mm/yy",
                                 changeMonth: true,
                                 changeYear: true,
-                                yearRange:'2011:2015',
+                                yearRange:'2011:2022',
                                 maxDate: dateToday
 //                                ,
 //                                minDate:dt
@@ -779,12 +832,23 @@ mcount++;
                                  <tr class="d1">
                                  <td>DIC Name <font style="color: blue">*</font></td>
                                  <td>
-                                 <select id="DICName"  name="DICName"  >
+                                 <select id="DICName"  name="DICName" onchange="filter_wards(this);" >
                                  <option value="">Choose DIC Name</option>  
 
                                  </select>
                                     </td>
                 </tr>
+                
+                            <tr class="d1">
+                                 <td>Ward <font style="color: blue">*</font></td>
+                                 <td>
+                                 <select id="ward"  name="ward"  >
+                                 <option value="">Choose Ward</option>  
+
+                                 </select>
+                                    </td>
+                </tr>
+                
  <tr class="d0">
        <% 
                             String QstnQuery= "SELECT QuestionsID,Question FROM questions where ID=57";
@@ -2267,7 +2331,7 @@ mcount++;
                                
                  %>
                     <td>
-                        <select multiple name="DrugType" id="DrugType">
+                        <select style="height:130px;" multiple name="DrugType" id="DrugType">
                             <option value="MIRAA">MIRAA</option>
                             <option value="CIGARETTES">CIGARETTES</option>
                             <option value="BHANG">BHANG</option>

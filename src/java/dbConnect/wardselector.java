@@ -73,14 +73,17 @@ public class wardselector extends HttpServlet {
            
            
            PrintWriter out = response.getWriter();
+           
+           
+            if(currentwards.equalsIgnoreCase("<option value=\"\">Choose Ward </option>")){
+                
+            currentwards="<option value=\"\">No wards added for "+dicname+" Dic </option>";
             
-            out.println("<html>");
-            out.println("<head>");           
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>" +currentwards+"</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            
+             }
+            
+            out.println(currentwards);
+       
              
            
         		

@@ -82,10 +82,8 @@ access.addAccess(username,task);
                                 
 //				request.setAttribute("userList",userList);
 				  session.setAttribute("assessments", assessments);
-                                String nextJSP = "/admin/viewAssess.jsp";
-				RequestDispatcher dispatcher;
-                                           dispatcher = getServletContext().getRequestDispatcher(nextJSP);
-				dispatcher.forward(request,response);
+                                String nextJSP = "/DIC/admin/viewAssess.jsp";
+				response.sendRedirect(nextJSP);
 				
 			
                          if(conn.rs!=null){ conn.rs.close();}

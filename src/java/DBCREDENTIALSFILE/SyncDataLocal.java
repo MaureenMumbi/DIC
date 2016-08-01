@@ -240,16 +240,23 @@ while(online.rs.next()){
 //start of risk assessment main
 String riskasesmain="SELECT * FROM riskassessmentmain WHERE ID!='' and syncstatus='0' and timestamp!='0000-00-00 00:00:00'";
 online.rs2=online.state3.executeQuery(riskasesmain);
+
+String ward1="";
+String county1="";
+String Dicname1="";
 while(online.rs2.next()){
    
     
     already_added=0;
     ID2=CoccID=UniqueID4=OccupationID=timestamp4="";
     String Quarter,Month,Pefar_year="";
-         ID2=online.rs2.getString(1);
-         AssessID=online.rs2.getString(2);
-         AssessmentDate=online.rs2.getString(3);
-         UniqueID6=online.rs2.getString(4);
+          ID2=online.rs2.getString("ID");
+         AssessID=online.rs2.getString("AssessmentID");
+         AssessmentDate=online.rs2.getString("AssessmentDate");
+         UniqueID6=online.rs2.getString("UniqueID");
+         county1=online.rs2.getString("County1");
+         Dicname1=online.rs2.getString("DICName1");
+         ward=online.rs2.getString("ward1");
          timestamp4=online.rs2.getString("timestamp");
          Quarter=online.rs2.getString("Quarter");
          Month=online.rs2.getString("Month");
@@ -272,8 +279,8 @@ while(online.rs2.next()){
  
  }
  else {
-  String inserter="REPLACE INTO riskassessmentmain(AssessmentID,AssessmentDate,UniqueID,Quarter,Month,Pefar_year,entrydate)"
-          + "VALUES('"+AssessID+"','"+AssessmentDate+"','"+UniqueID6+"','"+Quarter+"','"+Month+"','"+Pefar_year+"','"+timestamp4+"')";
+  String inserter="REPLACE INTO riskassessmentmain(AssessmentID,AssessmentDate,UniqueID,Quarter,Month,Pefar_year,entrydate,County1,DICName1,ward1)"
+          + "VALUES('"+AssessID+"','"+AssessmentDate+"','"+UniqueID6+"','"+Quarter+"','"+Month+"','"+Pefar_year+"','"+timestamp4+"','"+county1+"','"+Dicname1+"','"+ward+"')";
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
@@ -299,15 +306,18 @@ while(online.rs2.next()){
     RiskRedID=DOA=CadreProvider=UniqueID7=timestamp4="";
     String qtr="";
     String year="";
-         RiskRedID=online.rs2.getString(2);
-         DOA=online.rs2.getString(3);
-         CadreProvider=online.rs2.getString(4);
-         UniqueID7=online.rs2.getString(5);
+         RiskRedID=online.rs2.getString("RiskReductionID");
+         DOA=online.rs2.getString("DOA");
+         CadreProvider=online.rs2.getString("CadreProvider");
+         UniqueID7=online.rs2.getString("UniqueID");
          timestamp4=online.rs2.getString("timestamp");
          qtr=online.rs2.getString("qtr");
          year=online.rs2.getString("year");
       
-        
+        //added later 201510
+         county1=online.rs2.getString("County1");
+         Dicname1=online.rs2.getString("DICName1");
+         ward=online.rs2.getString("ward1");
       
        
  String check_if_exist="SELECT * FROM riskreductionmain WHERE RiskReductionID='"+RiskRedID+"' AND DOA='"+DOA+"' AND CadreProvider='"+CadreProvider+"' ORDER BY DOA DESC";
@@ -324,8 +334,8 @@ while(online.rs2.next()){
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,entrydate,qtr,year)"
-          + "VALUES('"+RiskRedID+"','"+DOA+"','"+CadreProvider+"','"+UniqueID7+"','"+online.rs2.getString("timestamp")+"','"+qtr+"','"+year+"')";
+  String inserter="REPLACE INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,entrydate,qtr,year, County1, DICName1, ward1)"
+          + "VALUES('"+RiskRedID+"','"+DOA+"','"+CadreProvider+"','"+UniqueID7+"','"+online.rs2.getString("timestamp")+"','"+qtr+"','"+year+"','"+county1+"','"+Dicname1+"','"+ward+"')";
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
@@ -670,43 +680,50 @@ while(online.rs.next()){
            musculoskeletal=musculoskeletal_findings=respiratory=respiratory_findings=psychological=psychological_findings=diagnosis=management=
            referral=specify_others=TCA=cadre=dater=signature=timestamp6="";
     
-         id=online.rs.getString(1);
-         unique_identifier=online.rs.getString(2);
-         temperature=online.rs.getString(3);
-         temperature_complain=online.rs.getString(4);
-         blood_pressure=online.rs.getString(5);
-         blood_pressure_complain=online.rs.getString(6);
-         p=online.rs.getString(7);
-         p_complain=online.rs.getString(8);
-         weight=online.rs.getString(9);
-         weightcomplain=online.rs.getString(10);
-         ga=online.rs.getString(11);
-         ga_findings=online.rs.getString(12);
-         skin=online.rs.getString(13); 
-         skin_findings=online.rs.getString(14); 
-         ent=online.rs.getString(15); 
-         ent_findings=online.rs.getString(16); 
-         eyes=online.rs.getString(17); 
-         eyes_findings=online.rs.getString(18); 
-         abdomen=online.rs.getString(19); 
-         abdomen_findings=online.rs.getString(20); 
-         genitourinary=online.rs.getString(21); 
-         genitourinary_findings=online.rs.getString(22); 
-         musculoskeletal=online.rs.getString(23); 
-         musculoskeletal_findings=online.rs.getString(24); 
-         respiratory=online.rs.getString(25); 
-         respiratory_findings=online.rs.getString(26); 
-         psychological=online.rs.getString(27);
-         psychological_findings=online.rs.getString(28);
-         diagnosis=online.rs.getString(29); 
-         management=online.rs.getString(30); 
-         referral=online.rs.getString(31); 
-         specify_others=online.rs.getString(32); 
-         TCA=online.rs.getString(33); 
-         cadre=online.rs.getString(34); 
-         dater=online.rs.getString(35); 
-         signature=online.rs.getString(36); 
-         timestamp6=online.rs.getString(37); 
+          id=online.rs.getString("id");
+         unique_identifier=online.rs.getString("unique_identifier");
+         temperature=online.rs.getString("temperature");
+         temperature_complain=online.rs.getString("temperature_complain");
+         blood_pressure=online.rs.getString("blood_pressure");
+         blood_pressure_complain=online.rs.getString("blood_pressure_complain");
+         p=online.rs.getString("p");
+         p_complain=online.rs.getString("p_complain");
+         weight=online.rs.getString("weight");
+         weightcomplain=online.rs.getString("weight_complain");
+         ga=online.rs.getString("ga");
+         ga_findings=online.rs.getString("ga_findings");
+         skin=online.rs.getString("skin"); 
+         skin_findings=online.rs.getString("skin_findings"); 
+         ent=online.rs.getString("ent"); 
+         ent_findings=online.rs.getString("ent_findings"); 
+         eyes=online.rs.getString("eyes"); 
+         eyes_findings=online.rs.getString("eyes_findings"); 
+         abdomen=online.rs.getString("abdomen"); 
+         abdomen_findings=online.rs.getString("abdomen_findings"); 
+         genitourinary=online.rs.getString("genitourinary"); 
+         genitourinary_findings=online.rs.getString("genitourinary_findings"); 
+         musculoskeletal=online.rs.getString("musculoskeletal"); 
+         musculoskeletal_findings=online.rs.getString("musculoskeletal_findings"); 
+         respiratory=online.rs.getString("respiratory"); 
+         respiratory_findings=online.rs.getString("respiratory_findings"); 
+         psychological=online.rs.getString("psychological");
+         psychological_findings=online.rs.getString("psychological_findings");
+         diagnosis=online.rs.getString("diagnosis"); 
+         management=online.rs.getString("management"); 
+         referral=online.rs.getString("referral"); 
+         specify_others=online.rs.getString("specify_others"); 
+         TCA=online.rs.getString("TCA"); 
+         cadre=online.rs.getString(cadre); 
+         dater=online.rs.getString("dater"); 
+         signature=online.rs.getString("signature"); 
+         timestamp6=online.rs.getString("timestamp"); 
+  
+         
+          //added later 201510
+         county1=online.rs2.getString("County1");
+         Dicname1=online.rs2.getString("DICName1");
+         ward=online.rs2.getString("ward1");
+        
   
  String check_if_exist="SELECT * FROM medical_form WHERE id='"+id+"' and unique_identifier='"+unique_identifier+"'and temperature='"+temperature+"' AND temperature_complain='"+temperature_complain+"' AND blood_pressure='"+blood_pressure_complain+"' AND p='"+p+"'"
  + " AND p_complain='"+p_complain+"' AND weight_complain='"+weightcomplain+"' AND ga='"+ga+"' AND ga_findings='"+ga_findings+"' AND skin='"+skin+"'"
@@ -733,13 +750,13 @@ while(online.rs.next()){
           + ",weight_complain,ga,ga_findings,skin,skin_findings,ent,ent_findings,eyes,eyes_findings,"
           + "abdomen,abdomen_findings,genitourinary,genitourinary_findings," 
           +"musculoskeletal,musculoskeletal_findings,respiratory,respiratory_findings,psychological,psychological_findings,"
-          + "diagnosis,management,referral,specify_others,TCA,cadre,dater,signature,timestamp)"
+          + "diagnosis,management,referral,specify_others,TCA,cadre,dater,signature,timestamp,county1, DICName1,  ward1)"
           + "VALUES('"+unique_identifier+"','"+temperature+"','"+temperature_complain+"','"+blood_pressure+"','"+blood_pressure_complain+"','"+p+"','"+p_complain+"','"+weight+"',"
           + "'"+weightcomplain+"','"+ga+"','"+ga_findings+"','"+skin+"','"+skin_findings+"','"+ent+"','"+ent_findings+"','"+eyes+"',"
           + "'"+eyes_findings+"','"+abdomen+"','"+abdomen_findings+"','"+genitourinary+"','"+genitourinary_findings+"','"+psychological+"','"+psychological_findings+"',"
           + "'"+musculoskeletal+"','"+musculoskeletal_findings+"','"+respiratory+"','"+respiratory_findings+"',"
           + "'"+diagnosis+"','"+management+"','"+referral+"','"+specify_others+"','"+TCA+"','"+cadre+"',"
-          + "'"+dater+"','"+signature+"','"+timestamp6+"')"   ;
+          + "'"+dater+"','"+signature+"','"+timestamp6+"','"+county1+"','"+Dicname1+"','"+ward+"')"   ;
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;

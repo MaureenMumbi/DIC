@@ -10,7 +10,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -205,6 +208,10 @@ stylex.setFont(font);
              cell08.setCellValue("RISK ASSESSED");
              cell08.setCellStyle(stylex);
    
+             
+                HSSFCell cell081 = rw1.createCell(2);    
+             cell081.setCellValue("");
+             cell081.setCellStyle(stylex);
    //Merging cells for the Topic of Risk Assessed
    shet1.addMergedRegion(new CellRangeAddress(3,4,2,2));
    
@@ -278,12 +285,18 @@ stylex.setFont(font);
             HSSFCell cell0 = rw1.createCell(dic_pos);    
              cell0.setCellValue(dic_name);
              cell0.setCellStyle(stylex);
-           
+             
+             
+             //fill the blank space
+               HSSFCell cell01 = rw2.createCell(dic_pos);    
+             cell01.setCellValue("");
+             cell01.setCellStyle(stylex);
+           //answering Question on STI/HIV
            System.out.println("Here dic   :  "+dic_name);  
-             String dom1="SELECT COUNT(DISTINCT enrollment.UniqueID) FROM enrollment JOIN riskassessmentmain ON "
-                     + "enrollment.UniqueID=riskassessmentmain.UniqueID JOIN riskassessmentdetails ON "
+             String dom1="SELECT COUNT(DISTINCT riskassessmentmain.UniqueID) FROM  riskassessmentmain "
+                     + " JOIN riskassessmentdetails ON "
                      + "riskassessmentmain.AssessmentID=riskassessmentdetails.AssessmentID WHERE "
-                     + "enrollment.DICName='"+dic_name+"' && ((riskassessmentdetails.QuestionID='M1' && riskassessmentdetails.DirectAnswers='Yes')  || (riskassessmentdetails.QuestionID='M2' && riskassessmentdetails.DirectAnswers='Yes') || "
+                     + "riskassessmentmain.DICName1='"+dic_name+"' && ((riskassessmentdetails.QuestionID='M1' && riskassessmentdetails.DirectAnswers='Yes')  || (riskassessmentdetails.QuestionID='M2' && riskassessmentdetails.DirectAnswers='Yes') || "
                      + " (riskassessmentdetails.QuestionID='M3' && riskassessmentdetails.DirectAnswers='Yes') || (riskassessmentdetails.QuestionID='M4' && riskassessmentdetails.DirectAnswers='Yes') || (riskassessmentdetails.QuestionID='M5' && riskassessmentdetails.DirectAnswers='Yes') ||"
                      + " (riskassessmentdetails.QuestionID='M6' && riskassessmentdetails.DirectAnswers='Yes') || (riskassessmentdetails.QuestionID='M7' && riskassessmentdetails.DirectAnswers='Yes')) && riskassessmentmain.Quarter='"+quarter_id+"' && riskassessmentmain.Pefar_year='"+report_year+"' ";   
             System.out.println("The query run is  :  "+dom1);
@@ -302,11 +315,12 @@ stylex.setFont(font);
              cell021.setCellValue(" ");
              cell021.setCellStyle(stylex_risk_data);
               }
-              
-              String dom2="SELECT COUNT(DISTINCT enrollment.UniqueID) FROM enrollment JOIN riskassessmentmain ON "
-                     + "enrollment.UniqueID=riskassessmentmain.UniqueID JOIN riskassessmentdetails ON "
+              //counting Family Planning
+              //we are interested with the unmet needs i.e the no
+              String dom2="SELECT COUNT(DISTINCT riskassessmentmain.UniqueID) FROM  riskassessmentmain "
+                     + " JOIN riskassessmentdetails ON "
                      + "riskassessmentmain.AssessmentID=riskassessmentdetails.AssessmentID WHERE "
-                     + "enrollment.DICName='"+dic_name+"' && ((riskassessmentdetails.QuestionID='P1' && riskassessmentdetails.DirectAnswers='No')  || (riskassessmentdetails.QuestionID='P2' && riskassessmentdetails.DirectAnswers='No') || "
+                     + "riskassessmentmain.DICName1='"+dic_name+"' && ((riskassessmentdetails.QuestionID='P1' && riskassessmentdetails.DirectAnswers='No')  || (riskassessmentdetails.QuestionID='P2' && riskassessmentdetails.DirectAnswers='No') || "
                      + " (riskassessmentdetails.QuestionID='P3' && riskassessmentdetails.DirectAnswers='No')) && riskassessmentmain.Quarter='"+quarter_id+"' && riskassessmentmain.Pefar_year='"+report_year+"' "; 
                
                  conn.rs2=conn.state2.executeQuery(dom2);
@@ -323,11 +337,11 @@ stylex.setFont(font);
              cell022.setCellValue(" ");
              cell022.setCellStyle(stylex_risk_data);
               }
-              
-              String dom3="SELECT COUNT(DISTINCT enrollment.UniqueID) FROM enrollment JOIN riskassessmentmain ON "
-                     + "enrollment.UniqueID=riskassessmentmain.UniqueID JOIN riskassessmentdetails ON "
+              //questions on sexual and gender based Violence
+              String dom3="SELECT COUNT(DISTINCT riskassessmentmain.UniqueID) FROM  riskassessmentmain  "
+                     + " JOIN riskassessmentdetails ON "
                      + "riskassessmentmain.AssessmentID=riskassessmentdetails.AssessmentID WHERE "
-                     + "enrollment.DICName='"+dic_name+"' && ((riskassessmentdetails.QuestionID='T1' && riskassessmentdetails.DirectAnswers='Yes')  || (riskassessmentdetails.QuestionID='T3' && riskassessmentdetails.DirectAnswers='Yes') || "
+                     + "riskassessmentmain.DICName1='"+dic_name+"' && ((riskassessmentdetails.QuestionID='T1' && riskassessmentdetails.DirectAnswers='Yes')  || (riskassessmentdetails.QuestionID='T3' && riskassessmentdetails.DirectAnswers='Yes') || "
                      + " (riskassessmentdetails.QuestionID='T5' && riskassessmentdetails.DirectAnswers='Yes') || (riskassessmentdetails.QuestionID='T7' && riskassessmentdetails.DirectAnswers='Yes') || "
                      + " (riskassessmentdetails.QuestionID='T9' && riskassessmentdetails.DirectAnswers='Yes')) && riskassessmentmain.Quarter='"+quarter_id+"' && riskassessmentmain.Pefar_year='"+report_year+"' ";   
                  conn.rs2=conn.state2.executeQuery(dom3);
@@ -344,11 +358,11 @@ stylex.setFont(font);
              cell023.setCellValue(" ");
              cell023.setCellStyle(stylex_risk_data);
               }
-              
-              String dom4="SELECT COUNT(DISTINCT enrollment.UniqueID) FROM enrollment JOIN riskassessmentmain ON "
-                     + "enrollment.UniqueID=riskassessmentmain.UniqueID JOIN riskassessmentdetails ON "
+              //use of condoms while engaging vaginal sex
+              String dom4="SELECT COUNT(DISTINCT riskassessmentmain.UniqueID) FROM  riskassessmentmain  "
+                     + " JOIN riskassessmentdetails ON "
                      + "riskassessmentmain.AssessmentID=riskassessmentdetails.AssessmentID WHERE "
-                     + "enrollment.DICName='"+dic_name+"' && ((riskassessmentdetails.QuestionID='J1' && riskassessmentdetails.DirectAnswers='3') || ( riskassessmentdetails.QuestionID='J1' && riskassessmentdetails.DirectAnswers='4') ||(riskassessmentdetails.QuestionID='J1' &&  riskassessmentdetails.DirectAnswers='5')) && riskassessmentmain.Quarter='"+quarter_id+"' && riskassessmentmain.Pefar_year='"+report_year+"'";   
+                     + "riskassessmentmain.DICName1='"+dic_name+"' && ((riskassessmentdetails.QuestionID='J1' && riskassessmentdetails.DirectAnswers='3') || ( riskassessmentdetails.QuestionID='J1' && riskassessmentdetails.DirectAnswers='4') ||(riskassessmentdetails.QuestionID='J1' &&  riskassessmentdetails.DirectAnswers='5')) && riskassessmentmain.Quarter='"+quarter_id+"' && riskassessmentmain.Pefar_year='"+report_year+"'";   
                  conn.rs2=conn.state2.executeQuery(dom4);
                 if(conn.rs2.next()==true){
                     found4=conn.rs2.getInt(1);
@@ -363,10 +377,12 @@ stylex.setFont(font);
              cell024.setCellValue(" ");
              cell024.setCellStyle(stylex_risk_data);
               }
-              String dom5="SELECT COUNT(DISTINCT enrollment.UniqueID) FROM enrollment JOIN riskassessmentmain ON "
-                     + "enrollment.UniqueID=riskassessmentmain.UniqueID JOIN riskassessmentdetails ON "
+              
+              //answer on use of condoms while engaging in oral sex
+              String dom5="SELECT COUNT(DISTINCT riskassessmentmain.UniqueID) FROM  riskassessmentmain  "
+                     + " JOIN riskassessmentdetails ON "
                      + "riskassessmentmain.AssessmentID=riskassessmentdetails.AssessmentID WHERE "
-                     + "enrollment.DICName='"+dic_name+"' && ((riskassessmentdetails.QuestionID='J2' && riskassessmentdetails.DirectAnswers='3') || ( riskassessmentdetails.QuestionID='J2' && riskassessmentdetails.DirectAnswers='4') ||(riskassessmentdetails.QuestionID='J2' &&  riskassessmentdetails.DirectAnswers='5')) && riskassessmentmain.Quarter='"+quarter_id+"' && riskassessmentmain.Pefar_year='"+report_year+"'";   
+                     + "riskassessmentmain.DICName1='"+dic_name+"' && ((riskassessmentdetails.QuestionID='J2' && riskassessmentdetails.DirectAnswers='3') || ( riskassessmentdetails.QuestionID='J2' && riskassessmentdetails.DirectAnswers='4') ||(riskassessmentdetails.QuestionID='J2' &&  riskassessmentdetails.DirectAnswers='5')) && riskassessmentmain.Quarter='"+quarter_id+"' && riskassessmentmain.Pefar_year='"+report_year+"'";   
                  conn.rs2=conn.state2.executeQuery(dom5);
                 if(conn.rs2.next()==true){
                     found5=conn.rs2.getInt(1);
@@ -381,10 +397,11 @@ stylex.setFont(font);
              cell025.setCellValue(" ");
              cell025.setCellStyle(stylex_risk_data);
               }
-              String dom6="SELECT COUNT(DISTINCT enrollment.UniqueID) FROM enrollment JOIN riskassessmentmain ON "
-                     + "enrollment.UniqueID=riskassessmentmain.UniqueID JOIN riskassessmentdetails ON "
+             //answer on use of condoms while engaging in anal sex
+              String dom6="SELECT COUNT(DISTINCT riskassessmentmain.UniqueID) FROM riskassessmentmain  "
+                     + " JOIN riskassessmentdetails ON "
                      + "riskassessmentmain.AssessmentID=riskassessmentdetails.AssessmentID WHERE "
-                     + "enrollment.DICName='"+dic_name+"' && ((riskassessmentdetails.QuestionID='J' && riskassessmentdetails.DirectAnswers='3') || ( riskassessmentdetails.QuestionID='J' && riskassessmentdetails.DirectAnswers='4') ||(riskassessmentdetails.QuestionID='J' &&  riskassessmentdetails.DirectAnswers='5')) && riskassessmentmain.Quarter='"+quarter_id+"' && riskassessmentmain.Pefar_year='"+report_year+"'";   
+                     + "riskassessmentmain.DICName1='"+dic_name+"' && ((riskassessmentdetails.QuestionID='J' && riskassessmentdetails.DirectAnswers='3') || ( riskassessmentdetails.QuestionID='J' && riskassessmentdetails.DirectAnswers='4') ||(riskassessmentdetails.QuestionID='J' &&  riskassessmentdetails.DirectAnswers='5')) && riskassessmentmain.Quarter='"+quarter_id+"' && riskassessmentmain.Pefar_year='"+report_year+"'";   
                  conn.rs2=conn.state2.executeQuery(dom6);
                 if(conn.rs2.next()==true){
                     found6=conn.rs2.getInt(1);
@@ -436,12 +453,26 @@ stylex.setFont(font);
             HSSFCell cell9 = rw8.createCell(2);    
              cell9.setCellValue("RISK ASSESSMENT REPORT");
              cell9.setCellStyle(style_header);
+             
+              //fill the other cells with blanks
+             for(int a1=3;a1<=end_merge;a1++){
+                HSSFCell ce9 = rw8.createCell(a1);    
+             ce9.setCellValue("");
+             ce9.setCellStyle(style_header);  
+             }
              shet1.addMergedRegion(new CellRangeAddress(1,1,2,end_merge));
              
              //Writing the PEPFAR YEAR
              HSSFCell cell44 = rw44.createCell(2);    
              cell44.setCellValue("PEPFAR YEAR "+report_year+"");
              cell44.setCellStyle(style_header);
+             
+              //fill the other cells with blanks
+             for(int a1=3;a1<=end_merge;a1++){
+                HSSFCell ce9 = rw44.createCell(a1);    
+             ce9.setCellValue("");
+             ce9.setCellStyle(style_header);  
+             }
              shet1.addMergedRegion(new CellRangeAddress(2,2,2,end_merge));
              
            }
@@ -460,7 +491,8 @@ stylex.setFont(font);
         found=found2=found3=found4=found5=found6=0;
        checker++; 
   }
-         
+        
+  
     System.out.println("Quarterly Report Generated");     
     // write it as an excel attachment
 ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
@@ -569,10 +601,10 @@ stylex.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 stylex.setWrapText(true);
 stylex.setBorderBottom(CellStyle.BORDER_THIN);
     stylex.setBottomBorderColor(HSSFColor.BLACK.index);
-    stylex.setBorderLeft(CellStyle.BORDER_THICK);
+    stylex.setBorderLeft(CellStyle.BORDER_THIN);
     stylex.setAlignment(CellStyle.ALIGN_CENTER);
     stylex.setLeftBorderColor(HSSFColor.BLACK.index);
-    stylex.setBorderRight(CellStyle.BORDER_THICK);
+    stylex.setBorderRight(CellStyle.BORDER_THIN);
     stylex.setRightBorderColor(HSSFColor.BLACK.index);
     stylex.setBorderTop(CellStyle.BORDER_THIN);
     stylex.setTopBorderColor(HSSFColor.BLACK.index);
@@ -614,7 +646,12 @@ stylex.setFont(font);
    HSSFCell cell08 = rw0.createCell(2);    
              cell08.setCellValue("RISK ASSESSED");
              cell08.setCellStyle(stylex);
-   
+    //fill the other cells with blanks
+     
+                HSSFCell ce9 = rw1.createCell(2);    
+             ce9.setCellValue("");
+             ce9.setCellStyle(stylex);  
+            
    //Merging cells for the Topic of Risk Assessed
    shet1.addMergedRegion(new CellRangeAddress(3,4,2,2));
    
@@ -689,12 +726,17 @@ stylex.setFont(font);
             HSSFCell cell0 = rw1.createCell(dic_pos);    
              cell0.setCellValue(dic_name);
              cell0.setCellStyle(stylex);
+             
+             //fill the blank space
+               HSSFCell cell01 = rw2.createCell(dic_pos);    
+             cell01.setCellValue("");
+             cell01.setCellStyle(stylex);
            
            System.out.println("Here dic   :  "+dic_name);  
-             String dom1="SELECT COUNT(DISTINCT enrollment.UniqueID) FROM enrollment JOIN riskassessmentmain ON "
-                     + "enrollment.UniqueID=riskassessmentmain.UniqueID JOIN riskassessmentdetails ON "
+             String dom1="SELECT COUNT(DISTINCT riskassessmentmain.UniqueID) FROM  riskassessmentmain  "
+                     + " JOIN riskassessmentdetails ON "
                      + "riskassessmentmain.AssessmentID=riskassessmentdetails.AssessmentID WHERE "
-                     + "enrollment.DICName='"+dic_name+"' && ((riskassessmentdetails.QuestionID='M1' && riskassessmentdetails.DirectAnswers='Yes')  || (riskassessmentdetails.QuestionID='M2' && riskassessmentdetails.DirectAnswers='Yes') || "
+                     + "riskassessmentmain.DICName1='"+dic_name+"' && ((riskassessmentdetails.QuestionID='M1' && riskassessmentdetails.DirectAnswers='Yes')  || (riskassessmentdetails.QuestionID='M2' && riskassessmentdetails.DirectAnswers='Yes') || "
                      + " (riskassessmentdetails.QuestionID='M3' && riskassessmentdetails.DirectAnswers='Yes') || (riskassessmentdetails.QuestionID='M4' && riskassessmentdetails.DirectAnswers='Yes') || (riskassessmentdetails.QuestionID='M5' && riskassessmentdetails.DirectAnswers='Yes') ||"
                      + " (riskassessmentdetails.QuestionID='M6' && riskassessmentdetails.DirectAnswers='Yes') || (riskassessmentdetails.QuestionID='M7' && riskassessmentdetails.DirectAnswers='Yes')) && riskassessmentmain.Month='"+month_id+"' && riskassessmentmain.Pefar_year='"+report_year+"' ";   
             System.out.println("The query run is  :  "+dom1);
@@ -713,10 +755,10 @@ stylex.setFont(font);
              cell021.setCellValue(" ");
              cell021.setCellStyle(stylex_risk_data);
               }
-              String dom2="SELECT COUNT(DISTINCT enrollment.UniqueID) FROM enrollment JOIN riskassessmentmain ON "
-                     + "enrollment.UniqueID=riskassessmentmain.UniqueID JOIN riskassessmentdetails ON "
+              String dom2="SELECT COUNT(DISTINCT riskassessmentmain.UniqueID) FROM  riskassessmentmain  "
+                     + " JOIN riskassessmentdetails ON "
                      + "riskassessmentmain.AssessmentID=riskassessmentdetails.AssessmentID WHERE "
-                     + "enrollment.DICName='"+dic_name+"' && ((riskassessmentdetails.QuestionID='P1' && riskassessmentdetails.DirectAnswers='No')  || (riskassessmentdetails.QuestionID='P2' && riskassessmentdetails.DirectAnswers='No') || "
+                     + "riskassessmentmain.DICName1='"+dic_name+"' && ((riskassessmentdetails.QuestionID='P1' && riskassessmentdetails.DirectAnswers='No')  || (riskassessmentdetails.QuestionID='P2' && riskassessmentdetails.DirectAnswers='No') || "
                      + " (riskassessmentdetails.QuestionID='P3' && riskassessmentdetails.DirectAnswers='No')) && riskassessmentmain.Month='"+month_id+"' && riskassessmentmain.Pefar_year='"+report_year+"' "; 
                
                  conn.rs2=conn.state2.executeQuery(dom2);
@@ -734,10 +776,10 @@ stylex.setFont(font);
              cell022.setCellStyle(stylex_risk_data);
               }
               
-              String dom3="SELECT COUNT(DISTINCT enrollment.UniqueID) FROM enrollment JOIN riskassessmentmain ON "
-                     + "enrollment.UniqueID=riskassessmentmain.UniqueID JOIN riskassessmentdetails ON "
+              String dom3="SELECT COUNT(DISTINCT riskassessmentmain.UniqueID) FROM  riskassessmentmain "
+                     + " JOIN riskassessmentdetails ON "
                      + "riskassessmentmain.AssessmentID=riskassessmentdetails.AssessmentID WHERE "
-                     + "enrollment.DICName='"+dic_name+"' && ((riskassessmentdetails.QuestionID='T1' && riskassessmentdetails.DirectAnswers='Yes')  || (riskassessmentdetails.QuestionID='T3' && riskassessmentdetails.DirectAnswers='Yes') || "
+                     + "riskassessmentmain.DICName1='"+dic_name+"' && ((riskassessmentdetails.QuestionID='T1' && riskassessmentdetails.DirectAnswers='Yes')  || (riskassessmentdetails.QuestionID='T3' && riskassessmentdetails.DirectAnswers='Yes') || "
                      + " (riskassessmentdetails.QuestionID='T5' && riskassessmentdetails.DirectAnswers='Yes') || (riskassessmentdetails.QuestionID='T7' && riskassessmentdetails.DirectAnswers='Yes') || "
                      + " (riskassessmentdetails.QuestionID='T9' && riskassessmentdetails.DirectAnswers='Yes')) && riskassessmentmain.Month='"+month_id+"' && riskassessmentmain.Pefar_year='"+report_year+"'";   
                  conn.rs2=conn.state2.executeQuery(dom3);
@@ -755,10 +797,10 @@ stylex.setFont(font);
              cell023.setCellStyle(stylex_risk_data);
               }
               
-              String dom4="SELECT COUNT(DISTINCT enrollment.UniqueID) FROM enrollment JOIN riskassessmentmain ON "
-                     + "enrollment.UniqueID=riskassessmentmain.UniqueID JOIN riskassessmentdetails ON "
+              String dom4="SELECT COUNT(DISTINCT riskassessmentmain.UniqueID) FROM  riskassessmentmain  "
+                     + " JOIN riskassessmentdetails ON "
                      + "riskassessmentmain.AssessmentID=riskassessmentdetails.AssessmentID WHERE "
-                     + "enrollment.DICName='"+dic_name+"' && ((riskassessmentdetails.QuestionID='J1' && riskassessmentdetails.DirectAnswers='3') || ( riskassessmentdetails.QuestionID='J1' && riskassessmentdetails.DirectAnswers='4') ||(riskassessmentdetails.QuestionID='J1' &&  riskassessmentdetails.DirectAnswers='5')) && riskassessmentmain.Month='"+month_id+"' && riskassessmentmain.Pefar_year='"+report_year+"'";   
+                     + "riskassessmentmain.DICName1='"+dic_name+"' && ((riskassessmentdetails.QuestionID='J1' && riskassessmentdetails.DirectAnswers='3') || ( riskassessmentdetails.QuestionID='J1' && riskassessmentdetails.DirectAnswers='4') ||(riskassessmentdetails.QuestionID='J1' &&  riskassessmentdetails.DirectAnswers='5')) && riskassessmentmain.Month='"+month_id+"' && riskassessmentmain.Pefar_year='"+report_year+"'";   
                  conn.rs2=conn.state2.executeQuery(dom4);
                 if(conn.rs2.next()==true){
                     found4=conn.rs2.getInt(1);
@@ -773,10 +815,10 @@ stylex.setFont(font);
              cell024.setCellValue(" ");
              cell024.setCellStyle(stylex_risk_data);
               }
-              String dom5="SELECT COUNT(DISTINCT enrollment.UniqueID) FROM enrollment JOIN riskassessmentmain ON "
-                     + "enrollment.UniqueID=riskassessmentmain.UniqueID JOIN riskassessmentdetails ON "
+              String dom5="SELECT COUNT(DISTINCT riskassessmentmain.UniqueID) FROM  riskassessmentmain  "
+                     + " JOIN riskassessmentdetails ON "
                      + "riskassessmentmain.AssessmentID=riskassessmentdetails.AssessmentID WHERE "
-                     + "enrollment.DICName='"+dic_name+"' && ((riskassessmentdetails.QuestionID='J2' && riskassessmentdetails.DirectAnswers='3') || ( riskassessmentdetails.QuestionID='J2' && riskassessmentdetails.DirectAnswers='4') ||(riskassessmentdetails.QuestionID='J2' &&  riskassessmentdetails.DirectAnswers='5')) && riskassessmentmain.Month='"+month_id+"' && riskassessmentmain.Pefar_year='"+report_year+"'";   
+                     + "riskassessmentmain.DICName1='"+dic_name+"' && ((riskassessmentdetails.QuestionID='J2' && riskassessmentdetails.DirectAnswers='3') || ( riskassessmentdetails.QuestionID='J2' && riskassessmentdetails.DirectAnswers='4') ||(riskassessmentdetails.QuestionID='J2' &&  riskassessmentdetails.DirectAnswers='5')) && riskassessmentmain.Month='"+month_id+"' && riskassessmentmain.Pefar_year='"+report_year+"'";   
                  conn.rs2=conn.state2.executeQuery(dom5);
                 if(conn.rs2.next()==true){
                     found5=conn.rs2.getInt(1);
@@ -791,10 +833,10 @@ stylex.setFont(font);
              cell025.setCellValue(" ");
              cell025.setCellStyle(stylex_risk_data);
               }
-              String dom6="SELECT COUNT(DISTINCT enrollment.UniqueID) FROM enrollment JOIN riskassessmentmain ON "
-                     + "enrollment.UniqueID=riskassessmentmain.UniqueID JOIN riskassessmentdetails ON "
+              String dom6="SELECT COUNT(DISTINCT riskassessmentmain.UniqueID) FROM riskassessmentmain  "
+                     + " JOIN riskassessmentdetails ON "
                      + "riskassessmentmain.AssessmentID=riskassessmentdetails.AssessmentID WHERE "
-                     + "enrollment.DICName='"+dic_name+"' && ((riskassessmentdetails.QuestionID='J' && riskassessmentdetails.DirectAnswers='3') || ( riskassessmentdetails.QuestionID='J' && riskassessmentdetails.DirectAnswers='4') ||(riskassessmentdetails.QuestionID='J' &&  riskassessmentdetails.DirectAnswers='5')) && riskassessmentmain.Month='"+month_id+"' && riskassessmentmain.Pefar_year='"+report_year+"'";   
+                     + "riskassessmentmain.DICName1='"+dic_name+"' && ((riskassessmentdetails.QuestionID='J' && riskassessmentdetails.DirectAnswers='3') || ( riskassessmentdetails.QuestionID='J' && riskassessmentdetails.DirectAnswers='4') ||(riskassessmentdetails.QuestionID='J' &&  riskassessmentdetails.DirectAnswers='5')) && riskassessmentmain.Month='"+month_id+"' && riskassessmentmain.Pefar_year='"+report_year+"'";   
                  conn.rs2=conn.state2.executeQuery(dom6);
                 if(conn.rs2.next()==true){
                     found6=conn.rs2.getInt(1);
@@ -836,12 +878,27 @@ stylex.setFont(font);
             HSSFCell cell9 = rw8.createCell(2);    
              cell9.setCellValue("RISK ASSESSMENT REPORT");
              cell9.setCellStyle(style_header);
+             
+             //fill the other cells with blanks
+             for(int a1=3;a1<=end_merge;a1++){
+                HSSFCell ce92 = rw8.createCell(a1);    
+             ce92.setCellValue("");
+             ce92.setCellStyle(style_header);  
+             }
+             
              shet1.addMergedRegion(new CellRangeAddress(1,1,2,end_merge));
              
              //Writing the PEPFAR YEAR
              HSSFCell cell44 = rw44.createCell(2);    
              cell44.setCellValue("PEPFAR YEAR "+report_year+"");
              cell44.setCellStyle(style_header);
+             //fill the other cells with blanks
+             for(int a1=3;a1<=end_merge;a1++){
+                HSSFCell ce91 = rw44.createCell(a1);    
+             ce91.setCellValue("");
+             ce91.setCellStyle(style_header);  
+             }
+             
              shet1.addMergedRegion(new CellRangeAddress(2,2,2,end_merge));
            }
            dc=0;
@@ -861,6 +918,10 @@ stylex.setFont(font);
   }
          
         System.out.println("Monthly Report Generated"); 
+        
+        Date dat=new Date();
+        Format formatter = new SimpleDateFormat("yyyy-MM-dd");
+         String tdate=formatter.format(dat);
     // write it as an excel attachment
 ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
 wb.write(outByteStream);
@@ -868,7 +929,7 @@ byte [] outArray = outByteStream.toByteArray();
 response.setContentType("application/ms-excel");
 response.setContentLength(outArray.length);
 response.setHeader("Expires:", "0"); // eliminates browser caching
-response.setHeader("Content-Disposition", "attachment; filename=DIC_RiskAssesment_Monthly_Report.xls");
+response.setHeader("Content-Disposition", "attachment; filename=RiskAssesment_Monthly_Report_Generated_on_"+tdate+".xls");
 OutputStream outStream = response.getOutputStream();
 outStream.write(outArray);
 outStream.flush();

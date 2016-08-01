@@ -60,10 +60,10 @@ public void doPost(HttpServletRequest request, HttpServletResponse response) thr
 
 				request.setAttribute("userList",userList);
 				
-                String nextJSP = "/admin/editAssessment.jsp";
-				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
-				dispatcher.forward(request,response);
-				
+                String nextJSP = "/DIC/admin/editAssessment.jsp";
+//				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
+//				dispatcher.forward(request,response);
+		response.sendRedirect(nextJSP);		
 			
                 
                  if(conn.rs!=null){ conn.rs.close();}

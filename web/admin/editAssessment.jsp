@@ -15,7 +15,7 @@ dbConnect conn = new dbConnect();
 //String AssessID="";
 String QID="";
 String DA="";
-List  userList= new ArrayList();
+//List  userList= new ArrayList();
 HttpSession session;
            
 String AssID = "";
@@ -30,6 +30,7 @@ AssID=(String)session.getAttribute("UniqueID");
 %>
 <html>
     <head>
+        <link rel="shortcut icon" href="../images/favicon.png">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <style>
 .convert_1{
@@ -42,6 +43,50 @@ AssID=(String)session.getAttribute("UniqueID");
 }
         </style>  
         <SCRIPT language=Javascript>
+            
+function filter_wards(DICName){
+ 
+     
+   var dist = document.getElementById("DICName").value;
+   var distr = new Array();
+// this will return an array with strings "1", "2", etc.
+distr = dist.split(",");
+var dicname=distr[0];
+//
+// window.open("districtselector?county="+dist.value);     
+var xmlhttp;    
+if (dicname=="")
+{
+//filter the districts    
+
+
+
+document.getElementById("ward").innerHTML="<option value=\"\">Choose Ward</option>";
+return;
+}
+if (window.XMLHttpRequest)
+{// code for IE7+, Firefox, Chrome, Opera, Safari
+xmlhttp=new XMLHttpRequest();
+}
+else
+{// code for IE6, IE5
+xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+}
+xmlhttp.onreadystatechange=function()
+{
+if (xmlhttp.readyState==4 && xmlhttp.status==200)
+{
+document.getElementById("ward").innerHTML=xmlhttp.responseText;
+}
+}
+xmlhttp.open("POST","/DIC/wardselector?dicname="+dicname,true);
+
+xmlhttp.send();
+
+
+}//end of filter districts
+
+            
  function disableOptions0(v) {
   var df = document.form;
   var LastSex = df.LastSex;
@@ -400,18 +445,19 @@ else {
 
 	<link rel="stylesheet" href="themes/base/jquery.ui.all.css">
 	<link rel="stylesheet" href="themes/eggplant/jquery.ui.all.css">
-      <link href="js/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet">
-	<script src="js/jquery-1.9.1.js"></script>
-	<script src="js/jquery-ui-1.10.3.custom.js"></script>
+      <link href="../js/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+	<script src="../js/jquery-1.9.1.js"></script>
+	<script src="../js/jquery-ui-1.10.3.custom.js"></script>
 
-       <script src="js/datepicker.js"></script>
+       <script src="../js/datepicker.js"></script>
 	 <script>	
                 $(function() {
         $( ".datepicker" ).datepicker({
                                 dateFormat: "dd/mm/yy",
                                 changeMonth: true,
                                 changeYear: true,
-                                yearRange:'2011:2015'
+                                yearRange:'2011:2020',
+                                maxDate:'0'
                                
                         });
                     
@@ -740,7 +786,7 @@ else{ %>
        
           
 
- <form action="EditRiskAssessment" name="form" method="post">
+ <form action="../EditRiskAssessment" name="form" method="post">
  <input type='hidden' name="issubmit" value="1">
  
  <input type="hidden" name="AssID" value="<%= AssID %>">
@@ -791,7 +837,118 @@ else{ %>
           			<tr>
                     	<td align="center" colspan="3">&nbsp;</td>
           			</tr>        
-                                   
+   <tr class="d1">  <td>County </td>  <td><select onchange="filter_districts(this);" name="district" id="district">
+                              <option value="">Choose County</option> 
+           <%
+           if(conn.state.isClosed()){conn= new dbConnect();}
+           
+String curcounty="SELECT County1 FROM riskassessmentmain WHERE riskassessmentmain.AssessmentID = "+ AssID;
+conn.rs=conn.state.executeQuery(curcounty);
+String currentcounty="";
+while(conn.rs.next()){
+currentcounty=conn.rs.getString(1);
+
+}
+
+String counties="select * from districts";
+ conn.rs=conn.state.executeQuery(counties);
+ 
+ while(conn.rs.next()){
+ if(conn.rs.getString("DistrictID").equalsIgnoreCase(currentcounty)){
+ 
+     %>
+     <option selected value="<%=conn.rs.getString(2)%>"> <%=conn.rs.getString(2)%> </option>
+     <%
+     
+ }
+     
+
+ else{
+         
+         %>
+              <option  value="<%=conn.rs.getString(2)%>"><%=conn.rs.getString(2)%></option>
+         
+         <%
+         }
+ }//end of while sql
+%>
+           </select></td> </tr>     
+      <tr class="d1">  <td>DIC Name <font style="color: blue">*</font></td>
+                                 <td>
+                                 <select id="DICName"  name="DICName" onchange="filter_wards(this);" >
+                                 <option value="">Choose DIC Name</option>  
+<%
+String curdic="SELECT DICName1,ward1 FROM riskassessmentmain WHERE riskassessmentmain.AssessmentID ="+ AssID+"";
+conn.rs=conn.state.executeQuery(curdic);
+String currentdic="";
+String currentward="";
+while(conn.rs.next()){
+currentdic=conn.rs.getString(1);
+currentward=conn.rs.getString(2);
+}
+System.out.println("__Dic name is ::"+currentdic);
+String dics="select * from dicname";
+ conn.rs=conn.state.executeQuery(dics);
+ 
+ while(conn.rs.next()){
+     
+ if(conn.rs.getString("DICName").equalsIgnoreCase(currentdic)){
+ 
+     %>
+     <option selected value="<%=conn.rs.getString(2)%>"><%=conn.rs.getString(2)%></option>
+     <%
+     
+ }
+     
+
+ else{
+         
+         %>
+              <option  value="<%=conn.rs.getString(2)%>"><%=conn.rs.getString(2)%></option>
+         
+         <%
+         }
+ }//end of while sql
+%>
+
+                                 </select>
+                                    </td> </tr> 
+      <tr class="d1">
+          <td>Ward <font style="color: blue">*</font></td>
+          <td>
+              <select id="ward"  name="ward"  >
+                  <option value="">Choose Ward</option>  
+
+                  
+                  <%
+ String wardi="select * from wards";
+ conn.rs=conn.state.executeQuery(wardi);
+ 
+ while(conn.rs.next()){
+     
+ if(conn.rs.getString("ward").equalsIgnoreCase(currentward)){
+ 
+     %>
+     <option selected value="<%=conn.rs.getString("ward")%>"><%=conn.rs.getString("ward")%></option>
+     <%
+     
+ }
+     
+
+ else{
+         
+         %>
+              <option  value="<%=conn.rs.getString("ward")%>"><%=conn.rs.getString("ward")%></option>
+         
+         <%
+         }
+ }//end of while sql
+%>
+
+                  
+              </select>
+          </td>
+      </tr>
    
  <tr class="d0">
        <% 
@@ -872,31 +1029,23 @@ else{ %>
                                                       ArrayList LastSexList = new ArrayList();
                                                     ArrayList LastSexList1 = new ArrayList();
                                                       while(conn.rs.next()){
-                                                    if(LastSexList!= null && LastSexList.size()!=0){
-                                                    LastSexList.clear();
-                                                    }  if(LastSexList1!= null && LastSexList1.size()!=0){
-                                                    LastSexList1.clear();
-                                                    }
+                                                          //clear array list
+                                                   
                                                           
-                                                           LastSexList.add(conn.rs.getString("LastSex_Code"));
-                                                           LastSexList1.add(conn.rs.getString("LastSex_CodeID"));
-                                                      String querylast = "SELECT LastSex_Code,LastSex_CodeID FROM lastsex_code where LastSex_CodeID='"+y+"'";
-                                                               conn.state2= conn.connect.createStatement();
-				                                conn.rs2 = conn.state2.executeQuery(querylast);
-                                                                String lastsex="";
-                                                                while(conn.rs2.next()){
-                                                                 lastsex=  conn.rs2.getString("LastSex_Code"); 
-                                                               
+                                                LastSexList.add(conn.rs.getString("LastSex_Code"));
+                                                LastSexList1.add(conn.rs.getString("LastSex_CodeID"));
+                   
+                                                             }    
 
                                                   for(int i=0;i<LastSexList.size();i++){
                 
-  if(LastSexList.get(i).equals(lastsex)){
+                                if(LastSexList1.get(i).equals(y)){
                                       %>
                                  
                     
                 <option selected value="<%= LastSexList1.get(i)%>"><%=LastSexList.get(i)%></option>
                 
-               <% }
+                                     <% }
                 
                 else{%>
                     
@@ -904,9 +1053,9 @@ else{ %>
              <%   }
                              }     
                                                       
-                                             }         
+                                                   
                                                       
-                                                                                                          }                                                                         
+                                                                                                                                                                                 
                                                                                                                                                                  
                                
                                                    %>
@@ -1061,7 +1210,7 @@ else{ %>
                         <select name="ActiveSexWork" id="ActiveSexWork">
                              <option value=""></option>
                         <% String D="D";
-          
+              String lastsex="";
                             String Ans5= "SELECT DirectAnswers FROM riskassessmentdetails WHERE QuestionID='"+D+"' AND riskassessmentdetails.AssessmentID ="+AssID;
                              conn.state= conn.connect.createStatement();
 				conn.rs = conn.state.executeQuery(Ans5);
@@ -1075,23 +1224,20 @@ else{ %>
 				                         conn.rs1 = conn.state1.executeQuery(QuerySex);
                                                       ArrayList LastSex = new ArrayList();
                                                     ArrayList LastSex1 = new ArrayList();
-                                                      while(conn.rs1.next()){
-                                                    if(LastSex!= null && LastSex.size()!=0){
-                                                    LastSex.clear();
-                                                    }  if(LastSex1!= null && LastSex1.size()!=0){
-                                                    LastSex1.clear();
-                                                    }
+                                                      while(conn.rs1.next()){                                                   
                                                           
                                                            LastSex.add(conn.rs1.getString("LastSex_Code"));
                                                            LastSex1.add(conn.rs1.getString("LastSex_CodeID"));
                                                       String querylast = "SELECT LastSex_Code,LastSex_CodeID FROM lastsex_code where LastSex_CodeID='"+sexLast+"'";
                                                                conn.state2= conn.connect.createStatement();
 				                                conn.rs2 = conn.state2.executeQuery(querylast);
-                                                                String lastsex="";
+                                                            
                                                                 while(conn.rs2.next()){
                                                                  lastsex=  conn.rs2.getString("LastSex_Code"); 
-                                                               
+                                                                              } 
 
+                                                                }  
+                                                                
                                                   for(int i=0;i<LastSex.size();i++){
                 
   if(LastSex.get(i).equals(lastsex)){
@@ -1107,9 +1253,9 @@ else{ %>
                     
                 <option  value="<%= LastSex1.get(i)%>"><%=LastSex.get(i)%></option>
              <%   }
-                             }     
+                                
                                                       
-                                             }         
+                                                    
                                                       
                                                                                                           }                                                                         
                                                                                                                                                                  
@@ -4966,24 +5112,24 @@ pay.add("Over 50");
 </html>
 
 <%
-
-  if(conn.rs!=null){ conn.rs.close();}
-         if(conn.rs1!=null){ conn.rs1.close();}
-         if(conn.rs2!=null){ conn.rs2.close();}
-         if(conn.rs3!=null){ conn.rs3.close();}
-         if(conn.rs4!=null){ conn.rs4.close();}
-         if(conn.rs5!=null){ conn.rs5.close();}
-         if(conn.rs6!=null){ conn.rs6.close();}
-         if(conn.rs7!=null){ conn.rs7.close();}
-        
-         if(conn.state!=null){ conn.state.close();}
-         if(conn.state1!=null){ conn.state1.close();}
-         if(conn.state2!=null){ conn.state2.close();}
-         if(conn.state3!=null){ conn.state3.close();}
-         if(conn.state4!=null){ conn.state4.close();}
-         if(conn.state5!=null){ conn.state5.close();}
-         if(conn.state6!=null){ conn.state6.close();}
-         if(conn.state7!=null){ conn.state7.close();}
+//
+//  if(conn.rs!=null){ conn.rs.close();}
+//         if(conn.rs1!=null){ conn.rs1.close();}
+//         if(conn.rs2!=null){ conn.rs2.close();}
+//         if(conn.rs3!=null){ conn.rs3.close();}
+//         if(conn.rs4!=null){ conn.rs4.close();}
+//         if(conn.rs5!=null){ conn.rs5.close();}
+//         if(conn.rs6!=null){ conn.rs6.close();}
+//         if(conn.rs7!=null){ conn.rs7.close();}
+//        
+//         if(conn.state!=null){ conn.state.close();}
+//         if(conn.state1!=null){ conn.state1.close();}
+//         if(conn.state2!=null){ conn.state2.close();}
+//         if(conn.state3!=null){ conn.state3.close();}
+//         if(conn.state4!=null){ conn.state4.close();}
+//         if(conn.state5!=null){ conn.state5.close();}
+//         if(conn.state6!=null){ conn.state6.close();}
+//         if(conn.state7!=null){ conn.state7.close();}
 
 
 

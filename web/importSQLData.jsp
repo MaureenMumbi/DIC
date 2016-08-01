@@ -145,13 +145,29 @@ else{ %>
                         <td><input type="file" style="width:350px;" name="fname" id="fname" /></td>
 <!--                        <input type="file" name="file" required id="file">-->
                     </tr>
+                    
+                            <tr><td>
+                         <%if (session.getAttribute("importprogress") != null) { %>
+                               
+                    
+                   <p font color='green'><%=session.getAttribute("importprogress")%><font></p>
+                      
+                    
+              <%
+                //session.removeAttribute("importprogress");
+                            }
+
+                        %> 
+                                    
+                        </td></tr>
+                    
                     <tr>
 <!--                        <td>
                                   <img src="images/blguide.png" title="Navigate to the folder C:/MHC_UPLOADS of the host computer, then choose the excel file(.xls) with the data that you want to import. Rows that contains ANC numbers which have already been added to the System will not be uploaded.All new ANC numbers will be added."/>
                             
                         </td>-->
                         <td>
-                            <input type="submit" value="submit" />
+                            <input type="submit" value="submit" style="height:38px;width:150px;" />
 
                             </td> </tr><tr>
                         <td style="width:200px;" colspan="2"><p id="loading" style="text-align: center;"></p></td>

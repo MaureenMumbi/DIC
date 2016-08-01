@@ -49,12 +49,16 @@ public class concatenateData extends HttpServlet {
    String timestamp="";
    int audits,enrollments,childages,clientmembers,clientoccupations,clientopareas,dummys,medical_forms,riskassessmentdetail,riskassessmentmains,riskreductiondetails,riskreductionmains,taskauditors,users=0;
     HttpSession session;
-
+String Importheader="";
+String Importsubheader="";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         int numberofqueries=0;
         int existingdata=0;
       
+        Importheader=" <h3>AUDIT </h3> <br/>";
+        Importsubheader="";
+        
         session=request.getSession();
         System.out.println("entered  *******");
         
@@ -64,11 +68,20 @@ dbConnect conn1 = new dbConnect();
 System.out.println("Merging Data to local database from a file");
 
 //read data from the new database-indicatoractivities1 
+int alldata=0;
+int curdata=0;
+String countqr="select count(UniqueID) from audit WHERE AuditID!='' ";
+
+conn.rs=conn.state.executeQuery(countqr);
+while(conn.rs.next()){ alldata=conn.rs.getInt(1);}
+
 String selector="SELECT * FROM audit WHERE AuditID!=''";
 conn.rs=conn.state.executeQuery(selector);
 while(conn.rs.next()){
-   
-    
+   curdata++;
+Importsubheader=""+alldata+" / "+curdata;  
+
+session.setAttribute("importprogress", Importheader+" "+Importsubheader);
     already_added=0;
     AuditID=UniqueID=DrnkAlc=AlchHav=DrnkOcc=StpDrnk=FailDrnk=RemHap=NeedAlc=GuiltDrnk=InjureDrnk=
             FriendDrnk=DrnkAlctxt=AlcHavtxt=DrnkOcctxt=StpDrnktxt=FailDrnktxt=RemHaptxt=NeedAlctxt
@@ -131,13 +144,32 @@ while(conn.rs.next()){
 
 
 // END OF AUDIT 
+
+
+
+
+Importheader=" <h3>ENROLLMENTS </h3> <br/>";
+  
+  
+  alldata=0;
+  curdata=0;
+  countqr="select count(UniqueID) from enrollment WHERE UniqueID!='' ";
+
+  conn.rs=conn.state6.executeQuery(countqr);
+  while(conn.rs.next()){ alldata=conn.rs.getInt(1);}
+
+
 //
 // BEGINING OF ENROLMENT
-
+ int enrollmentupdates=0;
 String enrollment="SELECT * FROM enrollment WHERE UniqueID!=''";
 conn.rs=conn.state6.executeQuery(enrollment);
 while(conn.rs.next()){
    
+    curdata++;
+    Importsubheader=""+alldata+" / "+curdata; 
+
+    session.setAttribute("importprogress", Importheader+" "+Importsubheader);
     
     already_added=0;
   UniqueIDs=ClientInit=DOE=District=DICName=DOB=Sex=Age=MaritalStatus=Children=ChildNo=Religion=
@@ -177,13 +209,31 @@ while(conn.rs.next()){
         hand = conn.rs.getString("capturedhand");
         biometric = conn.rs.getString("fingerprint");
          ward=conn.rs.getString("ward");
- String check_if_exist="SELECT * FROM enrollment where OperationArea='"+OperationArea+"'"
-         + " AND Occupation='"+Occupation+"'AND MemberOfID='"+MemberOfID+"'";
+ //String check_if_exist="SELECT * FROM enrollment where OperationArea='"+OperationArea+"'"
+ //        + " AND Occupation='"+Occupation+"'AND MemberOfID='"+MemberOfID+"'";
+ String check_if_exist="SELECT * FROM enrollment where UniqueID like '"+UniqueIDs+"'";
+
  
   System.out.println(check_if_exist+"\n");
- 
+
  conn1.rs3=conn1.state1.executeQuery(check_if_exist);
  if(conn1.rs3.next()==true){
+     
+                     //update if they are different    
+                    if(!conn1.rs3.getTimestamp("timestamp").toString().equals(conn.rs.getTimestamp("timestamp").toString())){
+     String wardqr="";
+     String handqr="";
+     String fingerqr="";
+     String timeqr="";
+     int count=0;
+     int count1=0;
+     int count2=0;
+     if(ward!=null && !ward.equals("")){wardqr=" ward='"+ward+"' "; count++;}
+     if(hand!=null && !hand.equals("")){  handqr=" capturedhand='"+hand+"' "; if(count==1){wardqr+=","; count++;} count1++;  System.out.println("Count "+count);}
+     if(biometric!=null && !biometric.equals("")){fingerqr=" fingerprint='"+biometric+"' ";  System.out.println("Count "+count);  if(count==1){wardqr+=",";} if(count1==1){handqr+=",";} }
+     if((biometric!=null && !biometric.equals(""))  ||(hand!=null && !hand.equals("")) || (ward!=null && !ward.equals("")) ){timeqr+=",";  }
+     
+     timeqr+=" timestamp='"+timestamp+"' , ClientInit='"+ClientInit+"',DOE='"+DOE+"',District='"+District+"',DICName='"+DICName+"',DOB='"+DOB+"',Sex='"+Sex+"',Age='"+Age+"', MaritalStatus='"+MaritalStatus+"',Children='"+Children+"',ChildNo='"+ChildNo+"',Religion='"+Religion+"',EducationLevel='"+EducationLevel+"',PhoneNo='"+PhoneNo+"',Residence='"+Residence+"',     OperationArea='"+OperationArea+"',Occupation='"+Occupation+"',MemberOfID='"+MemberOfID+"',DICLearn='"+DICLearn+"',Email='"+Email+"',PhoneNo1='"+PhoneNo1+"',Venue='"+Venue+"',AgeID='"+AgeID+"',  FirstName='"+FirstName+"',SecondName='"+SecondName+"',LastName='"+LastName+"',venueOther='"+venueOther+"',DicLearnOther='"+DicLearnOther+"'" ;
      already_added=1; 
 // String inserter="UPDATE enrollment set UniqueID='"+UniqueIDs+"',ClientInit='"+ClientInit+"',DOE='"+DOE+"',District='"+District+"',DICName='"+DICName+"',DOB='"+DOB+"',Sex='"+Sex+"',Age='"+Age+"',"
 //         + "MaritalStatus='"+MaritalStatus+"',Children='"+Children+"',ChildNo='"+ChildNo+"',Religion='"+Religion+"',EducationLevel='"+EducationLevel+"',PhoneNo='"+PhoneNo+"',Residence='"+Residence+"',"
@@ -191,12 +241,13 @@ while(conn.rs.next()){
 //         + "FirstName='"+FirstName+"',SecondName='"+SecondName+"',LastName='"+LastName+"',venueOther='"+venueOther+"',DicLearnOther='"+DicLearnOther+"',capturedhand='"+hand+"',fingerprint='"+biometric+"' where  AgeID='"+AgeID+"'"
 //         + " AND Religion='"+Religion+"' AND EducationLevel='"+EducationLevel+"'AND PhoneNo='"+PhoneNo+"' "
 //         + "AND MemberOfID='"+MemberOfID+"'";
- String inserter="UPDATE enrollment set ward='"+ward+"',capturedhand='"+hand+"',fingerprint='"+biometric+"' where  AgeID='"+AgeID+"'"
-         + " AND Religion='"+Religion+"' AND EducationLevel='"+EducationLevel+"'AND PhoneNo='"+PhoneNo+"' "
-         + "AND MemberOfID='"+MemberOfID+"' AND  UniqueID='"+UniqueIDs+"'";
-            if(ward!=null && !ward.equals("") && hand!=null && !hand.equals("") && biometric!=null && !biometric.equals("")){
+ String inserter="UPDATE enrollment set "+wardqr+" "+handqr+" "+fingerqr+" "+timeqr+" where  UniqueID='"+UniqueIDs+"'";
+ 
+   System.out.println(enrollmentupdates+"__ENROLLMENT "+inserter);
+            if(1==1){
+                enrollmentupdates++;
          conn.state5.executeUpdate(inserter);
-  System.out.println("Data already added");
+
   
 
  existingdata++;} 
@@ -204,6 +255,8 @@ while(conn.rs.next()){
 //  System.out.println("Data already added");
   System.out.println("_"+inserter+"\n");
  existingdata++;
+ 
+                    }
  }
  else {
   String inserter="REPLACE INTO enrollment(UniqueID,ClientInit,DOE,District,DICName,Ward,DOB,Sex,Age,MaritalStatus,Children,ChildNo,Religion,EducationLevel,PhoneNo,Residence,OperationArea,Occupation,MemberOfID,DICLearn,Email,PhoneNo1,Venue,AgeID,FirstName,SecondName,LastName,venueOther,DicLearnOther,Pefar_year,capturedhand,fingerprint)"
@@ -219,6 +272,24 @@ while(conn.rs.next()){
  }   
     
 }
+
+
+
+//======================FINGERPRINTS=======================
+ String fps="Select UniqueID,fingerprint from enrollment";
+            conn.rs=conn.state.executeQuery(fps);
+            int a=0;
+            while(conn.rs.next()){
+             a++;
+              //now   update the equivalent in the db 
+                
+                String updateexisting="update enrollment set fingerprint='"+conn.rs.getString(2)+"' where UniqueID='"+conn.rs.getString(1)+"' and (fingerprint='' || fingerprint is null || fingerprint= 'null')";
+                
+                System.out.println(a+"__"+conn1.state1.executeUpdate(updateexisting));
+                
+            }
+            
+
 
 // end of enrollment 
 
@@ -244,7 +315,7 @@ while(conn.rs2.next()){
 
   System.out.println(check_if_exist+"\n");
  
- //conn1.rs3=conn1.state1.executeQuery(check_if_exist);
+ conn1.rs3=conn1.state1.executeQuery(check_if_exist);
  if(conn1.rs3.next()==true){already_added=1; 
  
   System.out.println("Clerk Data already added");
@@ -410,7 +481,9 @@ while(conn.rs2.next()){
 //
 //// MEDICAL FORM 
 //
-//
+String county1="";
+String Dicname1="";
+
 String medical_form="SELECT * FROM medical_form WHERE unique_identifier!=''";
 conn.rs=conn.state.executeQuery(medical_form);
 while(conn.rs.next()){
@@ -422,43 +495,50 @@ while(conn.rs.next()){
            musculoskeletal=musculoskeletal_findings=respiratory=respiratory_findings=psychological=psychological_findings=diagnosis=management=
            referral=specify_others=TCA=cadre=dater=signature=timestamp6="";
     
-         id=conn.rs.getString(1);
-         unique_identifier=conn.rs.getString(2);
-         temperature=conn.rs.getString(3);
-         temperature_complain=conn.rs.getString(4);
-         blood_pressure=conn.rs.getString(5);
-         blood_pressure_complain=conn.rs.getString(6);
-         p=conn.rs.getString(7);
-         p_complain=conn.rs.getString(8);
-         weight=conn.rs.getString(9);
-         weightcomplain=conn.rs.getString(10);
-         ga=conn.rs.getString(11);
-         ga_findings=conn.rs.getString(12);
-         skin=conn.rs.getString(13); 
-         skin_findings=conn.rs.getString(14); 
-         ent=conn.rs.getString(15); 
-         ent_findings=conn.rs.getString(16); 
-         eyes=conn.rs.getString(17); 
-         eyes_findings=conn.rs.getString(18); 
-         abdomen=conn.rs.getString(19); 
-         abdomen_findings=conn.rs.getString(20); 
-         genitourinary=conn.rs.getString(21); 
-         genitourinary_findings=conn.rs.getString(22); 
-         musculoskeletal=conn.rs.getString(23); 
-         musculoskeletal_findings=conn.rs.getString(24); 
-         respiratory=conn.rs.getString(25); 
-         respiratory_findings=conn.rs.getString(26); 
-         psychological=conn.rs.getString(27);
-         psychological_findings=conn.rs.getString(28);
-         diagnosis=conn.rs.getString(29); 
-         management=conn.rs.getString(30); 
-         referral=conn.rs.getString(31); 
-         specify_others=conn.rs.getString(32); 
-         TCA=conn.rs.getString(33); 
-         cadre=conn.rs.getString(34); 
-         dater=conn.rs.getString(35); 
-         signature=conn.rs.getString(36); 
-         timestamp6=conn.rs.getString(37); 
+          id=conn.rs.getString("id");
+         unique_identifier=conn.rs.getString("unique_identifier");
+         temperature=conn.rs.getString("temperature");
+         temperature_complain=conn.rs.getString("temperature_complain");
+         blood_pressure=conn.rs.getString("blood_pressure");
+         blood_pressure_complain=conn.rs.getString("blood_pressure_complain");
+         p=conn.rs.getString("p");
+         p_complain=conn.rs.getString("p_complain");
+         weight=conn.rs.getString("weight");
+         weightcomplain=conn.rs.getString("weight_complain");
+         ga=conn.rs.getString("ga");
+         ga_findings=conn.rs.getString("ga_findings");
+         skin=conn.rs.getString("skin"); 
+         skin_findings=conn.rs.getString("skin_findings"); 
+         ent=conn.rs.getString("ent"); 
+         ent_findings=conn.rs.getString("ent_findings"); 
+         eyes=conn.rs.getString("eyes"); 
+         eyes_findings=conn.rs.getString("eyes_findings"); 
+         abdomen=conn.rs.getString("abdomen"); 
+         abdomen_findings=conn.rs.getString("abdomen_findings"); 
+         genitourinary=conn.rs.getString("genitourinary"); 
+         genitourinary_findings=conn.rs.getString("genitourinary_findings"); 
+         musculoskeletal=conn.rs.getString("musculoskeletal"); 
+         musculoskeletal_findings=conn.rs.getString("musculoskeletal_findings"); 
+         respiratory=conn.rs.getString("respiratory"); 
+         respiratory_findings=conn.rs.getString("respiratory_findings"); 
+         psychological=conn.rs.getString("psychological");
+         psychological_findings=conn.rs.getString("psychological_findings");
+         diagnosis=conn.rs.getString("diagnosis"); 
+         management=conn.rs.getString("management"); 
+         referral=conn.rs.getString("referral"); 
+         specify_others=conn.rs.getString("specify_others"); 
+         TCA=conn.rs.getString("TCA"); 
+         cadre=conn.rs.getString("cadre"); 
+         dater=conn.rs.getString("dater"); 
+         signature=conn.rs.getString("signature"); 
+         timestamp6=conn.rs.getString("timestamp"); 
+  
+         
+          //added later 201510
+      county1=conn.rs.getString("county1");
+         Dicname1=conn.rs.getString("DICName1");
+         ward=conn.rs.getString("ward1");
+        
   
  String check_if_exist="SELECT * FROM medical_form WHERE unique_identifier='"+unique_identifier+"' AND temperature='"+temperature+"' AND temperature_complain='"+temperature_complain+"' AND blood_pressure='"+blood_pressure_complain+"' AND p='"+p+"'"
  + " AND p_complain='"+p_complain+"' AND weight_complain='"+weightcomplain+"' AND ga='"+ga+"' AND ga_findings='"+ga_findings+"' AND skin='"+skin+"'"
@@ -480,13 +560,13 @@ while(conn.rs.next()){
           + ",weight_complain,ga,ga_findings,skin,skin_findings,ent,ent_findings,eyes,eyes_findings,"
           + "abdomen,abdomen_findings,genitourinary,genitourinary_findings," 
           +"musculoskeletal,musculoskeletal_findings,respiratory,respiratory_findings,psychological,psychological_findings,"
-          + "diagnosis,management,referral,specify_others,TCA,cadre,dater,signature,timestamp)"
+          + "diagnosis,management,referral,specify_others,TCA,cadre,dater,signature,timestamp,county1, DICName1,  ward1)"
           + "VALUES('"+unique_identifier+"','"+temperature+"','"+temperature_complain+"','"+blood_pressure+"','"+blood_pressure_complain+"','"+p+"','"+p_complain+"','"+weight+"',"
           + "'"+weightcomplain+"','"+ga+"','"+ga_findings+"','"+skin+"','"+skin_findings+"','"+ent+"','"+ent_findings+"','"+eyes+"',"
           + "'"+eyes_findings+"','"+abdomen+"','"+abdomen_findings+"','"+genitourinary+"','"+genitourinary_findings+"','"+psychological+"','"+psychological_findings+"',"
           + "'"+musculoskeletal+"','"+musculoskeletal_findings+"','"+respiratory+"','"+respiratory_findings+"',"
           + "'"+diagnosis+"','"+management+"','"+referral+"','"+specify_others+"','"+TCA+"','"+cadre+"',"
-          + "'"+dater+"','"+signature+"','"+timestamp6+"')"   ;
+          + "'"+dater+"','"+signature+"','"+timestamp6+"','"+county1+"','"+Dicname1+"','"+ward+"')"   ;
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
@@ -557,22 +637,26 @@ conn.rs2=conn.state3.executeQuery(riskasesmain);
 while(conn.rs2.next()){
    
     
-    already_added=0;
-    ID2=CoccID=UniqueID4=OccupationID=timestamp4="";
-    String Quarter,Month,Pefar_year="";
-         AssessID=conn.rs2.getString(2);
-         AssessmentDate=conn.rs2.getString(3);
-         UniqueID6=conn.rs2.getString(4);
+         already_added=0;
+         ID2=CoccID=UniqueID4=OccupationID=timestamp4="";
+         String Quarter,Month,Pefar_year="";
+         AssessID=conn.rs2.getString("AssessmentID");
+         AssessmentDate=conn.rs2.getString("AssessmentDate");
+         UniqueID6=conn.rs2.getString("UniqueID");
+         county1=conn.rs2.getString("County1");
+         Dicname1=conn.rs2.getString("DICName1");
+         ward=conn.rs2.getString("ward1");
          timestamp4=conn.rs2.getString("timestamp");
          Quarter=conn.rs2.getString("Quarter");
          Month=conn.rs2.getString("Month");
          Pefar_year=conn.rs2.getString("Pefar_year");
         
+        
       
        
  String check_if_exist="SELECT * FROM riskassessmentmain WHERE AssessmentID='"+AssessID+"' AND AssessmentDate='"+AssessmentDate+"'  ";
 
-  System.out.println(check_if_exist+"\n");
+ System.out.println(check_if_exist+"\n");
  
  conn1.rs3=conn1.state1.executeQuery(check_if_exist);
  if(conn1.rs3.next()==true){already_added=1; 
@@ -581,8 +665,8 @@ while(conn.rs2.next()){
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO riskassessmentmain(AssessmentID,AssessmentDate,UniqueID,Quarter,Month,Pefar_year,timestamp)"
-          + "VALUES('"+AssessID+"','"+AssessmentDate+"','"+UniqueID6+"','"+Quarter+"','"+Month+"','"+Pefar_year+"','"+timestamp4+"')";
+  String inserter="REPLACE INTO riskassessmentmain(AssessmentID,AssessmentDate,UniqueID,Quarter,Month,Pefar_year,timestamp,County1,DICName1,ward1)"
+          + "VALUES('"+AssessID+"','"+AssessmentDate+"','"+UniqueID6+"','"+Quarter+"','"+Month+"','"+Pefar_year+"','"+timestamp4+"','"+county1+"','"+Dicname1+"','"+ward+"')";
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
@@ -603,13 +687,18 @@ while(conn.rs2.next()){
     RiskRedID=DOA=CadreProvider=UniqueID7=timestamp4="";
     String qtr="";
     String year="";
-         RiskRedID=conn.rs2.getString(2);
-         DOA=conn.rs2.getString(3);
-         CadreProvider=conn.rs2.getString(4);
-         UniqueID7=conn.rs2.getString(5);
+         RiskRedID=conn.rs2.getString("RiskReductionID");
+         DOA=conn.rs2.getString("DOA");
+         CadreProvider=conn.rs2.getString("CadreProvider");
+         UniqueID7=conn.rs2.getString("UniqueID");
          timestamp4=conn.rs2.getString("timestamp");
          qtr=conn.rs2.getString("qtr");
          year=conn.rs2.getString("year");
+      
+        //added later 201510
+         county1=conn.rs2.getString("County1");
+         Dicname1=conn.rs2.getString("DICName1");
+         ward=conn.rs2.getString("ward1");
       
         
       
@@ -625,8 +714,8 @@ while(conn.rs2.next()){
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,timestamp,qtr,year)"
-          + "VALUES('"+RiskRedID+"','"+DOA+"','"+CadreProvider+"','"+UniqueID7+"','"+timestamp+"','"+qtr+"','"+year+"')";
+  String inserter="REPLACE INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,timestamp,qtr,year, County1, DICName1, ward1)"
+          + "VALUES('"+RiskRedID+"','"+DOA+"','"+CadreProvider+"','"+UniqueID7+"','"+timestamp+"','"+qtr+"','"+year+"','"+county1+"','"+Dicname1+"','"+ward+"')";
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;

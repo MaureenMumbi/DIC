@@ -39,14 +39,32 @@
 
             }); 
         </script>
+        <style>
+input{
+height:35px;
+
+}        
+td{
+    
+    font-size: 17px;
+}    
+.submit{
+    background: greenyellow;
+    height:38px;
+    width:120px;
+    
+}      
+            
+            
+        </style>
     </head>
 
     <!-- Body page -->
 
 
 
-    <body>
-        <div id="container" style="height:620px;">
+    <body style="border: 1px;">
+        <div id="container" style="height:620px;background:orange;">
 
             <div id="header" style="margin-left:170px ;">
                 <div class="ui-widget" style="width:1160px;" >
@@ -69,7 +87,7 @@
                 <!--                    <h5 align="center"><img src="images/mhc_logo.png" height="150px" alt="Health Communication System" align="centre"/></h5>-->
 
 
-                <form action="updatedbpword" method="post" style="margin-left: 200px; height:340px; width:540px; background-color: lightsteelblue;">
+                <form action="updatedbpword" method="post" style="margin-left: 200px; height:100%x; width:540px; background-color: lightsteelblue;">
                     <h4 align="center">Database Configuration</h4>
                     <table style="margin-left:120px;width:300px;"   cellpadding="8px" cellspacing="6px">
                         <tr>
@@ -125,7 +143,7 @@
 
 
 
-            <div id="footer">
+            <div id="footer" style="background: orange;">
                 <!--  <h2 align="left"> <img src="images/Coat of arms.JPG" alt="logo" height="76px" /></h2>-->
 
                 <%

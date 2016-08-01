@@ -23,7 +23,7 @@ access.addAccess(username,task);
     <head>
          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>DIC REPORTS</title>
-        
+        <link rel="shortcut icon" href="../images/favicon.png">
         <link rel="stylesheet" type="text/css" href="../js/jquery-ui.css"/>
 	<script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
     <script type="text/javascript" src="../js/jquery-ui.js"></script>
@@ -172,6 +172,8 @@ mcount++;
                             <option value="2013">2013</option>
                             <option value="2014">2014</option>
                             <option value="2015">2015</option>
+                            <option value="2016">2016</option>
+                            <option value="2017">2017</option>
                             
                            
                         </select></td>
@@ -249,7 +251,7 @@ mcount++;
                         </select></td>
                 </tr>
                 
-                <tr><td> <input type="submit"  name="submit" value="Submit">  </td></tr>
+                <tr><td> <input type="submit"  name="submit" style="height:35px;width:150px;" value="Generate">  </td></tr>
                 </table>
  </form>
       </div>

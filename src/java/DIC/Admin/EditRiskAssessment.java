@@ -41,11 +41,21 @@ Date date= new Date();
 
 String Ans1 = request.getParameter("DOA").toString();
 
-//String District = request.getParameter("District1").toString();
-//String DICName = request.getParameter("DICName").toString();
+String District = request.getParameter("district").toString();
+String DICName = request.getParameter("DICName").toString();
+String ward="";
+if(request.getParameter("ward")!=null){
+ward=request.getParameter("ward");
+}
 //String ClientInit = request.getParameter("ClientInit").toString();
 //String UniqueID = request.getParameter("UniqueID").toString();
 //String Sex = request.getParameter("Sex").toString();
+
+
+           
+
+
+
 String Ans2 = request.getParameter("SexLast");
 String Ans3 = request.getParameter("CondomUse");
 String Ans4 = request.getParameter("SexPartGender");
@@ -225,6 +235,15 @@ session = request.getSession(true);
    String AssessmentID = request.getParameter("AssID");
 //   System.out.println("AssessmentID|||||||||||||||||||||||||||"+AssessmentID);
    try{
+       
+       
+       
+       
+       String qry ="UPDATE riskassessmentmain SET ward1='"+ward+"' , DICName1='"+DICName+"' , County1='"+District+"', syncstatus=0 WHERE    AssessmentID ="+AssessmentID+"";
+                          conn.state.executeUpdate(qry);
+           
+       System.out.println("_______"+qry);
+       
  for(int a=0;a<ans.length;a++){
                     
                         
@@ -242,15 +261,18 @@ session = request.getSession(true);
  
  String inserter = "INSERT INTO taskauditor (host_comp,time,username,action) VALUES(?,?,?,?)";
     
-    
+    String uname="";
+    if(session.getAttribute("Username")!=null){
+    uname=session.getAttribute("Username").toString();
+    }
  conn.ps = conn.connect.prepareStatement(inserter);
 conn.ps.setString(1,computername);
 conn.ps.setString(2,formattedDate);
-conn.ps.setString(3,(session.getAttribute("Username")).toString() );
+conn.ps.setString(3,uname);
 conn.ps.setString(4,"Performed Risk Assessment Update on a Sex Worker  whose UniqueID is "+UniqueID+" from the Risk Assess Form");
 conn.ps.executeUpdate(); 
                     
-   response.sendRedirect("admin/index_Assessment.jsp");                  
+   response.sendRedirect("admin/tabcloser.jsp");                  
                     
                    
  		

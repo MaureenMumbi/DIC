@@ -988,6 +988,26 @@
         <servlet-name>ComprehensiveReport</servlet-name>
         <servlet-class>Reports.ComprehensiveReport</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>importbiometric</servlet-name>
+        <servlet-class>SCRIPTS.importbiometric</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>deleteNarokDuplicates</servlet-name>
+        <servlet-class>SCRIPTS.deleteNarokDuplicates</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateWards</servlet-name>
+        <servlet-class>SCRIPTS.UpdateWards</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loaduniqueids</servlet-name>
+        <servlet-class>AJAX.loaduniqueids</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>bimetricreport</servlet-name>
+        <servlet-class>Reports.bimetricreport</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Enroll</servlet-name>
         <url-pattern>/Enroll</url-pattern>
@@ -1975,6 +1995,26 @@
     <servlet-mapping>
         <servlet-name>ComprehensiveReport</servlet-name>
         <url-pattern>/ComprehensiveReport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>importbiometric</servlet-name>
+        <url-pattern>/importbiometric</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>deleteNarokDuplicates</servlet-name>
+        <url-pattern>/deleteNarokDuplicates</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateWards</servlet-name>
+        <url-pattern>/UpdateWards</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loaduniqueids</servlet-name>
+        <url-pattern>/loaduniqueids</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>bimetricreport</servlet-name>
+        <url-pattern>/bimetricreport</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>-1</session-timeout>

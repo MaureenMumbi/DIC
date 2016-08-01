@@ -26,7 +26,7 @@ access.addAccess(username,task);
     <head>
         <!--The below code creates a form and shows the input fields-->
         <title>DIC Client Enrollment Form</title>
-        
+        <link rel="shortcut icon" href="images/favicon.png">
            <!--javascript code that picks date-->
  <link href="js/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet">
  <script src="js/jquery-1.7.2.js"></script>
@@ -104,7 +104,7 @@ access.addAccess(username,task);
                                 dateFormat: "dd/mm/yy",
                                 changeMonth: true,
                                 changeYear: true,
-                                yearRange:'2011:2015',
+                                yearRange:'2011:2020',
                                 maxDate: dateToday,
                                 minDate:dt
                         });
@@ -910,9 +910,6 @@ return true;
 </head><body>
 
 <%
-
-
-
 
 
 String query2="SELECT max(UniqueID) from dummy";

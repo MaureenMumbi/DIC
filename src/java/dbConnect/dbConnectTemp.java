@@ -11,6 +11,7 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -39,7 +40,22 @@ public  Connection connect = null;
     public dbConnectTemp() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
+            
+            String computername=InetAddress.getLocalHost().getHostName();
+            
+            System.out.println("__HOSTNAME on dbconnectTemp:"+computername);
+            //if the system is running on the development machine, dont sync dummy data.
+            
+            
+           // if(!computername.equalsIgnoreCase("ANALYTICS")){
             connect = DriverManager.getConnection("jdbc:mysql://104.45.29.195:3306/dic","root", "admin");
+                                                        //   }
+           // else 
+            //{
+                
+              //connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/dic","root", "70450289");
+            
+            //}
            
             //if the saved host name is less than 2 letters long, then thats not a genuine host name
 

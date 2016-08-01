@@ -58,7 +58,7 @@ access.addAccess(username,task);
 
         <link rel="StyleSheet" href="../main.css" type="text/css" />
           
-
+        <link rel="shortcut icon" href="../images/favicon.png">
         <style type="text/css">
     #container{
                 height:500px;
@@ -274,10 +274,10 @@ mcount++;
                 <tr class="d0">
                     
                     <td> Select a Parameter</td>
-                    <td> <select name="period" required="true">
+                    <td> <select  style="height:35px;" name="period" required="true">
                       <option value=""> </option>
-                            <option value="enrolled"> Enrollments</option>
-                            <option value="served"> People Served</option>
+                            <option title="new clients enrolled " value="enrolled"> Enrollments</option>
+                            <option title="unique clients who received risk reduction services" value="served"> People Served</option>
                 </select>      
                     </td>
                 </tr>
@@ -289,7 +289,7 @@ mcount++;
                 
 
                 
-                <tr><td> <input type="submit"  name="submit" value="Generate Report">  </td></tr>
+                <tr><td> <input type="submit" style="height:35px;"  name="submit" value="Generate Report">  </td></tr>
             
         </table>
         </form>

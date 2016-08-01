@@ -22,7 +22,12 @@ import javax.servlet.http.HttpSession;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -75,8 +80,13 @@ HttpSession session;
            counter1=1;
            a=1;
            // dbConnect  conn = new dbConnect();
-                XSSFCell cell,cell0,cell1,cell2,cell3,cell4,cell5,cell6,cell7,cell8,cell9,cell10,cell11,cell12,cell13,cell14,cell15,cell16;
-                XSSFWorkbook wb=new XSSFWorkbook();
+                Cell cell,cell0,cell1,cell2,cell3,cell4,cell5,cell6,cell7,cell8,cell9,cell10,cell11,cell12,cell13,cell14,cell15,cell16;
+               
+                
+                 
+                XSSFWorkbook wb1=new XSSFWorkbook();
+                    SXSSFWorkbook wb = new SXSSFWorkbook(wb1, 100);
+               
 //           String allpath="";   
 //           String allpath = getServletContext().getRealPath("/enrollment.xlsm");
 
@@ -85,11 +95,11 @@ HttpSession session;
 //
 //wb = new XSSFWorkbook(OPCPackage.open(allpath));
 
-                XSSFSheet shet1=wb.createSheet();
-                XSSFRow rw1=shet1.createRow(1);
+                Sheet shet1=wb.createSheet();
+                Row rw1=shet1.createRow(1);
          rw1.setHeightInPoints(60);
     
-          XSSFFont font_header=wb.createFont();
+          Font font_header=wb.createFont();
     font_header.setFontHeightInPoints((short)10);
     font_header.setFontName("Arial Black");
 //    font.setItalic(true);
@@ -127,7 +137,7 @@ year_style_header.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
              CellStyle indicator_style = wb.createCellStyle();
             indicator_style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
             indicator_style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-                XSSFFont fonts = wb.createFont();
+                Font fonts = wb.createFont();
                 fonts.setColor(HSSFColor.BLACK.index);
                 fonts.setFontName("cambria");
                 fonts.setFontHeightInPoints((short) 11);
@@ -142,7 +152,7 @@ year_style_header.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
            
             cell_styles.setFillForegroundColor(HSSFColor.WHITE.index);
             cell_styles.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-                XSSFFont fonts2 = wb.createFont();
+                Font fonts2 = wb.createFont();
                 fonts2.setColor(HSSFColor.BLACK.index);
                 fonts2.setFontName("cambria");
                 fonts2.setFontHeightInPoints((short) 11);
@@ -495,7 +505,7 @@ count++;
 
     
     
-  XSSFRow rwa = shet1.createRow(a+=1);
+  Row rwa = shet1.createRow(a+=1);
   System.out.println("^^^"+a+""+count);
                  cell12=rwa.createCell(0);
                  cell12.setCellValue(conn.rs.getString(1));
@@ -712,7 +722,7 @@ outStream.flush();
         
            
 counter1=2;
-  XSSFRow rwa=shet1.createRow(2);
+  Row rwa=shet1.createRow(2);
          cell = rw1.createCell(0);
                      cell.setCellValue("UniqueID");
                       cell.setCellStyle(indicator_style); 
@@ -893,7 +903,58 @@ counter1=2;
                        cell4 = rw1.createCell(47);
                        cell4.setCellValue("ID");
                        cell4.setCellStyle(indicator_style); 
-                
+                       
+                       
+                       
+                        cell4 = rw1.createCell(48);
+                        cell4.setCellValue("Venue");
+                        cell4.setCellStyle(indicator_style); 
+                        
+                        
+                        
+                        //NAMES --added later 20151214
+                        
+                        if(session.getAttribute("lockNames")==null){
+    shet1.setColumnWidth(49, 0);
+    shet1.setColumnWidth(50, 0);
+    shet1.setColumnWidth(51, 0);
+    cell4 = rw1.createCell(49);
+    cell4.setCellValue("");
+    cell4 = rw1.createCell(50);
+    cell4.setCellValue("");
+    cell4 = rw1.createCell(51);
+    cell4.setCellValue("");
+    System.out.println("No session");
+                                }
+    else{
+    if(session.getAttribute("lockNames").toString().equals("YES")){
+    shet1.setColumnWidth(49, 0);
+    shet1.setColumnWidth(50, 0);
+    shet1.setColumnWidth(51, 0);
+    cell4 = rw1.createCell(49);
+    cell4.setCellValue("");
+    cell4 = rw1.createCell(50);
+    cell4.setCellValue("");
+    cell4 = rw1.createCell(51);
+    cell4.setCellValue(""); 
+      System.out.println("yes this is admin ");
+                                }
+   else{
+  System.out.println("Noooo ");
+                     cell4 = rw1.createCell(49);
+                     cell4.setCellValue("FirstName");
+                     cell4.setCellStyle(indicator_style);
+                     cell4 = rw1.createCell(50);
+                     cell4.setCellValue("SecondName");
+                     cell4.setCellStyle(indicator_style);
+                     cell4 = rw1.createCell(51);
+                     cell4.setCellValue("LastName");
+                     cell4.setCellStyle(indicator_style);
+        }
+     }
+                        
+                       
+                String fullnames="";
   String query="select * from riskreductionmain,riskreductiondetails where (STR_TO_DATE(DOA, '%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+startdate+"', '%e/%c/%Y')) AND (STR_TO_DATE('"+enddate+"', '%e/%c/%Y')) and  riskreductionmain.riskreductionid=riskreductiondetails.riskreductionid";
           conn.rs = conn.state2.executeQuery(query);
           while(conn.rs.next()){
@@ -910,17 +971,118 @@ counter1=2;
           }
            
           
-          String query3="select dicname,District from enrollment where Uniqueid='"+uniqueid+"'";
+          String query3="select  dicname,  districts.District as District,Venue,FirstName,SecondName,LastName,venueOther from enrollment join districts on districts.DistrictID=enrollment.District  where Uniqueid='"+uniqueid+"'";
           conn.rs3= conn.state4.executeQuery(query3);
           while(conn.rs3.next()){
           dicname=conn.rs3.getString("dicname");
           districts=conn.rs3.getString("District");
+          
+          //____________________________________________venue and names_________________________
+         cell14 = rwa.createCell(48);
+         cell14 .setCellValue(conn.rs3.getString("venueOther"));
+         cell14 .setCellStyle(cell_styles);
+          
+         String  FirstName="";
+         String  MiddleName="";
+         String  LastName="";
+   
+         final String jesus = "?*1>9@(&#";
+        AES.setKey(jesus);
+         
+         				   
+if(session.getAttribute("lockNames")==null){
+    
+    
+    shet1.setColumnWidth(49, 0);
+    shet1.setColumnWidth(50, 0);
+    shet1.setColumnWidth(51, 0);
+
+                 cell14=rwa.createCell(49);
+                 cell14.setCellValue("");
+                 cell14=rwa.createCell(50);
+                 cell14.setCellValue("");
+                 cell14=rwa.createCell(51);
+                 cell14.setCellValue(""); 
+                                          }
+                                else{
+                                if(session.getAttribute("lockNames").toString().equals("YES")){
+    shet1.setColumnWidth(49, 0);
+    shet1.setColumnWidth(50, 0);
+    shet1.setColumnWidth(51, 0);
+
+                 cell14=rwa.createCell(49);
+                 cell14.setCellValue("");
+                 cell14=rwa.createCell(50);
+                 cell14.setCellValue("");
+                 cell14=rwa.createCell(51);
+                 cell14.setCellValue("");    
+                                }
+                                else{
+                  cell14=rwa.createCell(49);
+                  cell14.setCellValue("");
+                   cell14.setCellStyle(cell_styles);
+                         if(conn.rs3.getString("FirstName")!=null && !conn.rs3.getString("FirstName").trim().equals("") && !conn.rs3.getString("FirstName").equals("null")){
+                                    
+                                        AES.decrypt(conn.rs3.getString("FirstName").trim());
+                                       System.out.println("String To Decrypt : " +  conn.rs3.getString("FirstName"));
+                                       System.out.println("Decrypted : " + AES.getDecryptedString());
+                                                   
+                                                      FirstName =  AES.getDecryptedString()  ;
+                                                 
+                         cell14=rwa.createCell(49);
+                  cell14.setCellValue(FirstName.toUpperCase());
+                   cell14.setCellStyle(cell_styles);
+//                   System.out.println("locale   "+FirstName.toUpperCase(Locale.ENGLISH));
+                         }
+                  cell14=rwa.createCell(50);
+                  cell14.setCellValue("");
+                   cell14.setCellStyle(cell_styles);            
+                          if(conn.rs3.getString("SecondName")!=null && !conn.rs3.getString("SecondName").trim().equals("") && !conn.rs3.getString("SecondName").equals("null")){               
+//                        
+                    AES.decrypt(conn.rs3.getString("SecondName").trim());
+                     System.out.println("String To Decrypt : " + conn.rs3.getString("SecondName"));
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                    MiddleName=AES.getDecryptedString();
+                         
+                              
+                  cell14=rwa.createCell(50);
+                  cell14.setCellValue(MiddleName.toUpperCase());
+                   cell14.setCellStyle(cell_styles);
+                          }
+                  cell14=rwa.createCell(51);
+                 cell14.setCellValue("");
+                  cell14.setCellStyle(cell_styles);
+                      if(conn.rs3.getString("LastName")!=null && !conn.rs3.getString("LastName").trim().equals("") && !conn.rs3.getString("LastName").equals("null")){
+//                      Lastname =  conn.rs.getString("LastName");
+                    AES.decrypt(conn.rs3.getString("LastName").trim());
+                     System.out.println("String To Decrypt : " + conn.rs3.getString("LastName"));
+                     LastName=AES.getDecryptedString();
+                    System.out.println("Decrypted : " + AES.getDecryptedString());
+                      cell14=rwa.createCell(51);
+                 cell14.setCellValue(LastName.toUpperCase());
+                   cell14.setCellStyle(cell_styles);
+                      }
+              System.out.println("name     "+conn.rs3.getString("LastName"));
+              
+              
+               
+                                }
+                  } 
+          
+          
+          
+          
+          
+          
+          
+          
           }
             System.out.println("^^^"+a+" hhh "+counter +"  "+count +" "+riskreductionid +" "+uniqueid +" "+DOA +" "+dicname);
 //          String alldata="select * from riskreductiondetails where riskreductionid='"+riskreductionid+"'";
 //conn.rs = conn.state.executeQuery(alldata);
 //System.out.println(alldata);
 //while(conn.rs.next()){
+            
 //System.out.println(conn.rs.getString(1)+"###"+conn.rs.getString(2)+"###"+conn.rs.getString(3)+"###"+conn.rs.getString(4)+"###"+conn.rs.getString(6)+"###"+conn.rs.getString(7)+"###"+conn.rs.getString(8));
 System.out.println(conn.rs.getString(1)+"________"+conn.rs.getString(2)+"________"+conn.rs.getString(3)+"_______"+conn.rs.getString(4) );
 count++;
@@ -1182,7 +1344,7 @@ outStream.flush();
     if(type.equals("riskassessment")){
    
 counter1=2;
-  XSSFRow rwa=shet1.createRow(2);
+  Row rwa=shet1.createRow(2);
        
                      cell = rw1.createCell(0);
                      cell.setCellValue("UniqueID");
@@ -1425,7 +1587,7 @@ counter1=2;
            
       
            System.out.println("^^^"+uniqueid+""+riskassessmentid +"uuuu"+DOA +" counter "+counter1);
-          String query3="select dicname,District from enrollment where Uniqueid='"+uniqueid+"'";
+          String query3="select dicname,districts.District as District from enrollment join districts on enrollment.District=districts.DistrictId on  where Uniqueid='"+uniqueid+"'";
           conn.rs3= conn.state4.executeQuery(query3);
           while(conn.rs3.next()){
           dicname=conn.rs3.getString("dicname");
@@ -1912,7 +2074,7 @@ outStream.flush();
                        }
                        } 
                         cell4 = rw1.createCell(18);
-                     cell4.setCellValue("Venue");
+                     cell4.setCellValue("VenueOther");
                       cell4.setCellStyle(indicator_style); 
                       
                       
@@ -1997,7 +2159,7 @@ count++;
 
     
     
-  XSSFRow rwa = shet1.createRow(a+=1);
+  Row rwa = shet1.createRow(a+=1);
   rwa.setHeightInPoints(30);
   System.out.println("^^^"+a+""+count);
                  cell12=rwa.createCell(0);

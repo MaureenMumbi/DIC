@@ -364,21 +364,20 @@ wb = new XSSFWorkbook(OPCPackage.open(allpath));
                      cell4.setCellValue("AGE BRACKET");
                          cell4 = rw1.createCell(5);
                      cell4.setCellValue("GENDER"); 
-    String enrollments="select count(DISTINCT riskreductionmain.UniqueID),DICName,"
-            + " case when DICName='Naivasha' then district='Naivasha'"
-          + " else district end as County"
-
-            + ",MONTH(STR_TO_DATE(DOA,'%e/%c/%Y')),YEAR(STR_TO_DATE(DOA,'%e/%c/%Y')),"
-         +   "         CASE " +
+    String enrollments="select count(DISTINCT riskreductionmain.UniqueID),DICName1,"
+                     + " case when DICName1='Naivasha' then County1='Naivasha'"
+                     + " else County1 end as County "
+                     + " ,MONTH(STR_TO_DATE(DOA,'%e/%c/%Y')),YEAR(STR_TO_DATE(DOA,'%e/%c/%Y')),"
+                     + "         CASE " +
 "                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())<='14' THEN '<14'" +
 "                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'14' AND TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())<='19' THEN '15-19' " +
 "                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'19' AND TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())<='24' THEN '20-24'" +
 "		 WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'24'AND TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())<='49' THEN  '25-49' " +
 "                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'49' THEN  '25-49' else '25-49' END AS AGEBRACKET" +
 "                   ,TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE()),Trim( Sex) as gender from enrollment,riskreductionmain  where "
-                + " (STR_TO_DATE(DOA,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+startdate+"','%e/%c/%Y'))"
+                + " (STR_TO_DATE(DOA,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+startdate+"','%e/%c/%Y')) "
                 + " AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y')) and enrollment.uniqueid=riskreductionmain.uniqueid "
-            + " group by DICName,AGEBRACKET,MONTH(STR_TO_DATE(DOA,'%e/%c/%Y')),gender,district ";
+            + " group by DICName1, AGEBRACKET,MONTH(STR_TO_DATE(DOA,'%e/%c/%Y')),gender, County1 ";
      
                      
                      

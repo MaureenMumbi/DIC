@@ -17,16 +17,7 @@
 <%@page import="dbConnect.dbConnect"%>
 <%! dbConnect conn= new dbConnect();%>
 
-<%if(session.getAttribute("accessTrail")!=null){ %>
-<%@page import="Maintenance.saveAccessTrail"%>
-<%
-saveAccessTrail access = new saveAccessTrail();
-String task="Accessed risk assessment module in manage forms. ";
-String username=session.getAttribute("accessTrail").toString();
-access.addAccess(username,task);
-
-%>
-<%}%>
+<
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -34,21 +25,24 @@ access.addAccess(username,task);
         <title>DIC RISK ASSESSMENTS </title>
         
         <link rel="stylesheet" type="text/css" href="../js/jquery-ui.css"/>
-	<script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
-    <script type="text/javascript" src="../js/jquery-ui.js"></script>
-    <link href="../js/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet">
- <script src="../js/jquery-1.7.2.js"></script>
-	<script src="../js/jquery-ui-1.10.3.custom.js"></script>
-
-      <script type="text/javascript" src="../js/DICHelp.js"></script>  
-
-<script type="text/javascript" src="../js/noty/jquery.noty.js"></script>
+        <script type="text/javascript" src="../js/noty/jquery-1.9.1.js"></script>
+        
+        <script type="text/javascript" src="../js/noty/jquery.noty.js"></script>
 
 <script type="text/javascript" src="../js/noty/layouts/top.js"></script>
 <script type="text/javascript" src="../js/noty/layouts/center.js"></script>
 <!-- You can add more layouts if you want -->
 
 <script type="text/javascript" src="../js/noty/themes/default.js"></script>
+        
+    <script type="text/javascript" src="../js/jquery-ui.js"></script>
+    <link href="../js/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+ 
+	<!--<script src="../js/jquery-ui-1.10.3.custom.js"></script>-->
+
+      <script type="text/javascript" src="../js/DICHelp.js"></script>  
+
+
         <script type="text/javascript" src="../js/DICHelp.js"></script> 
 
         <link rel="StyleSheet" href="../main.css" type="text/css" />
@@ -61,74 +55,11 @@ access.addAccess(username,task);
     }
     
     </style>
-    <script src="../js/jquery-1.7.2.js"></script>
-	<script src="../js/jquery-ui-1.10.3.custom.js"></script>
- <link href="../js/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet">
-       <script src="../js/datepicker.js"></script>
-       <script src="../admin/ui/jquery.ui.datepicker.js"></script>
+    
        
 
        
-	 <script>	
-                $(function() {
-        $( ".datepicker" ).datepicker({
-                                dateFormat: "dd/mm/yy",
-                                changeMonth: true,
-                                changeYear: true,
-                                 yearRange:'2010:2030',
-                                maxDate:0,
-                               
-                        });
-                    
-                });
-            </script>
-  
-  
-    <script type="text/javascript">
-// a function that filters the districts in the passed county as per the county drop down.
 
-function filter_districts(DICName){
- 
-     
-   var dist = document.getElementById("district").value;
-   var distr = new Array();
-// this will return an array with strings "1", "2", etc.
-distr = dist.split(",");
-var districtsName=distr[0];
-//
-// window.open("districtselector?county="+dist.value);     
-var xmlhttp;    
-if (districtsName=="")
-{
-//filter the districts    
-
-
-
-document.getElementById("DICName").innerHTML="<option value=\"\">Choose DIC Name</option>";
-return;
-}
-if (window.XMLHttpRequest)
-{// code for IE7+, Firefox, Chrome, Opera, Safari
-xmlhttp=new XMLHttpRequest();
-}
-else
-{// code for IE6, IE5
-xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-}
-xmlhttp.onreadystatechange=function()
-{
-if (xmlhttp.readyState==4 && xmlhttp.status==200)
-{
-document.getElementById("DICName").innerHTML=xmlhttp.responseText;
-}
-}
-xmlhttp.open("POST","/DIC/districtselector?district="+districtsName,true);
-
-xmlhttp.send();
-
-
-}//end of filter districts
-</script>
   
     
     
@@ -200,22 +131,31 @@ mcount++;
     </tr>
                         </table>   
         
-        <h3> Risk Assessments <a href="#" id="dialog-link1" style="padding-right: 0px;">
+        <h3> UPDATE COMPLETED 
                 <img src="../images/help_24.png"/> </a></h3>
        <%
  
-                            if ( session.getAttribute("duplicated") != null)  { %>
+                            if (1==1)  { %>
                                 <script type="text/javascript"> 
                     
-                    var n = noty({text: '<%=session.getAttribute("duplicated")%>',
+                    var n = noty({text: "<h2> <font color='green'>Update Completed Successfully</font></h2>",
                         layout: 'center',
                         type: 'Success',
  
-                         timeout: 1800});
+                         timeout: 4800
+    ,
+    callback: {
+   
+        afterShow: function() {
+            window.close();
+            
+        }
+    }                 
+    });
                     
                 </script> <%
                 
-                session.removeAttribute("duplicated");
+              
                             }
 
                         %>
@@ -225,11 +165,7 @@ mcount++;
  
    
 
-                <tr class="d1"> <td>Data from</td><td><input type="text" name="startdate" id="startdate" class="datepicker" value="" required ="true"></td>
-               <td>To</td><td><input type="text" name="enddate" id="enddate" class="datepicker" value="" required ="true"></td></tr>
-                 
-                <tr><td> <input type="submit" style="height:35px;width:140px;" name="submit" value="View">  </td></tr>
-            
+               
         </table>
         </form>
       </div>

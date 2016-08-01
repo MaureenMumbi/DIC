@@ -4,6 +4,8 @@
     Author     : Maureen
 --%>
 
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="dbConnect.dbConnect"%>
 <%@page import="java.util.List"%>
@@ -45,7 +47,7 @@ RiskID= UniqueID1;
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Risk Reduction Planning</title>
         <script type="text/javascript" src="scripts/jquery-1.7.2.js"></script>
-
+        <link rel="shortcut icon" href="../images/favicon.png">
 	<link rel="stylesheet" href="themes/base/jquery.ui.all.css">
 	<link rel="stylesheet" href="themes/eggplant/jquery.ui.all.css">
 	
@@ -112,8 +114,9 @@ function disableOptions1(v) {
   var HIVTestPart = df.HIVTestPart;
   //var location1=df.location1;
 if(v==1) {
-  HIVTestPart.options[1].disabled = true; HIVTestPart.options[2].disabled = true;
-  document.getElementById("HIVTestPart").value="";
+  //HIVTestPart.options[1].disabled = true; 
+  //HIVTestPart.options[2].disabled = true;
+  //document.getElementById("HIVTestPart").value="";
   //location1.physics.disabled = false; 
   }
 else {
@@ -246,7 +249,7 @@ else {
     <style type="text/css">
     #container{
                height:610px;
-               width:1230px;
+               width:1300px;
                 
     }
      .example {
@@ -410,8 +413,8 @@ else {
     width:1300px;
 }
 .swMain .stepContainer {
-   width:1220px;}
-.actionBar{  width:1220px;}
+   width:1290px;}
+.actionBar{  width:1290px;}
 </style>
     </head>
     <body>
@@ -523,7 +526,7 @@ else{ %>
             </a></li>
   			</ul>
               
-         <div id="step-1" style="height: 350px; width:1230px;">	
+         <div id="step-1" style="height: 350px; width:1290px;">	
             <h2 class="StepTitle">Step 1: Questions A & B</h2>
             <table cellspacing="3" cellpadding="3" align="center">
           			<tr>
@@ -605,30 +608,41 @@ else{ %>
                         
                           String Ans2="SELECT CadreProvider FROM riskreductionmain WHERE RiskReductionID ='"+RiskID+"'";  
                             
-                                                     conn.state= conn.connect.createStatement();
+                                                     if(conn.state.isClosed()){conn= new dbConnect(); 
+                             conn.state= (Statement)conn.connect.createStatement();
+                            
+                             //ResultSet rs;
+                             }
+                                                     
 				conn.rs = conn.state.executeQuery(Ans2);
-                                                      while(conn.rs.next()){
+                                if(!conn.rs.isBeforeFirst()){
+                                System.out.println("__no Data__");
+                                conn.rs = conn.state.executeQuery(Ans2);
+                                }else { while(conn.rs.next()){
                                                           
                                                         String a= conn.rs.getString("CadreProvider");
                                                            
                             
                             String QueryConverta= "SELECT CadreCode,CadreCodeID FROM cadrecode";
-                                                     conn.state= conn.connect.createStatement();
-				conn.rs = conn.state.executeQuery(QueryConverta);
-                                                      while(conn.rs.next()){
-                                                          ArrayList cadre = new ArrayList();
+                                                    
+                            
+                                if(conn.state1.isClosed()){  
+                                    conn.state1= (Statement)conn.connect.createStatement();
+                                    conn.rs1=null;
+                                }
+				conn.rs1 = conn.state1.executeQuery(QueryConverta);
+                               
+                                
+                                                      while(conn.rs1.next()){
+                                                    ArrayList cadre = new ArrayList();
                                                     ArrayList cadre1 = new ArrayList();
                                                     
-                                                      if(cadre!= null && cadre.size()!=0){
-                                                    cadre.clear();
-                                                    }  if(cadre1!= null && cadre1.size()!=0){
-                                                    cadre1.clear();
-                                                    }
+                                                    
                                                           
-                                                           cadre.add(conn.rs.getString("CadreCode"));
-                                                           cadre1.add(conn.rs.getString("CadreCodeID"));
+                                                           cadre.add(conn.rs1.getString("CadreCode"));
+                                                           cadre1.add(conn.rs1.getString("CadreCodeID"));
                                                       String queryalcohol =  "SELECT CadreCode,CadreCodeID FROM cadrecode where CadreCodeID='"+a+"'";
-   if(conn.state2.isClosed()){conn= new dbConnect();}                                                              
+                                                      if(conn.state2.isClosed()){conn= new dbConnect();}                                                              
                                                       conn.state2= conn.connect.createStatement();
 				                                conn.rs2 = conn.state2.executeQuery(queryalcohol);
                                                                 String cadrecodes="";
@@ -652,7 +666,7 @@ else{ %>
              <%   }
                              }     
                                                       
-                                                                                                }                     
+                                                                                                }  }                   
                                                       
                                                       }
                                               
@@ -1172,7 +1186,7 @@ if(array1[0].equalsIgnoreCase("WBL Provided")){%>
                         </tr> 
                           </table>          			
         </div>
-                    <div id="step-2" style="height:350px; width:1206px;">
+                    <div id="step-2" style="height:350px; width:1290px;">
             <h2 class="StepTitle">Step 2: Questions C & D</h2>	
             <table cellspacing="3" cellpadding="3" align="center">
           			<tr>
@@ -1530,13 +1544,13 @@ if(array1[0].equalsIgnoreCase("WBL Provided")){%>
                            
                         </table></div>
                                        
-  <div id="step-3" style="height:350px; width:1206px;">
+  <div id="step-3" style="height:350px; width:1290px;">
             <h2 class="StepTitle">Step 3: Questions E & F</h2>	
             <table cellspacing="3" cellpadding="3" align="center">
           			<tr>
                     	<td align="center" colspan="3">&nbsp;</td>
           			</tr>  
-                         <tr class="d2"><td>Activity</td><td>Current Status</td><td></td><td>Indicate Action Taken</td></tr> 
+                         <tr class="d2"><td>Activity</td><td>Current Status</td><td></td><td>Hiv Status</td><td>Indicate Action Taken</td></tr> 
                         
                         <tr class="d1">
                             <td>HIV Testing</td>
@@ -1579,18 +1593,34 @@ if(array1[0].equalsIgnoreCase("WBL Provided")){%>
                                                       }
                                                           
                                                           if(yesno2.equals("Yes")){
-                                                   %> 
+                                                   %>
+                                                   <option value=""></option>
                                                     <option selected value="<%=yesno2%>"> <%=yesno2%></option>
                                                         <option value="No">No</option>
+                                                        <option value="KnownStatus">Known Status</option>
                
                                                    <%
                                                                                                          }
                                         else if(yesno2.equals("No")){%>
                                                                                                                     <option value="Yes">Yes</option>
                                                                                                                     <option selected value="<%=yesno2%>"> <%=yesno2%></option>
-                                                       
-                                                                                                           <%        } 
-                                                              else{
+                                                                                                                    <option value="KnownStatus">Known Status</option>
+                                                                                                           <%       
+                                        
+                                        } 
+                                        
+                                        else if (yesno2.equals("KnownStatus")){
+                                        %>
+                                        
+                                        <option value=""></option>
+                                        <option value="Yes">Yes</option>
+                                        <option  value="No"> No</option>
+                                        <option selected value="KnownStatus">Known Status</option>
+                                        
+                                        <%
+                                        }
+                                        
+                                        else{
                                                    %>
                             
                             
@@ -1611,42 +1641,65 @@ if(array1[0].equalsIgnoreCase("WBL Provided")){%>
 
                      String E1A="E1";
                            //String Ans1= "SELECT DirectAnswers FROM riskassessmentdetails where AssessmentID='"+ AssID +"' && QuestionID='"+W+"'";
-    String Ans19="SELECT Action FROM riskreductiondetails  WHERE(QID='QIDE1_0_self' || QID='E1') AND RiskReductionID ='"+RiskID+"'";  
+               String Ans19="SELECT Action FROM riskreductiondetails  WHERE(QID='QIDE1_0_self' || QID='E1') AND RiskReductionID ='"+RiskID+"' and (Action like 'P'|| Action Like 'N')";  
+               System.out.println("%%"+Ans19);                           
     conn.state= conn.connect.createStatement();
 				conn.rs = conn.state.executeQuery(Ans19);
-   
-                           
-                                                    
+   int mycheck=0;
                                                       while(conn.rs.next())
-                                                      {  if(conn.rs.getString("Action")!=""){
+                                                      {
+                                                          mycheck++;
+                                                          String ans=conn.rs.getString("Action");
+                                                          if(ans==null){
+                                                          ans="";}
+                                                          
+                                                          
+                                                          if(!ans.trim().equals("")){
                                                         System.out.println("|||"+conn.rs.getString("Action"));  
-                                          if(conn.rs.getString("Action").equals("P")){
+                                          if(ans.equalsIgnoreCase("P")){
 
 %>  
-                            
-                                    <option value=""></option>
                                     <option selected value="P">P(Positive)</option>  
+                                    <option value="">Hiv Status</option>                                  
                                     <option value="N">N (Negative)</option> 
                                      
                                     <%
                                                           }
                     
-                                           if(conn.rs.getString("Action").equalsIgnoreCase("N")){
-
+                                          else if(ans.equalsIgnoreCase("N")){
+System.out.println("***** ITS A NEGATIVE "+ans);
 %>
-                            
-                                    <option value=""></option>
-                                    <option  value="P">P (Positive)</option>  
                                     <option selected value="N">N (Negative)</option> 
+                                    <option value="">Hiv Status</option>
+                                    <option  value="P">P (Positive)</option>  
+                                  
                                       
                                     <%
                                                                                              }
+                                             System.out.println("_________THERE IS VALUED STATUS ANSWER");
+                                                         
+                                             if(ans.equalsIgnoreCase("P")||ans.equalsIgnoreCase("N")){
+                                                          break;}
                                                                              }
+                                                          
+                                                          else { %>
+                                                        
+                                                              
+                                    <option value="">Hiv Status</option>
+                                    <option  value="P">P (Positive)</option>  
+                                    <option  value="N">N (Negative)</option>    
+                                                          
+                                                          <% 
+                                                          System.out.println("_________THERE IS BLANK STATUS ANSWER");
+                                                          }
+                                                          
+                                                          
                                                                                  }
                                                 
-if(conn.rs.next()==false) {%>
+if(mycheck==0){ System.out.println("_________NO STATUS ANSWER");
+                                                          %>
 
-                                    <option value=""></option>
+                                    <option value="">Hiv Status</option>
                                     <option  value="P">P (Positive)</option>  
                                     <option  value="N">N (Negative)</option> 
                                                                  
@@ -1663,25 +1716,45 @@ if(conn.rs.next()==false) {%>
     System.out.println(Ans1_9);
     conn.state= conn.connect.createStatement();
 				conn.rs = conn.state.executeQuery(Ans1_9);
-   if(conn.rs.next()== true){
-       
-if(conn.rs.getString("Action").equalsIgnoreCase("Referred")){
+   if(conn.rs.next()){
+    String ans="";
+    ans=conn.rs.getString("Action");
+    
+    if(ans==null){
+    ans="";
+    }
+    
+if(ans.trim().equalsIgnoreCase("Referred")){
 %>
-                                  <option value=""></option> 
-                                    <option selected value="Referred">Referred</option>  
-                                    <option value="On Care">On care</option>  
+<option selected value="Referred">Referred</option>                                  
+<option value=""></option> 
+<option value="On Care">On care</option>  
                                     
                                     <% }
          else if(conn.rs.getString("Action").equalsIgnoreCase("On Care")){%>
-                                    <option value=""></option> 
-                                    <option  value="Referred">Referred</option>  
-                                    <option selected value="On Care">On care</option>  
+         <option selected value="On Care">On care</option>  
+         <option  value="Referred">Referred</option>                            
+         <option value=""></option> 
+         
                                   
-  <% }}else{
+  <% }
+   
+else{
+   %>
+                                            <option value="">action taken</option> 
+                                    <option  value="Referred">Referred</option>  
+                                    <option  value="On Care">On care</option> 
+   
+   
+   <%
+   
+   }
+
+   }else{
                                 %>
                                 
                                 
-                              <option value=""></option> 
+                                    <option value=""></option> 
                                     <option  value="Referred">Referred</option>  
                                     <option  value="On Care">On care</option>  
                                    
@@ -1742,37 +1815,40 @@ if(conn.rs.getString("Action").equalsIgnoreCase("Referred")){
                      String E2="E2";
                            //String Ans1= "SELECT DirectAnswers FROM riskassessmentdetails where AssessmentID='"+ AssID +"' && QuestionID='"+W+"'";
     String Ans20="SELECT currentStatus FROM riskreductiondetails  WHERE (QID='"+E2+"' ||  QID='QIDE1_status') AND RiskReductionID ='"+RiskID+"'";  
-    conn.state= conn.connect.createStatement();
-				conn.rs = conn.state.executeQuery(Ans20);
+    //conn.state= conn.connect.createStatement();
+	conn.rs = conn.state.executeQuery(Ans20);
    
                             
                                                     
-                                                       String yesno3="";                                                                               
-                                while(conn.rs.next()){
+         String yesno3="";                                                                               
+                                if(conn.rs.next()){
                                                              
-                                                           
+                                 System.out.println("###yesno3 has a value _"+yesno3+"_");                          
                                                            yesno3=conn.rs.getString("currentStatus");
                                                            
-                                                           System.out.println("___"+yesno3);
-                                                      
-                                                          
+                                                           if(yesno3==null){yesno3="";}
                                                           // if( !conn.rs.getString("currentStatus").equals(null) ){
                                                                
-                                                                System.out.println("---"+yesno3);
-                                                                if(conn.rs.getString("currentStatus")!=""){
-                                                          if(conn.rs.getString("currentStatus").equals("Yes")){
+                                                                if(!yesno3.trim().equals("")){
+                                                          if(yesno3.equalsIgnoreCase("Yes")){
                                                    %> 
-                                                    <option selected value="<%=yesno3%>">  <%=yesno3%></option>
-                                                        <option value="No">No</option>
+                                                    <option value=""></option>
+                                                   <option selected value="<%=yesno3%>">  <%=yesno3%></option>
+                                                   
+                                                   <option value="No">No</option>
                
                                                    <%
                                                                                                          }
-                                        else if(conn.rs.getString("currentStatus").equals("No")){%>
+                                        else if(yesno3.equalsIgnoreCase("No")){%>
+                                                                                                                    <option value=""></option>
                                                                                                                     <option value="Yes">Yes</option>
                                                                                                                     <option selected value="<%=yesno3%>"> <%=yesno3%></option>
                                                        
-                                                                                                           <%        } }
+                                                                                                           <%        } 
+                                                                }
                                                               else{
+                                                                    
+                                                                    System.out.println("###ELSE WORKED");
                                                    %>
                             
                             
@@ -1780,7 +1856,20 @@ if(conn.rs.getString("Action").equalsIgnoreCase("Referred")){
                             <option value="Yes"> Yes</option>
                             <option value="No">No</option>
                             <%
-                                                              }}
+                                                              }
+                                
+                                }
+                                else {
+                                    
+                                          
+                                    %>
+                            <option value=""></option>
+                            <option value="Yes"> Yes</option>
+                            <option value="No">No</option>
+                                    
+                                    <%
+                                
+                                }
                                 %>
                                  </select>
                             </td> 
@@ -1911,7 +2000,7 @@ else {%>
                             
                                                     
                                                       String yesno4="";                                                                               
-                                while(conn.rs.next()){
+                                if(conn.rs.next()){
                                                              
                                                            
                                                            yesno4=conn.rs.getString("currentStatus");
@@ -1920,11 +2009,12 @@ else {%>
                                                           if(yesno4.equals("Yes")){
                                                    %> 
                                                     <option selected value="<%=yesno4%>"> <%=yesno4%></option>
+                                                       <option value=""></option>
                                                         <option value="No">No</option>
                
                                                    <%
                                                                                                          }
-                                        else if(yesno4.equals("No")){%>
+                                        else if(yesno4.equals("No")){%>                                             <option value=""></option>
                                                                                                                     <option value="Yes">Yes</option>
                                                                                                                     <option selected value="<%=yesno4%>"> <%=yesno4%></option>
                                                        
@@ -2049,7 +2139,7 @@ else {%>
                           
                           
                           
-  			<div id="step-4" style="height:350px; width:1206px;">
+  			<div id="step-4" style="height:350px; width:1290px;">
             <h2 class="StepTitle">Step 4: Questions G & H</h2>	
             <table cellspacing="3" cellpadding="3" align="center">
           			<tr>
@@ -2410,7 +2500,7 @@ else {%>
                           
                           
   			                 
-  			<div id="step-5" style="height:350px; width:1206px;">
+  			<div id="step-5" style="height:350px; width:1290px;">
             <h2 class="StepTitle">Step 5: Questions I,J and K </h2>	
             <table cellspacing="3" cellpadding="3" align="center">
           			<tr>
@@ -2446,13 +2536,14 @@ else {%>
             
                      String I="I";
                            //String Ans1= "SELECT DirectAnswers FROM riskassessmentdetails where AssessmentID='"+ AssID +"' && QuestionID='"+W+"'";
-    String Ans34="SELECT currentStatus FROM riskreductiondetails  WHERE QID='"+I+"' AND RiskReductionID ="+RiskID; 
-                                conn.state= conn.connect.createStatement();
+    String Ans34="SELECT currentStatus FROM riskreductiondetails  WHERE QID='"+I+"' AND RiskReductionID ='"+RiskID+"'"; 
+                                //conn.state= conn.connect.createStatement();
+    System.out.println("@@"+Ans34);
                                    conn.rs = conn.state.executeQuery(Ans34);
    
                                     
                                                      String yesno7="";                                                                               
-                                while(conn.rs.next()){
+                                if(conn.rs.next()){
                                                              
                                                            
                                                            yesno7=conn.rs.getString("currentStatus");
@@ -2486,7 +2577,7 @@ else {%>
             
                      String Ia="I";
                            //String Ans1= "SELECT DirectAnswers FROM riskassessmentdetails where AssessmentID='"+ AssID +"' && QuestionID='"+W+"'";
-    String Ans35="SELECT Action FROM riskreductiondetails  WHERE QID='"+Ia+"' AND RiskReductionID ="+RiskID; 
+    String Ans35="SELECT Action FROM riskreductiondetails  WHERE QID='"+Ia+"' AND RiskReductionID ='"+RiskID+"'"; 
                                 conn.state= conn.connect.createStatement();
                                    conn.rs = conn.state.executeQuery(Ans35);
    
@@ -2537,7 +2628,7 @@ else {%>
             
                      String J="J1";
                            //String Ans1= "SELECT DirectAnswers FROM riskassessmentdetails where AssessmentID='"+ AssID +"' && QuestionID='"+W+"'";
-    String Ans36="SELECT currentStatus FROM riskreductiondetails  WHERE QID='"+J+"' AND RiskReductionID ="+RiskID; 
+    String Ans36="SELECT currentStatus FROM riskreductiondetails  WHERE QID='"+J+"' AND RiskReductionID ='"+RiskID+"'"; 
                                 conn.state= conn.connect.createStatement();
                                    conn.rs = conn.state.executeQuery(Ans36);
    
@@ -2578,7 +2669,7 @@ else {%>
             
                      String Ja="J1";
                            //String Ans1= "SELECT DirectAnswers FROM riskassessmentdetails where AssessmentID='"+ AssID +"' && QuestionID='"+W+"'";
-    String Ans37="SELECT Action FROM riskreductiondetails  WHERE QID='"+Ja+"' AND RiskReductionID ="+RiskID; 
+    String Ans37="SELECT Action FROM riskreductiondetails  WHERE QID='"+Ja+"' AND RiskReductionID ='"+RiskID+"'"; 
                                 conn.state= conn.connect.createStatement();
                                    conn.rs = conn.state.executeQuery(Ans37);
    
@@ -2632,7 +2723,7 @@ else {%>
             
                      String J2="J2";
                            //String Ans1= "SELECT DirectAnswers FROM riskassessmentdetails where AssessmentID='"+ AssID +"' && QuestionID='"+W+"'";
-    String Ans38="SELECT currentStatus FROM riskreductiondetails  WHERE QID='"+J2+"' AND RiskReductionID ="+RiskID; 
+    String Ans38="SELECT currentStatus FROM riskreductiondetails  WHERE QID='"+J2+"' AND RiskReductionID ='"+RiskID+"'"; 
                                 conn.state= conn.connect.createStatement();
                                    conn.rs = conn.state.executeQuery(Ans38);
    
@@ -2672,7 +2763,7 @@ else {%>
             
                      String J2A="J2";
                            //String Ans1= "SELECT DirectAnswers FROM riskassessmentdetails where AssessmentID='"+ AssID +"' && QuestionID='"+W+"'";
-           String Ans39="SELECT Action FROM riskreductiondetails  WHERE QID='"+J2A+"' AND RiskReductionID ="+RiskID; 
+           String Ans39="SELECT Action FROM riskreductiondetails  WHERE QID='"+J2A+"' AND RiskReductionID ='"+RiskID+"'"; 
                                 conn.state= conn.connect.createStatement();
                                    conn.rs = conn.state.executeQuery(Ans39);
    
@@ -2723,7 +2814,7 @@ else {%>
             
                      String J3="J3";
                            //String Ans1= "SELECT DirectAnswers FROM riskassessmentdetails where AssessmentID='"+ AssID +"' && QuestionID='"+W+"'";
-           String Ans40="SELECT currentStatus FROM riskreductiondetails  WHERE QID='"+J3+"' AND RiskReductionID ="+RiskID; 
+           String Ans40="SELECT currentStatus FROM riskreductiondetails  WHERE QID='"+J3+"' AND RiskReductionID ='"+RiskID+"'"; 
                                 conn.state= conn.connect.createStatement();
                                    conn.rs = conn.state.executeQuery(Ans40);
    
@@ -2751,7 +2842,7 @@ else {%>
             
                      String J3A="J3";
                            //String Ans1= "SELECT DirectAnswers FROM riskassessmentdetails where AssessmentID='"+ AssID +"' && QuestionID='"+W+"'";
-           String Ans41="SELECT Action FROM riskreductiondetails  WHERE QID='"+J3A+"' AND RiskReductionID ="+RiskID; 
+           String Ans41="SELECT Action FROM riskreductiondetails  WHERE QID='"+J3A+"' AND RiskReductionID ='"+RiskID+"'"; 
                                 conn.state= conn.connect.createStatement();
                                    conn.rs = conn.state.executeQuery(Ans41);
    
@@ -2796,7 +2887,7 @@ else {%>
             
                      String J4="J4";
                            //String Ans1= "SELECT DirectAnswers FROM riskassessmentdetails where AssessmentID='"+ AssID +"' && QuestionID='"+W+"'";
-           String Ans42="SELECT currentStatus FROM riskreductiondetails  WHERE QID='"+J4+"' AND RiskReductionID ="+RiskID; 
+           String Ans42="SELECT currentStatus FROM riskreductiondetails  WHERE QID='"+J4+"' AND RiskReductionID ='"+RiskID+"'"; 
                                 conn.state= conn.connect.createStatement();
                                    conn.rs = conn.state.executeQuery(Ans42);
    
@@ -2820,7 +2911,7 @@ else {%>
             
                      String J4A="J4";
                            //String Ans1= "SELECT DirectAnswers FROM riskassessmentdetails where AssessmentID='"+ AssID +"' && QuestionID='"+W+"'";
-           String Ans43="SELECT Action FROM riskreductiondetails  WHERE QID='"+J4A+"' AND RiskReductionID ="+RiskID; 
+           String Ans43="SELECT Action FROM riskreductiondetails  WHERE QID='"+J4A+"' AND RiskReductionID ='"+RiskID+"'"; 
                                 conn.state= conn.connect.createStatement();
                                    conn.rs = conn.state.executeQuery(Ans43);
    
@@ -2867,7 +2958,7 @@ else {%>
             
                      String K="K";
                            //String Ans1= "SELECT DirectAnswers FROM riskassessmentdetails where AssessmentID='"+ AssID +"' && QuestionID='"+W+"'";
-           String Ans44="SELECT currentStatus FROM riskreductiondetails  WHERE QID='"+K+"' AND RiskReductionID ="+RiskID; 
+           String Ans44="SELECT currentStatus FROM riskreductiondetails  WHERE QID='"+K+"' AND RiskReductionID ='"+RiskID+"'"; 
                                 conn.state= conn.connect.createStatement();
                                    conn.rs = conn.state.executeQuery(Ans44);
    
@@ -2912,7 +3003,7 @@ else {%>
             
                      String Ka="K";
                            //String Ans1= "SELECT DirectAnswers FROM riskassessmentdetails where AssessmentID='"+ AssID +"' && QuestionID='"+W+"'";
-           String Ans45="SELECT Action FROM riskreductiondetails  WHERE QID='"+Ka+"' AND RiskReductionID ="+RiskID; 
+           String Ans45="SELECT Action FROM riskreductiondetails  WHERE QID='"+Ka+"' AND RiskReductionID ='"+RiskID+"'"; 
                                 conn.state= conn.connect.createStatement();
                                    conn.rs = conn.state.executeQuery(Ans45);
    
@@ -2952,23 +3043,7 @@ else {%>
 
 <%
 
-  if(conn.rs!=null){ conn.rs.close();}
-         if(conn.rs1!=null){ conn.rs1.close();}
-         if(conn.rs2!=null){ conn.rs2.close();}
-         if(conn.rs3!=null){ conn.rs3.close();}
-         if(conn.rs4!=null){ conn.rs4.close();}
-         if(conn.rs5!=null){ conn.rs5.close();}
-         if(conn.rs6!=null){ conn.rs6.close();}
-         if(conn.rs7!=null){ conn.rs7.close();}
-        
-         if(conn.state!=null){ conn.state.close();}
-         if(conn.state1!=null){ conn.state1.close();}
-         if(conn.state2!=null){ conn.state2.close();}
-         if(conn.state3!=null){ conn.state3.close();}
-         if(conn.state4!=null){ conn.state4.close();}
-         if(conn.state5!=null){ conn.state5.close();}
-         if(conn.state6!=null){ conn.state6.close();}
-         if(conn.state7!=null){ conn.state7.close();}
+     
 
 
 

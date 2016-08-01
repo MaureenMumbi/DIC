@@ -46,7 +46,7 @@ String value= request.getParameter("value");
 System.out.println("///////"+value);            
 
 
-            String sqlquery="SELECT UniqueID,ClientInit,District,DICName,Sex FROM enrollment WHERE UniqueID LIKE '%/"+value+"'";
+            String sqlquery="SELECT UniqueID,ClientInit,District,DICName,Sex FROM enrollment WHERE UniqueID LIKE '%"+value+"%'";
 List userlist=new ArrayList();
 int x=0;
 x=0;

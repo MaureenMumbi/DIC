@@ -6,6 +6,7 @@
 
 
 
+<%@page import="dbConnect.dbConnect"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,6 +14,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Home</title>
         <link rel="StyleSheet" href="main.css" type="text/css" />
+        <link rel="shortcut icon" href="../images/favicon.png">
         <style type="text/css">
     #container{
                 height:200px;
@@ -148,6 +150,10 @@ else{ %>
     
    
 </div>
+                        <%
+    dbConnect conn= new dbConnect();
+    out.println("<span style='margin-left:200px;font-size:12px;'><b>Host Name : </b><i>"+conn.dbsetup[0]+"</i>    <b>Database Name:</b> <i>"+conn.dbsetup[1]+"</i></span>");
+    %>
       </body>
 </html>
 

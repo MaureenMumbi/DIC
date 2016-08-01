@@ -185,7 +185,7 @@ String[] executeCmd1=null;
               File f =  new File(current_drive+":\\wamp\\mysql\\bin\\");
               File f1 = new File(current_drive+":\\wamp\\bin\\mysql\\mysql5.6.12\\bin");
               File f2 = new File(current_drive+":\\Program Files\\MySQL\\MySQL Server 5.5\\bin");
-             
+              File f3 = new File(current_drive+":\\wamp\\bin\\mysql\\mysql5.6.17\\bin");
 
         
   
@@ -199,8 +199,20 @@ String[] executeCmd1=null;
 
 System.out.println(executeCmd1);
 
+found_folder="it is new wamp 5.6.12";
+}
+ 
+ 
+ else if (f3.exists() && f3.isDirectory()){
+
+ executeCmd1 = new String[]{current_drive+":\\wamp\\bin\\mysql\\mysql5.6.17\\bin\\mysql","--host="+localhostsplit[0], "--port="+localhostsplit[1],"--user=" + dbuser, "--password=" + dbpassword, dbname,"-e", " source "+filePath};  
+
+
+System.out.println(executeCmd1);
+
 found_folder="it is new wamp";
 }
+ 
  else if(f2.exists() && f2.isDirectory()){
 
  executeCmd1 = new String[]{current_drive+":\\Program Files\\MySQL\\MySQL Server 5.5\\bin\\mysql","--host="+localhostsplit[0], "--port="+localhostsplit[1], "--user=" + dbuser, "--password=" + dbpassword, dbname,"-e", " source "+filePath};  

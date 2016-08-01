@@ -36,16 +36,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 @WebServlet(name = "KPMSReportwards", urlPatterns = {"/KPMSReportwards"})
 public class KPMSReportwards extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP
-     * <code>GET</code> and
-     * <code>POST</code> methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+   
      String wards="";
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, InvalidFormatException {
@@ -61,12 +52,15 @@ public class KPMSReportwards extends HttpServlet {
           String month="";
           int qtr=0;
           String quarters="";
-              Date date= new Date();
-            
+          
+          
+                Date date= new Date();            
                 SimpleDateFormat formatter= new SimpleDateFormat("EEE d MMM yy");
                 String formattedDate = formatter.format(date);
-             startdate= request.getParameter("startdate");
-          enddate= request.getParameter("enddate");
+                startdate= request.getParameter("startdate");
+                enddate= request.getParameter("enddate");
+                
+                
          // period= "monthly";
           period= request.getParameter("period");
             int a=1;
@@ -432,21 +426,21 @@ wb = new XSSFWorkbook(OPCPackage.open(allpath));
 //            + " group by AGEBRACKET,month(STR_TO_DATE(DOA,'%e/%c/%Y')),gender,ward ";
 //     
                     
-      String served="select count(DISTINCT riskreductionmain.UniqueID),DICName,"
-            + " case when DICName='Naivasha' then district='Naivasha'"
-          + " else district end as County"
+      String served="select count(DISTINCT riskreductionmain.UniqueID),DICName1 as DICName ,"
+            + " case when DICName1='Naivasha' then County1='Naivasha' "
+          + " else County1 end as County "
 
-            + ",quarter(STR_TO_DATE(DOA,'%e/%c/%Y')),YEAR(STR_TO_DATE(DOA,'%e/%c/%Y')),"
+            + " ,quarter(STR_TO_DATE(DOA,'%e/%c/%Y')),YEAR(STR_TO_DATE(DOA,'%e/%c/%Y')), "
          +   "         CASE " +
 "                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())<='14' THEN '<14'" +
 "                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'14' AND TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())<='19' THEN '15-19' " +
 "                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'19' AND TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())<='24' THEN '20-24'" +
 "		 WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'24'AND TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())<='49' THEN  '25-49' " +
 "                WHEN  TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE())>'49' THEN  '25-49' else '25-49' END AS AGEBRACKET" +
-"                   ,TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE()),ward,Sex from enrollment,riskreductionmain  where "
+"                   , TIMESTAMPDIFF( YEAR,STR_TO_DATE(DOB,'%e/%c/%Y'),CURDATE()),ward1 as ward,Sex from enrollment,riskreductionmain  where "
                 + " (STR_TO_DATE(DOA,'%e/%c/%Y')) BETWEEN (STR_TO_DATE('"+startdate+"','%e/%c/%Y'))"
                 + " AND (STR_TO_DATE('"+enddate+"','%e/%c/%Y')) and enrollment.uniqueid=riskreductionmain.uniqueid "
-            + " group by DICName,AGEBRACKET,month(STR_TO_DATE(DOA,'%e/%c/%Y')),ward,Sex,district";
+            + " group by DICName,AGEBRACKET,month(STR_TO_DATE(DOA,'%e/%c/%Y')),ward1,Sex,district";
       
                                        
 

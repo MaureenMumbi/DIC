@@ -181,8 +181,7 @@ while(local.rs.next()){
         hand = local.rs.getString("capturedhand");
         biometric = local.rs.getString("fingerprint");
          ward=local.rs.getString("ward");
- String check_if_exist="SELECT * FROM enrollment where OperationArea='"+OperationArea+"'"
-         + " AND Occupation='"+Occupation+"'AND MemberOfID='"+MemberOfID+"'";
+ String check_if_exist="SELECT * FROM enrollment where UniqueID like '"+UniqueIDs+"' ";
  
   System.out.println(check_if_exist+"\n");
  
@@ -214,18 +213,60 @@ while(local.rs.next()){
 //                     biofing="";}
      
      
-     String inserter="UPDATE enrollment set ward='"+ward+"',capturedhand='"+hand+"',fingerprint='"+biometric+"' where  AgeID='"+AgeID+"'"
-         + " AND Religion='"+Religion+"' AND EducationLevel='"+EducationLevel+"'AND PhoneNo='"+PhoneNo+"' "
-         + "AND MemberOfID='"+MemberOfID+"' AND  UniqueID='"+UniqueIDs+"'";
-            System.out.println(inserter)   ;
-   if(ward!=null && !ward.equals("") && hand!=null && !hand.equals("") && biometric!=null && !biometric.equals("")){
-          online.state5.executeUpdate(inserter);
-  System.out.println("Data already added");
-  String updatesync="update enrollment set syncstatus='1' where UniqueID='"+UniqueIDs+"'"; 
+      
+      
+      
+       if((!online.rs3.getTimestamp("timestamp").toString().equals(local.rs.getTimestamp("timestamp").toString())) && (local.rs.getInt("timestamp")> online.rs3.getInt("timestamp")) ){
+     String wardqr="";
+     String handqr="";
+     String fingerqr="";
+     String timeqr="";
+     int count=0;
+     int count1=0;
+     int count2=0;
+     if(ward!=null && !ward.equals("")){wardqr=" ward='"+ward+"' "; count++;}
+     if(hand!=null && !hand.equals("")){  handqr=" capturedhand='"+hand+"' "; if(count==1){wardqr+=","; count++;} count1++;  System.out.println("Count "+count);}
+     if(biometric!=null && !biometric.equals("")){fingerqr=" fingerprint='"+biometric+"' ";  System.out.println("Count "+count);  if(count==1){wardqr+=",";} if(count1==1){handqr+=",";} }
+     if((biometric!=null && !biometric.equals(""))  ||(hand!=null && !hand.equals("")) || (ward!=null && !ward.equals("")) ){timeqr+=",";  }
+     
+     timeqr+=" timestamp='"+timestamp+"' , ClientInit='"+ClientInit+"',DOE='"+DOE+"',District='"+District+"',DICName='"+DICName+"',DOB='"+DOB+"',Sex='"+Sex+"',Age='"+Age+"', MaritalStatus='"+MaritalStatus+"',Children='"+Children+"',ChildNo='"+ChildNo+"',Religion='"+Religion+"',EducationLevel='"+EducationLevel+"',PhoneNo='"+PhoneNo+"',Residence='"+Residence+"',     OperationArea='"+OperationArea+"',Occupation='"+Occupation+"',MemberOfID='"+MemberOfID+"',DICLearn='"+DICLearn+"',Email='"+Email+"',PhoneNo1='"+PhoneNo1+"',Venue='"+Venue+"',AgeID='"+AgeID+"',  FirstName='"+FirstName+"',SecondName='"+SecondName+"', LastName='"+LastName+"',venueOther='"+venueOther+"',DicLearnOther='"+DicLearnOther+"'" ;
+     already_added=1; 
+// String inserter="UPDATE enrollment set UniqueID='"+UniqueIDs+"',ClientInit='"+ClientInit+"',DOE='"+DOE+"',District='"+District+"',DICName='"+DICName+"',DOB='"+DOB+"',Sex='"+Sex+"',Age='"+Age+"',"
+//         + "MaritalStatus='"+MaritalStatus+"',Children='"+Children+"',ChildNo='"+ChildNo+"',Religion='"+Religion+"',EducationLevel='"+EducationLevel+"',PhoneNo='"+PhoneNo+"',Residence='"+Residence+"',"
+//         + "OperationArea='"+OperationArea+"',Occupation='"+Occupation+"',MemberOfID='"+MemberOfID+"',DICLearn='"+DICLearn+"',Email='"+Email+"',PhoneNo1='"+PhoneNo1+"',Venue='"+Venue+"',AgeID='"+AgeID+"',"
+//         + "FirstName='"+FirstName+"',SecondName='"+SecondName+"',LastName='"+LastName+"',venueOther='"+venueOther+"',DicLearnOther='"+DicLearnOther+"',capturedhand='"+hand+"',fingerprint='"+biometric+"' where  AgeID='"+AgeID+"'"
+//         + " AND Religion='"+Religion+"' AND EducationLevel='"+EducationLevel+"'AND PhoneNo='"+PhoneNo+"' "
+//         + "AND MemberOfID='"+MemberOfID+"'";
+ String inserter="UPDATE enrollment set "+wardqr+" "+handqr+" "+fingerqr+" "+timeqr+" where  UniqueID='"+UniqueIDs+"'";
+ 
+   System.out.println("__ENROLLMENT "+inserter);
+           
+               
+         if(online.state5.executeUpdate(inserter)==1){
+          String updatesync="update enrollment set syncstatus='1' where UniqueID='"+UniqueIDs+"'"; 
   local.state7.executeUpdate(updatesync);
-  System.out.println(updatesync);
-//  System.out.println("_"+inserter+"\n");
- existingdata++;}
+         }
+         else {
+             System.out.println(UniqueIDs+"_ Not Updated %%%%");
+         
+         }
+
+  
+
+         
+//  System.out.println("Data already added");
+  System.out.println("_"+inserter+"\n");
+ existingdata++;
+ 
+                    }
+      
+      
+      
+      
+      
+   
+        
+ 
  }
  else {
      
@@ -285,9 +326,9 @@ while(local.rs.next()){
 //                     }
 //                     else{
 //                     biofing="";}
-  String inserter="REPLACE INTO enrollment(UniqueID,ClientInit,DOE,District,DICName,Ward,DOB,Sex,Age,MaritalStatus,Children,ChildNo,Religion,EducationLevel,PhoneNo,Residence,OperationArea,Occupation,MemberOfID,DICLearn,Email,PhoneNo1,Venue,AgeID,FirstName,SecondName,LastName,venueOther,DicLearnOther,Pefar_year,capturedhand,fingerprint,entrydate)"
+  String inserter="REPLACE INTO enrollment(UniqueID,ClientInit,DOE,District,DICName,Ward,DOB,Sex,Age,MaritalStatus,Children,ChildNo,Religion,EducationLevel,PhoneNo,Residence,OperationArea,Occupation,MemberOfID,DICLearn,Email,PhoneNo1,Venue,AgeID,FirstName,SecondName,LastName,venueOther,DicLearnOther,Pefar_year,capturedhand,fingerprint)"
           + "VALUES('"+UniqueIDs+"','"+ClientInit+"','"+DOE+"','"+District+"','"+DICName+"','"+ward+"','"+DOB+"','"+Sex+"','"+Age+"','"+MaritalStatus+"','"+Children+"','"+ChildNo+"','"+Religion+"','"+EducationLevel+"','"+PhoneNo+"','"+Residence+"','"+OperationArea+"',"
-          + "'"+Occupation+"','"+MemberOfID+"','"+DICLearn+"','"+Email+"','"+PhoneNo1+"','"+Venue+"','"+AgeID+"','"+FirstName+"','"+SecondName+"','"+LastName+"','"+venueOther+"','"+DicLearnOther+"','"+enrollpefar_year+"','"+hand+"','"+biometric+"','"+timestamp+"')"   ;
+          + "'"+Occupation+"','"+MemberOfID+"','"+DICLearn+"','"+Email+"','"+PhoneNo1+"','"+Venue+"','"+AgeID+"','"+FirstName+"','"+SecondName+"','"+LastName+"','"+venueOther+"','"+DicLearnOther+"','"+enrollpefar_year+"','"+hand+"','"+biometric+"')"   ;
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
@@ -310,16 +351,22 @@ while(local.rs.next()){
 //start of risk assessment main
 String riskasesmain="SELECT * FROM riskassessmentmain WHERE ID!='' and syncstatus='0' and timestamp!='0000-00-00 00:00:00'";
 local.rs2=local.state3.executeQuery(riskasesmain);
+String ward1="";
+String county1="";
+String Dicname1="";
 while(local.rs2.next()){
    
-    
+   //SELECT `ID`,`AssessmentID`,`AssessmentDate`,`UniqueID`,`County1`,`DICName1`,`ward1`,`Quarter`,`Month`,`Pefar_year`,`timestamp`, `syncstatus` 
     already_added=0;
     ID2=CoccID=UniqueID4=OccupationID=timestamp4="";
     String Quarter,Month,Pefar_year="";
-         ID2=local.rs2.getString(1);
-         AssessID=local.rs2.getString(2);
-         AssessmentDate=local.rs2.getString(3);
-         UniqueID6=local.rs2.getString(4);
+         ID2=local.rs2.getString("ID");
+         AssessID=local.rs2.getString("AssessmentID");
+         AssessmentDate=local.rs2.getString("AssessmentDate");
+         UniqueID6=local.rs2.getString("UniqueID");
+         county1=local.rs2.getString("County1");
+         Dicname1=local.rs2.getString("DICName1");
+         ward=local.rs2.getString("ward1");
          timestamp4=local.rs2.getString("timestamp");
          Quarter=local.rs2.getString("Quarter");
          Month=local.rs2.getString("Month");
@@ -342,8 +389,8 @@ while(local.rs2.next()){
  
  }
  else {
-  String inserter="REPLACE INTO riskassessmentmain(AssessmentID,AssessmentDate,UniqueID,Quarter,Month,Pefar_year,entrydate)"
-          + "VALUES('"+AssessID+"','"+AssessmentDate+"','"+UniqueID6+"','"+Quarter+"','"+Month+"','"+Pefar_year+"','"+timestamp4+"')";
+  String inserter="REPLACE INTO riskassessmentmain(AssessmentID,AssessmentDate,UniqueID,Quarter,Month,Pefar_year,entrydate,County1,DICName1,ward1)"
+          + "VALUES('"+AssessID+"','"+AssessmentDate+"','"+UniqueID6+"','"+Quarter+"','"+Month+"','"+Pefar_year+"','"+timestamp4+"','"+county1+"','"+Dicname1+"','"+ward+"')";
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
@@ -364,19 +411,22 @@ String riskredmain="SELECT * FROM riskreductionmain WHERE ID!='' and syncstatus=
 local.rs2=local.state3.executeQuery(riskredmain);
 while(local.rs2.next()){
    
-    
+    //SELECT ID, RiskReductionID, DOA, CadreProvider, UniqueID, County1, DICName1, ward1, ids, qtr, year, timestamp,   syncstatus
     already_added=0;
     RiskRedID=DOA=CadreProvider=UniqueID7=timestamp4="";
     String qtr="";
     String year="";
-         RiskRedID=local.rs2.getString(2);
-         DOA=local.rs2.getString(3);
-         CadreProvider=local.rs2.getString(4);
-         UniqueID7=local.rs2.getString(5);
+         RiskRedID=local.rs2.getString("RiskReductionID");
+         DOA=local.rs2.getString("DOA");
+         CadreProvider=local.rs2.getString("CadreProvider");
+         UniqueID7=local.rs2.getString("UniqueID");
          timestamp4=local.rs2.getString("timestamp");
          qtr=local.rs2.getString("qtr");
          year=local.rs2.getString("year");
-      
+         //added later 201510
+      county1=local.rs2.getString("County1");
+         Dicname1=local.rs2.getString("DICName1");
+         ward=local.rs2.getString("ward1");
         
       
        
@@ -394,8 +444,8 @@ while(local.rs2.next()){
  existingdata++;
  }
  else {
-  String inserter="REPLACE INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,timestamp,qtr,year,entrydate)"
-          + "VALUES('"+RiskRedID+"','"+DOA+"','"+CadreProvider+"','"+UniqueID7+"','"+local.rs2.getString("timestamp")+"','"+qtr+"','"+year+"','"+timestamp4+"')";
+  String inserter="REPLACE INTO riskreductionmain(RiskReductionID,DOA,CadreProvider,UniqueID,timestamp,qtr,year,entrydate, County1, DICName1, ward1)"
+          + "VALUES('"+RiskRedID+"','"+DOA+"','"+CadreProvider+"','"+UniqueID7+"','"+local.rs2.getString("timestamp")+"','"+qtr+"','"+year+"','"+timestamp4+"','"+county1+"','"+Dicname1+"','"+ward+"')";
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
@@ -428,22 +478,23 @@ while(local.rs2.next()){
          currentStatus=local.rs2.getString(4);
          Action=local.rs2.getString(5);
          Appointments=local.rs2.getString(6);
-       timestamp4=local.rs2.getString("timestamp");
-      System.out.println("entered "+RiskAssessDetailID);
+         timestamp4=local.rs2.getString("timestamp");
+         System.out.println("entered "+RiskAssessDetailID);
        
  String check_if_exist="SELECT * FROM riskreductiondetails WHERE RiskReductionID='"+RiskReductionID+"' AND QID='"+QID+"' AND currentStatus='"+currentStatus+"' AND Action='"+Action+"' AND Appointments='"+Appointments+"'";
 
   System.out.println(check_if_exist+"\n");
  
  online.rs3=online.state1.executeQuery(check_if_exist);
- if(online.rs3.next()==true){already_added=1; 
+ if(online.rs3.next()==true){
+     already_added=1; 
  
   System.out.println("Clerk Data already added");
    String updatesync="update riskreductiondetails set syncstatus='1' WHERE ID='"+RiskAssessDetailID+"' and RiskReductionID='"+RiskReductionID+"' AND QID='"+QID+"' AND currentStatus='"+currentStatus+"' AND Action='"+Action+"' AND Appointments='"+Appointments+"'";
   local.state7.executeUpdate(updatesync);
   System.out.println(updatesync); 
  existingdata++;
- }
+                             }
  else {
   String inserter="REPLACE INTO riskreductiondetails(RiskReductionID,QID,currentStatus,Action,Appointments,entrydate)"
           + "VALUES('"+RiskReductionID+"','"+QID+"','"+currentStatus+"','"+Action+"','"+Appointments+"','"+timestamp4+"')";
@@ -452,9 +503,7 @@ while(local.rs2.next()){
   numberofqueries++;
   online.state4.executeUpdate(inserter);  
   
-   riskreductiondetails++;  
-   
-   
+   riskreductiondetails++;
     String updatesync="update riskreductiondetails set syncstatus='1' WHERE ID='"+RiskAssessDetailID+"' and RiskReductionID='"+RiskReductionID+"' AND QID='"+QID+"' AND currentStatus='"+currentStatus+"' AND Action='"+Action+"' AND Appointments='"+Appointments+"'";
   local.state7.executeUpdate(updatesync);
   System.out.println(updatesync); 
@@ -740,44 +789,56 @@ while(local.rs.next()){
            musculoskeletal=musculoskeletal_findings=respiratory=respiratory_findings=psychological=psychological_findings=diagnosis=management=
            referral=specify_others=TCA=cadre=dater=signature=timestamp6="";
     
-         id=local.rs.getString(1);
-         unique_identifier=local.rs.getString(2);
-         temperature=local.rs.getString(3);
-         temperature_complain=local.rs.getString(4);
-         blood_pressure=local.rs.getString(5);
-         blood_pressure_complain=local.rs.getString(6);
-         p=local.rs.getString(7);
-         p_complain=local.rs.getString(8);
-         weight=local.rs.getString(9);
-         weightcomplain=local.rs.getString(10);
-         ga=local.rs.getString(11);
-         ga_findings=local.rs.getString(12);
-         skin=local.rs.getString(13); 
-         skin_findings=local.rs.getString(14); 
-         ent=local.rs.getString(15); 
-         ent_findings=local.rs.getString(16); 
-         eyes=local.rs.getString(17); 
-         eyes_findings=local.rs.getString(18); 
-         abdomen=local.rs.getString(19); 
-         abdomen_findings=local.rs.getString(20); 
-         genitourinary=local.rs.getString(21); 
-         genitourinary_findings=local.rs.getString(22); 
-         musculoskeletal=local.rs.getString(23); 
-         musculoskeletal_findings=local.rs.getString(24); 
-         respiratory=local.rs.getString(25); 
-         respiratory_findings=local.rs.getString(26); 
-         psychological=local.rs.getString(27);
-         psychological_findings=local.rs.getString(28);
-         diagnosis=local.rs.getString(29); 
-         management=local.rs.getString(30); 
-         referral=local.rs.getString(31); 
-         specify_others=local.rs.getString(32); 
-         TCA=local.rs.getString(33); 
-         cadre=local.rs.getString(34); 
-         dater=local.rs.getString(35); 
-         signature=local.rs.getString(36); 
-         timestamp6=local.rs.getString(37); 
+           //SELECT id,unique_identifier,county1, DICName1,  ward1, temperature,  temperature_complain,  blood_pressure, blood_pressure_complain,  
+//p,p_complain,weight,weight_complain,ga,ga_findings,skin,skin_findings,ent,ent_findings,eyes,eyes_findings,abdomen,
+//abdomen_findings,genitourinary,genitourinary_findings,musculoskeletal,musculoskeletal_findings,respiratory,respiratory_findings,
+//psychological,psychological_findings,diagnosis,management,referral,specify_others,TCA,cadre,dater,signature,timestamp,syncstatus
+
+           
+         id=local.rs.getString("id");
+         unique_identifier=local.rs.getString("unique_identifier");
+         temperature=local.rs.getString("temperature");
+         temperature_complain=local.rs.getString("temperature_complain");
+         blood_pressure=local.rs.getString("blood_pressure");
+         blood_pressure_complain=local.rs.getString("blood_pressure_complain");
+         p=local.rs.getString("p");
+         p_complain=local.rs.getString("p_complain");
+         weight=local.rs.getString("weight");
+         weightcomplain=local.rs.getString("weight_complain");
+         ga=local.rs.getString("ga");
+         ga_findings=local.rs.getString("ga_findings");
+         skin=local.rs.getString("skin"); 
+         skin_findings=local.rs.getString("skin_findings"); 
+         ent=local.rs.getString("ent"); 
+         ent_findings=local.rs.getString("ent_findings"); 
+         eyes=local.rs.getString("eyes"); 
+         eyes_findings=local.rs.getString("eyes_findings"); 
+         abdomen=local.rs.getString("abdomen"); 
+         abdomen_findings=local.rs.getString("abdomen_findings"); 
+         genitourinary=local.rs.getString("genitourinary"); 
+         genitourinary_findings=local.rs.getString("genitourinary_findings"); 
+         musculoskeletal=local.rs.getString("musculoskeletal"); 
+         musculoskeletal_findings=local.rs.getString("musculoskeletal_findings"); 
+         respiratory=local.rs.getString("respiratory"); 
+         respiratory_findings=local.rs.getString("respiratory_findings"); 
+         psychological=local.rs.getString("psychological");
+         psychological_findings=local.rs.getString("psychological_findings");
+         diagnosis=local.rs.getString("diagnosis"); 
+         management=local.rs.getString("management"); 
+         referral=local.rs.getString("referral"); 
+         specify_others=local.rs.getString("specify_others"); 
+         TCA=local.rs.getString("TCA"); 
+         cadre=local.rs.getString(cadre); 
+         dater=local.rs.getString("dater"); 
+         signature=local.rs.getString("signature"); 
+         timestamp6=local.rs.getString("timestamp"); 
   
+         
+          //added later 201510
+      county1=local.rs2.getString("County1");
+         Dicname1=local.rs2.getString("DICName1");
+         ward=local.rs2.getString("ward1");
+         
  String check_if_exist="SELECT * FROM medical_form WHERE id='"+id+"' and unique_identifier='"+unique_identifier+"'and temperature='"+temperature+"' AND temperature_complain='"+temperature_complain+"' AND blood_pressure='"+blood_pressure_complain+"' AND p='"+p+"'"
  + " AND p_complain='"+p_complain+"' AND weight_complain='"+weightcomplain+"' AND ga='"+ga+"' AND ga_findings='"+ga_findings+"' AND skin='"+skin+"'"
          + " AND skin_findings='"+skin_findings+"' AND ent='"+ent+"' AND ent_findings='"+ent_findings+"' AND eyes='"+eyes+"' AND "
@@ -803,13 +864,13 @@ while(local.rs.next()){
           + ",weight_complain,ga,ga_findings,skin,skin_findings,ent,ent_findings,eyes,eyes_findings,"
           + "abdomen,abdomen_findings,genitourinary,genitourinary_findings," 
           +"musculoskeletal,musculoskeletal_findings,respiratory,respiratory_findings,psychological,psychological_findings,"
-          + "diagnosis,management,referral,specify_others,TCA,cadre,dater,signature,entrydate)"
+          + "diagnosis,management,referral,specify_others,TCA,cadre,dater,signature,entrydate,county1, DICName1,  ward1)"
           + "VALUES('"+unique_identifier+"','"+temperature+"','"+temperature_complain+"','"+blood_pressure+"','"+blood_pressure_complain+"','"+p+"','"+p_complain+"','"+weight+"',"
           + "'"+weightcomplain+"','"+ga+"','"+ga_findings+"','"+skin+"','"+skin_findings+"','"+ent+"','"+ent_findings+"','"+eyes+"',"
           + "'"+eyes_findings+"','"+abdomen+"','"+abdomen_findings+"','"+genitourinary+"','"+genitourinary_findings+"','"+psychological+"','"+psychological_findings+"',"
           + "'"+musculoskeletal+"','"+musculoskeletal_findings+"','"+respiratory+"','"+respiratory_findings+"',"
           + "'"+diagnosis+"','"+management+"','"+referral+"','"+specify_others+"','"+TCA+"','"+cadre+"',"
-          + "'"+dater+"','"+signature+"','"+timestamp6+"')"   ;
+          + "'"+dater+"','"+signature+"','"+timestamp6+"','"+county1+"','"+Dicname1+"','"+ward+"')"   ;
   
   System.out.println("_"+inserter+"\n");
   numberofqueries++;
@@ -1049,8 +1110,12 @@ while(local.rs2.next()){
  online.rs3=online.state1.executeQuery(check_if_exist);
  if(online.rs3.next()==true){already_added=1; 
  
-  System.out.println("Clerk Data already added");
+  System.out.println("Service tracker Data already added");
  existingdata++;
+  String updatesync="update servicetracker set syncstatus='1' WHERE trackerID='"+trackerID+"' AND UniqueID='"+UniqueID_1+"' AND RegisteredDIC='"+RegisteredDIC+"' AND visitedDIC='"+visitedDIC+"' AND RiskAssessment='"+RiskAssessment+"'  AND Date='"+Date+"'";
+  local.state7.executeUpdate(updatesync);
+  //System.out.println(updatesync);
+ 
  }
  else {
   String inserter="REPLACE INTO servicetracker(trackerID,UniqueID,RegisteredDIC,visitedDIC,RiskAssessment,RiskReduction,Date,timestamp)"

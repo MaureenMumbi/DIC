@@ -4,6 +4,7 @@
  */
 package DIC.Admin;
 
+import Enroll.updatedics;
 import dbConnect.dbConnect;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -50,6 +51,9 @@ String computername;
                 SimpleDateFormat formatter= new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 String formattedDate = formatter.format(date);
                   dbConnect conn=new dbConnect();
+                      String AccessLevel="",user=""; 
+                         //update the necessary codes before progressing to the next page
+                         
         try {
             //decrypt password
        
@@ -59,7 +63,13 @@ String computername;
         }
                 m.update(Password.getBytes(), 0, Password.length());
                 String userPass = new BigInteger(1, m.digest()).toString(16);
-               
+       
+                
+                
+                
+                
+                
+                
                 
 //____________________GET COMPUTER NAME____________________________________
 computername=InetAddress.getLocalHost().getHostName();
@@ -78,15 +88,61 @@ System.out.println("Computer name "+computername);
                         // verifying user credentials before creating Servlet Context object
 
                             while(conn.rs.next()==true){
+                                
                                  session.setAttribute("Location",conn.rs.getString(4));
                                  System.out.println("location "+conn.rs.getString(4));
-                                    if (userName.equalsIgnoreCase(conn.rs.getString("Username"))) {
-                                        if(conn.rs.getString("AccessLevel").equalsIgnoreCase("1")){
+                                 if (userName.equalsIgnoreCase(conn.rs.getString("Username"))) {
+                                     
+                                                                         //String user="";
+                                            String checkHost="select user()";
+       conn.rs1=conn.state1.executeQuery(checkHost);
+       if(conn.rs1.next()==true){
+//            System.out.println("host name is : "+conn.rs.getString(1));
+        user=conn.rs1.getString(1);
+       }
+     
+        
+       if(!(user.equals("root@10.5.15.41")|| user.equals("root@fhi360-pc3") || user.equals("root@localhost")  || user.equals("root@127.0.0.1") )){
+       session.setAttribute("accessTrail", conn.rs.getString("Username"));
+       }
+       
+       if(conn.rs.getString("AccessLevel").equals("2") && userName.equals("joel")  ){       
+           
+        session.setAttribute("lockNames", "No");
+           System.out.println("_______DONT LOCK NAMES ");
+       }
+       
+       else if(!conn.rs.getString("AccessLevel").equals("2")  ){
+           //block names for other users in the cloud but it should be accessible locally and on the listed machines
+       if( (user.equals("root@10.5.15.41") || user.equals("root@fhi360-pc3") || user.equals("root@localhost")  || user.equals("root@127.0.0.1") ))
+       {
+       
+          session.setAttribute("lockNames", "NO");
+           System.out.println("_______DONT LOCK NAMES ");  
+       }
+       else {
+       session.setAttribute("lockNames", "YES");
+           System.out.println("_______LOCK NAMES ");  
+       }
+           
+       
+       }
+       else{
+       session.setAttribute("lockNames", "NO");    
+       System.out.println("_________DONT LOCK NAMES ");
+       }
+                                     
+                                 if(conn.rs.getString("AccessLevel").equalsIgnoreCase("1")){
                                             session= request.getSession(true);
                                             session.setAttribute("Username", conn.rs.getString("Username"));
                                           
                                             session.setAttribute("AccessLevel", conn.rs.getString("AccessLevel"));
                                             ServletContext context = getServletContext();
+                                            
+        
+       
+                                            
+                                            
                                            response.sendRedirect("Enrollment.jsp");
                                             session.setAttribute("loggedIn", "log");
                                             request.removeAttribute("loginError");
@@ -95,7 +151,7 @@ String inserter="insert into taskauditor set host_comp='"+computername+" "+ip+"'
              conn.state.executeUpdate(inserter);  
                                            
                                         }
-                                        else{    
+                                        else {    
                                             session = request.getSession(true);
                                             session.setAttribute("Username", conn.rs.getString("Username"));
                                             session.setAttribute("AccessLevel", conn.rs.getString("AccessLevel"));
@@ -103,11 +159,15 @@ String inserter="insert into taskauditor set host_comp='"+computername+" "+ip+"'
                                             request.removeAttribute("loginError");
                                             ServletContext context = getServletContext();
                                            response.sendRedirect("admin/index_admin.jsp");
+                                           
+                                           
+                                           
+                                           
                                             
                                         }
 //                                        conn.rs.close();
                                              
-       String AccessLevel="",user=""; 
+   
        
        
           System.out.println(">>>>      DELETE THIS CODE      >>>>>>>>");              
@@ -122,7 +182,7 @@ String inserter="insert into taskauditor set host_comp='"+computername+" "+ip+"'
         else{
         AccessLevel="0";   
         }
-        String checkHost="select user()";
+         checkHost="select user()";
        conn.rs=conn.state.executeQuery(checkHost);
        if(conn.rs.next()==true){
 //            System.out.println("host name is : "+conn.rs.getString(1));
@@ -133,12 +193,34 @@ String inserter="insert into taskauditor set host_comp='"+computername+" "+ip+"'
        if(!(user.equals("root@10.5.15.41")|| user.equals("root@fhi360-pc3") || user.equals("root@localhost")  || user.equals("root@127.0.0.1") )){
        session.setAttribute("accessTrail", conn.rs.getString("Username"));
        }
-       if(!AccessLevel.equals("2")  && !(user.equals("root@10.5.15.41")|| user.equals("root@fhi360-pc3") || user.equals("root@localhost")  || user.equals("root@127.0.0.1") )){
-        session.setAttribute("lockNames", "YES");
+       
+       if(AccessLevel.equals("2") && userName.equals("joel")  ){       
+           
+        session.setAttribute("lockNames", "No");
+           System.out.println("_______DONT LOCK NAMES ");
+       }
+       
+       else if(!AccessLevel.equals("2")  ){
+           //block names for other users in the cloud but it should be accessible locally and on the listed machines
+       if( (user.equals("root@10.5.15.41") || user.equals("root@fhi360-pc3") || user.equals("root@localhost")  || user.equals("root@127.0.0.1") ))
+       {
+       
+          session.setAttribute("lockNames", "NO");
+           System.out.println("_______DONT LOCK NAMES ");  
+       }
+       else {
+       session.setAttribute("lockNames", "YES");
+           System.out.println("_______LOCK NAMES ");  
+       }
+           
+       
        }
        else{
-       session.setAttribute("lockNames", "NO");     
+       session.setAttribute("lockNames", "NO");    
+       System.out.println("_________DONT LOCK NAMES ");
        }
+       
+       
       System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -159,7 +241,10 @@ String inserter="insert into taskauditor set host_comp='"+computername+" "+ip+"'
 
                                        
                                           
-                                    }    
+                                    }
+                            
+                     
+                            
                             
                             if(conn.rs.next()==false){
                                             request.setAttribute("loginError", "OOps!!! Invalid Password");    
@@ -200,4 +285,5 @@ String inserter="insert into taskauditor set host_comp='"+computername+" "+ip+"'
         }
 
 
+        
 }

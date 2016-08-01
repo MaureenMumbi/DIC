@@ -27,7 +27,7 @@
 <html><head>
 	<title>Risk Reductions</title>
 		
-
+        <link rel="shortcut icon" href="../images/favicon.png">
         <script src="scripts/jquery-1.4.4.min.js" type="text/javascript"></script>
         <script src="scripts/jquery.dataTables.min.js" type="text/javascript"></script>
         <script src="scripts/jquery.jeditable.js" type="text/javascript"></script>
@@ -70,6 +70,9 @@
     f.method="post";
 //    f.action="/DIC/RiskReductionServlet?UniqueID1="+idw+"&UniqueID="+unq;
     f.action="/DIC/admin/editRiskRed.jsp?UniqueID1="+idw+"&UniqueID="+unq;
+    
+    f.target="blank_";
+    
     f.submit();
     
 }

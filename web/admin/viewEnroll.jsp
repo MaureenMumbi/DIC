@@ -29,9 +29,9 @@ access.addAccess(username,task);
 %>
 <%}%>
 <html><head>
-	<title>Enrollments</title>
+	<title>View enrollments</title>
 		
-
+        <link rel="shortcut icon" href="../images/favicon.png">
         <script src="scripts/jquery-1.4.4.min.js" type="text/javascript"></script>
         <script src="scripts/jquery.dataTables.min.js" type="text/javascript"></script>
         <script src="scripts/jquery.jeditable.js" type="text/javascript"></script>

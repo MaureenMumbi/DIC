@@ -35,7 +35,9 @@ boolean isConnected;
         try {
             
             // changes to new version id
-          system_version=7;maxDays=5;daysRemaining=0;daysOutdated=0;
+            //always change the system_version to a higher value
+                 system_version=12
+                  ;maxDays=5;daysRemaining=0;daysOutdated=0;
           days=maxId=0;versionDate="";
        url="";
          isConnected=true;
@@ -64,7 +66,7 @@ boolean isConnected;
                daysOutdated=days-maxDays;
                status="outdated@@"+days+"@@"+versionDate+"@@"+version_name;
                status="<p style='color:red'>You are using an outdated version of DIC system,Please <a href='"+url+"' target='_blank'>Click here to download updates.</a><img src='images/new_arrow2.gif' style='width: 40px; height:40px;'/></p>" +
-               "<p title=\"Latest Version is "+version_name+" and its updates were sent on "+versionDate+"\">This version became outdated <b>"+daysOutdated+"</b> days ago.</b><p>For assistance contact Joel(jkuria@aphiarift.org)</p>";
+               "<p title=\"Latest Version is "+version_name+" and its updates were sent on "+versionDate+"\">This version became outdated <b>"+daysOutdated+"</b> days ago.</b>";
 
            }
            else{
@@ -72,12 +74,12 @@ boolean isConnected;
                status="warning@@"+daysRemaining+"@@"+versionDate+"@@"+version_name;
                
                status="<p style='color:yellow'>A new version of DIC system has been detected,Please <a href='"+url+"' target='_blank'>Click here to download updates.</a><img src='images/new_arrow2.gif' style='width: 40px; height:40px;'/></p>" +
-             "<p title=\"Latest Version is "+version_name+" and its updates were sent on "+versionDate+"\">You have <b>"+daysRemaining+"</b> days remaining to update your system. </p><p>For assistance contact Joel(jkuria@aphiarift.org)</p>";
+             "<p title=\"Latest Version is "+version_name+" and its updates were sent on "+versionDate+"\">You have <b>"+daysRemaining+"</b> days remaining to update your system. </p>";
            }
           }
           else{
               status="current";
-              status="<p style='color: green'>Your DIC system is up-to-date.</p><p>For assistance contact Joel(jkuria@aphiarift.org)</p>";
+              status="<p style='color: green'>Your DIC system is up-to-date.</p>";
           }
           
      if(conn.state!=null){conn.state.close();}

@@ -34,16 +34,16 @@ public class InternetThreadClass {
         
         if(!syncingstatus==true&&!syncingstatus==false){
         syncingstatus = false;   
-        System.out.println("%%%%%%%%%%%%% Syncing status set to false");
+        //System.out.println("%%%%%%%%%%%%% Syncing status set to false");
         }else {        
-          System.out.println("%%%%%%%%%%%%% Syncing status is _________________"+syncingstatus);
+         // System.out.println("%%%%%%%%%%%%% Syncing status is _________________"+syncingstatus);
         }
         
         if(!netcheckingstatus==true&&!netcheckingstatus==false){
            netcheckingstatus = true;
         }
         else {
-          System.out.println("%%%%%%%%%%%%% netchacking status is _________________"+netcheckingstatus);        
+          //System.out.println("%%%%%%%%%%%%% netchacking status is _________________"+netcheckingstatus);        
         }
         
     //if the server dbconn is showing syncing is going on, then set the syncing status to true.

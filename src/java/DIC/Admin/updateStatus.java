@@ -52,11 +52,13 @@ HttpSession session;
 	dbConnect conn = new dbConnect();		
  			
 	String query = "update riskreductiondetails set Action='"+value+"'where RiskReductionID ='"+id+"'  AND QID='QIDE1_0_self'";
+	String query1 = "update riskreductiondetails set Action='"+value+"'where RiskReductionID ='"+id+"'  AND QID='E1'";
 				
           System.out.println(query);
 			     
                                 try {
                         conn.state.executeUpdate(query);
+                        conn.state.executeUpdate(query1);
                          
                        
 //                   response.sendRedirect("CountyServlet");

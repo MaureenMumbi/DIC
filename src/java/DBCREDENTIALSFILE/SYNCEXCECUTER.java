@@ -10,8 +10,10 @@ import static DBCREDENTIALSFILE.InternetThreadClass.netcheckingstatus;
 import static DBCREDENTIALSFILE.InternetThreadClass.pagecalled;
 import static DBCREDENTIALSFILE.InternetThreadClass.syncingstatus;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -37,10 +39,16 @@ public class SYNCEXCECUTER implements Job  {
     //true means checking is ongoing
     public static boolean netcheckingstatus;
     public static String pagecalled="no";
-    
+      String computername="";
     @Override
     public void execute(JobExecutionContext jec) throws JobExecutionException {
-   
+         try {
+             //____________________COMPUTER NAME____________________________________
+              computername=InetAddress.getLocalHost().getHostName();
+//System.out.println("Computer name "+computername);
+         } catch (UnknownHostException ex) {
+             Logger.getLogger(SYNCEXCECUTER.class.getName()).log(Level.SEVERE, null, ex);
+         }
     
      startorendthread();
         
@@ -59,37 +67,43 @@ public class SYNCEXCECUTER implements Job  {
         pagecalled="yes";    
     
                 a++;
-                System.out.println(" a is +++++++ ;"+a);
+               // System.out.println(" a is +++++++ ;"+a);
                 if (syncingstatus==false) {
                     if (testInet("google.com") || testInet("twitter.com") || testInet("amazon.com")) {                       
                         try {
-        System.out.println("_Internet Connection available.Calling merging page once!");
+       // System.out.println("_Internet Connection available.Calling merging page once!");
                             //Call the page that does merging 
-//            UNCOMMENT                 
+//            UNCOMMENT       
+                             if(!computername.equalsIgnoreCase("ANALYTICS")&&!computername.equalsIgnoreCase("fhi360-pc3")){
                            SyncData sd= new SyncData();
                             if(sd.MergeData()==true){
                                 msg="Data Saved Online";
                                 netcheckingstatus=false;
                                 
                                 if (a>=1) {
-                                    System.out.println("_Stopping timer to wait for syncing to finish");
+                                    //System.out.println("_Stopping timer to wait for syncing to finish");
                                     pagecalled="no";
                                     //_t.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
                                     //_t.purge();
                                     
-                                }}
-//                            SyncDataLocal sd1= new SyncDataLocal();
-//                            if(sd1.MergeData()==true){
-//                                msg="Data Saved Online";
-//                                netcheckingstatus=false;
-//                                
-//                                if (a>=1) {
-//                                    System.out.println("_Stopping timer to wait for syncing to finish");
-//                                    pagecalled="no";
-//                                  }
-//                                    }                      
+                                }
+                            }}
+                            //this code should work only at the system that seats at the fhi360 local servers
+                            //this can be fhi360-pc3 or nkufs01
+                            if(computername.equalsIgnoreCase("FHI360-pc3")||computername.equalsIgnoreCase("nkufs02")){
                             
+                            SyncDataLocal sd1= new SyncDataLocal();
+                            if(sd1.MergeData()==true){
+                                msg="Data Saved to local ";
+                                netcheckingstatus=false;
+                                
+                                if (a>=1) {
+                                   // System.out.println("_Stopping timer to wait for local syncing to finish");
+                                    pagecalled="no";
+                                  }
+                                    }                      
                             
+                            }
                             // once the page is called, it should return back a stop of the
                         } catch (SQLException ex) {
                             Logger.getLogger(InternetThreadClass.class.getName()).log(Level.SEVERE, null, ex);
